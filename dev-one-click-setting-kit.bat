@@ -37,6 +37,7 @@ echo     그럴 땐 [추가 정보] 를 누른 뒤 [실행] 을 누르면 됩니다.
 echo   - 인터넷으로 받기 때문에 시간이 좀 걸려도 창을 닫지 마세요.
 echo   - 처음이라면 메뉴에서 [A] 가장 쉬운 추천 설치 를 누르세요.
 echo.
+echo   - 모든 도구는 베타가 아닌 '안정 버전', Node와 Java는 'LTS(오래 지원되는 안전판)'로 설치됩니다.
 pause
 :MAIN_MENU
 cls
@@ -940,10 +941,18 @@ goto MAIN_MENU
 :DO_UPDATE
 cls
 echo.
-echo  [업데이트] 설치된 모든 도구를 최신 버전으로 업데이트합니다.
+echo  [안전 업데이트] 베타가 아닌 '안정(LTS)' 버전으로만 점검하고 업데이트합니다.
 echo.
 >> "%LOG_FILE%" echo === 전체 업데이트 시작: %TIME% ===
 
+echo  (Node와 Java는 LTS 라인 안에서만 올라가며, 이 키트가 설치한 도구만 대상입니다.)
+echo.
+echo  [확인] 참고로, 지금 업데이트 가능한 전체 목록입니다...
+winget upgrade --source winget
+echo.
+set /p DO_UPD="  키트 도구를 안전하게 업데이트할까요? (y/n): "
+if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
+echo.
 for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [업그레이드] %%p

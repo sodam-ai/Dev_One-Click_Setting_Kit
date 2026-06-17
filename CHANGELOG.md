@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 - **[5] 선택 설치**: uv(`astral-sh.uv`, Python 패키지 관리 CLI) 추가 — [7] 제거·[9] 확인에도 반영
 - **[8] 직접 다운로드**: AI 도구 LM Studio·Windsurf·Warp 추가 (Cursor·Claude Desktop·GitHub Desktop은 기존부터 있음)
 
+### Added — 안전(LTS) 버전 기준
+
+- **설치 기준**: LTS가 있는 도구는 LTS로(Node=`OpenJS.NodeJS.LTS`, Java=`Temurin.21`). winget은 베타 없이 안정판만 제공하므로 나머지도 '최신 안정'. (별도 버전 고정(pin) 없이 LTS 모니커로 자동 추종)
+- **[6] 안전 업데이트 명확화**: "안정(LTS) 버전으로만" 점검·업데이트로 안내 변경 + 실행 전 **업데이트 가능 목록(현재→최신 버전) 확인·동의 단계** 추가. 설치된 LTS ID 그대로 올려 LTS 라인 유지(Current로 안 튐).
+- **첫 화면 안심 안내**: "베타 아닌 안정 버전, Node·Java는 LTS(오래 지원되는 안전판)로 설치됩니다" 한 줄.
+
 ### Added — 초보자 친화성 (AI·전자기기 처음 다루는 사람용)
 
 - **[A] 가장 쉬운 추천 설치** — 기본 5종(Git·Python·Node·VS Code·Windows Terminal) 설치 + Cursor·Claude Desktop **다운로드 페이지를 열어줌**(직접 설치 유도)
