@@ -113,4 +113,4 @@ All notable changes to this project will be documented in this file.
 - **제거 메뉴** — `[7]` 개별 제거 / `[8]` 전체 제거
 - **README.md** — 한국어 완전 초보자 가이드 포함
 - **README_EN.md** — 영어 가이드 (동일 구조)
-- **LICENSE** — MIT 라이선스, Copyright © 2026 SoDam AI Studio
+- **LICENSE** — Apache License 2.0 (v1.4.0부터; 초기 MIT에서 변경), Copyright © 2026 SoDam AI Studio

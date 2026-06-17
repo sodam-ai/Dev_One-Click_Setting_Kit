@@ -1,4 +1,4 @@
-# DEV-KIT User Guide (for Complete Beginners)
+# Dev_One-Click_Setting_Kit User Guide (for Complete Beginners)
 
 > A detailed, step-by-step manual designed so that even people new to computers, AI, and software can **just follow along**.
 > Korean guide: **[한국어 안내서 → GUIDE.md](./GUIDE.md)**
@@ -206,7 +206,7 @@ README.md / README_EN.md        ← Short intro (KO / EN)
 GUIDE.md  / GUIDE_EN.md          ← This detailed guide (KO / EN)
 GUIDE.pdf / GUIDE_EN.pdf         ← Guide as PDF (identical content to the .md)
 CHANGELOG.md                    ← Version history
-LICENSE                         ← License (MIT)
+LICENSE                         ← License (Apache 2.0)
 PRD/                            ← Initial planning docs (reference / v1.0 design record)
 ```
 
@@ -241,8 +241,8 @@ Files **auto-generated** when you run it (same folder):
 
 ## 16. License, Copyright & Commercial Use (Important)
 
-### This kit (dev-one-click-setting-kit)
-- **MIT License**, Copyright © 2026 **SoDam AI Studio**.
+### This kit (Dev_One-Click_Setting_Kit)
+- **Apache License 2.0**, Copyright © 2026 **SoDam AI Studio**.
 - Anyone may **freely use, modify, and distribute** it, **including commercial use**.
 - However, it is provided **AS IS, without warranty** — the authors are not liable for any damages from its use. See [LICENSE](./LICENSE) for full terms.
 

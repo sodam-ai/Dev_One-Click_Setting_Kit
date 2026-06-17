@@ -1,4 +1,4 @@
-# DEV-KIT — 바이브코딩 환경 원클릭 설정 키트
+# Dev_One-Click_Setting_Kit — 바이브코딩 환경 원클릭 설정 키트
 
 > Windows PC에서 AI 바이브코딩 개발 환경을 **한 번의 클릭**으로 자동 설치합니다.  
 > 코딩을 한 번도 해본 적 없는 분도 바로 사용할 수 있습니다.
@@ -286,6 +286,6 @@ Microsoft Store에서 **"앱 설치 관리자"** 를 검색해 설치하세요.
 
 ## 라이선스
 
-MIT License — 자유롭게 사용, 수정, 배포할 수 있습니다.  
+Apache License 2.0 — 자유롭게 사용·수정·배포할 수 있으며, 상업적 사용도 허용됩니다.  
 Copyright © 2026 **SoDam AI Studio**  
 전체 내용은 [LICENSE](./LICENSE) 파일을 확인하세요.

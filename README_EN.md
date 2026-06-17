@@ -1,4 +1,4 @@
-# DEV-KIT — One-Click Vibe Coding Environment Setup Kit
+# Dev_One-Click_Setting_Kit — One-Click Vibe Coding Environment Setup Kit
 
 > Automatically installs an AI vibe coding development environment on Windows PC **with a single click**.  
 > No coding experience required.
@@ -285,6 +285,6 @@ Yes. The default **Skip** mode means already-installed tools won't be touched.
 
 ## License
 
-MIT License — Free to use, modify, and distribute.  
+Apache License 2.0 — Free to use, modify, and distribute, including commercial use.  
 Copyright © 2026 **SoDam AI Studio**  
 See [LICENSE](./LICENSE) for full terms.
