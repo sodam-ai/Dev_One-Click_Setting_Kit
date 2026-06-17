@@ -6,24 +6,25 @@ All notable changes to this project will be documented in this file.
 
 ## [v1.4.0] - 2026-06-17
 
-> 설치 가능한 도구 범위를 크게 확대했습니다. (winget ID는 2026-06-17 실제 조회로 검증)
+> 설치 범위를 넓히되, **독립 실행 프로그램(앱)은 [8] 직접 다운로드로 분리**했습니다. 자동 설치(winget)는 개발 환경 구성요소(CLI·런타임)만 담당합니다. (winget ID는 2026-06-17 실조회 검증)
 
-### Added — [5] 선택 설치에 11종 추가
+### Added — 설치 범위 확대
 
-- **AI 도구**: Claude Desktop(`Anthropic.Claude`), Cursor(`Anysphere.Cursor`), GitHub Desktop(`GitHub.GitHubDesktop`), LM Studio(`ElementLabs.LMStudio`), Windsurf(`Codeium.Windsurf`), Warp(`Warp.Warp`)
-- **유틸리티**: 7-Zip(`7zip.7zip`), PowerToys(`Microsoft.PowerToys`), Chrome(`Google.Chrome`), Obsidian(`Obsidian.Obsidian`), uv(`astral-sh.uv`)
-- [7] 개별/전체 제거, [9] 설치 확인(uv)에도 동일 반영 — 설치·제거 일관성 유지
-- Claude Desktop·GitHub Desktop은 기존 '직접 다운로드' 외에 winget 자동 설치 옵션으로도 제공
+- **[5] 선택 설치**: uv(`astral-sh.uv`, Python 패키지 관리 CLI) 추가 — [7] 제거·[9] 확인에도 반영
+- **[8] 직접 다운로드**: AI 도구 LM Studio·Windsurf·Warp 추가 (Cursor·Claude Desktop·GitHub Desktop은 기존부터 있음)
 
 ### Added — 초보자 친화성 (AI·전자기기 처음 다루는 사람용)
 
-- **[A] 가장 쉬운 추천 설치** — 기본 5종 + Claude Desktop을 한 번에 설치하고 Cursor 다운로드 페이지를 자동으로 열어줌
+- **[A] 가장 쉬운 추천 설치** — 기본 5종(Git·Python·Node·VS Code·Windows Terminal) 설치 + Cursor·Claude Desktop **다운로드 페이지를 열어줌**(직접 설치 유도)
 - **첫 실행 환영·안심 안내** — 무엇을 하는지/안전한지, SmartScreen 파란 경고 대처법([추가 정보] → [실행]) 설명
 - **완료 후 '바이브코딩 첫 걸음' 가이드** — Cursor 열기 → Claude 로그인 → 한국어로 요청
-- **설치 실패 시 친절 안내** — "[8] 직접 다운로드에서 받을 수 있어요" 안내로 변경
+- **설치 실패 시 친절 안내** — "[8] 직접 다운로드에서 받을 수 있어요" 안내
 
-> 4개 레벨(초보자~새로운)은 변경 없음. 신규 도구는 모두 **[5] 선택 설치**로만 제공해 초보자 부담·설치 실패율 증가를 방지.
-> 후속(검토): ANSI 색상 실제 적용, winget 실패 시 URL 자동 폴백, CP949→UTF-8 검토.
+### 설계 원칙 (이번 버전에서 명확화)
+
+- **독립 프로그램(앱)은 자동 설치하지 않음** — Cursor·Claude Desktop·LM Studio·Windsurf·Warp·GitHub Desktop은 **[8] 직접 다운로드 안내로만** 제공. 올인원·추천 설치에 휩쓸려 한꺼번에 깔리지 않고, 사용자가 원할 때 직접 설치.
+- 4개 레벨(초보자~새로운)은 변경 없음.
+- 후속(검토): ANSI 색상 실제 적용, winget 실패 시 URL 자동 폴백, CP949→UTF-8 검토.
 
 ---
 

@@ -763,13 +763,13 @@ echo.
 echo  [가장 쉬운 추천 설치]
 echo  처음 시작에 필요한 핵심 도구를 한 번에 설치합니다.
 echo    - 기본 5종: Git, Python, Node.js, VS Code, Windows Terminal
-echo    - AI: Claude Desktop + Claude Code[자동]. Cursor는 다운로드 페이지를 열어드려요.
+echo    - AI: Claude Code[자동 설치]. Cursor / Claude Desktop 은 다운로드 페이지를 엽니다(직접 설치).
 echo.
 set /p CONFIRM_EASY="  Y=설치 시작 / N=메인 메뉴로: "
 if /i "!CONFIRM_EASY!" NEQ "y" goto MAIN_MENU
 set UPGRADE_MODE=skip
 set LEVEL_NAME=추천설치
-set TOTAL=6
+set TOTAL=5
 set CURRENT=0
 set INSTALL_COUNT=0
 set SKIP_COUNT=0
@@ -781,7 +781,7 @@ goto PRE_CHECK
 :INSTALL_EASY
 cls
 echo.
-echo  [추천 설치] 핵심 6종을 설치합니다.
+echo  [추천 설치] 핵심 5종을 설치합니다.
 echo.
 >> "%LOG_FILE%" echo === 추천 설치 시작: %TIME% ===
 call :INSTALL "Git" "Git.Git"
@@ -789,13 +789,14 @@ call :INSTALL "Python 3" "Python.Python.3"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
 call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
-call :INSTALL "Claude Desktop" "Anthropic.Claude"
 call :POST_BEGINNER
 call :MAKE_REPORTS
 call :PATH_CHECK
 echo.
-echo  [안내] AI 코딩 에디터 Cursor 다운로드 페이지를 엽니다...
+echo  [안내] AI 도구는 프로그램이라 직접 설치가 필요합니다. 다운로드 페이지를 엽니다...
+echo    - Cursor(AI 코드 에디터) / Claude Desktop(AI 채팅)
 start "" "https://cursor.com/ko/download"
+start "" "https://claude.com/ko-kr/download"
 call :DONE_MSG
 goto MAIN_MENU
 
@@ -829,13 +830,8 @@ echo  [ 프로젝트별 선택 (npm) ]
 echo    [24] Clerk         [25] Prisma        [26] Uploadthing
 echo         * 24=Supabase Auth 사용시 불필요  25=DB ORM  26=파일업로드
 echo.
-echo  [ AI 도구 (winget) ]
-echo    [27] Claude Desktop  [28] Cursor        [29] GitHub Desktop
-echo    [30] LM Studio       [31] Windsurf      [32] Warp
-echo.
-echo  [ 유틸리티 (winget) ]
-echo    [33] 7-Zip           [34] PowerToys     [35] Chrome
-echo    [36] Obsidian        [37] uv
+echo  [ Python 도구 (winget) ]
+echo    [27] uv (Python 패키지 관리 도구)
 echo.
 echo  ---------------------------------------------------
 echo    0 = 메인 메뉴로
@@ -925,17 +921,7 @@ for %%n in (!SEL:,= !) do (
     if "%%n"=="24" call :NPM_INSTALL "Clerk" "@clerk/clerk-sdk-node"
     if "%%n"=="25" call :NPM_INSTALL "Prisma" "prisma"
     if "%%n"=="26" call :NPM_INSTALL "Uploadthing" "uploadthing"
-    if "%%n"=="27" call :INSTALL "Claude Desktop" "Anthropic.Claude"
-    if "%%n"=="28" call :INSTALL "Cursor" "Anysphere.Cursor"
-    if "%%n"=="29" call :INSTALL "GitHub Desktop" "GitHub.GitHubDesktop"
-    if "%%n"=="30" call :INSTALL "LM Studio" "ElementLabs.LMStudio"
-    if "%%n"=="31" call :INSTALL "Windsurf" "Codeium.Windsurf"
-    if "%%n"=="32" call :INSTALL "Warp" "Warp.Warp"
-    if "%%n"=="33" call :INSTALL "7-Zip" "7zip.7zip"
-    if "%%n"=="34" call :INSTALL "PowerToys" "Microsoft.PowerToys"
-    if "%%n"=="35" call :INSTALL "Chrome" "Google.Chrome"
-    if "%%n"=="36" call :INSTALL "Obsidian" "Obsidian.Obsidian"
-    if "%%n"=="37" call :INSTALL "uv" "astral-sh.uv"
+    if "%%n"=="27" call :INSTALL "uv" "astral-sh.uv"
 )
 
 call :MAKE_REPORTS
@@ -988,8 +974,7 @@ echo  [1]Git  [2]Python  [3]Node.js  [4]VSCode  [5]WinTerminal
 echo  [6]GitHub CLI  [7]PS7  [8]pnpm  [9]Ollama  [10]Bun
 echo  [11]Java21  [12]Flutter  [13]Go  [14]Rust  [15]Ruby  [16]PHP
 echo  [17]Git LFS  [18]Stripe CLI
-echo  [19]Claude Desktop  [20]Cursor  [21]GitHub Desktop  [22]LM Studio
-echo  [23]Windsurf  [24]Warp  [25]7-Zip  [26]PowerToys  [27]Chrome  [28]Obsidian  [29]uv
+echo  [19]uv
 echo  [0] 뒤로
 echo.
 set /p REM_SEL="  번호: "
@@ -1013,17 +998,7 @@ if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 
 if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
 if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
 if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
-if "!REM_SEL!"=="19" winget uninstall --id Anthropic.Claude --source winget --silent
-if "!REM_SEL!"=="20" winget uninstall --id Anysphere.Cursor --source winget --silent
-if "!REM_SEL!"=="21" winget uninstall --id GitHub.GitHubDesktop --source winget --silent
-if "!REM_SEL!"=="22" winget uninstall --id ElementLabs.LMStudio --source winget --silent
-if "!REM_SEL!"=="23" winget uninstall --id Codeium.Windsurf --source winget --silent
-if "!REM_SEL!"=="24" winget uninstall --id Warp.Warp --source winget --silent
-if "!REM_SEL!"=="25" winget uninstall --id 7zip.7zip --source winget --silent
-if "!REM_SEL!"=="26" winget uninstall --id Microsoft.PowerToys --source winget --silent
-if "!REM_SEL!"=="27" winget uninstall --id Google.Chrome --source winget --silent
-if "!REM_SEL!"=="28" winget uninstall --id Obsidian.Obsidian --source winget --silent
-if "!REM_SEL!"=="29" winget uninstall --id astral-sh.uv --source winget --silent
+if "!REM_SEL!"=="19" winget uninstall --id astral-sh.uv --source winget --silent
 
 echo.
 echo  [완료] 제거 완료.
@@ -1038,16 +1013,6 @@ if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  제거 중... (시간이 걸릴 수 있습니다)
 for %%i in (
-    Anthropic.Claude
-    Anysphere.Cursor
-    GitHub.GitHubDesktop
-    ElementLabs.LMStudio
-    Codeium.Windsurf
-    Warp.Warp
-    7zip.7zip
-    Microsoft.PowerToys
-    Google.Chrome
-    Obsidian.Obsidian
     astral-sh.uv
     GitHub.GitLFS
     Stripe.StripeCLI
@@ -1121,6 +1086,9 @@ echo   --- AI 도구 (별도 설치 필요) ---
 echo    [17] Cursor            https://cursor.com/ko/download
 echo    [18] Claude Desktop    https://claude.com/ko-kr/download
 echo    [19] GitHub Desktop    https://desktop.github.com/download/
+echo    [22] LM Studio         https://lmstudio.ai/
+echo    [23] Windsurf          https://windsurf.com/
+echo    [24] Warp              https://www.warp.dev/
 echo.
 echo   --- 개발 확장 CLI ---
 echo    [20] GitHub LFS        https://git-lfs.com/
@@ -1152,6 +1120,9 @@ if "!MAN_CHOICE!"=="16" start "" "https://windows.php.net/download/"            
 if "!MAN_CHOICE!"=="17" start "" "https://cursor.com/ko/download"                                 & set _OPENED=1
 if "!MAN_CHOICE!"=="18" start "" "https://claude.com/ko-kr/download"                              & set _OPENED=1
 if "!MAN_CHOICE!"=="19" start "" "https://desktop.github.com/download/"                           & set _OPENED=1
+if "!MAN_CHOICE!"=="22" start "" "https://lmstudio.ai/"   & set _OPENED=1
+if "!MAN_CHOICE!"=="23" start "" "https://windsurf.com/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="24" start "" "https://www.warp.dev/"  & set _OPENED=1
 
 if "!MAN_CHOICE!"=="20" start "" "https://git-lfs.com/"                                          & set _OPENED=1
 if "!MAN_CHOICE!"=="21" start "" "https://docs.stripe.com/stripe-cli"                            & set _OPENED=1
