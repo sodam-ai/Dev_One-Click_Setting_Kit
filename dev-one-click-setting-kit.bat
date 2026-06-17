@@ -24,6 +24,20 @@ reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >nul 2>&1
 >> "%LOG_FILE%" echo 시작: %DATE% %TIME%
 >> "%LOG_FILE%" echo.
 
+cls
+echo.
+echo  ===========================================================
+echo    처음 오셨나요? 30초만 읽어주세요.
+echo  ===========================================================
+echo.
+echo   - 이 프로그램은 코딩에 필요한 도구들을 자동으로 설치해 줍니다.
+echo   - 번호를 고르기 전에는 아무것도 설치되지 않으니 안심하세요.
+echo   - 설치 중 파란 경고창[Windows가 PC를 보호했습니다]이 떠도 정상입니다.
+echo     그럴 땐 [추가 정보] 를 누른 뒤 [실행] 을 누르면 됩니다.
+echo   - 인터넷으로 받기 때문에 시간이 좀 걸려도 창을 닫지 마세요.
+echo   - 처음이라면 메뉴에서 [A] 가장 쉬운 추천 설치 를 누르세요.
+echo.
+pause
 :MAIN_MENU
 cls
 echo.
@@ -44,8 +58,10 @@ echo    [9] 설치 확인      O/X + 버전 상태 표시
 echo    [0] 종료
 echo.
 echo  ===========================================================
+echo    [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI)
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
+if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -539,7 +555,7 @@ if not errorlevel 1 (
         >> "%REPORT_FILE%.tmp" echo   [건너뜀] %~1
     )
 ) else (
-    echo         [건너뜀] %~1 설치 실패 → 나중에 수동 설치
+echo         [건너뜀] %~1 설치 실패 - 걱정마세요! 메뉴 [8] 직접 다운로드에서 받을 수 있어요.
     >> "%LOG_FILE%" echo   재시도 실패 (errorlevel=!RETRY_ERR!): %TIME%
     set /a FAIL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [실패] %~1
@@ -723,6 +739,13 @@ echo   supabase --version
 echo   npx prisma --version
 echo   claude --version
 echo.
+echo  [바이브코딩 첫 걸음]
+echo   1. Cursor 또는 VS Code 를 엽니다.
+echo   2. Claude 에 로그인합니다 (Claude Desktop, 또는 터미널에서 claude 명령).
+echo   3. 새 폴더를 열고, 만들고 싶은 것을 한국어로 그대로 적어보세요.
+echo      예: 간단한 메모 앱 만들어줘
+echo.
+echo.
 echo  새 터미널을 열어서 시작하세요.
 echo  (현재 창은 PATH 변경 전 상태입니다)
 echo.
@@ -734,6 +757,48 @@ goto :eof
 :: ============================================================
 :: 선택 설치
 :: ============================================================
+:DO_EASY
+cls
+echo.
+echo  [가장 쉬운 추천 설치]
+echo  처음 시작에 필요한 핵심 도구를 한 번에 설치합니다.
+echo    - 기본 5종: Git, Python, Node.js, VS Code, Windows Terminal
+echo    - AI: Claude Desktop + Claude Code[자동]. Cursor는 다운로드 페이지를 열어드려요.
+echo.
+set /p CONFIRM_EASY="  Y=설치 시작 / N=메인 메뉴로: "
+if /i "!CONFIRM_EASY!" NEQ "y" goto MAIN_MENU
+set UPGRADE_MODE=skip
+set LEVEL_NAME=추천설치
+set TOTAL=6
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_EASY
+goto PRE_CHECK
+
+:INSTALL_EASY
+cls
+echo.
+echo  [추천 설치] 핵심 6종을 설치합니다.
+echo.
+>> "%LOG_FILE%" echo === 추천 설치 시작: %TIME% ===
+call :INSTALL "Git" "Git.Git"
+call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
+call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
+call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
+call :INSTALL "Claude Desktop" "Anthropic.Claude"
+call :POST_BEGINNER
+call :MAKE_REPORTS
+call :PATH_CHECK
+echo.
+echo  [안내] AI 코딩 에디터 Cursor 다운로드 페이지를 엽니다...
+start "" "https://cursor.com/ko/download"
+call :DONE_MSG
+goto MAIN_MENU
+
 :DO_SELECT
 cls
 echo.
