@@ -42,7 +42,7 @@ pause
 cls
 echo.
 echo  ===========================================================
-echo    ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ^| AI °³¹ß È¯°æ ¿øÅ¬¸¯ ¼¼ÆÃ
+echo    [96m¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ^| AI °³¹ß È¯°æ ¿øÅ¬¸¯ ¼¼ÆÃ[0m
 echo  ===========================================================
 echo.
 echo    [1] ¿ÕÃÊº¸ ¼³Ä¡    Ã³À½ ½ÃÀÛÇÏ´Â ºÐ  (5°³,  ~7ºÐ)
@@ -117,6 +117,14 @@ if errorlevel 1 (
 for /f %%v in ('winget --version') do set WINGET_VER=%%v
 echo  [OK] winget !WINGET_VER!
 >> "%LOG_FILE%" echo OK: winget !WINGET_VER!
+:: °ü¸®ÀÚ ±ÇÇÑ È®ÀÎ (½ÇÆÐÇØµµ °è¼Ó ÁøÇà)
+net session >nul 2>&1
+if errorlevel 1 (
+    echo  [¾È³»] °ü¸®ÀÚ ±ÇÇÑÀÌ ¾Æ´Õ´Ï´Ù. ´ëºÎºÐ ±×´ë·Î ¼³Ä¡µÇÁö¸¸,
+    echo         ÀÏºÎ µµ±¸°¡ ¾È µÇ¸é ÀÌ ÆÄÀÏÀ» ¸¶¿ì½º ¿ìÅ¬¸¯ ÈÄ "°ü¸®ÀÚ ±ÇÇÑÀ¸·Î ½ÇÇà"À» ´­·¯º¸¼¼¿ä.
+) else (
+    echo  [OK] °ü¸®ÀÚ ±ÇÇÑÀ¸·Î ½ÇÇà Áß
+)
 
 :: 3. winget source update (½ÇÆÐÇØµµ °­Á¦ Á¾·á ±ÝÁö)
 echo  [..] ÆÐÅ°Áö ¸ñ·Ï ¾÷µ¥ÀÌÆ® Áß... (Ã³À½ ½ÇÇà ½Ã 1~2ºÐ, ÀÌÈÄ ºü¸§)
@@ -487,7 +495,7 @@ winget install --id %~2 --source winget --accept-source-agreements --accept-pack
 set INST_ERR=!errorlevel!
 
 if !INST_ERR! EQU 0 (
-    echo         [¿Ï·á] %~1
+echo         [92m[¿Ï·á][0m %~1
     >> "%LOG_FILE%" echo   °á°ú: ¼º°ø (errorlevel=0)
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1
@@ -527,7 +535,7 @@ winget install --id %~2 --source winget --accept-source-agreements --accept-pack
 set RETRY_ERR=!errorlevel!
 
 if !RETRY_ERR! EQU 0 (
-    echo         [¿Ï·á] %~1 (Àç½Ãµµ ¼º°ø)
+echo         [92m[¿Ï·á][0m %~1 (Àç½Ãµµ ¼º°ø)
     >> "%LOG_FILE%" echo   Àç½Ãµµ ¼º°ø (errorlevel=0): %TIME%
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1 (Àç½Ãµµ)
@@ -555,7 +563,7 @@ if not errorlevel 1 (
         >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1
     )
 ) else (
-echo         [°Ç³Ê¶Ü] %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
+echo         [91m[°Ç³Ê¶Ü][0m %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
     >> "%LOG_FILE%" echo   Àç½Ãµµ ½ÇÆÐ (errorlevel=!RETRY_ERR!): %TIME%
     set /a FAIL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] %~1
