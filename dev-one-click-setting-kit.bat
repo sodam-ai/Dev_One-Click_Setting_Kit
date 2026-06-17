@@ -24,6 +24,8 @@ reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >nul 2>&1
 >> "%LOG_FILE%" echo 시작: %DATE% %TIME%
 >> "%LOG_FILE%" echo.
 
+:: Welcome screen: show only on first run (skip to menu afterwards)
+if exist "%LOCALAPPDATA%\devkit_intro_seen" goto MAIN_MENU
 cls
 echo.
 echo  ===========================================================
@@ -39,6 +41,7 @@ echo   - 처음이라면 메뉴에서 [A] 가장 쉬운 추천 설치 를 누르세요.
 echo.
 echo   - 모든 도구는 베타가 아닌 '안정 버전', Node와 Java는 'LTS(오래 지원되는 안전판)'로 설치됩니다.
 pause
+>"%LOCALAPPDATA%\devkit_intro_seen" echo seen 2>nul
 :MAIN_MENU
 cls
 echo.
