@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.4.0] - 2026-06-17
+
+> 설치 가능한 도구 범위를 크게 확대했습니다. (winget ID는 2026-06-17 실제 조회로 검증)
+
+### Added — [5] 선택 설치에 11종 추가
+
+- **AI 도구**: Claude Desktop(`Anthropic.Claude`), Cursor(`Anysphere.Cursor`), GitHub Desktop(`GitHub.GitHubDesktop`), LM Studio(`ElementLabs.LMStudio`), Windsurf(`Codeium.Windsurf`), Warp(`Warp.Warp`)
+- **유틸리티**: 7-Zip(`7zip.7zip`), PowerToys(`Microsoft.PowerToys`), Chrome(`Google.Chrome`), Obsidian(`Obsidian.Obsidian`), uv(`astral-sh.uv`)
+- [7] 개별/전체 제거, [9] 설치 확인(uv)에도 동일 반영 — 설치·제거 일관성 유지
+- Claude Desktop·GitHub Desktop은 기존 '직접 다운로드' 외에 winget 자동 설치 옵션으로도 제공
+
+> 4개 레벨(초보자~새로운)은 변경 없음. 신규 도구는 모두 **[5] 선택 설치**로만 제공해 초보자 부담·설치 실패율 증가를 방지. 초보자 친화성 개선(환영 화면·색상·시작 가이드 등)은 후속 작업.
+
+---
+
 ## [v1.3.0] - 2026-06-17
 
 > v1.2.0 업데이트 과정에서 누락(회귀)됐던 v1.1.0 수정들을 코드에 복구하고, 제거 기능 누락과 소요 시간 계산 버그를 함께 수정했습니다.
