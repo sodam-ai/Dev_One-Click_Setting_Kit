@@ -35,3 +35,7 @@ secrets.*
 *.tmp
 *.bak
 *.orig
+
+# 자동 생성 도구 아티팩트 (정리 후 재생성 방지)
+.complexity-log.md
+.todos-report.md/
