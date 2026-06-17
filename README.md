@@ -5,6 +5,8 @@
 
 **[English Guide →](./README_EN.md)**
 
+> 📖 처음이라 자세한 설명이 필요하면 **[상세 사용설명서 → GUIDE.md](./GUIDE.md)** (PDF: [GUIDE.pdf](./GUIDE.pdf)) 를 보세요.
+
 ---
 
 ## 목차

@@ -5,6 +5,8 @@
 
 **[한국어 가이드 →](./README.md)**
 
+> 📖 New here? See the **[detailed User Guide → GUIDE_EN.md](./GUIDE_EN.md)** (PDF: [GUIDE_EN.pdf](./GUIDE_EN.pdf)).
+
 ---
 
 ## Table of Contents
