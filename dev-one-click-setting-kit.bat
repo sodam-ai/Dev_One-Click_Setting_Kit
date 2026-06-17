@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.0
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.4.0
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -16,16 +16,37 @@ set LOG_FILE=%~dp0install-log-%REPORT_DATE%.txt
 set START_TIME=%TIME%
 set UPGRADE_MODE=skip
 
+:: Enable ANSI color sequences (Windows 10+)
+reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >nul 2>&1
+
 :: ·Î±× ÆÄÀÏ ÃÊ±âÈ­
 > "%LOG_FILE%" echo === ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ¼³Ä¡ »ó¼¼ ·Î±× ===
 >> "%LOG_FILE%" echo ½ÃÀÛ: %DATE% %TIME%
 >> "%LOG_FILE%" echo.
 
+:: Welcome screen: show only on first run (skip to menu afterwards)
+if exist "%LOCALAPPDATA%\devkit_intro_seen" goto MAIN_MENU
+cls
+echo.
+echo  ===========================================================
+echo    Ã³À½ ¿À¼Ì³ª¿ä? 30ÃÊ¸¸ ÀÐ¾îÁÖ¼¼¿ä.
+echo  ===========================================================
+echo.
+echo   - ÀÌ ÇÁ·Î±×·¥Àº ÄÚµù¿¡ ÇÊ¿äÇÑ µµ±¸µéÀ» ÀÚµ¿À¸·Î ¼³Ä¡ÇØ ÁÝ´Ï´Ù.
+echo   - ¹øÈ£¸¦ °í¸£±â Àü¿¡´Â ¾Æ¹«°Íµµ ¼³Ä¡µÇÁö ¾ÊÀ¸´Ï ¾È½ÉÇÏ¼¼¿ä.
+echo   - ¼³Ä¡ Áß ÆÄ¶õ °æ°íÃ¢[Windows°¡ PC¸¦ º¸È£Çß½À´Ï´Ù]ÀÌ ¶°µµ Á¤»óÀÔ´Ï´Ù.
+echo     ±×·² ¶© [Ãß°¡ Á¤º¸] ¸¦ ´©¸¥ µÚ [½ÇÇà] À» ´©¸£¸é µË´Ï´Ù.
+echo   - ÀÎÅÍ³ÝÀ¸·Î ¹Þ±â ¶§¹®¿¡ ½Ã°£ÀÌ Á» °É·Áµµ Ã¢À» ´ÝÁö ¸¶¼¼¿ä.
+echo   - Ã³À½ÀÌ¶ó¸é ¸Þ´º¿¡¼­ [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡ ¸¦ ´©¸£¼¼¿ä.
+echo.
+echo   - ¸ðµç µµ±¸´Â º£Å¸°¡ ¾Æ´Ñ '¾ÈÁ¤ ¹öÀü', Node¿Í Java´Â 'LTS(¿À·¡ Áö¿øµÇ´Â ¾ÈÀüÆÇ)'·Î ¼³Ä¡µË´Ï´Ù.
+pause
+>"%LOCALAPPDATA%\devkit_intro_seen" echo seen 2>nul
 :MAIN_MENU
 cls
 echo.
 echo  ===========================================================
-echo    ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ^| AI °³¹ß È¯°æ ¿øÅ¬¸¯ ¼¼ÆÃ
+echo    [96m¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ^| AI °³¹ß È¯°æ ¿øÅ¬¸¯ ¼¼ÆÃ[0m
 echo  ===========================================================
 echo.
 echo    [1] ¿ÕÃÊº¸ ¼³Ä¡    Ã³À½ ½ÃÀÛÇÏ´Â ºÐ  (5°³,  ~7ºÐ)
@@ -41,8 +62,10 @@ echo    [9] ¼³Ä¡ È®ÀÎ      O/X + ¹öÀü »óÅÂ Ç¥½Ã
 echo    [0] Á¾·á
 echo.
 echo  ===========================================================
+echo    [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡   Ã³À½ÀÌ¸é ÀÌ°Å! (±âº» 5Á¾ + AI)
 set /p MENU_CHOICE="  ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: "
 
+if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -98,6 +121,14 @@ if errorlevel 1 (
 for /f %%v in ('winget --version') do set WINGET_VER=%%v
 echo  [OK] winget !WINGET_VER!
 >> "%LOG_FILE%" echo OK: winget !WINGET_VER!
+:: °ü¸®ÀÚ ±ÇÇÑ È®ÀÎ (½ÇÆÐÇØµµ °è¼Ó ÁøÇà)
+net session >nul 2>&1
+if errorlevel 1 (
+    echo  [¾È³»] °ü¸®ÀÚ ±ÇÇÑÀÌ ¾Æ´Õ´Ï´Ù. ´ëºÎºÐ ±×´ë·Î ¼³Ä¡µÇÁö¸¸,
+    echo         ÀÏºÎ µµ±¸°¡ ¾È µÇ¸é ÀÌ ÆÄÀÏÀ» ¸¶¿ì½º ¿ìÅ¬¸¯ ÈÄ "°ü¸®ÀÚ ±ÇÇÑÀ¸·Î ½ÇÇà"À» ´­·¯º¸¼¼¿ä.
+) else (
+    echo  [OK] °ü¸®ÀÚ ±ÇÇÑÀ¸·Î ½ÇÇà Áß
+)
 
 :: 3. winget source update (½ÇÆÐÇØµµ °­Á¦ Á¾·á ±ÝÁö)
 echo  [..] ÆÐÅ°Áö ¸ñ·Ï ¾÷µ¥ÀÌÆ® Áß... (Ã³À½ ½ÇÇà ½Ã 1~2ºÐ, ÀÌÈÄ ºü¸§)
@@ -121,6 +152,16 @@ if errorlevel 1 (
 ) else (
     echo  [OK] ÀÎÅÍ³Ý ¿¬°á È®ÀÎ
     >> "%LOG_FILE%" echo OK: ÀÎÅÍ³Ý ¿¬°á
+)
+
+:: µð½ºÅ© ¿©À¯ °ø°£ Ã¼Å© (3GB ¹Ì¸¸ °æ°í)
+powershell -nologo -command "if ((Get-PSDrive C).Free/1GB -lt 3) { exit 1 }" >nul 2>&1
+if errorlevel 1 (
+    echo  [°æ°í] Cµå¶óÀÌºê ¿©À¯ °ø°£ 3GB ¹Ì¸¸ - ¼³Ä¡ Áß ½ÇÆÐÇÒ ¼ö ÀÖ½À´Ï´Ù.
+    set /p CONT_DISK="  °è¼ÓÇÏ½Ã°Ú½À´Ï±î? (y/n): "
+    if /i "!CONT_DISK!" NEQ "y" goto MAIN_MENU
+) else (
+    echo  [OK] µð½ºÅ© ¿©À¯ °ø°£ È®ÀÎ
 )
 
 :: 5. ±âÁ¸ Node.js °¨Áö (Ãæµ¹ ¾È³»)
@@ -327,7 +368,7 @@ goto MAIN_MENU
 :INSTALL_LEVEL_3
 cls
 echo.
-echo  [°í±Þ ¼³Ä¡] 15°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [°í±Þ ¼³Ä¡] 16°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === °í±Þ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -364,7 +405,7 @@ goto MAIN_MENU
 :INSTALL_LEVEL_4
 cls
 echo.
-echo  [¿ÃÀÎ¿ø ¼³Ä¡] 17°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [¿ÃÀÎ¿ø ¼³Ä¡] 18°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === ¿ÃÀÎ¿ø ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -458,7 +499,7 @@ winget install --id %~2 --source winget --accept-source-agreements --accept-pack
 set INST_ERR=!errorlevel!
 
 if !INST_ERR! EQU 0 (
-    echo         [¿Ï·á] %~1
+echo         [92m[¿Ï·á][0m %~1
     >> "%LOG_FILE%" echo   °á°ú: ¼º°ø (errorlevel=0)
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1
@@ -492,13 +533,13 @@ if not errorlevel 1 (
 :: ½ÇÁ¦ ½ÇÆÐ ? 5ÃÊ ÈÄ 1È¸ ÀÚµ¿ Àç½Ãµµ
 echo         [Àç½Ãµµ] %~1 ½ÇÆÐ ? 5ÃÊ ÈÄ Àç½Ãµµ...
 >> "%LOG_FILE%" echo   1Â÷ ½ÇÆÐ (errorlevel=!INST_ERR!), Àç½Ãµµ: %TIME%
-timeout /t 5 >nul
+timeout /t 5 /nobreak >nul
 
 winget install --id %~2 --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
 set RETRY_ERR=!errorlevel!
 
 if !RETRY_ERR! EQU 0 (
-    echo         [¿Ï·á] %~1 (Àç½Ãµµ ¼º°ø)
+echo         [92m[¿Ï·á][0m %~1 (Àç½Ãµµ ¼º°ø)
     >> "%LOG_FILE%" echo   Àç½Ãµµ ¼º°ø (errorlevel=0): %TIME%
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1 (Àç½Ãµµ)
@@ -526,7 +567,7 @@ if not errorlevel 1 (
         >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1
     )
 ) else (
-    echo         [°Ç³Ê¶Ü] %~1 ¼³Ä¡ ½ÇÆÐ ¡æ ³ªÁß¿¡ ¼öµ¿ ¼³Ä¡
+echo         [91m[°Ç³Ê¶Ü][0m %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
     >> "%LOG_FILE%" echo   Àç½Ãµµ ½ÇÆÐ (errorlevel=!RETRY_ERR!): %TIME%
     set /a FAIL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] %~1
@@ -591,10 +632,14 @@ if not errorlevel 1 (
 )
 
 echo  [ÀÚµ¿] ¹èÆ÷/DB CLI µµ±¸ npm ¼³Ä¡ Áß...
-call :NPM_INSTALL "Vercel CLI" "vercel"
-call :NPM_INSTALL "Supabase CLI" "supabase"
-call :NPM_INSTALL "Stripe SDK" "stripe"
-call :NPM_INSTALL "Resend SDK" "resend"
+set /p INST_VERCEL="  Vercel CLI ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+if /i "!INST_VERCEL!"=="y" call :NPM_INSTALL "Vercel CLI" "vercel"
+set /p INST_SUPABASE="  Supabase CLI ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+if /i "!INST_SUPABASE!"=="y" call :NPM_INSTALL "Supabase CLI" "supabase"
+set /p INST_STRIPE="  Stripe SDK ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+if /i "!INST_STRIPE!"=="y" call :NPM_INSTALL "Stripe SDK" "stripe"
+set /p INST_RESEND="  Resend SDK ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+if /i "!INST_RESEND!"=="y" call :NPM_INSTALL "Resend SDK" "resend"
 goto :eof
 
 :: ============================================================
@@ -624,6 +669,15 @@ goto :eof
 :: ============================================================
 :MAKE_REPORTS
 set END_TIME=%TIME%
+:: Elapsed time (octal-safe)
+for /f "tokens=1-3 delims=:." %%a in ("%START_TIME: =0%") do set /a _SS=10#%%a*3600+10#%%b*60+10#%%c
+for /f "tokens=1-3 delims=:." %%a in ("%END_TIME: =0%") do set /a _ES=10#%%a*3600+10#%%b*60+10#%%c
+set /a _EL=_ES-_SS
+if !_EL! LSS 0 set /a _EL+=86400
+set /a _EM=_EL/60
+set /a _EL_S=_EL %% 60
+echo  ¼Ò¿ä ½Ã°£: !_EM!ºÐ !_EL_S!ÃÊ
+>> "%LOG_FILE%" echo ¼Ò¿ä ½Ã°£: !_EM!ºÐ !_EL_S!ÃÊ
 
 if not exist "%REPORT_FILE%.tmp" >> "%REPORT_FILE%.tmp" echo   (¼³Ä¡ Ç×¸ñ ¾øÀ½)
 
@@ -665,7 +719,7 @@ echo.
 echo  ---------------------------------------------------
 echo  [PATH °ËÁõ] ÇöÀç ÅÍ¹Ì³Î¿¡¼­ ÀÎ½ÄµÇ´Â µµ±¸
 echo  ---------------------------------------------------
-for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php cursor) do (
+for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php) do (
     where %%c >nul 2>&1
     if not errorlevel 1 echo    [O] %%c
 )
@@ -697,6 +751,13 @@ echo   supabase --version
 echo   npx prisma --version
 echo   claude --version
 echo.
+echo  [¹ÙÀÌºêÄÚµù Ã¹ °ÉÀ½]
+echo   1. Cursor ¶Ç´Â VS Code ¸¦ ¿±´Ï´Ù.
+echo   2. Claude ¿¡ ·Î±×ÀÎÇÕ´Ï´Ù (Claude Desktop, ¶Ç´Â ÅÍ¹Ì³Î¿¡¼­ claude ¸í·É).
+echo   3. »õ Æú´õ¸¦ ¿­°í, ¸¸µé°í ½ÍÀº °ÍÀ» ÇÑ±¹¾î·Î ±×´ë·Î Àû¾îº¸¼¼¿ä.
+echo      ¿¹: °£´ÜÇÑ ¸Þ¸ð ¾Û ¸¸µé¾îÁà
+echo.
+echo.
 echo  »õ ÅÍ¹Ì³ÎÀ» ¿­¾î¼­ ½ÃÀÛÇÏ¼¼¿ä.
 echo  (ÇöÀç Ã¢Àº PATH º¯°æ Àü »óÅÂÀÔ´Ï´Ù)
 echo.
@@ -708,6 +769,49 @@ goto :eof
 :: ============================================================
 :: ¼±ÅÃ ¼³Ä¡
 :: ============================================================
+:DO_EASY
+cls
+echo.
+echo  [°¡Àå ½¬¿î ÃßÃµ ¼³Ä¡]
+echo  Ã³À½ ½ÃÀÛ¿¡ ÇÊ¿äÇÑ ÇÙ½É µµ±¸¸¦ ÇÑ ¹ø¿¡ ¼³Ä¡ÇÕ´Ï´Ù.
+echo    - ±âº» 5Á¾: Git, Python, Node.js, VS Code, Windows Terminal
+echo    - AI: Claude Code[ÀÚµ¿ ¼³Ä¡]. Cursor / Claude Desktop Àº ´Ù¿î·Îµå ÆäÀÌÁö¸¦ ¿±´Ï´Ù(Á÷Á¢ ¼³Ä¡).
+echo.
+set /p CONFIRM_EASY="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+if /i "!CONFIRM_EASY!" NEQ "y" goto MAIN_MENU
+set UPGRADE_MODE=skip
+set LEVEL_NAME=ÃßÃµ¼³Ä¡
+set TOTAL=5
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_EASY
+goto PRE_CHECK
+
+:INSTALL_EASY
+cls
+echo.
+echo  [ÃßÃµ ¼³Ä¡] ÇÙ½É 5Á¾À» ¼³Ä¡ÇÕ´Ï´Ù.
+echo.
+>> "%LOG_FILE%" echo === ÃßÃµ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
+call :INSTALL "Git" "Git.Git"
+call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
+call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
+call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
+call :POST_BEGINNER
+call :MAKE_REPORTS
+call :PATH_CHECK
+echo.
+echo  [¾È³»] AI µµ±¸´Â ÇÁ·Î±×·¥ÀÌ¶ó Á÷Á¢ ¼³Ä¡°¡ ÇÊ¿äÇÕ´Ï´Ù. ´Ù¿î·Îµå ÆäÀÌÁö¸¦ ¿±´Ï´Ù...
+echo    - Cursor(AI ÄÚµå ¿¡µðÅÍ) / Claude Desktop(AI Ã¤ÆÃ)
+start "" "https://cursor.com/ko/download"
+start "" "https://claude.com/ko-kr/download"
+call :DONE_MSG
+goto MAIN_MENU
+
 :DO_SELECT
 cls
 echo.
@@ -737,6 +841,9 @@ echo.
 echo  [ ÇÁ·ÎÁ§Æ®º° ¼±ÅÃ (npm) ]
 echo    [24] Clerk         [25] Prisma        [26] Uploadthing
 echo         * 24=Supabase Auth »ç¿ë½Ã ºÒÇÊ¿ä  25=DB ORM  26=ÆÄÀÏ¾÷·Îµå
+echo.
+echo  [ Python µµ±¸ (winget) ]
+echo    [27] uv (Python ÆÐÅ°Áö °ü¸® µµ±¸)
 echo.
 echo  ---------------------------------------------------
 echo    0 = ¸ÞÀÎ ¸Þ´º·Î
@@ -775,13 +882,8 @@ for %%n in (!SEL:,= !) do set /a TOTAL+=1
 
 :: pnpm(8), Bun(10), npm µµ±¸(19-26) -> Node.js ¼±Çà ¼³Ä¡
 set NEED_NODE=
-echo !SEL! | findstr /C:"8" >nul 2>&1
-if not errorlevel 1 set NEED_NODE=1
-echo !SEL! | findstr /C:"10" >nul 2>&1
-if not errorlevel 1 set NEED_NODE=1
-for %%x in (19 20 21 22 23 24 25 26) do (
-    echo !SEL! | findstr /C:"%%x" >nul 2>&1
-    if not errorlevel 1 set NEED_NODE=1
+for %%n in (8 10 19 20 21 22 23 24 25 26) do (
+    for %%s in (!SEL!) do if "%%s"=="%%n" set NEED_NODE=1
 )
 if defined NEED_NODE (
     where node >nul 2>&1
@@ -831,6 +933,7 @@ for %%n in (!SEL:,= !) do (
     if "%%n"=="24" call :NPM_INSTALL "Clerk" "@clerk/clerk-sdk-node"
     if "%%n"=="25" call :NPM_INSTALL "Prisma" "prisma"
     if "%%n"=="26" call :NPM_INSTALL "Uploadthing" "uploadthing"
+    if "%%n"=="27" call :INSTALL "uv" "astral-sh.uv"
 )
 
 call :MAKE_REPORTS
@@ -841,11 +944,22 @@ goto MAIN_MENU
 :DO_UPDATE
 cls
 echo.
-echo  [¾÷µ¥ÀÌÆ®] ¼³Ä¡µÈ ¸ðµç µµ±¸¸¦ ÃÖ½Å ¹öÀüÀ¸·Î ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
+echo  [¾ÈÀü ¾÷µ¥ÀÌÆ®] º£Å¸°¡ ¾Æ´Ñ '¾ÈÁ¤(LTS)' ¹öÀüÀ¸·Î¸¸ Á¡°ËÇÏ°í ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === ÀüÃ¼ ¾÷µ¥ÀÌÆ® ½ÃÀÛ: %TIME% ===
 
-winget upgrade --all --source winget --accept-source-agreements --accept-package-agreements
+echo  (Node¿Í Java´Â LTS ¶óÀÎ ¾È¿¡¼­¸¸ ¿Ã¶ó°¡¸ç, ÀÌ Å°Æ®°¡ ¼³Ä¡ÇÑ µµ±¸¸¸ ´ë»óÀÔ´Ï´Ù.)
+echo.
+echo  [È®ÀÎ] Âü°í·Î, Áö±Ý ¾÷µ¥ÀÌÆ® °¡´ÉÇÑ ÀüÃ¼ ¸ñ·ÏÀÔ´Ï´Ù...
+winget upgrade --source winget
+echo.
+set /p DO_UPD="  Å°Æ® µµ±¸¸¦ ¾ÈÀüÇÏ°Ô ¾÷µ¥ÀÌÆ®ÇÒ±î¿ä? (y/n): "
+if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
+echo.
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP) do (
+    winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
+    if not errorlevel 1 echo  [¾÷±×·¹ÀÌµå] %%p
+)
 
 >> "%LOG_FILE%" echo ÀüÃ¼ ¾÷µ¥ÀÌÆ® ¿Ï·á: %TIME%
 echo.
@@ -879,6 +993,8 @@ echo.
 echo  [1]Git  [2]Python  [3]Node.js  [4]VSCode  [5]WinTerminal
 echo  [6]GitHub CLI  [7]PS7  [8]pnpm  [9]Ollama  [10]Bun
 echo  [11]Java21  [12]Flutter  [13]Go  [14]Rust  [15]Ruby  [16]PHP
+echo  [17]Git LFS  [18]Stripe CLI
+echo  [19]uv
 echo  [0] µÚ·Î
 echo.
 set /p REM_SEL="  ¹øÈ£: "
@@ -900,6 +1016,9 @@ if "!REM_SEL!"=="13" winget uninstall --id GoLang.Go --source winget --silent
 if "!REM_SEL!"=="14" winget uninstall --id Rustlang.Rustup --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 --source winget --silent
 if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
+if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
+if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
+if "!REM_SEL!"=="19" winget uninstall --id astral-sh.uv --source winget --silent
 
 echo.
 echo  [¿Ï·á] Á¦°Å ¿Ï·á.
@@ -914,6 +1033,9 @@ if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  Á¦°Å Áß... (½Ã°£ÀÌ °É¸± ¼ö ÀÖ½À´Ï´Ù)
 for %%i in (
+    astral-sh.uv
+    GitHub.GitLFS
+    Stripe.StripeCLI
     PHP.PHP
     RubyInstallerTeam.RubyWithDevKit.3.3
     Google.FlutterSDK
@@ -984,6 +1106,9 @@ echo   --- AI µµ±¸ (º°µµ ¼³Ä¡ ÇÊ¿ä) ---
 echo    [17] Cursor            https://cursor.com/ko/download
 echo    [18] Claude Desktop    https://claude.com/ko-kr/download
 echo    [19] GitHub Desktop    https://desktop.github.com/download/
+echo    [22] LM Studio         https://lmstudio.ai/
+echo    [23] Windsurf          https://windsurf.com/
+echo    [24] Warp              https://www.warp.dev/
 echo.
 echo   --- °³¹ß È®Àå CLI ---
 echo    [20] GitHub LFS        https://git-lfs.com/
@@ -1015,6 +1140,9 @@ if "!MAN_CHOICE!"=="16" start "" "https://windows.php.net/download/"            
 if "!MAN_CHOICE!"=="17" start "" "https://cursor.com/ko/download"                                 & set _OPENED=1
 if "!MAN_CHOICE!"=="18" start "" "https://claude.com/ko-kr/download"                              & set _OPENED=1
 if "!MAN_CHOICE!"=="19" start "" "https://desktop.github.com/download/"                           & set _OPENED=1
+if "!MAN_CHOICE!"=="22" start "" "https://lmstudio.ai/"   & set _OPENED=1
+if "!MAN_CHOICE!"=="23" start "" "https://windsurf.com/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="24" start "" "https://www.warp.dev/"  & set _OPENED=1
 
 if "!MAN_CHOICE!"=="20" start "" "https://git-lfs.com/"                                          & set _OPENED=1
 if "!MAN_CHOICE!"=="21" start "" "https://docs.stripe.com/stripe-cli"                            & set _OPENED=1
@@ -1068,6 +1196,7 @@ call :CHECK_ONE "Vercel CLI" vercel
 call :CHECK_ONE "Supabase CLI" supabase
 call :CHECK_ONE "Railway CLI" railway
 call :CHECK_ONE "Prisma" prisma
+call :CHECK_ONE "uv" uv
 echo.
 echo  [ AI ¿¡µðÅÍ ]
 call :CHECK_ONE "Cursor" cursor

@@ -1,9 +1,11 @@
-# DEV-KIT — One-Click Vibe Coding Environment Setup Kit
+# Dev_One-Click_Setting_Kit — One-Click Vibe Coding Environment Setup Kit
 
 > Automatically installs an AI vibe coding development environment on Windows PC **with a single click**.  
 > No coding experience required.
 
 **[한국어 가이드 →](./README.md)**
+
+> 📖 New here? See the **[detailed User Guide → GUIDE_EN.md](./GUIDE_EN.md)** (PDF: [GUIDE_EN.pdf](./GUIDE_EN.pdf)).
 
 ---
 
@@ -109,8 +111,9 @@ Type a number and press **Enter**.
    [3] Advanced             Multi-language dev  (16 tools, ~35 min)
    [4] New Tools            Extra tools         (18 tools, ~45 min)
    ---------------------------------------------------
+   [A] Easiest Recommended  Start here! (5 basics + AI guide)
    [5] Select Individual    Pick what you need
-   [6] Update               Update all npm packages
+   [6] Safe Update          Update tools to stable (LTS) versions
    [7] Remove               Remove individual/all tools
    [8] Direct Download      Official site URLs  (if winget fails)
    [9] Check Installation   Show O/X + version info
@@ -171,6 +174,7 @@ Type a number OR Ctrl+click a URL to open it in your browser.
   --- Advanced ---           [11] Java  [12] Flutter  [13] Go  [14] Rust
   --- New Tools ---          [15] Ruby  [16] PHP
   --- AI Tools ---           [17] Cursor  [18] Claude Desktop  [19] GitHub Desktop
+  --- AI Tools (more) ---    [22] LM Studio  [23] Windsurf  [24] Warp
   --- Dev CLI Extensions ---  [20] GitHub LFS  [21] Stripe CLI
 ```
 
@@ -192,10 +196,14 @@ Type a number OR Ctrl+click a URL to open it in your browser.
 | CLI cheat sheet | Shows version check commands after completion |
 | Individual selection | Pick specific tools from [1]–[18] |
 | npm Y/N selection | Choose Vercel/Supabase/etc. one by one |
-| Update menu | Bulk update npm packages |
-| Direct Download menu | 21 official URLs — open with Ctrl+click |
+| Safe update menu | Update tools to stable (LTS) versions (preview before applying) |
+| Direct Download menu | 24 official URLs — open with Ctrl+click |
 | Remove menu | Individual or full removal support |
 | Disk space check | Warns and pauses if less than 3 GB free |
+| Easiest Recommended [A] | Installs 5 basics + opens AI tool (Cursor·Claude Desktop) download pages |
+| Safe (LTS) baseline | Stable (not beta) versions; Node·Java use LTS |
+| Colored results | Done=green, Failed=red — at a glance (Windows 10+) |
+| First-run guide | Welcome / reassurance / SmartScreen warning tips for newcomers |
 
 ---
 
@@ -253,7 +261,7 @@ Type a number or **Ctrl+click** a URL to open the official download page in your
 
 **Q. How do I update tools to the latest version?**
 
-Use **[6] Update** from the main menu,  
+Use **[6] Safe Update** from the main menu,  
 or choose **[2] Upgrade** when prompted during a level install.
 
 ---
@@ -277,6 +285,6 @@ Yes. The default **Skip** mode means already-installed tools won't be touched.
 
 ## License
 
-MIT License — Free to use, modify, and distribute.  
+Apache License 2.0 — Free to use, modify, and distribute, including commercial use.  
 Copyright © 2026 **SoDam AI Studio**  
 See [LICENSE](./LICENSE) for full terms.
