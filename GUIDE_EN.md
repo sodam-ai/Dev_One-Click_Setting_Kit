@@ -99,7 +99,7 @@ In the menu, **type a number (or letter) and press Enter**.
 | **2** | Intermediate | 11 tools incl. Beginner (~15 min) |
 | **3** | Advanced | 16 tools incl. Intermediate (~35 min) |
 | **4** | New | 18 tools incl. Advanced (~45 min) |
-| **5** | Select Individual | Pick specific tools by number (comma for many: e.g. `1,3,6`) |
+| **5** | Select Individual | Pick specific tools by number (comma for many: e.g. `1,3,6`) — ⚠️ see note below |
 | **6** | Safe Update | Check/update installed tools to **stable (LTS) versions** (preview first) |
 | **7** | Remove | Remove individual or all tools |
 | **8** | Direct Download | When winget fails, opens 24 official site URLs |
@@ -110,6 +110,8 @@ In the menu, **type a number (or letter) and press Enter**.
 `[1] Skip (default) / [2] Upgrade / [3] Remove` — just press **Enter** to safely **Skip**.
 
 > Results are color-coded: **Done = green**, **Failed = red**, menu title = cyan (Windows 10+).
+
+> ⚠️ **`[5] Select Individual` behaves differently from `[1]`–`[4]`/`[A]` level installs.** It skips the pre-check (disk space, internet, etc.) and starts installing right away, and it also skips the post-install auto-setup (Git line-ending config, pip upgrade, disabling npm ads, auto-installing Claude Code CLI). If you want that auto-setup too, use a level install `[1]`–`[4]` instead. (The install report and PATH check still run the same way for `[5]`.)
 
 ---
 
@@ -159,6 +161,8 @@ When you choose an install, it proceeds in order:
 
 > **Safe to re-run** on the same PC (default "Skip" won't touch existing settings).
 
+> ⚠️ **Known limitations**: `uv` (Python package manager) can be installed via `[5] Select Individual`, but it is not yet included in the `[6] Safe Update` target list — to update it, `[7] Remove` it and reinstall via `[5]`. Also, the `[6] Update`, `[7] Remove`, `[8] Direct Download`, and `[9] Check Installation` menus do not generate an `install-report-*.txt` file (reports are only created by level installs `[1]`–`[4]`, `[5] Select Individual`, and `[A] Easiest Recommended`).
+
 ---
 
 ## 11. Key commands (copy & paste)
@@ -203,11 +207,17 @@ git config --global user.email "your@email.com"
 ```
 dev-one-click-setting-kit.bat   ← Main executable (this is all you need)
 README.md / README_EN.md        ← Short intro (KO / EN)
+README.pdf / README_EN.pdf      ← Short intro as PDF (identical content to the .md)
 GUIDE.md  / GUIDE_EN.md          ← This detailed guide (KO / EN)
 GUIDE.pdf / GUIDE_EN.pdf         ← Guide as PDF (identical content to the .md)
 CHANGELOG.md                    ← Version history
 LICENSE                         ← License (Apache 2.0)
 PRD/                            ← Initial planning docs (reference / v1.0 design record)
+fix_add_ctrl_hint.py            ← Development-history patch script (not needed to run the kit)
+fix_add_lfs_stripe.py           ← Development-history patch script (not needed to run the kit)
+fix_flutter_check.py            ← Development-history patch script (not needed to run the kit)
+patch_manual_menu.py            ← Development-history patch script (not needed to run the kit)
+upgrade_v1.1.0.py               ← Development-history patch script (not needed to run the kit)
 ```
 
 Files **auto-generated** when you run it (same folder):
