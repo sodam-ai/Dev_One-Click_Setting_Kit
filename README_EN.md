@@ -89,12 +89,12 @@ Click **[Releases](../../releases/latest)** on the top right of this page
 
 > Alternatively: click **`<> Code`** → **`Download ZIP`** → extract the ZIP file.
 
-#### Step 2 — Run as Administrator
+#### Step 2 — Double-click to run
 
-Right-click on `dev-one-click-setting-kit.bat`  
-→ Select **"Run as administrator"**
+**Double-click** `dev-one-click-setting-kit.bat` to start right away.  
+Administrator rights are **not required.** Only if some tools fail to install, right-click the file → **"Run as administrator"** and try again.
 
-> ⚠️ Without administrator rights, some tools may not install correctly.
+> ⚠️ A blue warning screen (Windows SmartScreen) may appear — this is normal. Click **[More info] → [Run anyway]**.
 
 #### Step 3 — Choose from the menu
 
@@ -211,13 +211,19 @@ Type a number OR Ctrl+click a URL to open it in your browser.
 
 ```
 dev-one-click-setting-kit.bat   ← Main executable (this is all you need)
-README.md                       ← Korean guide
-README_EN.md                    ← English guide (this file)
+README.md / README_EN.md        ← Short intro (KO / EN); README.pdf / README_EN.pdf have identical content
+GUIDE.md  / GUIDE_EN.md          ← Detailed guide for complete beginners (KO / EN); GUIDE.pdf / GUIDE_EN.pdf have identical content
 CHANGELOG.md                    ← Version history
-LICENSE                         ← License
-PRD/                            ← Development planning docs (reference only)
-upgrade_v1.1.0.py               ← v1.1.0 patch record script
+LICENSE                         ← License (Apache License 2.0)
+PRD/                            ← Initial planning docs (reference only, v1.0 design record)
+fix_add_ctrl_hint.py            ← Development-history patch script (not needed to run the kit)
+fix_add_lfs_stripe.py           ← Development-history patch script (not needed to run the kit)
+fix_flutter_check.py            ← Development-history patch script (not needed to run the kit)
+patch_manual_menu.py            ← Development-history patch script (not needed to run the kit)
+upgrade_v1.1.0.py               ← Development-history patch script (not needed to run the kit)
 ```
+
+> The 5 `.py` files above are **not required** to run this kit. They remain in the repository as a historical record of past version-upgrade work.
 
 > `install-report-*.txt` and `install-log-*.txt` are generated automatically after running.  
 > `.bak` and log files are listed in `.gitignore` and will not be uploaded to GitHub.
@@ -269,6 +275,12 @@ or choose **[2] Upgrade** when prompted during a level install.
 **Q. Is it safe to run again on a PC that's already set up?**
 
 Yes. The default **Skip** mode means already-installed tools won't be touched.
+
+---
+
+**Q. The menu text looks garbled?**
+
+It displays correctly on Korean Windows. On **non-Korean (English) Windows**, the menu text may appear garbled (a known issue, improvement planned). See **[GUIDE_EN.md's Troubleshooting section](./GUIDE_EN.md#12-troubleshooting)** for details.
 
 ---
 
