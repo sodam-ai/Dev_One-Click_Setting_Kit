@@ -383,6 +383,15 @@ stable/LTS only</p>
 <li><strong>Java (JDK)</strong>: 8 / 11 / 17 / 21 (all LTS)</li>
 <li><strong>Ruby</strong>: 3.2 / 3.3</li>
 </ul>
+<p><strong>Package manager ([S] scoop)</strong> — not in winget, uses
+the official installer</p>
+<ul>
+<li><strong>scoop</strong>: a command-line package manager for
+developers. Not in the winget catalog, so it is installed via the
+official script (<code>get.scoop.sh</code>) and asks for <strong>consent
+(Y/N)</strong> before running. Security details: <a
+href="#13-security--data-flow">§13</a>.</li>
+</ul>
 <p><strong>Automatic post-install steps</strong></p>
 <ul>
 <li>Sets Git line-ending option (<code>core.autocrlf true</code>)
@@ -460,7 +469,8 @@ press <strong>Enter</strong>.</li>
 [9] Check install        O/X + versions
 [0] Exit
 [A] Easiest recommended  first-timers start here (5 basics + AI guide)
-[V] Version-select       specific stable versions (Python/Java/Ruby)</code></pre>
+[V] Version-select       specific stable versions (Python/Java/Ruby)
+[S] Install scoop        dev package manager (non-winget)</code></pre>
 <table>
 <colgroup>
 <col style="width: 31%" />
@@ -493,6 +503,12 @@ Enter alone = recommended pack (1–5).</strong> Shows the
 <td><strong>[V]</strong></td>
 <td>Choose a <strong>specific stable version</strong> of
 Python/Java/Ruby. Not sure? Just press Enter (recommended)</td>
+</tr>
+<tr>
+<td><strong>[S]</strong></td>
+<td>Installs <strong>scoop</strong> (dev package manager). Not in
+winget, so it uses the official script — asks for <strong>consent
+(Y/N)</strong>. Security: <a href="#13-security--data-flow">§13</a></td>
 </tr>
 <tr>
 <td><strong>[6]</strong></td>
@@ -531,7 +547,26 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <h2 id="changelog-summary">9. Changelog summary</h2>
 <details>
 <summary>
-<b>v1.5.1 (2026-07-22) — latest</b>
+<b>v1.6.0 (2026-07-22) — latest</b>
+</summary>
+<ul>
+<li><strong>Added</strong>: <strong>[S] Install scoop</strong> menu item
+— a dev package manager. Not in winget, so it uses the official
+installer (get.scoop.sh) and asks for <strong>consent (Y/N)</strong>.
+Also added to [9] Check install.</li>
+<li><strong>Fixed (critical)</strong>: <strong>[5] Custom install
+installed nothing</strong> — the <code>!SEL:,= !</code>
+(delayed-expansion) loop iterated only once (wrongly) in cmd. Fixed with
+<code>%SEL:,= %</code> + restored the preview
+<code>%n</code>→<code>%%n</code> (levels [1]–[4] were unaffected).</li>
+<li><strong>Security</strong>: scoop is the kit’s first remote-script
+path — official source (HTTPS) only, no signature verification, requires
+user consent. (see §13)</li>
+</ul>
+</details>
+<details>
+<summary>
+v1.5.1 (2026-07-22)
 </summary>
 <ul>
 <li><strong>Fixed</strong>: issues that appeared when downloading &amp;
@@ -651,9 +686,14 @@ href="#14-troubleshooting">14</a>).</li>
 <ul>
 <li><strong>No admin required</strong> (user-scope install). Works on
 corporate/school PCs.</li>
-<li><strong>Official source only</strong>: every install uses
-<code>--source winget</code> (Microsoft signature-verified). No
-arbitrary-URL execution path.</li>
+<li><strong>Official source only (winget)</strong>: every winget install
+uses <code>--source winget</code> (Microsoft signature-verified).</li>
+<li><strong>Remote-script exception — [S] scoop (1)</strong>: scoop is
+not in winget, so it runs the official installer
+(<code>https://get.scoop.sh</code>, HTTPS). This is the
+<strong>only</strong> remote-execution path, and it runs <strong>only if
+you pick [S] and consent with Y</strong>. Unlike winget there is no
+signature verification; only the official source is used.</li>
 <li><strong>Minimal input</strong>: you type <strong>only menu
 numbers</strong>. No path for running arbitrary commands.</li>
 <li><strong>Privacy</strong>: Git name/email are <strong>only shown,

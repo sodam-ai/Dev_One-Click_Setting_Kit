@@ -377,6 +377,14 @@ SDK · Railway CLI · Clerk · Prisma · Uploadthing</li>
 <li><strong>Java(JDK)</strong>: 8 / 11 / 17 / 21 (전부 LTS)</li>
 <li><strong>Ruby</strong>: 3.2 / 3.3</li>
 </ul>
+<p><strong>패키지 매니저 설치 ([S] scoop)</strong> — winget에 없어 공식
+설치 스크립트 사용</p>
+<ul>
+<li><strong>scoop</strong>: 개발용 명령줄 패키지 매니저. winget 목록에
+없어 공식 설치 스크립트(<code>get.scoop.sh</code>)로 설치하며, 실행 전
+<strong>동의(Y/N)</strong>를 받습니다. 보안 상세는 <a
+href="#13-보안--데이터-흐름">§13</a>.</li>
+</ul>
 <p><strong>설치 후 자동으로 되는 것 (Post-install)</strong></p>
 <ul>
 <li>Git 줄바꿈 설정(<code>core.autocrlf true</code>) 자동</li>
@@ -451,7 +459,8 @@ SDK · Railway CLI · Clerk · Prisma · Uploadthing</li>
 [9] 설치 확인       O/X + 버전 표시
 [0] 종료
 [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI 안내)
-[V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)</code></pre>
+[V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
+[S] scoop 설치          개발용 패키지 매니저 (winget 외)</code></pre>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -483,6 +492,12 @@ SDK · Railway CLI · Clerk · Prisma · Uploadthing</li>
 <td><strong>[V]</strong></td>
 <td>Python/Java/Ruby의 <strong>특정 안정 버전</strong> 선택. 잘 모르면
 그냥 Enter(권장값)</td>
+</tr>
+<tr>
+<td><strong>[S]</strong></td>
+<td><strong>scoop</strong>(개발용 패키지 매니저) 설치. winget에 없어
+공식 스크립트 사용 — 실행 전 <strong>동의(Y/N)</strong>. 보안 상세 <a
+href="#13-보안--데이터-흐름">§13</a></td>
 </tr>
 <tr>
 <td><strong>[6]</strong></td>
@@ -521,7 +536,25 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <h2 id="업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
 <summary>
-<b>v1.5.1 (2026-07-22) — 최신</b>
+<b>v1.6.0 (2026-07-22) — 최신</b>
+</summary>
+<ul>
+<li><strong>Added</strong>: <strong>[S] scoop 설치</strong> 메뉴 항목 —
+개발용 패키지 매니저. winget에 없어 공식 설치 스크립트(get.scoop.sh)로
+설치하며 <strong>실행 전 동의(Y/N)</strong>. [9] 설치 확인에도
+추가.</li>
+<li><strong>Fixed(치명)</strong>: <strong>[5] 선택 설치가 선택 항목을
+하나도 설치하지 않던 버그</strong> — <code>!SEL:,= !</code>(지연 확장)
+루프가 cmd에서 1회만 오작동. <code>%SEL:,= %</code>로 교정 + 미리보기
+<code>%n</code>→<code>%%n</code> 복구(레벨 [1]~[4]는 영향 없었음).</li>
+<li><strong>보안</strong>: scoop은 이 키트 최초의 원격 스크립트 실행
+경로 — 공식 출처(HTTPS)만, 서명 검증 없음, 사용자 동의 필수. (§13
+반영)</li>
+</ul>
+</details>
+<details>
+<summary>
+v1.5.1 (2026-07-22)
 </summary>
 <ul>
 <li><strong>Fixed</strong>: 다른 PC에서 GitHub ZIP으로 받아 실행할 때
@@ -636,9 +669,13 @@ href="#14-문제--오류-대처-방법">14 참고</a>).</li>
 <ul>
 <li><strong>관리자 권한 불필요</strong>(사용자 범위 설치). 기업/학교 PC
 대응.</li>
-<li><strong>공식 소스만</strong>: 모든 설치는
-<code>--source winget</code>(Microsoft 서명 검증). 임의 URL 실행 경로
-없음.</li>
+<li><strong>공식 소스만(winget)</strong>: winget 설치는 전부
+<code>--source winget</code>(Microsoft 서명 검증).</li>
+<li><strong>원격 스크립트 예외 — [S] scoop 1건</strong>: scoop은
+winget에 없어 공식 설치 스크립트(<code>https://get.scoop.sh</code>,
+HTTPS)를 실행합니다. <strong>유일한 원격 실행 경로</strong>이며,
+<strong>[S]를 직접 선택하고 Y로 동의</strong>해야만 실행됩니다(winget과
+달리 서명 검증은 없고, 공식 출처만 사용).</li>
 <li><strong>입력 최소화</strong>: 사용자는 <strong>메뉴 번호만</strong>
 입력. 임의 명령 실행 통로 없음.</li>
 <li><strong>개인정보 보호</strong>: Git 이름/이메일은 <strong>자동
