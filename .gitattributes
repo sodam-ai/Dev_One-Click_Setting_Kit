@@ -1,0 +1,3 @@
+# Windows 배치 파일은 CRLF 유지 (LF로 정규화되면 실행 즉시 종료됨)
+*.bat -text
+*.cmd -text
