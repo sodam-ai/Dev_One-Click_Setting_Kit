@@ -191,7 +191,15 @@ git config --global user.email "your@email.com"
 ## 9. 업데이트 내용 요약
 
 <details>
-<summary><b>v1.5.0 (2026-07-22) — 최신</b></summary>
+<summary><b>v1.5.1 (2026-07-22) — 최신</b></summary>
+
+- **Fixed**: 다른 PC에서 GitHub ZIP으로 받아 실행할 때 나온 문제 수정 — ① 실행하자마자 창이 닫히던 문제(`.gitattributes`로 `.bat` 줄바꿈(CRLF) 보존) ② 사전 체크가 정상 Windows를 “오래된 버전”으로 잘못 판정하고 “winget 수동 설치”만 엉뚱하게 출력하던 파싱 버그(`if`/`for` 블록 안 표시용 괄호 28곳 정리 — 설치 로직 불변)
+- **winget 감지 견고화**: winget이 설치돼 있어도 못 잡던 경우 대비 — 실패 시 WindowsApps 경로를 세션 PATH에 추가해 재시도(앱 실행 별칭 OFF·PATH 누락 대응)
+- **안내 강화**: winget이 없을 때 **3단계 해결 안내**([8] 직접 다운로드 우회 / “앱 설치 관리자” 설치 / “앱 실행 별칭” 켜기)
+</details>
+
+<details>
+<summary>v1.5.0 (2026-07-22)</summary>
 
 - **Fixed**: 설치 결과를 정직하게 표시(가짜 “완료” 제거), 디스크 여유공간 체크를 레벨별로, [8]에 Cursor 우선 안내, 소요시간 계산 정확화
 - **Added**: [5] 선택설치에서 **Enter=권장 기본팩** + **선택 도구 이름 미리보기**, **[V] 버전 선택 설치**(Python 3.11~13 / Java 8·11·17·21 LTS / Ruby 3.2·3.3), 설치/업데이트/제거의 버전 커버리지 일치

@@ -191,7 +191,15 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.5.0 (2026-07-22) — latest</b></summary>
+<summary><b>v1.5.1 (2026-07-22) — latest</b></summary>
+
+- **Fixed**: issues that appeared when downloading & running the GitHub ZIP on another PC — ① the window closing immediately on launch (kept `.bat` line endings (CRLF) via `.gitattributes`) ② a parsing bug where the pre-check misjudged a healthy Windows as an “old version” and only printed “install winget manually” (cleaned up 28 display parentheses inside `if`/`for` blocks — install logic unchanged)
+- **Robust winget detection**: for cases where winget is installed but not detected — on failure, add the WindowsApps path to the session PATH and retry (handles App Execution Alias OFF / missing PATH)
+- **Better guidance**: when winget is missing, a **3-step fix** ([8] Direct download as a workaround / install “App Installer” / turn on the “App execution alias”)
+</details>
+
+<details>
+<summary>v1.5.0 (2026-07-22)</summary>
 
 - **Fixed**: honest install reporting (removed fake “done”), per-level disk check, Cursor-first hint in [8], accurate elapsed time
 - **Added**: [5] **Enter = recommended pack** + **name preview of selected tools**, **[V] Version-select install** (Python 3.11–13 / Java 8·11·17·21 LTS / Ruby 3.2·3.3), version coverage aligned across install/update/remove

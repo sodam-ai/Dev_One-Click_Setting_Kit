@@ -521,7 +521,27 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <h2 id="업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
 <summary>
-<b>v1.5.0 (2026-07-22) — 최신</b>
+<b>v1.5.1 (2026-07-22) — 최신</b>
+</summary>
+<ul>
+<li><strong>Fixed</strong>: 다른 PC에서 GitHub ZIP으로 받아 실행할 때
+나온 문제 수정 — ① 실행하자마자 창이 닫히던
+문제(<code>.gitattributes</code>로 <code>.bat</code> 줄바꿈(CRLF) 보존)
+② 사전 체크가 정상 Windows를 “오래된 버전”으로 잘못 판정하고 “winget
+수동 설치”만 엉뚱하게 출력하던 파싱
+버그(<code>if</code>/<code>for</code> 블록 안 표시용 괄호 28곳 정리 —
+설치 로직 불변)</li>
+<li><strong>winget 감지 견고화</strong>: winget이 설치돼 있어도 못 잡던
+경우 대비 — 실패 시 WindowsApps 경로를 세션 PATH에 추가해 재시도(앱 실행
+별칭 OFF·PATH 누락 대응)</li>
+<li><strong>안내 강화</strong>: winget이 없을 때 <strong>3단계 해결
+안내</strong>([8] 직접 다운로드 우회 / “앱 설치 관리자” 설치 / “앱 실행
+별칭” 켜기)</li>
+</ul>
+</details>
+<details>
+<summary>
+v1.5.0 (2026-07-22)
 </summary>
 <ul>
 <li><strong>Fixed</strong>: 설치 결과를 정직하게 표시(가짜 “완료” 제거),
