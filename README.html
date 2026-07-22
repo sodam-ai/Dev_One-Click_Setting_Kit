@@ -340,25 +340,26 @@ href="#14-문제--오류-대처-방법">설치 안내</a> 참고</td>
 <tbody>
 <tr>
 <td><strong>왕초보</strong></td>
-<td style="text-align: center;">5</td>
-<td>Git · Python 3 · Node.js LTS · VS Code · Windows Terminal</td>
+<td style="text-align: center;">6</td>
+<td>Git · Python 3 · Node.js LTS · VS Code · Windows Terminal ·
+scoop</td>
 <td style="text-align: center;">~7분</td>
 </tr>
 <tr>
 <td><strong>중급</strong></td>
-<td style="text-align: center;">11</td>
+<td style="text-align: center;">12</td>
 <td>+ Git LFS · GitHub CLI · PowerShell 7 · pnpm · Bun · Ollama</td>
 <td style="text-align: center;">~15분</td>
 </tr>
 <tr>
 <td><strong>고급</strong></td>
-<td style="text-align: center;">16</td>
+<td style="text-align: center;">17</td>
 <td>+ Java 21 LTS · Go · Rust · Flutter+Dart · Stripe CLI</td>
 <td style="text-align: center;">~35분</td>
 </tr>
 <tr>
 <td><strong>올인원</strong></td>
-<td style="text-align: center;">18</td>
+<td style="text-align: center;">19</td>
 <td>+ Ruby · PHP</td>
 <td style="text-align: center;">~45분</td>
 </tr>
@@ -377,12 +378,13 @@ SDK · Railway CLI · Clerk · Prisma · Uploadthing</li>
 <li><strong>Java(JDK)</strong>: 8 / 11 / 17 / 21 (전부 LTS)</li>
 <li><strong>Ruby</strong>: 3.2 / 3.3</li>
 </ul>
-<p><strong>패키지 매니저 설치 ([S] scoop)</strong> — winget에 없어 공식
-설치 스크립트 사용</p>
+<p><strong>scoop — 왕초보 [1]~[4]에 자동 포함 · [S]로 단독
+설치</strong></p>
 <ul>
-<li><strong>scoop</strong>: 개발용 명령줄 패키지 매니저. winget 목록에
-없어 공식 설치 스크립트(<code>get.scoop.sh</code>)로 설치하며, 실행 전
-<strong>동의(Y/N)</strong>를 받습니다. 보안 상세는 <a
+<li><strong>scoop</strong>: 개발용 명령줄 패키지 매니저. winget에 없어
+공식 설치 스크립트(<code>get.scoop.sh</code>)로 설치합니다. <strong>레벨
+[1]~[4] 설치에 자동 포함</strong>(레벨 시작 시 Y 확인 후)되고, [S]로
+단독 설치도 됩니다. 보안 상세는 <a
 href="#13-보안--데이터-흐름">§13</a>.</li>
 </ul>
 <p><strong>설치 후 자동으로 되는 것 (Post-install)</strong></p>
@@ -448,10 +450,10 @@ href="#13-보안--데이터-흐름">§13</a>.</li>
 <hr />
 <h2 id="사용-방법-메뉴-설명">7. 사용 방법 (메뉴 설명)</h2>
 <p>실행하면 나오는 메인 메뉴:</p>
-<pre><code>[1] 왕초보 설치     처음 시작 (5개,  ~7분)
-[2] 중급 설치       (11개, ~15분)
-[3] 고급 설치       (16개, ~35분)
-[4] 올인원 설치     (18개, ~45분)
+<pre><code>[1] 왕초보 설치     처음 시작 (6개,  ~7분)
+[2] 중급 설치       (12개, ~15분)
+[3] 고급 설치       (17개, ~35분)
+[4] 올인원 설치     (19개, ~45분)
 [5] 선택 설치       원하는 번호만 골라서
 [6] 업데이트        설치된 도구를 안정(LTS) 버전으로
 [7] 제거            도구 삭제 (개별/전체)
@@ -536,7 +538,19 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <h2 id="업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
 <summary>
-<b>v1.6.0 (2026-07-22) — 최신</b>
+<b>v1.6.1 (2026-07-22) — 최신</b>
+</summary>
+<ul>
+<li><strong>Changed</strong>: <strong>scoop을 왕초보 [1]~[4] 설치에 자동
+포함</strong>. 레벨 설치를 고르면 scoop도 함께 설치됩니다(레벨 시작 시 Y
+확인 후). [S] 단독 설치도 유지. 개수 갱신(왕초보 6·중급 12·고급
+17·올인원 19).</li>
+<li><strong>참고</strong>: [A] 추천 설치는 기존대로(scoop 미포함).</li>
+</ul>
+</details>
+<details>
+<summary>
+v1.6.0 (2026-07-22)
 </summary>
 <ul>
 <li><strong>Added</strong>: <strong>[S] scoop 설치</strong> 메뉴 항목 —
@@ -671,11 +685,11 @@ href="#14-문제--오류-대처-방법">14 참고</a>).</li>
 대응.</li>
 <li><strong>공식 소스만(winget)</strong>: winget 설치는 전부
 <code>--source winget</code>(Microsoft 서명 검증).</li>
-<li><strong>원격 스크립트 예외 — [S] scoop 1건</strong>: scoop은
-winget에 없어 공식 설치 스크립트(<code>https://get.scoop.sh</code>,
-HTTPS)를 실행합니다. <strong>유일한 원격 실행 경로</strong>이며,
-<strong>[S]를 직접 선택하고 Y로 동의</strong>해야만 실행됩니다(winget과
-달리 서명 검증은 없고, 공식 출처만 사용).</li>
+<li><strong>원격 스크립트 예외 — scoop 1건</strong>: scoop은 winget에
+없어 공식 설치 스크립트(<code>https://get.scoop.sh</code>, HTTPS)를
+실행합니다. <strong>유일한 원격 실행 경로</strong>이며, <strong>레벨
+[1]~[4] 설치(시작 시 Y 확인) 또는 [S] 선택</strong> 시에만
+실행됩니다(winget과 달리 서명 검증은 없고, 공식 출처만 사용).</li>
 <li><strong>입력 최소화</strong>: 사용자는 <strong>메뉴 번호만</strong>
 입력. 임의 명령 실행 통로 없음.</li>
 <li><strong>개인정보 보호</strong>: Git 이름/이메일은 <strong>자동

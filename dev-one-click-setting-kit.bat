@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.6.0
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.6.1
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -49,10 +49,10 @@ echo  ===========================================================
 echo    [96m¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® ^| AI °³¹ß È¯°æ ¿øÅ¬¸¯ ¼¼ÆÃ[0m
 echo  ===========================================================
 echo.
-echo    [1] ¿ÕÃÊº¸ ¼³Ä¡    Ã³À½ ½ÃÀÛÇÏ´Â ºÐ  (5°³,  ~7ºÐ)
-echo    [2] Áß±Þ ¼³Ä¡      ¾î´À Á¤µµ ½áº» ºÐ (11°³, ~15ºÐ)
-echo    [3] °í±Þ ¼³Ä¡      ¾Û/¼­¹ö °³¹ßÇÏ´Â ºÐ(16°³, ~35ºÐ)
-echo    [4] ¿ÃÀÎ¿ø ¼³Ä¡    ¸ðµç µµ±¸ ¼³Ä¡    (18°³, ~45ºÐ)
+echo    [1] ¿ÕÃÊº¸ ¼³Ä¡    Ã³À½ ½ÃÀÛÇÏ´Â ºÐ  (6°³,  ~7ºÐ)
+echo    [2] Áß±Þ ¼³Ä¡      ¾î´À Á¤µµ ½áº» ºÐ (12°³, ~15ºÐ)
+echo    [3] °í±Þ ¼³Ä¡      ¾Û/¼­¹ö °³¹ßÇÏ´Â ºÐ(17°³, ~35ºÐ)
+echo    [4] ¿ÃÀÎ¿ø ¼³Ä¡    ¸ðµç µµ±¸ ¼³Ä¡    (19°³, ~45ºÐ)
 echo    ---------------------------------------------------
 echo    [5] ¼±ÅÃ ¼³Ä¡      ¿øÇÏ´Â °Í¸¸ °ñ¶ó¼­
 echo    [6] ¾÷µ¥ÀÌÆ®       ¼³Ä¡µÈ µµ±¸ ÀüÃ¼ ÃÖ½ÅÀ¸·Î
@@ -217,7 +217,7 @@ goto %PRE_CHECK_RETURN%
 :DO_LEVEL_1
 set LEVEL_NAME=¿ÕÃÊº¸
 set DISK_MIN=3
-set TOTAL=5
+set TOTAL=6
 set CURRENT=0
 set INSTALL_COUNT=0
 set SKIP_COUNT=0
@@ -225,8 +225,8 @@ set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 echo.
 echo  --------------------------------------------------
-echo  [¿ÕÃÊº¸ ¼³Ä¡ ¸ñ·Ï] 5°³ µµ±¸ (¾à 7ºÐ / µð½ºÅ© ~1GB)
-echo    Git, Python 3, Node.js LTS, VS Code, Windows Terminal
+echo  [¿ÕÃÊº¸ ¼³Ä¡ ¸ñ·Ï] 6°³ µµ±¸ (¾à 7ºÐ / µð½ºÅ© ~1GB)
+echo    Git, Python 3, Node.js LTS, VS Code, Windows Terminal, scoop
 echo  --------------------------------------------------
 echo.
 set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
@@ -247,7 +247,7 @@ goto PRE_CHECK
 :DO_LEVEL_2
 set LEVEL_NAME=Áß±Þ
 set DISK_MIN=4
-set TOTAL=11
+set TOTAL=12
 set CURRENT=0
 set INSTALL_COUNT=0
 set SKIP_COUNT=0
@@ -255,8 +255,8 @@ set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 echo.
 echo  --------------------------------------------------
-echo  [Áß±Þ ¼³Ä¡ ¸ñ·Ï] 11°³ µµ±¸ (¾à 15ºÐ / µð½ºÅ© ~2GB)
-echo    Git, Python, Node.js, GitHub CLI, PS7, pnpm, Bun, Ollama, VSCode, WinTerminal
+echo  [Áß±Þ ¼³Ä¡ ¸ñ·Ï] 12°³ µµ±¸ (¾à 15ºÐ / µð½ºÅ© ~2GB)
+echo    Git, Python, Node.js, GitHub CLI, PS7, pnpm, Bun, Ollama, VSCode, WinTerminal, scoop
 echo  --------------------------------------------------
 echo.
 set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
@@ -277,7 +277,7 @@ goto PRE_CHECK
 :DO_LEVEL_3
 set LEVEL_NAME=°í±Þ
 set DISK_MIN=6
-set TOTAL=16
+set TOTAL=17
 set CURRENT=0
 set INSTALL_COUNT=0
 set SKIP_COUNT=0
@@ -285,7 +285,7 @@ set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 echo.
 echo  --------------------------------------------------
-echo  [°í±Þ ¼³Ä¡ ¸ñ·Ï] 16°³ µµ±¸ (¾à 35ºÐ / µð½ºÅ© ~6GB)
+echo  [°í±Þ ¼³Ä¡ ¸ñ·Ï] 17°³ µµ±¸ (¾à 35ºÐ / µð½ºÅ© ~6GB)
 echo    Áß±Þ Æ÷ÇÔ + Java 21 LTS, Flutter+Dart, Go, Rust
 echo  --------------------------------------------------
 echo.
@@ -307,7 +307,7 @@ goto PRE_CHECK
 :DO_LEVEL_4
 set LEVEL_NAME=¿ÃÀÎ¿ø
 set DISK_MIN=7
-set TOTAL=18
+set TOTAL=19
 set CURRENT=0
 set INSTALL_COUNT=0
 set SKIP_COUNT=0
@@ -315,7 +315,7 @@ set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 echo.
 echo  --------------------------------------------------
-echo  [¿ÃÀÎ¿ø ¼³Ä¡ ¸ñ·Ï] 18°³ µµ±¸ (¾à 45ºÐ / µð½ºÅ© ~7GB)
+echo  [¿ÃÀÎ¿ø ¼³Ä¡ ¸ñ·Ï] 19°³ µµ±¸ (¾à 45ºÐ / µð½ºÅ© ~7GB)
 echo    °í±Þ Æ÷ÇÔ + Ruby, PHP
 echo  --------------------------------------------------
 echo.
@@ -340,7 +340,7 @@ goto PRE_CHECK
 :INSTALL_LEVEL_1
 cls
 echo.
-echo  [¿ÕÃÊº¸ ¼³Ä¡] 5°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [¿ÕÃÊº¸ ¼³Ä¡] 6°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === ¿ÕÃÊº¸ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -353,6 +353,7 @@ call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
 call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 
+call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :MAKE_REPORTS
 call :PATH_CHECK
@@ -365,7 +366,7 @@ goto MAIN_MENU
 :INSTALL_LEVEL_2
 cls
 echo.
-echo  [Áß±Þ ¼³Ä¡] 11°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [Áß±Þ ¼³Ä¡] 12°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === Áß±Þ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -382,6 +383,7 @@ call :INSTALL "Ollama" "Ollama.Ollama"
 call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
 call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 
+call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :POST_INTERMEDIATE
 call :MAKE_REPORTS
@@ -395,7 +397,7 @@ goto MAIN_MENU
 :INSTALL_LEVEL_3
 cls
 echo.
-echo  [°í±Þ ¼³Ä¡] 16°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [°í±Þ ¼³Ä¡] 17°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === °í±Þ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -418,6 +420,7 @@ call :INSTALL "Rust" "Rustlang.Rustup"
 call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 
+call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :POST_INTERMEDIATE
 call :POST_ADVANCED
@@ -432,7 +435,7 @@ goto MAIN_MENU
 :INSTALL_LEVEL_4
 cls
 echo.
-echo  [¿ÃÀÎ¿ø ¼³Ä¡] 18°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo  [¿ÃÀÎ¿ø ¼³Ä¡] 19°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
 echo.
 >> "%LOG_FILE%" echo === ¿ÃÀÎ¿ø ¼³Ä¡ ½ÃÀÛ: %TIME% ===
 
@@ -455,6 +458,7 @@ call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
 call :INSTALL "PHP" "PHP.PHP"
 
+call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :POST_INTERMEDIATE
 call :POST_ADVANCED
@@ -1387,6 +1391,44 @@ goto :eof
 :: ============================================================
 :: scoop ¼³Ä¡ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®, »ç¿ëÀÚ µ¿ÀÇ ÇÊ¿ä)
 :: ============================================================
+:: ============================================================
+:: scoop ¼³Ä¡ ÇïÆÛ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®). ·¹º§/[S] °ø¿ë, ºñ´ëÈ­Çü
+:: ============================================================
+:INSTALL_SCOOP
+set /a CURRENT+=1
+echo  [!CURRENT!/!TOTAL!] scoop ¼³Ä¡ Áß...
+>> "%LOG_FILE%" echo [!CURRENT!/!TOTAL!] scoop ½ÃÀÛ: %TIME%
+set "SCOOP_SHIM=%USERPROFILE%\scoop\shims\scoop.cmd"
+if defined SCOOP set "SCOOP_SHIM=%SCOOP%\shims\scoop.cmd"
+if exist "!SCOOP_SHIM!" (
+    echo         [°Ç³Ê¶Ü] scoop [ÀÌ¹Ì ¼³Ä¡µÊ]
+    >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [scoop ÀÌ¹Ì ¼³Ä¡µÊ]
+    set /a SKIP_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] scoop
+    goto :eof
+)
+where scoop >nul 2>&1
+if not errorlevel 1 (
+    echo         [°Ç³Ê¶Ü] scoop [ÀÌ¹Ì ¼³Ä¡µÊ]
+    >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [scoop PATH]
+    set /a SKIP_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] scoop
+    goto :eof
+)
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; Invoke-RestMethod -Uri 'https://get.scoop.sh' | Invoke-Expression } catch { exit 1 }" >nul 2>&1
+if exist "!SCOOP_SHIM!" (
+    echo         [¿Ï·á] scoop
+    >> "%LOG_FILE%" echo   °á°ú: ¼º°ø [scoop]
+    set /a INSTALL_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [¼³Ä¡] scoop
+) else (
+    echo         [½ÇÆÐ] scoop ¼³Ä¡ ½ÇÆÐ - ³ªÁß¿¡ [S] ¸Þ´º¿¡¼­ Àç½Ãµµ °¡´É
+    >> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [scoop]
+    set /a FAIL_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] scoop
+)
+goto :eof
+
 :DO_SCOOP
 cls
 echo.
