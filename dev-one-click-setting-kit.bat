@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.4.0
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.5.1
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -96,7 +96,7 @@ echo.
 for /f "tokens=3 delims=." %%a in ('ver') do set WIN_BUILD=%%a
 if defined WIN_BUILD (
     if !WIN_BUILD! LSS 19044 (
-        echo  [ÁÖÀÇ] Windows 10 ¿À·¡µÈ ¹öÀü °¨Áö (ºôµå: !WIN_BUILD!)
+        echo  [ÁÖÀÇ] Windows 10 ¿À·¡µÈ ¹öÀü °¨Áö [ºôµå: !WIN_BUILD!]
         echo         winget ¼öµ¿ ¼³Ä¡: https://aka.ms/getwinget
         echo.
         >> "%LOG_FILE%" echo ÁÖÀÇ: Windows ºôµå !WIN_BUILD! - winget ºÒ¾ÈÁ¤ °¡´É
@@ -109,14 +109,31 @@ if defined WIN_BUILD (
 )
 
 :: 2. winget È®ÀÎ
-winget --version >nul 2>&1
-if errorlevel 1 (
+:: 2. winget È®ÀÎ (¿©·¯ °æ·Î·Î °ß°íÇÏ°Ô °¨Áö)
+set "WINGET_OK="
+winget --version >nul 2>&1 && set "WINGET_OK=1"
+:: PATH ¿¡¼­ WindowsApps °¡ ºüÁ³À» ¼ö ÀÖÀ¸´Ï ¼¼¼Ç PATH ¿¡ Ãß°¡ ÈÄ Àç½Ãµµ
+if not defined WINGET_OK if exist "%LOCALAPPDATA%\Microsoft\WindowsApps\winget.exe" (
+    set "PATH=%LOCALAPPDATA%\Microsoft\WindowsApps;%PATH%"
+    winget --version >nul 2>&1 && set "WINGET_OK=1"
+)
+if not defined WINGET_OK (
     echo.
-    echo  [¿À·ù] wingetÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.
-    echo         Microsoft Store °Ë»ö: "¾Û ¼³Ä¡ °ü¸®ÀÚ"
-    echo         ¶Ç´Â: https://aka.ms/getwinget
+    echo  [¿À·ù] winget[¾Û ¼³Ä¡ °ü¸®ÀÚ]À» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
     echo.
-    >> "%LOG_FILE%" echo ¿À·ù: winget ¾øÀ½
+    echo   [ÇØ°á ¹æ¹ý - ¾Æ·¡ Áß ÇÏ³ª¸¸ ÇÏ¸é µË´Ï´Ù]
+    echo.
+    echo   ¹æ¹ý 1. ÀÌ Ã¢À» ´Ý°í, ¸ÞÀÎ ¸Þ´º¿¡¼­ [8] Á÷Á¢ ´Ù¿î·Îµå ·Î
+    echo           ÇÊ¿äÇÑ µµ±¸¸¦ °ø½Ä »çÀÌÆ®¿¡¼­ ¹Ù·Î ¹ÞÀ¸½Ç ¼ö ÀÖ½À´Ï´Ù.
+    echo.
+    echo   ¹æ¹ý 2. Microsoft Store ¿¡¼­ "¾Û ¼³Ä¡ °ü¸®ÀÚ" ¸¦ ¼³Ä¡/¾÷µ¥ÀÌÆ®ÇÑ µÚ
+    echo           ÀÌ ÇÁ·Î±×·¥À» ´Ù½Ã ½ÇÇàÇÏ¼¼¿ä.
+    echo           [½ºÅä¾î ¸µÅ©] https://aka.ms/getwinget
+    echo.
+    echo   ¹æ¹ý 3. ¼³Á¤ - ¾Û - °í±Þ ¾Û ¼³Á¤ - ¾Û ½ÇÇà º°Äª ¿¡¼­
+    echo           "¾Û ¼³Ä¡ °ü¸®ÀÚ" ¸¦ ÄÒ µÚ ´Ù½Ã ½ÇÇàÇÏ¼¼¿ä.
+    echo.
+    >> "%LOG_FILE%" echo ¿À·ù: winget ½ÇÇà ºÒ°¡
     pause
     goto MAIN_MENU
 )
@@ -164,7 +181,7 @@ if errorlevel 1 (
     set /p CONT_DISK="  °è¼ÓÇÏ½Ã°Ú½À´Ï±î? (y/n): "
     if /i "!CONT_DISK!" NEQ "y" goto MAIN_MENU
 ) else (
-    echo  [OK] µð½ºÅ© ¿©À¯ °ø°£ È®ÀÎ (!DISK_MIN!GB ÀÌ»ó)
+    echo  [OK] µð½ºÅ© ¿©À¯ °ø°£ È®ÀÎ [!DISK_MIN!GB ÀÌ»ó]
 )
 
 :: 5. ±âÁ¸ Node.js °¨Áö (Ãæµ¹ ¾È³»)
@@ -460,18 +477,18 @@ npm list -g %~2 >nul 2>&1
 if not errorlevel 1 (
     if "!UPGRADE_MODE!"=="upgrade" (
         npm update -g %~2 >nul 2>&1
-        echo         [¾÷±×·¹ÀÌµå] %~1 (npm)
-        >> "%LOG_FILE%" echo   °á°ú: ¾÷±×·¹ÀÌµå (npm)
-        >> "%REPORT_FILE%.tmp" echo   [¾÷±×·¹ÀÌµå] %~1 (npm)
+        echo         [¾÷±×·¹ÀÌµå] %~1 [npm]
+        >> "%LOG_FILE%" echo   °á°ú: ¾÷±×·¹ÀÌµå [npm]
+        >> "%REPORT_FILE%.tmp" echo   [¾÷±×·¹ÀÌµå] %~1 [npm]
     ) else if "!UPGRADE_MODE!"=="remove" (
         npm uninstall -g %~2 >nul 2>&1
-        echo         [Á¦°Å] %~1 (npm)
-        >> "%LOG_FILE%" echo   °á°ú: Á¦°Å (npm)
-        >> "%REPORT_FILE%.tmp" echo   [Á¦°Å] %~1 (npm)
+        echo         [Á¦°Å] %~1 [npm]
+        >> "%LOG_FILE%" echo   °á°ú: Á¦°Å [npm]
+        >> "%REPORT_FILE%.tmp" echo   [Á¦°Å] %~1 [npm]
     ) else (
-        echo         [°Ç³Ê¶Ü] %~1 (ÀÌ¹Ì ¼³Ä¡µÊ)
-        >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü (ÀÌ¹Ì ¼³Ä¡µÊ)
-        >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1 (npm)
+        echo         [°Ç³Ê¶Ü] %~1 [ÀÌ¹Ì ¼³Ä¡µÊ]
+        >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [ÀÌ¹Ì ¼³Ä¡µÊ]
+        >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1 [npm]
     )
     goto :eof
 )
@@ -479,8 +496,8 @@ if not errorlevel 1 (
 npm install -g %~2 >nul 2>&1
 if not errorlevel 1 (
     echo         [¿Ï·á] %~1
-    >> "%LOG_FILE%" echo   °á°ú: ¼º°ø (npm)
-    >> "%REPORT_FILE%.tmp" echo   [¼³Ä¡] %~1 (npm)
+    >> "%LOG_FILE%" echo   °á°ú: ¼º°ø [npm]
+    >> "%REPORT_FILE%.tmp" echo   [¼³Ä¡] %~1 [npm]
     goto :eof
 )
 
@@ -488,8 +505,8 @@ echo         [Àç½Ãµµ] %~1...
 timeout /t 5 /nobreak >nul
 npm install -g %~2 >nul 2>&1
 if not errorlevel 1 (
-    echo         [¿Ï·á] %~1 (Àç½Ãµµ ¼º°ø)
-    >> "%REPORT_FILE%.tmp" echo   [¼³Ä¡] %~1 (npm)
+    echo         [¿Ï·á] %~1 [Àç½Ãµµ ¼º°ø]
+    >> "%REPORT_FILE%.tmp" echo   [¼³Ä¡] %~1 [npm]
     goto :eof
 )
 
@@ -508,7 +525,7 @@ set INST_ERR=!errorlevel!
 
 if !INST_ERR! EQU 0 (
 echo         [92m[¿Ï·á][0m %~1
-    >> "%LOG_FILE%" echo   °á°ú: ¼º°ø (errorlevel=0)
+    >> "%LOG_FILE%" echo   °á°ú: ¼º°ø [errorlevel=0]
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1
     goto :eof
@@ -520,7 +537,7 @@ if not errorlevel 1 (
     if "!UPGRADE_MODE!"=="upgrade" (
         winget upgrade --id %~2 --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
         echo         [¾÷±×·¹ÀÌµå] %~1
-        >> "%LOG_FILE%" echo   °á°ú: ¾÷±×·¹ÀÌµå (errorlevel=!INST_ERR!)
+        >> "%LOG_FILE%" echo   °á°ú: ¾÷±×·¹ÀÌµå [errorlevel=!INST_ERR!]
         set /a INSTALL_COUNT+=1
         >> "%REPORT_FILE%.tmp" echo   [¾÷±×·¹ÀÌµå] %~1
     ) else if "!UPGRADE_MODE!"=="remove" (
@@ -530,8 +547,8 @@ if not errorlevel 1 (
         set /a SKIP_COUNT+=1
         >> "%REPORT_FILE%.tmp" echo   [Á¦°Å] %~1
     ) else (
-        echo         [°Ç³Ê¶Ü] %~1 (ÀÌ¹Ì ¼³Ä¡µÊ)
-        >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü (ÀÌ¹Ì ¼³Ä¡µÊ, errorlevel=!INST_ERR!)
+        echo         [°Ç³Ê¶Ü] %~1 [ÀÌ¹Ì ¼³Ä¡µÊ]
+        >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [ÀÌ¹Ì ¼³Ä¡µÊ, errorlevel=!INST_ERR!]
         set /a SKIP_COUNT+=1
         >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1
     )
@@ -547,10 +564,10 @@ winget install --id %~2 --source winget --accept-source-agreements --accept-pack
 set RETRY_ERR=!errorlevel!
 
 if !RETRY_ERR! EQU 0 (
-echo         [92m[¿Ï·á][0m %~1 (Àç½Ãµµ ¼º°ø)
-    >> "%LOG_FILE%" echo   Àç½Ãµµ ¼º°ø (errorlevel=0): %TIME%
+echo         [92m[¿Ï·á][0m %~1 [Àç½Ãµµ ¼º°ø]
+    >> "%LOG_FILE%" echo   Àç½Ãµµ ¼º°ø [errorlevel=0]: %TIME%
     set /a INSTALL_COUNT+=1
-    >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1 (Àç½Ãµµ)
+    >> "%REPORT_FILE%.tmp" echo   [¼º°ø] %~1 [Àç½Ãµµ]
     goto :eof
 )
 
@@ -569,14 +586,14 @@ if not errorlevel 1 (
         set /a SKIP_COUNT+=1
         >> "%REPORT_FILE%.tmp" echo   [Á¦°Å] %~1
     ) else (
-        echo         [°Ç³Ê¶Ü] %~1 (ÀÌ¹Ì ¼³Ä¡µÊ)
+        echo         [°Ç³Ê¶Ü] %~1 [ÀÌ¹Ì ¼³Ä¡µÊ]
         >> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü
         set /a SKIP_COUNT+=1
         >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1
     )
 ) else (
 echo         [91m[°Ç³Ê¶Ü][0m %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
-    >> "%LOG_FILE%" echo   Àç½Ãµµ ½ÇÆÐ (errorlevel=!RETRY_ERR!): %TIME%
+    >> "%LOG_FILE%" echo   Àç½Ãµµ ½ÇÆÐ [errorlevel=!RETRY_ERR!]: %TIME%
     set /a FAIL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] %~1
 )
@@ -596,7 +613,7 @@ where git >nul 2>&1
 if not errorlevel 1 (
     git config --global core.autocrlf true >nul 2>&1
     >> "%LOG_FILE%" echo POST: git config --global core.autocrlf true ¿Ï·á
-    echo  [ÀÚµ¿] Git ÁÙ¹Ù²Þ ¼³Á¤ ¿Ï·á (autocrlf=true)
+    echo  [ÀÚµ¿] Git ÁÙ¹Ù²Þ ¼³Á¤ ¿Ï·á [autocrlf=true]
     echo.
     echo  - Git »ç¿ëÀÚ Á¤º¸´Â Á÷Á¢ ¼³Á¤ÀÌ ÇÊ¿äÇÕ´Ï´Ù:
     echo.
@@ -638,10 +655,10 @@ goto :eof
 :POST_INTERMEDIATE
 where ollama >nul 2>&1
 if not errorlevel 1 (
-    echo  - Ollama ·ÎÄÃ AI ¸ðµ¨ ¾È³» (2GB ÀÌ»ó ? Á÷Á¢ ½ÇÇà):
+    echo  - Ollama ·ÎÄÃ AI ¸ðµ¨ ¾È³» [2GB ÀÌ»ó ? Á÷Á¢ ½ÇÇà]:
     echo.
-    echo      ollama pull llama3.2   (¾à 2GB)
-    echo      ollama pull gemma3     (¾à 3GB)
+    echo      ollama pull llama3.2   [¾à 2GB]
+    echo      ollama pull gemma3     [¾à 3GB]
     echo.
 )
 
