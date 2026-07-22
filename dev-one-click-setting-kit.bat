@@ -63,9 +63,11 @@ echo    [0] 종료
 echo.
 echo  ===========================================================
 echo    [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI)
+echo    [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
+if /i "!MENU_CHOICE!"=="V" goto DO_VERSION
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -154,14 +156,15 @@ if errorlevel 1 (
     >> "%LOG_FILE%" echo OK: 인터넷 연결
 )
 
-:: 디스크 여유 공간 체크 (3GB 미만 경고)
-powershell -nologo -command "if ((Get-PSDrive C).Free/1GB -lt 3) { exit 1 }" >nul 2>&1
+:: 디스크 여유 공간 체크 (레벨별 최소 기준)
+if not defined DISK_MIN set DISK_MIN=3
+powershell -nologo -command "if ((Get-PSDrive C).Free/1GB -lt !DISK_MIN!) { exit 1 }" >nul 2>&1
 if errorlevel 1 (
-    echo  [경고] C드라이브 여유 공간 3GB 미만 - 설치 중 실패할 수 있습니다.
+    echo  [경고] C드라이브 여유 공간 !DISK_MIN!GB 미만 - 설치 중 실패할 수 있습니다.
     set /p CONT_DISK="  계속하시겠습니까? (y/n): "
     if /i "!CONT_DISK!" NEQ "y" goto MAIN_MENU
 ) else (
-    echo  [OK] 디스크 여유 공간 확인
+    echo  [OK] 디스크 여유 공간 확인 (!DISK_MIN!GB 이상)
 )
 
 :: 5. 기존 Node.js 감지 (충돌 안내)
@@ -186,6 +189,7 @@ echo.
 echo  [완료] 사전 체크 완료. 설치를 시작합니다.
 >> "%LOG_FILE%" echo 사전 체크 완료
 timeout /t 2 >nul
+set START_TIME=%TIME%
 goto %PRE_CHECK_RETURN%
 
 :: ============================================================
@@ -193,6 +197,7 @@ goto %PRE_CHECK_RETURN%
 :: ============================================================
 :DO_LEVEL_1
 set LEVEL_NAME=왕초보
+set DISK_MIN=3
 set TOTAL=5
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -222,6 +227,7 @@ goto PRE_CHECK
 
 :DO_LEVEL_2
 set LEVEL_NAME=중급
+set DISK_MIN=4
 set TOTAL=11
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -251,6 +257,7 @@ goto PRE_CHECK
 
 :DO_LEVEL_3
 set LEVEL_NAME=고급
+set DISK_MIN=6
 set TOTAL=16
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -280,6 +287,7 @@ goto PRE_CHECK
 
 :DO_LEVEL_4
 set LEVEL_NAME=올인원
+set DISK_MIN=7
 set TOTAL=18
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -590,7 +598,7 @@ if not errorlevel 1 (
     >> "%LOG_FILE%" echo POST: git config --global core.autocrlf true 완료
     echo  [자동] Git 줄바꿈 설정 완료 (autocrlf=true)
     echo.
-    echo  ★ Git 사용자 정보는 직접 설정이 필요합니다:
+    echo  - Git 사용자 정보는 직접 설정이 필요합니다:
     echo.
     echo      git config --global user.name  "홍길동"
     echo      git config --global user.email "your@email.com"
@@ -609,11 +617,17 @@ if not errorlevel 1 (
 where npm >nul 2>&1
 if not errorlevel 1 (
     npm config set fund false >nul 2>&1
-    npm install -g @anthropic-ai/claude-code >nul 2>&1
-    >> "%LOG_FILE%" echo POST: Claude Code CLI 설치 완료
-    echo  [자동] Claude Code CLI 설치 완료 (새 터미널: claude --version)
     >> "%LOG_FILE%" echo POST: npm config set fund false 완료
     echo  [자동] npm 광고 메시지 제거 완료
+    echo  [AI 필수도구] Claude Code CLI 설치 중...
+    npm install -g @anthropic-ai/claude-code >nul 2>&1
+    if not errorlevel 1 (
+        >> "%LOG_FILE%" echo POST: Claude Code CLI 설치 성공
+        echo  [완료] Claude Code CLI 설치 완료 - 새 터미널에서 claude --version
+    ) else (
+        >> "%LOG_FILE%" echo POST: Claude Code CLI 설치 실패
+        echo  [건너뜀] Claude Code CLI 설치 실패 - 인터넷 확인 후 npm install -g @anthropic-ai/claude-code 로 재시도
+    )
 )
 echo.
 goto :eof
@@ -624,7 +638,7 @@ goto :eof
 :POST_INTERMEDIATE
 where ollama >nul 2>&1
 if not errorlevel 1 (
-    echo  ★ Ollama 로컬 AI 모델 안내 (2GB 이상 ? 직접 실행):
+    echo  - Ollama 로컬 AI 모델 안내 (2GB 이상 ? 직접 실행):
     echo.
     echo      ollama pull llama3.2   (약 2GB)
     echo      ollama pull gemma3     (약 3GB)
@@ -654,7 +668,7 @@ if not errorlevel 1 (
     echo.
 )
 
-echo  ★ VS Code 확장 프로그램 (직접 설치):
+echo  - VS Code 확장 프로그램 (직접 설치):
 echo.
 echo      Python:   https://marketplace.visualstudio.com/items?itemName=ms-python.python
 echo      Prettier: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
@@ -781,6 +795,7 @@ set /p CONFIRM_EASY="  Y=설치 시작 / N=메인 메뉴로: "
 if /i "!CONFIRM_EASY!" NEQ "y" goto MAIN_MENU
 set UPGRADE_MODE=skip
 set LEVEL_NAME=추천설치
+set DISK_MIN=3
 set TOTAL=5
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -815,45 +830,72 @@ goto MAIN_MENU
 :DO_SELECT
 cls
 echo.
-echo  [선택 설치] 원하는 번호를 쉼표로 입력하세요  (예: 1,3,6)
-echo  ---------------------------------------------------
+echo  ===================================================
+echo   [ 선택 설치 ]  번호를 쉼표로 입력  (예: 1,3,6)
+echo  ===================================================
 echo.
-echo  [ 기본 도구 ]
-echo    [1]  Git           [2]  Python 3     [3]  Node.js LTS
-echo    [4]  VS Code       [5]  WinTerminal   [6]  GitHub CLI
-echo    [7]  PowerShell 7  [8]  pnpm          [9]  Ollama
-echo    [10] Bun
+echo   [ 기본 도구 ]   (처음이면 [1]~[5] 권장)
+echo     [1]  Git             [2]  Python 3        [3]  Node.js LTS
+echo     [4]  VS Code         [5]  Windows Terminal
+echo     [6]  GitHub CLI      [7]  PowerShell 7    [8]  pnpm
+echo     [9]  Ollama          [10] Bun
 echo.
-echo  [ 언어 / 런타임 ]
-echo    [11] Java 21 LTS   [12] Flutter       [13] Go
-echo    [14] Rust
+echo   [ 언어 / 런타임 ]   (특정 버전은 메인 메뉴 [V] 에서)
+echo     [11] Java 21 LTS     [12] Flutter         [13] Go
+echo     [14] Rust
 echo.
-echo  [ 올인원 ]
-echo    [15] Ruby          [16] PHP
+echo   [ 올인원 / 추가 도구 (winget) ]
+echo     [15] Ruby            [16] PHP             [17] Git LFS
+echo     [18] Stripe CLI      [27] uv
 echo.
-echo  [ 추가 도구 (winget) ]
-echo    [17] Git LFS       [18] Stripe CLI
-echo.
-echo  [ 배포 / DB CLI (npm) ]
-echo    [19] Vercel CLI    [20] Supabase CLI  [21] Stripe SDK
-echo    [22] Resend SDK    [23] Railway CLI
-echo.
-echo  [ 프로젝트별 선택 (npm) ]
-echo    [24] Clerk         [25] Prisma        [26] Uploadthing
-echo         * 24=Supabase Auth 사용시 불필요  25=DB ORM  26=파일업로드
-echo.
-echo  [ Python 도구 (winget) ]
-echo    [27] uv (Python 패키지 관리 도구)
+echo   [ 배포 / DB / 프로젝트 (npm) ]
+echo     [19] Vercel CLI      [20] Supabase CLI    [21] Stripe SDK
+echo     [22] Resend SDK      [23] Railway CLI     [24] Clerk
+echo     [25] Prisma          [26] Uploadthing
+echo        ([24] Supabase Auth 쓰면 불필요 / [25] DB ORM / [26] 파일업로드)
 echo.
 echo  ---------------------------------------------------
-echo    0 = 메인 메뉴로
+echo    [0] 메인 메뉴로       [Enter] 권장 기본팩([1]~[5]) 설치
+echo  ---------------------------------------------------
 echo.
 set /p SEL="  번호 입력: "
 if "!SEL!"=="0" goto MAIN_MENU
-if "!SEL!"=="" goto DO_SELECT
+if "!SEL!"=="" set SEL=1,2,3,4,5
 
 echo.
 echo  선택: !SEL!
+echo  ---------------------------------------------------
+echo  설치할 도구:
+for %%n in (!SEL:,= !) do (
+    if "%n"=="1" echo    - Git
+    if "%n"=="2" echo    - Python 3
+    if "%n"=="3" echo    - Node.js LTS
+    if "%n"=="4" echo    - VS Code
+    if "%n"=="5" echo    - Windows Terminal
+    if "%n"=="6" echo    - GitHub CLI
+    if "%n"=="7" echo    - PowerShell 7
+    if "%n"=="8" echo    - pnpm
+    if "%n"=="9" echo    - Ollama
+    if "%n"=="10" echo    - Bun
+    if "%n"=="11" echo    - Java 21 LTS
+    if "%n"=="12" echo    - Flutter+Dart
+    if "%n"=="13" echo    - Go
+    if "%n"=="14" echo    - Rust
+    if "%n"=="15" echo    - Ruby
+    if "%n"=="16" echo    - PHP
+    if "%n"=="17" echo    - Git LFS
+    if "%n"=="18" echo    - Stripe CLI
+    if "%n"=="19" echo    - Vercel CLI [npm]
+    if "%n"=="20" echo    - Supabase CLI [npm]
+    if "%n"=="21" echo    - Stripe SDK [npm]
+    if "%n"=="22" echo    - Resend SDK [npm]
+    if "%n"=="23" echo    - Railway CLI [npm]
+    if "%n"=="24" echo    - Clerk [npm]
+    if "%n"=="25" echo    - Prisma [npm]
+    if "%n"=="26" echo    - Uploadthing [npm]
+    if "%n"=="27" echo    - uv
+)
+echo  ---------------------------------------------------
 set /p CONFIRM_SEL="  Y=설치 시작 / N=다시 선택: "
 if /i "!CONFIRM_SEL!" NEQ "y" goto DO_SELECT
 echo.
@@ -868,6 +910,7 @@ if "!UPGRADE_CHOICE!"=="3" (set UPGRADE_MODE=remove)  else (
 set UPGRADE_MODE=skip))
 
 set LEVEL_NAME=선택설치
+set DISK_MIN=3
 set TOTAL=0
 set CURRENT=0
 set INSTALL_COUNT=0
@@ -875,6 +918,7 @@ set SKIP_COUNT=0
 set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 
+set START_TIME=%TIME%
 for %%n in (!SEL:,= !) do set /a TOTAL+=1
 
 >> "%LOG_FILE%" echo.
@@ -941,6 +985,84 @@ call :PATH_CHECK
 call :DONE_MSG
 goto MAIN_MENU
 
+:: ============================================================
+:: 버전 선택 설치 (안정/LTS 버전만)
+:: ============================================================
+:DO_VERSION
+cls
+echo.
+echo  [버전 선택 설치] 특정 안정(LTS) 버전을 골라 설치합니다.
+echo  잘 모르겠으면 [0]으로 돌아가 [1] 왕초보 또는 [A] 추천 설치를 쓰세요.
+echo  ---------------------------------------------------
+echo    [1] Python      [2] Java(JDK)      [3] Ruby
+echo    [0] 메인 메뉴로
+echo.
+set /p VER_LANG="  언어 번호: "
+if "!VER_LANG!"=="0" goto MAIN_MENU
+if "!VER_LANG!"=="1" goto VER_PYTHON
+if "!VER_LANG!"=="2" goto VER_JAVA
+if "!VER_LANG!"=="3" goto VER_RUBY
+goto DO_VERSION
+
+:VER_PYTHON
+echo.
+echo  [Python 버전] 안정 버전만 - 잘 모르면 그냥 Enter
+echo    [1] 3.13    [2] 3.12    [3] 3.11
+set /p PV="  선택 (기본=최신 권장): "
+set VER_NAME=Python
+set VER_ID=Python.Python.3
+if "!PV!"=="1" set VER_ID=Python.Python.3.13
+if "!PV!"=="2" set VER_ID=Python.Python.3.12
+if "!PV!"=="3" set VER_ID=Python.Python.3.11
+goto VER_INSTALL
+
+:VER_JAVA
+echo.
+echo  [Java(JDK) 버전] 전부 LTS - 잘 모르면 그냥 Enter
+echo    [1] 21(권장)    [2] 17    [3] 11    [4] 8
+set /p JV="  선택 (기본=21 LTS): "
+set VER_NAME=Java-JDK
+set VER_ID=EclipseAdoptium.Temurin.21.JDK
+if "!JV!"=="2" set VER_ID=EclipseAdoptium.Temurin.17.JDK
+if "!JV!"=="3" set VER_ID=EclipseAdoptium.Temurin.11.JDK
+if "!JV!"=="4" set VER_ID=EclipseAdoptium.Temurin.8.JDK
+goto VER_INSTALL
+
+:VER_RUBY
+echo.
+echo  [Ruby 버전] 안정 버전 - 잘 모르면 그냥 Enter
+echo    [1] 3.3(권장)    [2] 3.2
+set /p RV="  선택 (기본=3.3): "
+set VER_NAME=Ruby
+set VER_ID=RubyInstallerTeam.RubyWithDevKit.3.3
+if "!RV!"=="2" set VER_ID=RubyInstallerTeam.RubyWithDevKit.3.2
+goto VER_INSTALL
+
+:VER_INSTALL
+set LEVEL_NAME=버전선택
+set DISK_MIN=3
+set TOTAL=1
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+set UPGRADE_MODE=skip
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=VER_INSTALL2
+goto PRE_CHECK
+
+:VER_INSTALL2
+cls
+echo.
+echo  [버전 선택 설치] !VER_NAME! : !VER_ID! 를 설치합니다.
+echo.
+>> "%LOG_FILE%" echo === 버전선택 설치: !VER_ID! : %TIME% ===
+call :INSTALL "!VER_NAME!" "!VER_ID!"
+call :MAKE_REPORTS
+call :PATH_CHECK
+call :DONE_MSG
+goto MAIN_MENU
+
 :DO_UPDATE
 cls
 echo.
@@ -956,7 +1078,7 @@ echo.
 set /p DO_UPD="  키트 도구를 안전하게 업데이트할까요? (y/n): "
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP) do (
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [업그레이드] %%p
 )
@@ -1002,6 +1124,9 @@ if "!REM_SEL!"=="0"  goto DO_REMOVE
 
 if "!REM_SEL!"=="1"  winget uninstall --id Git.Git --source winget --silent
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3 --source winget --silent
+if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.13 --source winget --silent >nul 2>&1
+if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.12 --source winget --silent >nul 2>&1
+if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.11 --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="3"  winget uninstall --id OpenJS.NodeJS.LTS --source winget --silent
 if "!REM_SEL!"=="4"  winget uninstall --id Microsoft.VisualStudioCode --source winget --silent
 if "!REM_SEL!"=="5"  winget uninstall --id Microsoft.WindowsTerminal --source winget --silent
@@ -1011,10 +1136,14 @@ if "!REM_SEL!"=="8"  winget uninstall --id pnpm.pnpm --source winget --silent
 if "!REM_SEL!"=="9"  winget uninstall --id Ollama.Ollama --source winget --silent
 if "!REM_SEL!"=="10" winget uninstall --id Oven-sh.Bun --source winget --silent
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.21.JDK --source winget --silent
+if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.17.JDK --source winget --silent >nul 2>&1
+if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.11.JDK --source winget --silent >nul 2>&1
+if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.8.JDK --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="12" winget uninstall --id Google.FlutterSDK --source winget --silent
 if "!REM_SEL!"=="13" winget uninstall --id GoLang.Go --source winget --silent
 if "!REM_SEL!"=="14" winget uninstall --id Rustlang.Rustup --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 --source winget --silent
+if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.2 --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
 if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
 if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
@@ -1038,10 +1167,14 @@ for %%i in (
     Stripe.StripeCLI
     PHP.PHP
     RubyInstallerTeam.RubyWithDevKit.3.3
+    RubyInstallerTeam.RubyWithDevKit.3.2
     Google.FlutterSDK
     Rustlang.Rustup
     GoLang.Go
     EclipseAdoptium.Temurin.21.JDK
+    EclipseAdoptium.Temurin.17.JDK
+    EclipseAdoptium.Temurin.11.JDK
+    EclipseAdoptium.Temurin.8.JDK
     Oven-sh.Bun
     pnpm.pnpm
     Ollama.Ollama
@@ -1051,6 +1184,9 @@ for %%i in (
     Microsoft.VisualStudioCode
     OpenJS.NodeJS.LTS
     Python.Python.3
+    Python.Python.3.13
+    Python.Python.3.12
+    Python.Python.3.11
     Git.Git
 ) do (
     winget uninstall --id %%i --source winget --silent >nul 2>&1
@@ -1074,11 +1210,12 @@ goto MAIN_MENU
 cls
 echo.
 echo  [직접 다운로드 링크]
+echo  - AI 코딩 에디터 [17] Cursor 를 가장 먼저 설치하는 것을 추천합니다.
 echo  winget 설치가 안 될 때 공식 사이트에서 직접 받으세요.
 echo  ---------------------------------------------------
 echo  번호를 입력하거나, URL 위에서 Ctrl+클릭 하면 브라우저에서 열립니다.
 echo.
-echo   --- 초보자 도구 ---
+echo   --- 왕초보 도구 ---
 echo    [1]  Git               https://git-scm.com/download/win
 echo    [2]  Python 3          https://www.python.org/downloads/
 echo    [3]  Node.js LTS       https://nodejs.org/en/download
@@ -1098,7 +1235,7 @@ echo    [12] Flutter           https://docs.flutter.dev/get-started/install/wind
 echo    [13] Go                https://go.dev/dl/
 echo    [14] Rust              https://rustup.rs/
 echo.
-echo   --- 새로운 도구 ---
+echo   --- 올인원 도구 ---
 echo    [15] Ruby              https://rubyinstaller.org/downloads/
 echo    [16] PHP               https://windows.php.net/download/
 echo.
