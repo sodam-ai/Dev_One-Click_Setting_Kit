@@ -531,7 +531,28 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <h2 id="changelog-summary">9. Changelog summary</h2>
 <details>
 <summary>
-<b>v1.5.0 (2026-07-22) — latest</b>
+<b>v1.5.1 (2026-07-22) — latest</b>
+</summary>
+<ul>
+<li><strong>Fixed</strong>: issues that appeared when downloading &amp;
+running the GitHub ZIP on another PC — ① the window closing immediately
+on launch (kept <code>.bat</code> line endings (CRLF) via
+<code>.gitattributes</code>) ② a parsing bug where the pre-check
+misjudged a healthy Windows as an “old version” and only printed
+“install winget manually” (cleaned up 28 display parentheses inside
+<code>if</code>/<code>for</code> blocks — install logic unchanged)</li>
+<li><strong>Robust winget detection</strong>: for cases where winget is
+installed but not detected — on failure, add the WindowsApps path to the
+session PATH and retry (handles App Execution Alias OFF / missing
+PATH)</li>
+<li><strong>Better guidance</strong>: when winget is missing, a
+<strong>3-step fix</strong> ([8] Direct download as a workaround /
+install “App Installer” / turn on the “App execution alias”)</li>
+</ul>
+</details>
+<details>
+<summary>
+v1.5.0 (2026-07-22)
 </summary>
 <ul>
 <li><strong>Fixed</strong>: honest install reporting (removed fake
