@@ -232,7 +232,6 @@ README_EN.md / README_EN.html    ← 영어 설명서 (내용 동일)
 CHANGELOG.md                     ← 버전별 변경 이력
 LICENSE                          ← 라이선스 (Apache License 2.0)
 PRD/                            ← 초기 기획 문서 (참고용)
-*.py                             ← 과거 개발 패치 기록 (실행 불필요)
 ```
 
 > 실행 후 자동 생성: `install-report-날짜.txt`(요약), `install-log-날짜.txt`(상세) — `.gitignore`로 저장소에는 올라가지 않습니다.
