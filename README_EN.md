@@ -1,302 +1,347 @@
-# Dev_One-Click_Setting_Kit — One-Click Vibe Coding Environment Setup Kit
+# Dev_One-Click_Setting_Kit — One-Click Vibe-Coding Setup Kit
 
-> Automatically installs an AI vibe coding development environment on Windows PC **with a single click**.  
-> No coding experience required.
+> A tool that installs the developer programs you need to start AI coding (“vibe coding”) on a Windows PC — with **one double-click of a single file**.
+> Made so that **even people new to computers and AI** can just follow along.
 
-**[한국어 가이드 →](./README.md)**
-
-> 📖 New here? See the **[detailed User Guide → GUIDE_EN.md](./GUIDE_EN.md)** (PDF: [GUIDE_EN.pdf](./GUIDE_EN.pdf)).
+**Other formats / languages:** [한국어 (README.md)](./README.md) · [Korean HTML (README.html)](./README.html) · [English HTML (README_EN.html)](./README_EN.html)
 
 ---
 
 ## Table of Contents
 
-1. [What is this?](#what-is-this)
-2. [What tools get installed?](#what-tools-get-installed)
-3. [How to use — Complete beginner guide](#how-to-use--complete-beginner-guide)
-4. [Installation levels](#installation-levels)
-5. [Direct Download Menu](#direct-download-menu-8)
-6. [Key features](#key-features)
-7. [Folder structure](#folder-structure)
-8. [FAQ](#faq)
-9. [Important notes](#important-notes)
-10. [License](#license)
+1. [What is this?](#1-what-is-this)
+2. [Prerequisites](#2-prerequisites)
+3. [Programs installed (tool list)](#3-programs-installed-tool-list)
+4. [How to download](#4-how-to-download)
+5. [Quick start (3-minute summary)](#5-quick-start-3-minute-summary)
+6. [How to run](#6-how-to-run)
+7. [How to use (menu guide)](#7-how-to-use-menu-guide)
+8. [How it works & commands](#8-how-it-works--commands)
+9. [Changelog summary](#9-changelog-summary)
+10. [File / document locations](#10-file--document-locations)
+11. [Workflow](#11-workflow)
+12. [Architecture](#12-architecture)
+13. [Security / data flow](#13-security--data-flow)
+14. [Troubleshooting](#14-troubleshooting)
+15. [FAQ](#15-faq)
+16. [Legal / copyright / license / commercial use](#16-legal--copyright--license--commercial-use)
 
 ---
 
-## What is this?
+## 1. What is this?
 
-"Vibe coding" means building software by talking to AI in natural language — no traditional programming required.  
-Before you can start, your PC needs several development tools installed, which takes 30–60 minutes manually and is easy to get wrong.
+“Vibe coding” means **making software by asking an AI in plain language**.
+But to do AI coding you first need several **developer tools** (Git, Python, Node.js, etc.) on your PC.
+Installing them one by one takes 30–60 minutes the first time and is error-prone.
 
-**Just run `dev-one-click-setting-kit.bat` once** and it will:
+With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 
-- Automatically find and install all required tools
-- Skip or upgrade tools that are already installed
-- Save an installation report when done
+- **automatically find and install** the tools you need,
+- **skip or upgrade** tools you already have, and
+- create a **result summary file** when done.
 
-> This file is **Windows only**. It does not work on macOS or Linux.
+> ⚠️ **Windows only.** It does not work on macOS or Linux.
 
----
+**Glossary (all a beginner needs)**
 
-## What tools get installed?
-
-### Core tools (via winget)
-
-| Level | Tool | Purpose |
-|-------|------|---------|
-| Beginner | Git | Essential for saving and sharing code |
-| Beginner | Python 3 | Core language for AI/ML development |
-| Beginner | Node.js LTS | Required for web dev (Next.js, React, etc.) |
-| Beginner | VS Code | Code editor |
-| Beginner | Windows Terminal | Better terminal experience |
-| Intermediate | GitHub CLI | GitHub command-line operations |
-| Intermediate | PowerShell 7 | Enhanced scripting environment |
-| Intermediate | pnpm | Fast package manager |
-| Intermediate | Ollama | Run local AI models |
-| Intermediate | Bun | Ultra-fast JS runtime |
-| Advanced | Java 21 LTS | Enterprise backend development |
-| Advanced | Flutter | Mobile/desktop app development |
-| Advanced | Go | High-performance server development |
-| Advanced | Rust | Systems/security programming |
-| New | Ruby | Web backend (Rails) |
-| New | PHP | Web backend (Laravel) |
-| New | GitHub LFS | Large file storage |
-| New | Stripe CLI | Payment development tool |
-
-### Optional npm packages
-
-Vercel · Supabase · Stripe CLI · Railway CLI · Prisma · Claude CLI · Uploadthing
-
-> npm packages can be selected one by one with **Y/N** during installation.
+| Term | In plain words |
+|------|---------------|
+| Terminal / console | The black screen where you type commands |
+| winget | Windows’ built-in “automatic program installer” |
+| CLI | A program you use by typing commands instead of clicking |
+| LTS | “Long-Term Support” — a stable, long-supported version |
 
 ---
 
-## How to use — Complete beginner guide
+## 2. Prerequisites
 
-### Requirements
+| Item | Requirement |
+|------|-------------|
+| OS | **Windows 10 (21H2, build 19044+)** or **Windows 11** |
+| Internet | **Required** (winget downloads tools from the internet) |
+| Free disk space | ~3 GB for Beginner, ~7 GB+ for a full install |
+| Privileges | **Admin not required** (mostly). Run as admin only if some tools fail |
+| winget | Usually built into Windows 10/11. If missing, see [Troubleshooting](#14-troubleshooting) |
 
-- Windows 10 (21H2 or later) or Windows 11
-- Internet connection
-- `dev-one-click-setting-kit.bat` file
+> On older Windows 10 (21H1 or below) winget is unstable; the kit warns you and asks whether to continue.
 
-### Steps
+---
 
-#### Step 1 — Download the file
+## 3. Programs installed (tool list)
 
-Click **[Releases](../../releases/latest)** on the top right of this page  
-→ Under **Assets**, click `dev-one-click-setting-kit.bat` to save it
+Installation is split into **4 cumulative levels**. Higher levels include all lower ones.
 
-> Alternatively: click **`<> Code`** → **`Download ZIP`** → extract the ZIP file.
+| Level | Cumulative | Tools added | Est. time |
+|-------|:---------:|-------------|:--------:|
+| **Beginner** | 5 | Git · Python 3 · Node.js LTS · VS Code · Windows Terminal | ~7 min |
+| **Intermediate** | 11 | + Git LFS · GitHub CLI · PowerShell 7 · pnpm · Bun · Ollama | ~15 min |
+| **Advanced** | 16 | + Java 21 LTS · Go · Rust · Flutter+Dart · Stripe CLI | ~35 min |
+| **All-in-one** | 18 | + Ruby · PHP | ~45 min |
 
-#### Step 2 — Double-click to run
+**Extra choices ([5] Custom install)**
 
-**Double-click** `dev-one-click-setting-kit.bat` to start right away.  
-Administrator rights are **not required.** Only if some tools fail to install, right-click the file → **"Run as administrator"** and try again.
+- winget tool: **uv** (Python package manager)
+- npm tools (Y/N each): Vercel CLI · Supabase CLI · Stripe SDK · Resend SDK · Railway CLI · Clerk · Prisma · Uploadthing
 
-> ⚠️ A blue warning screen (Windows SmartScreen) may appear — this is normal. Click **[More info] → [Run anyway]**.
+**Specific versions ([V] Version-select install)** — stable/LTS only
 
-#### Step 3 — Choose from the menu
+- **Python**: 3.11 / 3.12 / 3.13
+- **Java (JDK)**: 8 / 11 / 17 / 21 (all LTS)
+- **Ruby**: 3.2 / 3.3
 
-A black terminal window will open with a menu.  
-Type a number and press **Enter**.
+**Automatic post-install steps**
+
+- Sets Git line-ending option (`core.autocrlf true`) automatically
+- Git name/email are **only shown as guidance, never auto-saved** (privacy)
+- Upgrades Python `pip`, turns off Node’s ad message (`npm config set fund false`)
+- **Installs Claude Code CLI** (reports success/failure honestly)
+- Ollama local AI models are **only announced** (not auto-downloaded — large)
+- Prints a **PATH check** so you can confirm tools are recognized
+
+> AI editors (Cursor, Claude Desktop, etc.) are **apps**, so they are not auto-installed; **[8] Direct download** opens their official pages instead.
+
+---
+
+## 4. How to download
+
+**Option A — Releases (recommended)**
+Repo page → **Releases** → latest → under **Assets** click `dev-one-click-setting-kit.bat` and save.
+
+**Option B — ZIP**
+`< > Code` → **Download ZIP** → unzip → use `dev-one-click-setting-kit.bat` inside.
+
+> You only need the single `.bat` file. Other files are docs / dev history.
+
+---
+
+## 5. Quick start (3-minute summary)
+
+1. **Double-click** `dev-one-click-setting-kit.bat`.
+2. If a blue SmartScreen warning appears: **[More info] → [Run anyway]**.
+3. At the menu, first-timers press **`A`** (easiest recommended) or **`1`** (Beginner) + **Enter**.
+4. Press **`Y`** to start; for the “already installed” prompt just press **Enter** (skip).
+5. When done, open a **new terminal** as instructed and start using it.
+
+---
+
+## 6. How to run
+
+1. **Get the file** → [4. Download](#4-how-to-download).
+2. **Double-click.** Admin usually not needed. If some tools fail, **right-click → “Run as administrator.”**
+3. A **blue SmartScreen** window is normal: **[More info] → [Run anyway].**
+4. A black screen (terminal) shows a menu. Type a number/letter and press **Enter**.
+
+> Downloads take time. **Do not close the window.**
+
+---
+
+## 7. How to use (menu guide)
+
+The main menu shown on run:
 
 ```
-===========================================================
-   Vibe Coder Environment Kit | AI Dev Environment Setup
-===========================================================
-
-   [1] Beginner Install    First-timers        (5 tools,  ~7 min)
-   [2] Intermediate         After Beginner      (11 tools, ~15 min)
-   [3] Advanced             Multi-language dev  (16 tools, ~35 min)
-   [4] New Tools            Extra tools         (18 tools, ~45 min)
-   ---------------------------------------------------
-   [A] Easiest Recommended  Start here! (5 basics + AI guide)
-   [5] Select Individual    Pick what you need
-   [6] Safe Update          Update tools to stable (LTS) versions
-   [7] Remove               Remove individual/all tools
-   [8] Direct Download      Official site URLs  (if winget fails)
-   [9] Check Installation   Show O/X + version info
-   [0] Exit
+[1] Beginner install     first time (5 tools,  ~7 min)
+[2] Intermediate install (11 tools, ~15 min)
+[3] Advanced install     (16 tools, ~35 min)
+[4] All-in-one install   (18 tools, ~45 min)
+[5] Custom install       pick only the numbers you want
+[6] Update               update installed tools to stable (LTS)
+[7] Remove               uninstall tools (single/all)
+[8] Direct download      official site URL list (if winget fails)
+[9] Check install        O/X + versions
+[0] Exit
+[A] Easiest recommended  first-timers start here (5 basics + AI guide)
+[V] Version-select       specific stable versions (Python/Java/Ruby)
 ```
 
-> If you're new, type **`1`** and press Enter.
+| Menu | Description |
+|------|-------------|
+| **[1]–[4]** | Level install. Shows the list & time and asks **Y/N** before installing |
+| **[A]** | Installs the 5 basics + opens Cursor / Claude Desktop download pages |
+| **[5]** | Enter numbers with commas (e.g., `1,3,8`). **Press Enter alone = recommended pack (1–5).** Shows the **names** of chosen tools before installing |
+| **[V]** | Choose a **specific stable version** of Python/Java/Ruby. Not sure? Just press Enter (recommended) |
+| **[6]** | Updates only the tools this kit installed, to **stable (LTS)** |
+| **[7]** | Remove single or all |
+| **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
+| **[9]** | Shows each tool’s install state (O/X) and version |
 
-#### Step 4 — Handle already-installed tools
+---
 
-Before installation starts, if any tools are already installed, you'll be asked:
+## 8. How it works & commands
+
+You only ever **type menu numbers** — there are no commands to memorize.
+After installing, in a **new terminal** you can confirm things installed:
 
 ```
-How to handle already-installed tools:
-  [1] Skip      (keep current version)
-  [2] Upgrade   (update to latest)
-  [3] Remove    (uninstall only)
-  Choice (default=1):
+git --version
+python --version
+node --version
+claude --version
 ```
 
-> Just press **Enter** to automatically select **[1] Skip**.
-
-#### Step 5 — Check results
-
-After installation, two files are automatically saved in the same folder, and total elapsed time is shown on screen.
-
-| File | Contents |
-|------|----------|
-| `install-report-DATE.txt` | Success/fail/skip summary |
-| `install-log-DATE.txt` | Detailed installation log |
-
----
-
-## Installation levels
-
-| Level | Who it's for | Total tools | Est. time |
-|-------|-------------|-------------|-----------|
-| **[1] Beginner** | First-time vibe coders | 5 | ~7 min |
-| **[2] Intermediate** | After completing Beginner level | 11 | ~15 min |
-| **[3] Advanced** | Multi-language development | 16 | ~35 min |
-| **[4] New** | Specialized tools (Ruby, PHP, etc.) | 18 | ~45 min |
-
-> If you're just starting out, **[1] Beginner** level is all you need.
-
----
-
-## Direct Download Menu ([8])
-
-When winget fails, select **[8]** from the main menu to see official download site URLs.  
-Type a number or **Ctrl+click** a URL to open it in your browser instantly.
+**First time with Git (once)** — set your name/email (the kit only guides, never auto-saves):
 
 ```
-[Direct Download Links]
-Type a number OR Ctrl+click a URL to open it in your browser.
----------------------------------------------------
-  --- Beginner Tools ---     [1] Git  [2] Python  [3] Node.js  [4] VS Code  [5] Windows Terminal
-  --- Intermediate ---       [6] GitHub CLI  [7] PowerShell 7  [8] pnpm  [9] Ollama  [10] Bun
-  --- Advanced ---           [11] Java  [12] Flutter  [13] Go  [14] Rust
-  --- New Tools ---          [15] Ruby  [16] PHP
-  --- AI Tools ---           [17] Cursor  [18] Claude Desktop  [19] GitHub Desktop
-  --- AI Tools (more) ---    [22] LM Studio  [23] Windsurf  [24] Warp
-  --- Dev CLI Extensions ---  [20] GitHub LFS  [21] Stripe CLI
+git config --global user.name  "Your Name"
+git config --global user.email "your@email.com"
 ```
 
-> **Ctrl+click**: In the terminal, hold Ctrl and click the URL with your mouse to open the browser.
+---
+
+## 9. Changelog summary
+
+<details>
+<summary><b>v1.5.0 (2026-07-22) — latest</b></summary>
+
+- **Fixed**: honest install reporting (removed fake “done”), per-level disk check, Cursor-first hint in [8], accurate elapsed time
+- **Added**: [5] **Enter = recommended pack** + **name preview of selected tools**, **[V] Version-select install** (Python 3.11–13 / Java 8·11·17·21 LTS / Ruby 3.2·3.3), version coverage aligned across install/update/remove
+- **UX**: [5] menu readability reorganized (grouped & aligned)
+- **Encoding**: the UTF-8 (chcp 65001) switch was **reverted** due to a cmd.exe parser bug; the verified **CP949** encoding is kept (works on Korean Windows)
+</details>
+
+<details>
+<summary>v1.4.0 (2026-06-17)</summary>
+
+- Wider install scope (uv, etc.), clarified stable (LTS) baseline, added [A] recommended install / first-run guidance / colored results. Standalone apps (Cursor, etc.) moved to [8] Direct download.
+</details>
+
+<details>
+<summary>v1.3.0 / v1.2.0 / v1.1.0 (2026-04–06)</summary>
+
+- Regression fixes, new Direct-download menu ([8]), added Git LFS & Stripe CLI, disk check / retry / elapsed-time stabilization.
+</details>
+
+<details>
+<summary>v1.0.0 (2026-04-20)</summary>
+
+- First release: winget-based one-click install, 4 levels, 2 report files, remove/check menus.
+</details>
+
+> Full history: [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
-## Key features
+## 10. File / document locations
 
-| Feature | Description |
-|---------|-------------|
-| One-click install | Automatically installs tools via Windows' built-in winget |
-| Already-installed detection | Choose to skip / upgrade / remove |
-| Auto-retry | Automatically retries once on failure |
-| Portable | Works regardless of BAT file location or filename |
-| Install report | Saves results as a text file automatically |
-| Elapsed time display | Shows total time taken after installation completes |
-| PATH verification | Checks environment variable registration after install |
-| CLI cheat sheet | Shows version check commands after completion |
-| Individual selection | Pick specific tools from [1]–[18] |
-| npm Y/N selection | Choose Vercel/Supabase/etc. one by one |
-| Safe update menu | Update tools to stable (LTS) versions (preview before applying) |
-| Direct Download menu | 24 official URLs — open with Ctrl+click |
-| Remove menu | Individual or full removal support |
-| Disk space check | Warns and pauses if less than 3 GB free |
-| Easiest Recommended [A] | Installs 5 basics + opens AI tool (Cursor·Claude Desktop) download pages |
-| Safe (LTS) baseline | Stable (not beta) versions; Node·Java use LTS |
-| Colored results | Done=green, Failed=red — at a glance (Windows 10+) |
-| First-run guide | Welcome / reassurance / SmartScreen warning tips for newcomers |
-
----
-
-## Folder structure
+All docs are at the **project root**.
 
 ```
-dev-one-click-setting-kit.bat   ← Main executable (this is all you need)
-README.md / README_EN.md        ← Short intro (KO / EN); README.pdf / README_EN.pdf have identical content
-GUIDE.md  / GUIDE_EN.md          ← Detailed guide for complete beginners (KO / EN); GUIDE.pdf / GUIDE_EN.pdf have identical content
-CHANGELOG.md                    ← Version history
-LICENSE                         ← License (Apache License 2.0)
-PRD/                            ← Initial planning docs (reference only, v1.0 design record)
-fix_add_ctrl_hint.py            ← Development-history patch script (not needed to run the kit)
-fix_add_lfs_stripe.py           ← Development-history patch script (not needed to run the kit)
-fix_flutter_check.py            ← Development-history patch script (not needed to run the kit)
-patch_manual_menu.py            ← Development-history patch script (not needed to run the kit)
-upgrade_v1.1.0.py               ← Development-history patch script (not needed to run the kit)
+dev-one-click-setting-kit.bat   ← main executable (all you need)
+README.md / README.html          ← Korean guide (identical content)
+README_EN.md / README_EN.html    ← English guide (identical content)
+CHANGELOG.md                     ← version history
+LICENSE                          ← license (Apache License 2.0)
+PRD/                            ← early planning docs (reference)
+*.py                             ← past dev patch records (not needed to run)
 ```
 
-> The 5 `.py` files above are **not required** to run this kit. They remain in the repository as a historical record of past version-upgrade work.
-
-> `install-report-*.txt` and `install-log-*.txt` are generated automatically after running.  
-> `.bak` and log files are listed in `.gitignore` and will not be uploaded to GitHub.
+> Auto-created on run: `install-report-DATE.txt` (summary), `install-log-DATE.txt` (detail) — excluded from the repo by `.gitignore`.
 
 ---
 
-## FAQ
+## 11. Workflow
 
-**Q. Installation fails even with administrator rights?**
-
-Windows Defender or antivirus software may be blocking the BAT file.  
-Add the file to your antivirus whitelist, or temporarily disable real-time protection and try again.
-
----
-
-**Q. The terminal window closed unexpectedly during installation?**
-
-Open `install-log-DATE.txt` in the same folder and check the last few lines for error details.
-
----
-
-**Q. "winget not found" error?**
-
-Install **"App Installer"** from the Microsoft Store.  
-Or go to Windows Settings → Apps → Optional Features → App Installer.
+```
+Double-click
+  → First-run welcome/notice (once)
+  → Menu choice
+  → [Pre-check] Windows version · winget · package-list update · internet · disk · existing installs
+  → Install tools (dependency order: Git → Python/Node → pnpm/Bun → Java → Flutter …)
+      · If present: skip / upgrade choice
+      · On failure: auto-retry once after 5s → then skip (points to [8])
+  → Post-install setup (Git line-endings, pip upgrade, etc.)
+  → Save 2 reports + print PATH check
+  → “Open a new terminal to start” message
+```
 
 ---
 
-**Q. I only want to install specific tools?**
+## 12. Architecture
 
-Choose **[5] Select Individual Tools** from the main menu to pick tools one by one.
-
----
-
-**Q. A tool won't install via winget?**
-
-Select **[8] Direct Download** from the main menu.  
-Type a number or **Ctrl+click** a URL to open the official download page in your browser.
+- **Single file**: one pure Windows batch script (`.bat`). No separate install/build.
+- **Package manager**: **winget** (Microsoft-official, signature-verified). Each tool comes from its official source.
+- **Structure (subroutines)**: menu → `:PRE_CHECK` → `:INSTALL` / `:NPM_INSTALL` (install + retry) → `:POST_*` (post-install) → `:MAKE_REPORTS` → `:PATH_CHECK`.
+- **Portability**: `%~dp0`-based, so it works even if you rename/move the file.
+- **Encoding**: CP949 (for Korean Windows). On English Windows the menu text may look garbled (known limitation — see [14](#14-troubleshooting)).
 
 ---
 
-**Q. How do I update tools to the latest version?**
+## 13. Security / data flow
 
-Use **[6] Safe Update** from the main menu,  
-or choose **[2] Upgrade** when prompted during a level install.
-
----
-
-**Q. Is it safe to run again on a PC that's already set up?**
-
-Yes. The default **Skip** mode means already-installed tools won't be touched.
-
----
-
-**Q. The menu text looks garbled?**
-
-It displays correctly on Korean Windows. On **non-Korean (English) Windows**, the menu text may appear garbled (a known issue, improvement planned). See **[GUIDE_EN.md's Troubleshooting section](./GUIDE_EN.md#12-troubleshooting)** for details.
+- **No admin required** (user-scope install). Works on corporate/school PCs.
+- **Official source only**: every install uses `--source winget` (Microsoft signature-verified). No arbitrary-URL execution path.
+- **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
+- **Privacy**: Git name/email are **only shown, never auto-saved**.
+- **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.
+- **Report contents**: PC name (COMPUTERNAME) and results only. **No username, home path, or passwords.**
+- **No secrets**: the code/docs contain no API keys, tokens, or passwords.
 
 ---
 
-## Important notes
+## 14. Troubleshooting
 
-- **Windows only** — Does not work on macOS or Linux.
-- **Internet required** — winget downloads packages from the internet.
-- **Corporate restrictions** — Some enterprise PCs may have winget blocked by IT policy.
-- **Disk space** — Full installation requires about 5 GB free. A warning appears if less than 3 GB is available.
-- **Log files** — `install-log-*.txt` contains no sensitive data, but verify before sharing.
-- **Safe to re-run** — Running again on a configured PC will not break existing installations.
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Blue SmartScreen window | Windows protection | **[More info] → [Run anyway]** (normal) |
+| `winget not found` | App Installer missing | Install **“App Installer”** from Microsoft Store, or https://aka.ms/getwinget |
+| Window closes suddenly mid-install | An error occurred | Check the **last line** of `install-log-DATE.txt` in the same folder |
+| Only a specific tool fails | Network/policy/winget hiccup | It auto-retries once; if still failing, use **[8] Direct download** |
+| Fails even as admin | Antivirus blocks the `.bat` | Add it to the allowlist, or briefly disable real-time protection and retry |
+| **Menu text looks garbled** | **English (non-Korean) Windows** | Fine on Korean Windows. On English Windows this is a known limitation (a PowerShell launcher is planned) |
+| Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB) |
+
+> When reporting an error, attach `install-log-DATE.txt` instead of a screenshot — it makes diagnosis easier. (No sensitive info inside.)
 
 ---
 
-## License
+## 15. FAQ
 
-Apache License 2.0 — Free to use, modify, and distribute, including commercial use.  
-Copyright © 2026 **SoDam AI Studio**  
-See [LICENSE](./LICENSE) for full terms.
+**Q. I’ve never coded — can I use it?**
+Yes. Just pressing **[A]** or **[1]** sets up a basic environment.
+
+**Q. Is it safe to run again?**
+Yes. Already-installed tools default to **skip**, so it’s safe.
+
+**Q. Do I really need admin rights?**
+Usually no. It guides you to admin only when a tool fails.
+
+**Q. Can I install a specific version (e.g., Python 3.11)?**
+Yes — via **[V] Version-select install**, stable versions only.
+
+**Q. How do I remove what I installed?**
+**[7] Remove** → single or all.
+
+**Q. Is internet required?**
+Yes. winget downloads the tools from the internet.
+
+**Q. Does it work on macOS/Linux?**
+No. **Windows only.**
+
+---
+
+## 16. Legal / copyright / license / commercial use
+
+> **Notice (disclaimer):** This section is **general information for reference only** and **does not constitute legal advice or guarantee any legal effect.** For important decisions (commercial distribution, redistribution, etc.), **consult a qualified professional such as a lawyer.**
+
+**1) License of this kit (code/docs)**
+
+- **Apache License 2.0** — Copyright © 2026 **SoDam AI Studio**. Full text: [LICENSE](./LICENSE).
+- Permits: **free use, modification, distribution, and commercial use.**
+- Conditions: on distribution, **include a copy of the license**, **state changes**, keep copyright notices.
+- Limitation: **no trademark rights** granted (do not use the “SoDam AI Studio” name/logo without permission).
+- Warranty: **AS-IS, no warranty** — the authors are not liable for damages from use (Apache 2.0 §7–8).
+
+**2) Licenses of the “third-party tools” this kit installs (important)**
+
+- This kit does **not redistribute** any tool; it merely **downloads and installs each tool’s official build via winget**.
+- Each installed tool (Git, Python, Node.js, VS Code, Java, Go, Rust, Flutter, Ruby, PHP, Ollama, etc.) is governed by **its own license** (e.g., Git = GPLv2, Python = PSF, Node.js/pnpm = MIT, VS Code/Go = their respective open-source licenses).
+- **For commercial use / redistribution, you must review and comply with each tool’s license separately.** This kit’s Apache 2.0 **does not apply to the installed tools.**
+
+**3) Notes on use**
+
+- Everything installs only from winget’s official (Microsoft-verified) source, and this kit sends none of your data anywhere.
+- Responsibility for final installation and use rests with **the user.**
+
+---
+
+<sub>By SoDam AI Studio · License: Apache License 2.0 · Windows only</sub>
