@@ -232,7 +232,6 @@ README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
 PRD/                            ← early planning docs (reference)
-*.py                             ← past dev patch records (not needed to run)
 ```
 
 > Auto-created on run: `install-report-DATE.txt` (summary), `install-log-DATE.txt` (detail) — excluded from the repo by `.gitignore`.
