@@ -89,6 +89,10 @@ Installation is split into **4 cumulative levels**. Higher levels include all lo
 - **Java (JDK)**: 8 / 11 / 17 / 21 (all LTS)
 - **Ruby**: 3.2 / 3.3
 
+**Package manager ([S] scoop)** — not in winget, uses the official installer
+
+- **scoop**: a command-line package manager for developers. Not in the winget catalog, so it is installed via the official script (`get.scoop.sh`) and asks for **consent (Y/N)** before running. Security details: [§13](#13-security--data-flow).
+
 **Automatic post-install steps**
 
 - Sets Git line-ending option (`core.autocrlf true`) automatically
@@ -152,6 +156,7 @@ The main menu shown on run:
 [0] Exit
 [A] Easiest recommended  first-timers start here (5 basics + AI guide)
 [V] Version-select       specific stable versions (Python/Java/Ruby)
+[S] Install scoop        dev package manager (non-winget)
 ```
 
 | Menu | Description |
@@ -160,6 +165,7 @@ The main menu shown on run:
 | **[A]** | Installs the 5 basics + opens Cursor / Claude Desktop download pages |
 | **[5]** | Enter numbers with commas (e.g., `1,3,8`). **Press Enter alone = recommended pack (1–5).** Shows the **names** of chosen tools before installing |
 | **[V]** | Choose a **specific stable version** of Python/Java/Ruby. Not sure? Just press Enter (recommended) |
+| **[S]** | Installs **scoop** (dev package manager). Not in winget, so it uses the official script — asks for **consent (Y/N)**. Security: [§13](#13-security--data-flow) |
 | **[6]** | Updates only the tools this kit installed, to **stable (LTS)** |
 | **[7]** | Remove single or all |
 | **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
@@ -191,7 +197,15 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.5.1 (2026-07-22) — latest</b></summary>
+<summary><b>v1.6.0 (2026-07-22) — latest</b></summary>
+
+- **Added**: **[S] Install scoop** menu item — a dev package manager. Not in winget, so it uses the official installer (get.scoop.sh) and asks for **consent (Y/N)**. Also added to [9] Check install.
+- **Fixed (critical)**: **[5] Custom install installed nothing** — the `!SEL:,= !` (delayed-expansion) loop iterated only once (wrongly) in cmd. Fixed with `%SEL:,= %` + restored the preview `%n`→`%%n` (levels [1]–[4] were unaffected).
+- **Security**: scoop is the kit's first remote-script path — official source (HTTPS) only, no signature verification, requires user consent. (see §13)
+</details>
+
+<details>
+<summary>v1.5.1 (2026-07-22)</summary>
 
 - **Fixed**: issues that appeared when downloading & running the GitHub ZIP on another PC — ① the window closing immediately on launch (kept `.bat` line endings (CRLF) via `.gitattributes`) ② a parsing bug where the pre-check misjudged a healthy Windows as an “old version” and only printed “install winget manually” (cleaned up 28 display parentheses inside `if`/`for` blocks — install logic unchanged)
 - **Robust winget detection**: for cases where winget is installed but not detected — on failure, add the WindowsApps path to the session PATH and retry (handles App Execution Alias OFF / missing PATH)
@@ -276,7 +290,8 @@ Double-click
 ## 13. Security / data flow
 
 - **No admin required** (user-scope install). Works on corporate/school PCs.
-- **Official source only**: every install uses `--source winget` (Microsoft signature-verified). No arbitrary-URL execution path.
+- **Official source only (winget)**: every winget install uses `--source winget` (Microsoft signature-verified).
+- **Remote-script exception — [S] scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only** remote-execution path, and it runs **only if you pick [S] and consent with Y**. Unlike winget there is no signature verification; only the official source is used.
 - **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
 - **Privacy**: Git name/email are **only shown, never auto-saved**.
 - **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.

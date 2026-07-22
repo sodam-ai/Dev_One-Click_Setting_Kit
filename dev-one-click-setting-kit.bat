@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.5.1
+:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.6.0
 :: AI 바이브코딩 입문자를 위한 원클릭 개발 환경 세팅 도구
 :: ============================================================
 
@@ -64,10 +64,12 @@ echo.
 echo  ===========================================================
 echo    [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI)
 echo    [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
+echo    [S] scoop 설치            개발용 패키지 매니저 [비winget]
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if /i "!MENU_CHOICE!"=="V" goto DO_VERSION
+if /i "!MENU_CHOICE!"=="S" goto DO_SCOOP
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -883,34 +885,34 @@ echo.
 echo  선택: !SEL!
 echo  ---------------------------------------------------
 echo  설치할 도구:
-for %%n in (!SEL:,= !) do (
-    if "%n"=="1" echo    - Git
-    if "%n"=="2" echo    - Python 3
-    if "%n"=="3" echo    - Node.js LTS
-    if "%n"=="4" echo    - VS Code
-    if "%n"=="5" echo    - Windows Terminal
-    if "%n"=="6" echo    - GitHub CLI
-    if "%n"=="7" echo    - PowerShell 7
-    if "%n"=="8" echo    - pnpm
-    if "%n"=="9" echo    - Ollama
-    if "%n"=="10" echo    - Bun
-    if "%n"=="11" echo    - Java 21 LTS
-    if "%n"=="12" echo    - Flutter+Dart
-    if "%n"=="13" echo    - Go
-    if "%n"=="14" echo    - Rust
-    if "%n"=="15" echo    - Ruby
-    if "%n"=="16" echo    - PHP
-    if "%n"=="17" echo    - Git LFS
-    if "%n"=="18" echo    - Stripe CLI
-    if "%n"=="19" echo    - Vercel CLI [npm]
-    if "%n"=="20" echo    - Supabase CLI [npm]
-    if "%n"=="21" echo    - Stripe SDK [npm]
-    if "%n"=="22" echo    - Resend SDK [npm]
-    if "%n"=="23" echo    - Railway CLI [npm]
-    if "%n"=="24" echo    - Clerk [npm]
-    if "%n"=="25" echo    - Prisma [npm]
-    if "%n"=="26" echo    - Uploadthing [npm]
-    if "%n"=="27" echo    - uv
+for %%n in (%SEL:,= %) do (
+    if "%%n"=="1" echo    - Git
+    if "%%n"=="2" echo    - Python 3
+    if "%%n"=="3" echo    - Node.js LTS
+    if "%%n"=="4" echo    - VS Code
+    if "%%n"=="5" echo    - Windows Terminal
+    if "%%n"=="6" echo    - GitHub CLI
+    if "%%n"=="7" echo    - PowerShell 7
+    if "%%n"=="8" echo    - pnpm
+    if "%%n"=="9" echo    - Ollama
+    if "%%n"=="10" echo    - Bun
+    if "%%n"=="11" echo    - Java 21 LTS
+    if "%%n"=="12" echo    - Flutter+Dart
+    if "%%n"=="13" echo    - Go
+    if "%%n"=="14" echo    - Rust
+    if "%%n"=="15" echo    - Ruby
+    if "%%n"=="16" echo    - PHP
+    if "%%n"=="17" echo    - Git LFS
+    if "%%n"=="18" echo    - Stripe CLI
+    if "%%n"=="19" echo    - Vercel CLI [npm]
+    if "%%n"=="20" echo    - Supabase CLI [npm]
+    if "%%n"=="21" echo    - Stripe SDK [npm]
+    if "%%n"=="22" echo    - Resend SDK [npm]
+    if "%%n"=="23" echo    - Railway CLI [npm]
+    if "%%n"=="24" echo    - Clerk [npm]
+    if "%%n"=="25" echo    - Prisma [npm]
+    if "%%n"=="26" echo    - Uploadthing [npm]
+    if "%%n"=="27" echo    - uv
 )
 echo  ---------------------------------------------------
 set /p CONFIRM_SEL="  Y=설치 시작 / N=다시 선택: "
@@ -936,7 +938,7 @@ set FAIL_COUNT=0
 del "%REPORT_FILE%.tmp" >nul 2>&1
 
 set START_TIME=%TIME%
-for %%n in (!SEL:,= !) do set /a TOTAL+=1
+for %%n in (%SEL:,= %) do set /a TOTAL+=1
 
 >> "%LOG_FILE%" echo.
 >> "%LOG_FILE%" echo === 선택 설치 목록: !SEL! ===
@@ -967,7 +969,7 @@ if not errorlevel 1 (
     )
 )
 
-for %%n in (!SEL:,= !) do (
+for %%n in (%SEL:,= %) do (
     if "%%n"=="1"  call :INSTALL "Git" "Git.Git"
     if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3"
     if "%%n"=="3"  call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
@@ -1326,6 +1328,7 @@ call :CHECK_ONE "PowerShell 7" pwsh
 call :CHECK_ONE "pnpm" pnpm
 call :CHECK_ONE "Ollama" ollama
 call :CHECK_ONE "Bun" bun
+call :CHECK_ONE "scoop" scoop
 echo.
 echo  [ 언어 / 런타임 ]
 call :CHECK_ONE "Java" java
@@ -1381,6 +1384,61 @@ goto :eof
 :: ============================================================
 :: 종료
 :: ============================================================
+:: ============================================================
+:: scoop 설치 (winget 미지원 -> 공식 설치 스크립트, 사용자 동의 필요)
+:: ============================================================
+:DO_SCOOP
+cls
+echo.
+echo  [scoop 설치]
+echo  ---------------------------------------------------
+echo.
+echo   scoop 은 개발용 명령줄 패키지 매니저입니다.
+echo   winget 목록에 없어서 scoop 공식 설치 스크립트를 사용합니다.
+echo.
+echo   [보안 안내] get.scoop.sh 의 공식 설치 스크립트를 인터넷에서 받아 실행합니다.
+echo               winget 과 달리 서명 검증은 없으며, 공식 출처만 사용합니다.
+echo.
+set "SCOOP_SHIM=%USERPROFILE%\scoop\shims\scoop.cmd"
+if defined SCOOP set "SCOOP_SHIM=%SCOOP%\shims\scoop.cmd"
+if exist "!SCOOP_SHIM!" (
+    echo   [건너뜀] scoop 은 이미 설치되어 있습니다.
+    echo.
+    pause
+    goto MAIN_MENU
+)
+where scoop >nul 2>&1
+if not errorlevel 1 (
+    echo   [건너뜀] scoop 은 이미 설치되어 있습니다.
+    echo.
+    pause
+    goto MAIN_MENU
+)
+set /p SCOOP_OK="  scoop 을 지금 설치할까요? [Y/N]: "
+if /i "!SCOOP_OK!" NEQ "y" goto MAIN_MENU
+echo.
+echo   scoop 설치 중... 1~2분 걸리며 인터넷이 필요합니다.
+>> "%LOG_FILE%" echo scoop 설치 시작: %TIME%
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; Invoke-RestMethod -Uri 'https://get.scoop.sh' | Invoke-Expression } catch { exit 1 }" >nul 2>&1
+if exist "!SCOOP_SHIM!" (
+    echo   [완료] scoop 설치 성공. 새 터미널을 열면 scoop 명령을 쓸 수 있습니다.
+    >> "%LOG_FILE%" echo scoop 설치 성공: %TIME%
+) else (
+    where scoop >nul 2>&1
+    if not errorlevel 1 (
+        echo   [완료] scoop 설치 성공.
+        >> "%LOG_FILE%" echo scoop 설치 성공 PATH: %TIME%
+    ) else (
+        echo   [실패] scoop 설치에 실패했습니다.
+        echo          - 관리자 권한이 아닌 일반 창에서 다시 시도해 보세요.
+        echo          - 공식 안내: https://scoop.sh
+        >> "%LOG_FILE%" echo scoop 설치 실패: %TIME%
+    )
+)
+echo.
+pause
+goto MAIN_MENU
+
 :DO_EXIT
 echo.
 echo  바이브코딩 환경 키트를 종료합니다.
