@@ -73,10 +73,10 @@ Installation is split into **4 cumulative levels**. Higher levels include all lo
 
 | Level | Cumulative | Tools added | Est. time |
 |-------|:---------:|-------------|:--------:|
-| **Beginner** | 5 | Git · Python 3 · Node.js LTS · VS Code · Windows Terminal | ~7 min |
-| **Intermediate** | 11 | + Git LFS · GitHub CLI · PowerShell 7 · pnpm · Bun · Ollama | ~15 min |
-| **Advanced** | 16 | + Java 21 LTS · Go · Rust · Flutter+Dart · Stripe CLI | ~35 min |
-| **All-in-one** | 18 | + Ruby · PHP | ~45 min |
+| **Beginner** | 6 | Git · Python 3 · Node.js LTS · VS Code · Windows Terminal · scoop | ~7 min |
+| **Intermediate** | 12 | + Git LFS · GitHub CLI · PowerShell 7 · pnpm · Bun · Ollama | ~15 min |
+| **Advanced** | 17 | + Java 21 LTS · Go · Rust · Flutter+Dart · Stripe CLI | ~35 min |
+| **All-in-one** | 19 | + Ruby · PHP | ~45 min |
 
 **Extra choices ([5] Custom install)**
 
@@ -89,9 +89,9 @@ Installation is split into **4 cumulative levels**. Higher levels include all lo
 - **Java (JDK)**: 8 / 11 / 17 / 21 (all LTS)
 - **Ruby**: 3.2 / 3.3
 
-**Package manager ([S] scoop)** — not in winget, uses the official installer
+**scoop — auto-included in levels [1]–[4] · standalone via [S]**
 
-- **scoop**: a command-line package manager for developers. Not in the winget catalog, so it is installed via the official script (`get.scoop.sh`) and asks for **consent (Y/N)** before running. Security details: [§13](#13-security--data-flow).
+- **scoop**: a command-line package manager for developers. Not in winget, so it is installed via the official script (`get.scoop.sh`). It is **auto-included in level installs [1]–[4]** (after the level's Y confirmation) and can also be installed standalone via [S]. Security details: [§13](#13-security--data-flow).
 
 **Automatic post-install steps**
 
@@ -144,10 +144,10 @@ Repo page → **Releases** → latest → under **Assets** click `dev-one-click-
 The main menu shown on run:
 
 ```
-[1] Beginner install     first time (5 tools,  ~7 min)
-[2] Intermediate install (11 tools, ~15 min)
-[3] Advanced install     (16 tools, ~35 min)
-[4] All-in-one install   (18 tools, ~45 min)
+[1] Beginner install     first time (6 tools,  ~7 min)
+[2] Intermediate install (12 tools, ~15 min)
+[3] Advanced install     (17 tools, ~35 min)
+[4] All-in-one install   (19 tools, ~45 min)
 [5] Custom install       pick only the numbers you want
 [6] Update               update installed tools to stable (LTS)
 [7] Remove               uninstall tools (single/all)
@@ -197,7 +197,14 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.6.0 (2026-07-22) — latest</b></summary>
+<summary><b>v1.6.1 (2026-07-22) — latest</b></summary>
+
+- **Changed**: **scoop is now auto-included in level installs [1]–[4]**. Picking a level also installs scoop (after the level's Y confirmation). Standalone [S] install still available. Counts updated (Beginner 6 · Intermediate 12 · Advanced 17 · All-in-one 19).
+- **Note**: [A] Easiest recommended stays as-is (scoop not included).
+</details>
+
+<details>
+<summary>v1.6.0 (2026-07-22)</summary>
 
 - **Added**: **[S] Install scoop** menu item — a dev package manager. Not in winget, so it uses the official installer (get.scoop.sh) and asks for **consent (Y/N)**. Also added to [9] Check install.
 - **Fixed (critical)**: **[5] Custom install installed nothing** — the `!SEL:,= !` (delayed-expansion) loop iterated only once (wrongly) in cmd. Fixed with `%SEL:,= %` + restored the preview `%n`→`%%n` (levels [1]–[4] were unaffected).
@@ -291,7 +298,7 @@ Double-click
 
 - **No admin required** (user-scope install). Works on corporate/school PCs.
 - **Official source only (winget)**: every winget install uses `--source winget` (Microsoft signature-verified).
-- **Remote-script exception — [S] scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only** remote-execution path, and it runs **only if you pick [S] and consent with Y**. Unlike winget there is no signature verification; only the official source is used.
+- **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only** remote-execution path, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
 - **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
 - **Privacy**: Git name/email are **only shown, never auto-saved**.
 - **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.
