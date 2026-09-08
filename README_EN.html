@@ -167,36 +167,36 @@
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <style>
-  body{font-family:-apple-system,'Segoe UI',Roboto,'Malgun Gothic','맑은 고딕',sans-serif;max-width:900px;margin:0 auto;padding:2rem 1rem;line-height:1.75;color:#24292f;}
-  h1,h2{border-bottom:1px solid #eaecef;padding-bottom:.3em;}
-  table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow-x:auto;}
-  th,td{border:1px solid #d0d7de;padding:6px 12px;}
-  th{background:#f6f8fa;}
-  code{background:#f6f8fa;padding:.2em .4em;border-radius:4px;font-size:88%;}
-  pre{background:#f6f8fa;padding:1em;border-radius:6px;overflow-x:auto;}
-  pre code{background:none;padding:0;}
-  details{background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:.6em 1em;margin:.6em 0;}
-  summary{cursor:pointer;font-weight:600;}
-  blockquote{color:#57606a;border-left:.25em solid #d0d7de;padding:.1em 1em;margin:.5em 0;}
-  a{color:#0969da;text-decoration:none;}a:hover{text-decoration:underline;}
-  img{max-width:100%;}
-  @media(prefers-color-scheme:dark){
-   body{background:#0d1117;color:#c9d1d9;}
-   h1,h2{border-color:#30363d;}
-   th{background:#161b22;}code,pre,details{background:#161b22;}
-   th,td,details,pre{border-color:#30363d;}
-   blockquote{color:#8b949e;border-color:#30363d;}
-   a{color:#58a6ff;}
-  }
-  </style>
+    <style>
+    body{font-family:-apple-system,'Segoe UI',Roboto,'Malgun Gothic','맑은 고딕',sans-serif;max-width:900px;margin:0 auto;padding:2rem 1rem;line-height:1.75;color:#24292f;}
+    h1,h2{border-bottom:1px solid #eaecef;padding-bottom:.3em;}
+    table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow-x:auto;}
+    th,td{border:1px solid #d0d7de;padding:6px 12px;}
+    th{background:#f6f8fa;}
+    code{background:#f6f8fa;padding:.2em .4em;border-radius:4px;font-size:88%;}
+    pre{background:#f6f8fa;padding:1em;border-radius:6px;overflow-x:auto;}
+    pre code{background:none;padding:0;}
+    details{background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:.6em 1em;margin:.6em 0;}
+    summary{cursor:pointer;font-weight:600;}
+    blockquote{color:#57606a;border-left:.25em solid #d0d7de;padding:.1em 1em;margin:.5em 0;}
+    a{color:#0969da;text-decoration:none;}a:hover{text-decoration:underline;}
+    img{max-width:100%;}
+    @media(prefers-color-scheme:dark){
+     body{background:#0d1117;color:#c9d1d9;}
+     h1,h2{border-color:#30363d;}
+     th{background:#161b22;}code,pre,details{background:#161b22;}
+     th,td,details,pre{border-color:#30363d;}
+     blockquote{color:#8b949e;border-color:#30363d;}
+     a{color:#58a6ff;}
+    }
+    </style>
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">Dev_One-Click_Setting_Kit — User Guide</h1>
 </header>
 <h1
-id="dev_one-click_setting_kit-one-click-vibe-coding-setup-kit">Dev_One-Click_Setting_Kit
+id="dev_one-click_setting_kit--one-click-vibe-coding-setup-kit">Dev_One-Click_Setting_Kit
 — One-Click Vibe-Coding Setup Kit</h1>
 <blockquote>
 <p>A tool that installs the developer programs you need to start AI
@@ -228,13 +228,16 @@ locations</a></li>
 <li><a href="#11-workflow">Workflow</a></li>
 <li><a href="#12-architecture">Architecture</a></li>
 <li><a href="#13-security--data-flow">Security / data flow</a></li>
-<li><a href="#14-troubleshooting">Troubleshooting</a></li>
-<li><a href="#15-faq">FAQ</a></li>
-<li><a href="#16-legal--copyright--license--commercial-use">Legal /
+<li><a href="#14-environment-variables">Environment variables</a></li>
+<li><a href="#15-build--test--release">Build · test · release</a></li>
+<li><a href="#16-operational-notes">Operational notes</a></li>
+<li><a href="#17-troubleshooting">Troubleshooting</a></li>
+<li><a href="#18-faq">FAQ</a></li>
+<li><a href="#19-legal--copyright--license--commercial-use">Legal /
 copyright / license / commercial use</a></li>
 </ol>
 <hr />
-<h2 id="what-is-this">1. What is this?</h2>
+<h2 id="1-what-is-this">1. What is this?</h2>
 <p>“Vibe coding” means <strong>making software by asking an AI in plain
 language</strong>. But to do AI coding you first need several
 <strong>developer tools</strong> (Git, Python, Node.js, etc.) on your
@@ -280,12 +283,8 @@ Linux.</p>
 </tbody>
 </table>
 <hr />
-<h2 id="prerequisites">2. Prerequisites</h2>
+<h2 id="2-prerequisites">2. Prerequisites</h2>
 <table>
-<colgroup>
-<col style="width: 31%" />
-<col style="width: 68%" />
-</colgroup>
 <thead>
 <tr>
 <th>Item</th>
@@ -315,7 +314,7 @@ some tools fail</td>
 <tr>
 <td>winget</td>
 <td>Usually built into Windows 10/11. If missing, see <a
-href="#14-troubleshooting">Troubleshooting</a></td>
+href="#17-troubleshooting">Troubleshooting</a></td>
 </tr>
 </tbody>
 </table>
@@ -324,17 +323,11 @@ href="#14-troubleshooting">Troubleshooting</a></td>
 you and asks whether to continue.</p>
 </blockquote>
 <hr />
-<h2 id="programs-installed-tool-list">3. Programs installed (tool
+<h2 id="3-programs-installed-tool-list">3. Programs installed (tool
 list)</h2>
 <p>Installation is split into <strong>4 cumulative levels</strong>.
 Higher levels include all lower ones.</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 26%" />
-<col style="width: 31%" />
-<col style="width: 24%" />
-</colgroup>
 <thead>
 <tr>
 <th>Level</th>
@@ -390,7 +383,7 @@ stable/LTS only</p>
 <li><strong>scoop</strong>: a command-line package manager for
 developers. Not in winget, so it is installed via the official script
 (<code>get.scoop.sh</code>). It is <strong>auto-included in level
-installs [1]–[4]</strong> (after the level’s Y confirmation) and can
+installs [1]–[4]</strong> (after the level's Y confirmation) and can
 also be installed standalone via [S]. Security details: <a
 href="#13-security--data-flow">§13</a>.</li>
 </ul>
@@ -415,7 +408,7 @@ so they are not auto-installed; <strong>[8] Direct download</strong>
 opens their official pages instead.</p>
 </blockquote>
 <hr />
-<h2 id="how-to-download">4. How to download</h2>
+<h2 id="4-how-to-download">4. How to download</h2>
 <p><strong>Option A — Releases (recommended)</strong> Repo page →
 <strong>Releases</strong> → latest → under <strong>Assets</strong> click
 <code>dev-one-click-setting-kit.bat</code> and save.</p>
@@ -427,7 +420,7 @@ opens their official pages instead.</p>
 / dev history.</p>
 </blockquote>
 <hr />
-<h2 id="quick-start-3-minute-summary">5. Quick start (3-minute
+<h2 id="5-quick-start-3-minute-summary">5. Quick start (3-minute
 summary)</h2>
 <ol type="1">
 <li><strong>Double-click</strong>
@@ -443,7 +436,7 @@ installed” prompt just press <strong>Enter</strong> (skip).</li>
 start using it.</li>
 </ol>
 <hr />
-<h2 id="how-to-run">6. How to run</h2>
+<h2 id="6-how-to-run">6. How to run</h2>
 <ol type="1">
 <li><strong>Get the file</strong> → <a href="#4-how-to-download">4.
 Download</a>.</li>
@@ -458,7 +451,7 @@ press <strong>Enter</strong>.</li>
 <p>Downloads take time. <strong>Do not close the window.</strong></p>
 </blockquote>
 <hr />
-<h2 id="how-to-use-menu-guide">7. How to use (menu guide)</h2>
+<h2 id="7-how-to-use-menu-guide">7. How to use (menu guide)</h2>
 <p>The main menu shown on run:</p>
 <pre><code>[1] Beginner install     first time (6 tools,  ~7 min)
 [2] Intermediate install (12 tools, ~15 min)
@@ -474,10 +467,6 @@ press <strong>Enter</strong>.</li>
 [V] Version-select       specific stable versions (Python/Java/Ruby)
 [S] Install scoop        dev package manager (non-winget)</code></pre>
 <table>
-<colgroup>
-<col style="width: 31%" />
-<col style="width: 68%" />
-</colgroup>
 <thead>
 <tr>
 <th>Menu</th>
@@ -533,7 +522,7 @@ winget, so it uses the official script — asks for <strong>consent
 </tbody>
 </table>
 <hr />
-<h2 id="how-it-works-commands">8. How it works &amp; commands</h2>
+<h2 id="8-how-it-works--commands">8. How it works &amp; commands</h2>
 <p>You only ever <strong>type menu numbers</strong> — there are no
 commands to memorize. After installing, in a <strong>new
 terminal</strong> you can confirm things installed:</p>
@@ -546,25 +535,24 @@ claude --version</code></pre>
 <pre><code>git config --global user.name  &quot;Your Name&quot;
 git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
-<h2 id="changelog-summary">9. Changelog summary</h2>
+<h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary>
-<b>v1.6.1 (2026-07-22) — latest</b>
-</summary>
+<summary><b>v1.6.1 (2026-07-22) — latest</b></summary>
+
 <ul>
 <li><strong>Changed</strong>: <strong>scoop is now auto-included in
 level installs [1]–[4]</strong>. Picking a level also installs scoop
-(after the level’s Y confirmation). Standalone [S] install still
+(after the level's Y confirmation). Standalone [S] install still
 available. Counts updated (Beginner 6 · Intermediate 12 · Advanced 17 ·
 All-in-one 19).</li>
 <li><strong>Note</strong>: [A] Easiest recommended stays as-is (scoop
 not included).</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.6.0 (2026-07-22)
-</summary>
+<summary>v1.6.0 (2026-07-22)</summary>
+
 <ul>
 <li><strong>Added</strong>: <strong>[S] Install scoop</strong> menu item
 — a dev package manager. Not in winget, so it uses the official
@@ -575,15 +563,15 @@ installed nothing</strong> — the <code>!SEL:,= !</code>
 (delayed-expansion) loop iterated only once (wrongly) in cmd. Fixed with
 <code>%SEL:,= %</code> + restored the preview
 <code>%n</code>→<code>%%n</code> (levels [1]–[4] were unaffected).</li>
-<li><strong>Security</strong>: scoop is the kit’s first remote-script
+<li><strong>Security</strong>: scoop is the kit's first remote-script
 path — official source (HTTPS) only, no signature verification, requires
 user consent. (see §13)</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.5.1 (2026-07-22)
-</summary>
+<summary>v1.5.1 (2026-07-22)</summary>
+
 <ul>
 <li><strong>Fixed</strong>: issues that appeared when downloading &amp;
 running the GitHub ZIP on another PC — ① the window closing immediately
@@ -601,10 +589,10 @@ PATH)</li>
 install “App Installer” / turn on the “App execution alias”)</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.5.0 (2026-07-22)
-</summary>
+<summary>v1.5.0 (2026-07-22)</summary>
+
 <ul>
 <li><strong>Fixed</strong>: honest install reporting (removed fake
 “done”), per-level disk check, Cursor-first hint in [8], accurate
@@ -621,39 +609,40 @@ aligned)</li>
 <strong>CP949</strong> encoding is kept (works on Korean Windows)</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.4.0 (2026-06-17)
-</summary>
+<summary>v1.4.0 (2026-06-17)</summary>
+
 <ul>
 <li>Wider install scope (uv, etc.), clarified stable (LTS) baseline,
 added [A] recommended install / first-run guidance / colored results.
 Standalone apps (Cursor, etc.) moved to [8] Direct download.</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.3.0 / v1.2.0 / v1.1.0 (2026-04–06)
-</summary>
+<summary>v1.3.0 / v1.2.0 / v1.1.0 (2026-04–06)</summary>
+
 <ul>
 <li>Regression fixes, new Direct-download menu ([8]), added Git LFS
 &amp; Stripe CLI, disk check / retry / elapsed-time stabilization.</li>
 </ul>
 </details>
+
 <details>
-<summary>
-v1.0.0 (2026-04-20)
-</summary>
+<summary>v1.0.0 (2026-04-20)</summary>
+
 <ul>
 <li>First release: winget-based one-click install, 4 levels, 2 report
 files, remove/check menus.</li>
 </ul>
 </details>
+
 <blockquote>
 <p>Full history: <a href="./CHANGELOG.md">CHANGELOG.md</a></p>
 </blockquote>
 <hr />
-<h2 id="file-document-locations">10. File / document locations</h2>
+<h2 id="10-file--document-locations">10. File / document locations</h2>
 <p>All docs are at the <strong>project root</strong>.</p>
 <pre><code>dev-one-click-setting-kit.bat   ← main executable (all you need)
 README.md / README.html          ← Korean guide (identical content)
@@ -667,7 +656,7 @@ PRD/                            ← early planning docs (reference)</code></pre>
 <code>.gitignore</code>.</p>
 </blockquote>
 <hr />
-<h2 id="workflow">11. Workflow</h2>
+<h2 id="11-workflow">11. Workflow</h2>
 <pre><code>Double-click
   → First-run welcome/notice (once)
   → Menu choice
@@ -679,7 +668,7 @@ PRD/                            ← early planning docs (reference)</code></pre>
   → Save 2 reports + print PATH check
   → “Open a new terminal to start” message</code></pre>
 <hr />
-<h2 id="architecture">12. Architecture</h2>
+<h2 id="12-architecture">12. Architecture</h2>
 <ul>
 <li><strong>Single file</strong>: one pure Windows batch script
 (<code>.bat</code>). No separate install/build.</li>
@@ -695,10 +684,10 @@ official source.</li>
 even if you rename/move the file.</li>
 <li><strong>Encoding</strong>: CP949 (for Korean Windows). On English
 Windows the menu text may look garbled (known limitation — see <a
-href="#14-troubleshooting">14</a>).</li>
+href="#17-troubleshooting">14</a>).</li>
 </ul>
 <hr />
-<h2 id="security-data-flow">13. Security / data flow</h2>
+<h2 id="13-security--data-flow">13. Security / data flow</h2>
 <ul>
 <li><strong>No admin required</strong> (user-scope install). Works on
 corporate/school PCs.</li>
@@ -724,13 +713,157 @@ only. <strong>No username, home path, or passwords.</strong></li>
 tokens, or passwords.</li>
 </ul>
 <hr />
-<h2 id="troubleshooting">14. Troubleshooting</h2>
+<h2 id="14-environment-variables">14. Environment variables</h2>
+<p><strong>There are no environment variables you need to set.</strong>
+Download the file and run it. (It does not use a <code>.env</code> file
+either.)</p>
+<p><strong>Standard Windows variables the kit only reads</strong></p>
 <table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 48%" />
-<col style="width: 18%" />
-</colgroup>
+<thead>
+<tr>
+<th>Variable</th>
+<th>What it is used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%USERPROFILE%</code></td>
+<td>Locating the scoop install
+(<code>...\scoop\shims\scoop.cmd</code>)</td>
+</tr>
+<tr>
+<td><code>%SCOOP%</code></td>
+<td><strong>If you already keep scoop in a custom folder</strong>, that
+location is used first</td>
+</tr>
+<tr>
+<td><code>%LOCALAPPDATA%</code></td>
+<td>Stores the marker file that shows the first-run notice only
+once</td>
+</tr>
+<tr>
+<td><code>%TEMP%</code></td>
+<td>Temporary work</td>
+</tr>
+<tr>
+<td><code>%COMPUTERNAME%</code></td>
+<td>Records the PC name in the install report</td>
+</tr>
+<tr>
+<td><code>%DATE%</code> · <code>%TIME%</code></td>
+<td>Report/log file names and elapsed-time calculation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Settings the kit changes (all reversible)</strong></p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Value</th>
+<th>Command to undo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git line endings</td>
+<td><code>core.autocrlf=true</code></td>
+<td><code>git config --global --unset core.autocrlf</code></td>
+</tr>
+<tr>
+<td>Disable npm ads</td>
+<td><code>fund=false</code></td>
+<td><code>npm config delete fund</code></td>
+</tr>
+<tr>
+<td>Console colours</td>
+<td>Registry <code>HKCU\Console\VirtualTerminalLevel=1</code></td>
+<td>Delete that registry value</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The kit never edits PATH directly.</strong> Each installer
+(winget, scoop) registers its own entry. That is why commands do not
+work in the current window right after installing — you must
+<strong>open a new terminal</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="15-build--test--release">15. Build · test · release</h2>
+<h3 id="build--none">Build — <strong>none</strong></h3>
+<p>It is a single <code>.bat</code> file, so there is <strong>no compile
+or build step.</strong> Run the file exactly as downloaded. You do not
+need any development tools or package managers (npm, etc.)
+beforehand.</p>
+<h3 id="testing--for-users-step-by-step">Testing — for users (step by
+step)</h3>
+<ol type="1">
+<li>Run <code>dev-one-click-setting-kit.bat</code></li>
+<li>Choose <strong><code>[9] Check installation</code></strong> → each
+tool is shown with <code>[O]</code>/<code>[X]</code> and its
+version</li>
+<li>If a tool shows <code>[O]</code> but the command still fails →
+<strong>open a new terminal</strong> and check again</li>
+<li>If something looks wrong, read the <strong>last line</strong> of
+<code>install-log-&lt;date&gt;.txt</code> in the same folder</li>
+</ol>
+<h3 id="testing--after-changing-the-code-for-developers">Testing — after
+changing the code (for developers)</h3>
+<p>Batch files only reveal syntax errors <strong>at run time</strong>,
+so always actually run what you changed.</p>
+<ol type="1">
+<li>Copy the modified block into a separate <code>.bat</code> and run it
+in <code>cmd</code> → verify both branches and the output</li>
+<li>Run the whole kit → enter each menu number and confirm there are no
+error messages</li>
+<li>Use <code>[9] Check installation</code> to confirm nothing existing
+broke</li>
+</ol>
+<h3 id="release--for-maintainers">Release — for maintainers</h3>
+<ol type="1">
+<li>Add the changes to <code>CHANGELOG.md</code></li>
+<li>Update the version number in the comment at the top of the
+<code>.bat</code></li>
+<li>Commit the changes → PR → merge into <code>main</code></li>
+<li>GitHub <strong>Releases → Draft a new release</strong> → set a tag
+(e.g. <code>v1.6.2</code>) → <strong>attach
+<code>dev-one-click-setting-kit.bat</code> under Assets</strong></li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>Never delete the <code>*.bat -text</code> line in
+<code>.gitattributes</code>.</strong> Without it, downloading the ZIP
+from GitHub converts the <code>.bat</code> line endings to LF and
+<strong>the window closes the instant you run it.</strong> (This was a
+real bug fixed in v1.5.1.)</p>
+</blockquote>
+<hr />
+<h2 id="16-operational-notes">16. Operational notes</h2>
+<ul>
+<li><strong>Open a new terminal after installing.</strong> The existing
+window predates the install and cannot find the commands.</li>
+<li><strong>Do not close the window during installation.</strong> If a
+download is interrupted, only that tool fails (rerunning picks up where
+it left off).</li>
+<li><strong>Running it repeatedly is safe.</strong> Anything already
+installed defaults to "skip".</li>
+<li><strong>Work and school PCs</strong> often block winget by policy →
+use <code>[8] Direct download</code>; if that also fails, contact your
+IT administrator (it is a permissions issue a user cannot resolve).</li>
+<li><strong>Antivirus software may block the <code>.bat</code>.</strong>
+Confirm the file came from the official repository, then add it to the
+allow list.</li>
+<li><strong>Log and report files</strong> accumulate by date on every
+run. Delete them if you do not need them (they are in
+<code>.gitignore</code>, so they never reach the repository).</li>
+<li><strong>When sending a report to someone</strong>, just be aware it
+contains your PC name. It contains no passwords or personal file
+information.</li>
+<li><strong>On English (non-Korean) Windows</strong> the menu text may
+appear garbled (known limitation).</li>
+</ul>
+<hr />
+<h2 id="17-troubleshooting">17. Troubleshooting</h2>
+<table>
 <thead>
 <tr>
 <th>Symptom</th>
@@ -747,8 +880,8 @@ tokens, or passwords.</li>
 <tr>
 <td><code>winget not found</code></td>
 <td>App Installer missing</td>
-<td>Install <strong>“App Installer”</strong> from Microsoft Store, or
-https://aka.ms/getwinget</td>
+<td>Install <strong>“App Installer”</strong> from Microsoft Store, or <a
+href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 </tr>
 <tr>
 <td>Window closes suddenly mid-install</td>
@@ -787,7 +920,7 @@ instead of a screenshot — it makes diagnosis easier. (No sensitive info
 inside.)</p>
 </blockquote>
 <hr />
-<h2 id="faq">15. FAQ</h2>
+<h2 id="18-faq">18. FAQ</h2>
 <p><strong>Q. I’ve never coded — can I use it?</strong> Yes. Just
 pressing <strong>[A]</strong> or <strong>[1]</strong> sets up a basic
 environment.</p>
@@ -802,11 +935,11 @@ stable versions only.</p>
 Remove</strong> → single or all.</p>
 <p><strong>Q. Is internet required?</strong> Yes. winget downloads the
 tools from the internet.</p>
-<p><strong>Q. Does it work on macOS/Linux?</strong> No. <strong>Windows
+<p><strong>Q. Does it work on macOS/Linux?</strong> No. <strong>Windows
 only.</strong></p>
 <hr />
-<h2 id="legal-copyright-license-commercial-use">16. Legal / copyright /
-license / commercial use</h2>
+<h2 id="19-legal--copyright--license--commercial-use">19. Legal /
+copyright / license / commercial use</h2>
 <blockquote>
 <p><strong>Notice (disclaimer):</strong> This section is <strong>general
 information for reference only</strong> and <strong>does not constitute

@@ -22,9 +22,12 @@
 11. [Workflow](#11-workflow)
 12. [Architecture](#12-architecture)
 13. [Security / data flow](#13-security--data-flow)
-14. [Troubleshooting](#14-troubleshooting)
-15. [FAQ](#15-faq)
-16. [Legal / copyright / license / commercial use](#16-legal--copyright--license--commercial-use)
+14. [Environment variables](#14-environment-variables)
+15. [Build · test · release](#15-build--test--release)
+16. [Operational notes](#16-operational-notes)
+17. [Troubleshooting](#17-troubleshooting)
+18. [FAQ](#18-faq)
+19. [Legal / copyright / license / commercial use](#19-legal--copyright--license--commercial-use)
 
 ---
 
@@ -61,7 +64,7 @@ With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 | Internet | **Required** (winget downloads tools from the internet) |
 | Free disk space | ~3 GB for Beginner, ~7 GB+ for a full install |
 | Privileges | **Admin not required** (mostly). Run as admin only if some tools fail |
-| winget | Usually built into Windows 10/11. If missing, see [Troubleshooting](#14-troubleshooting) |
+| winget | Usually built into Windows 10/11. If missing, see [Troubleshooting](#17-troubleshooting) |
 
 > On older Windows 10 (21H1 or below) winget is unstable; the kit warns you and asks whether to continue.
 
@@ -290,7 +293,7 @@ Double-click
 - **Package manager**: **winget** (Microsoft-official, signature-verified). Each tool comes from its official source.
 - **Structure (subroutines)**: menu → `:PRE_CHECK` → `:INSTALL` / `:NPM_INSTALL` (install + retry) → `:POST_*` (post-install) → `:MAKE_REPORTS` → `:PATH_CHECK`.
 - **Portability**: `%~dp0`-based, so it works even if you rename/move the file.
-- **Encoding**: CP949 (for Korean Windows). On English Windows the menu text may look garbled (known limitation — see [14](#14-troubleshooting)).
+- **Encoding**: CP949 (for Korean Windows). On English Windows the menu text may look garbled (known limitation — see [14](#17-troubleshooting)).
 
 ---
 
@@ -307,7 +310,82 @@ Double-click
 
 ---
 
-## 14. Troubleshooting
+## 14. Environment variables
+
+**There are no environment variables you need to set.** Download the file and run it. (It does not use a `.env` file either.)
+
+**Standard Windows variables the kit only reads**
+
+| Variable | What it is used for |
+|----------|--------------------|
+| `%USERPROFILE%` | Locating the scoop install (`...\scoop\shims\scoop.cmd`) |
+| `%SCOOP%` | **If you already keep scoop in a custom folder**, that location is used first |
+| `%LOCALAPPDATA%` | Stores the marker file that shows the first-run notice only once |
+| `%TEMP%` | Temporary work |
+| `%COMPUTERNAME%` | Records the PC name in the install report |
+| `%DATE%` · `%TIME%` | Report/log file names and elapsed-time calculation |
+
+**Settings the kit changes (all reversible)**
+
+| What | Value | Command to undo |
+|------|-------|-----------------|
+| Git line endings | `core.autocrlf=true` | `git config --global --unset core.autocrlf` |
+| Disable npm ads | `fund=false` | `npm config delete fund` |
+| Console colours | Registry `HKCU\Console\VirtualTerminalLevel=1` | Delete that registry value |
+
+> **The kit never edits PATH directly.** Each installer (winget, scoop) registers its own entry.
+> That is why commands do not work in the current window right after installing — you must **open a new terminal**.
+
+---
+
+## 15. Build · test · release
+
+### Build — **none**
+
+It is a single `.bat` file, so there is **no compile or build step.** Run the file exactly as downloaded.
+You do not need any development tools or package managers (npm, etc.) beforehand.
+
+### Testing — for users (step by step)
+
+1. Run `dev-one-click-setting-kit.bat`
+2. Choose **`[9] Check installation`** → each tool is shown with `[O]`/`[X]` and its version
+3. If a tool shows `[O]` but the command still fails → **open a new terminal** and check again
+4. If something looks wrong, read the **last line** of `install-log-<date>.txt` in the same folder
+
+### Testing — after changing the code (for developers)
+
+Batch files only reveal syntax errors **at run time**, so always actually run what you changed.
+
+1. Copy the modified block into a separate `.bat` and run it in `cmd` → verify both branches and the output
+2. Run the whole kit → enter each menu number and confirm there are no error messages
+3. Use `[9] Check installation` to confirm nothing existing broke
+
+### Release — for maintainers
+
+1. Add the changes to `CHANGELOG.md`
+2. Update the version number in the comment at the top of the `.bat`
+3. Commit the changes → PR → merge into `main`
+4. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.6.2`) → **attach `dev-one-click-setting-kit.bat` under Assets**
+
+> ⚠️ **Never delete the `*.bat -text` line in `.gitattributes`.**
+> Without it, downloading the ZIP from GitHub converts the `.bat` line endings to LF and **the window closes the instant you run it.** (This was a real bug fixed in v1.5.1.)
+
+---
+
+## 16. Operational notes
+
+- **Open a new terminal after installing.** The existing window predates the install and cannot find the commands.
+- **Do not close the window during installation.** If a download is interrupted, only that tool fails (rerunning picks up where it left off).
+- **Running it repeatedly is safe.** Anything already installed defaults to "skip".
+- **Work and school PCs** often block winget by policy → use `[8] Direct download`; if that also fails, contact your IT administrator (it is a permissions issue a user cannot resolve).
+- **Antivirus software may block the `.bat`.** Confirm the file came from the official repository, then add it to the allow list.
+- **Log and report files** accumulate by date on every run. Delete them if you do not need them (they are in `.gitignore`, so they never reach the repository).
+- **When sending a report to someone**, just be aware it contains your PC name. It contains no passwords or personal file information.
+- **On English (non-Korean) Windows** the menu text may appear garbled (known limitation).
+
+---
+
+## 17. Troubleshooting
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
@@ -323,7 +401,7 @@ Double-click
 
 ---
 
-## 15. FAQ
+## 18. FAQ
 
 **Q. I’ve never coded — can I use it?**
 Yes. Just pressing **[A]** or **[1]** sets up a basic environment.
@@ -348,7 +426,7 @@ No. **Windows only.**
 
 ---
 
-## 16. Legal / copyright / license / commercial use
+## 19. Legal / copyright / license / commercial use
 
 > **Notice (disclaimer):** This section is **general information for reference only** and **does not constitute legal advice or guarantee any legal effect.** For important decisions (commercial distribution, redistribution, etc.), **consult a qualified professional such as a lawyer.**
 
