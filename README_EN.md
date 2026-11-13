@@ -96,6 +96,11 @@ Installation is split into **4 cumulative levels**. Higher levels include all lo
 
 - **scoop**: a command-line package manager for developers. Not in winget, so it is installed via the official script (`get.scoop.sh`). It is **auto-included in level installs [1]–[4]** (after the level's Y confirmation) and can also be installed standalone via [S]. Security details: [§13](#13-security--data-flow).
 
+**Flutter — not in winget, installed from the official repository (git)**
+
+- **Flutter+Dart**: winget has no Flutter package, so the kit downloads **stable** from Flutter's official repository (`github.com/flutter/flutter`) with git into `%USERPROFILE%\develop\flutter` (the location Flutter's docs recommend). **Git is required** (included from the Beginner level) and **Java is not needed** for Flutter. If Flutter already exists it is skipped; if the target folder already exists the kit **does not overwrite it** and reports a failure. Afterwards it is **added to your user PATH** so `flutter` works in a new terminal. Security: [§13](#13-security--data-flow); settings changed: [§14](#14-environment-variables).
+- Building Android apps also needs Android Studio etc. (currently pointed to via [8] Direct download). **iOS apps cannot be built on Windows** (a Mac is required).
+
 **Automatic post-install steps**
 
 - Sets Git line-ending option (`core.autocrlf true`) automatically
@@ -200,7 +205,21 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.6.1 (2026-07-22) — latest</b></summary>
+<summary><b>v1.6.3 (2026-11-14) — latest</b></summary>
+
+- **Fixed**: **Flutter installation always failed** — winget has no Flutter package (`Google.FlutterSDK`), so Advanced, All-in-one and [5] item 12 failed every time (including the 5-second retry). The kit now downloads stable from Flutter's official repository (git), checks the first run, and reports success or failure honestly.
+- **Changed**: exactly **one** entry is added to the user PATH for Flutter (no duplicates, existing values preserved). [7] Remove only deletes the kit's own location and cleans that PATH entry. Flutter does not need Java, so choosing Flutter in [5] now checks for **Git** first instead of Java.
+- **Safeguards**: never overwrites or deletes an existing folder at the install location · includes a setting that avoids Windows long-path (260 character) errors.
+</details>
+
+<details>
+<summary>v1.6.2 (2026-09-08)</summary>
+
+- Docs only: added sections for environment variables, build/test/deploy and operational notes (no install behavior change).
+</details>
+
+<details>
+<summary>v1.6.1 (2026-07-22)</summary>
 
 - **Changed**: **scoop is now auto-included in level installs [1]–[4]**. Picking a level also installs scoop (after the level's Y confirmation). Standalone [S] install still available. Counts updated (Beginner 6 · Intermediate 12 · Advanced 17 · All-in-one 19).
 - **Note**: [A] Easiest recommended stays as-is (scoop not included).
@@ -301,7 +320,8 @@ Double-click
 
 - **No admin required** (user-scope install). Works on corporate/school PCs.
 - **Official source only (winget)**: every winget install uses `--source winget` (Microsoft signature-verified).
-- **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only** remote-execution path, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
+- **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only path that downloads an installer script and runs it directly**, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
+- **Flutter exception — one git repository**: Flutter is not in winget, so the kit downloads the official repository (`https://github.com/flutter/flutter.git`, HTTPS, stable) with git. The downloaded Flutter tool **fetches the Dart SDK from Google servers on its first run** (no signature verification; official source only). The install location is inside your user folder, so no administrator rights are needed.
 - **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
 - **Privacy**: Git name/email are **only shown, never auto-saved**.
 - **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.
@@ -332,8 +352,9 @@ Double-click
 | Git line endings | `core.autocrlf=true` | `git config --global --unset core.autocrlf` |
 | Disable npm ads | `fund=false` | `npm config delete fund` |
 | Console colours | Registry `HKCU\Console\VirtualTerminalLevel=1` | Delete that registry value |
+| User PATH (Flutter only) | **Adds one entry**: `%USERPROFILE%\develop\flutter\bin` | Removing Flutter in [7] cleans it up automatically, or delete that line in the environment variable editor |
 
-> **The kit never edits PATH directly.** Each installer (winget, scoop) registers its own entry.
+> **The kit mostly leaves PATH alone.** Each installer (winget, scoop) registers its own entry. **The one exception is Flutter**: a git-downloaded Flutter has no installer to register it, so the kit adds **only that one entry** to your user PATH (not added if already present; existing entries are preserved).
 > That is why commands do not work in the current window right after installing — you must **open a new terminal**.
 
 ---
@@ -381,6 +402,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 - **Antivirus software may block the `.bat`.** Confirm the file came from the official repository, then add it to the allow list.
 - **Log and report files** accumulate by date on every run. Delete them if you do not need them (they are in `.gitignore`, so they never reach the repository).
 - **When sending a report to someone**, just be aware it contains your PC name. It contains no passwords or personal file information.
+- **Flutter is installed to `%USERPROFILE%\develop\flutter`.** If a different folder already exists there, the kit does not overwrite it and reports a failure. Flutter's docs recommend a path **without spaces or special characters**, and the first run downloads the Dart SDK (hundreds of MB), which takes a few minutes.
 - **On English (non-Korean) Windows** the menu text may appear garbled (known limitation).
 
 ---
@@ -393,6 +415,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 | `winget not found` | App Installer missing | Install **“App Installer”** from Microsoft Store, or https://aka.ms/getwinget |
 | Window closes suddenly mid-install | An error occurred | Check the **last line** of `install-log-DATE.txt` in the same folder |
 | Only a specific tool fails | Network/policy/winget hiccup | It auto-retries once; if still failing, use **[8] Direct download** |
+| Only Flutter fails | No Git · network · a folder already exists at the install location | Follow the reason shown (install Git / rename the folder) and rerun. If it still fails, use **[8] Direct download** |
 | Fails even as admin | Antivirus blocks the `.bat` | Add it to the allowlist, or briefly disable real-time protection and retry |
 | **Menu text looks garbled** | **English (non-Korean) Windows** | Fine on Korean Windows. On English Windows this is a known limitation (a PowerShell launcher is planned) |
 | Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB) |

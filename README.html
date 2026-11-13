@@ -381,6 +381,24 @@ SDK · Railway CLI · Clerk · Prisma · Uploadthing</li>
 단독 설치도 됩니다. 보안 상세는 <a
 href="#13-보안--데이터-흐름">§13</a>.</li>
 </ul>
+<p><strong>Flutter — winget에 없어서 공식 저장소(git)로
+설치</strong></p>
+<ul>
+<li><strong>Flutter+Dart</strong>: winget에 Flutter 패키지가 없어,
+Flutter 공식 저장소(<code>github.com/flutter/flutter</code>)의
+<strong>stable</strong>을 git으로 받아
+<code>%USERPROFILE%\develop\flutter</code>에 설치합니다(Flutter 공식
+문서 권장 위치). <strong>Git이 필요</strong>하고(왕초보 레벨에 포함),
+Flutter 설치에 <strong>Java는 필요 없습니다</strong>. 이미 Flutter가
+있으면 건너뛰고, 설치 위치에 폴더가 이미 있으면 <strong>덮어쓰지
+않고</strong> 실패로 알려 줍니다. 설치 후 <strong>사용자 PATH에 자동
+추가</strong>되어 새 터미널에서 <code>flutter</code>를 쓸 수 있습니다.
+보안은 <a href="#13-보안--데이터-흐름">§13</a>, 설정 변경은 <a
+href="#14-환경-변수">§14</a>.</li>
+<li>Android 앱을 만들려면 Android Studio 등이 추가로 필요합니다(지금은
+[8] 직접 다운로드로 안내). <strong>iOS 앱 빌드는 Windows에서 할 수
+없습니다</strong>(Mac 필요).</li>
+</ul>
 <p><strong>설치 후 자동으로 되는 것 (Post-install)</strong></p>
 <ul>
 <li>Git 줄바꿈 설정(<code>core.autocrlf true</code>) 자동</li>
@@ -527,7 +545,36 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
-<summary><b>v1.6.1 (2026-07-22) — 최신</b></summary>
+<summary><b>v1.6.3 (2026-11-14) — 최신</b></summary>
+
+<ul>
+<li><strong>Fixed</strong>: <strong>Flutter 설치가 항상 실패하던
+문제</strong> — winget에 Flutter
+패키지(<code>Google.FlutterSDK</code>)가 없어서 고급·올인원·[5] 12번에서
+매번 실패(5초 재시도 포함)했습니다. 이제 Flutter 공식 저장소(git)에서
+stable을 받아 설치하고, 첫 실행까지 확인한 뒤 성공/실패를 정직하게
+표시합니다.</li>
+<li><strong>Changed</strong>: 사용자 PATH에 Flutter 경로
+<strong>1개만</strong> 자동 추가(중복 방지·기존 값 보존). [7] 제거는
+키트가 설치한 위치만 지우고 PATH 항목도 정리합니다. Flutter는 Java가
+필요 없어, [5]에서 Flutter를 고르면 Java 대신 <strong>Git</strong>을
+먼저 확인합니다.</li>
+<li><strong>안전장치</strong>: 설치 위치에 폴더가 있으면 절대 덮어쓰거나
+지우지 않음 · Windows 긴 경로(260자) 오류 방지 설정 포함.</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.2 (2026-09-08)</summary>
+
+<ul>
+<li>문서 전용: 환경 변수·빌드/테스트/배포·운영 주의사항 절 추가(설치
+동작 변경 없음).</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.1 (2026-07-22)</summary>
 
 <ul>
 <li><strong>Changed</strong>: <strong>scoop을 왕초보 [1]~[4] 설치에 자동
@@ -677,9 +724,16 @@ href="#17-문제--오류-대처-방법">14 참고</a>).</li>
 <code>--source winget</code>(Microsoft 서명 검증).</li>
 <li><strong>원격 스크립트 예외 — scoop 1건</strong>: scoop은 winget에
 없어 공식 설치 스크립트(<code>https://get.scoop.sh</code>, HTTPS)를
-실행합니다. <strong>유일한 원격 실행 경로</strong>이며, <strong>레벨
-[1]~[4] 설치(시작 시 Y 확인) 또는 [S] 선택</strong> 시에만
-실행됩니다(winget과 달리 서명 검증은 없고, 공식 출처만 사용).</li>
+실행합니다. <strong>설치 스크립트를 받아 바로 실행하는 유일한
+경로</strong>이며, <strong>레벨 [1]~[4] 설치(시작 시 Y 확인) 또는 [S]
+선택</strong> 시에만 실행됩니다(winget과 달리 서명 검증은 없고, 공식
+출처만 사용).</li>
+<li><strong>Flutter 예외 — git 저장소 1건</strong>: Flutter는 winget에
+없어 공식 저장소(<code>https://github.com/flutter/flutter.git</code>,
+HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
+<strong>처음 실행할 때 Dart SDK를 Google 서버에서 받습니다</strong>(서명
+검증 없음, 공식 출처만). 설치 위치가 사용자 폴더 안이라 관리자 권한은
+필요 없습니다.</li>
 <li><strong>입력 최소화</strong>: 사용자는 <strong>메뉴 번호만</strong>
 입력. 임의 명령 실행 통로 없음.</li>
 <li><strong>개인정보 보호</strong>: Git 이름/이메일은 <strong>자동
@@ -756,13 +810,23 @@ href="#17-문제--오류-대처-방법">14 참고</a>).</li>
 <td>레지스트리 <code>HKCU\Console\VirtualTerminalLevel=1</code></td>
 <td>해당 레지스트리 값 삭제</td>
 </tr>
+<tr>
+<td>사용자 PATH (Flutter만)</td>
+<td><code>%USERPROFILE%\develop\flutter\bin</code> <strong>1개
+추가</strong></td>
+<td>[7] 제거에서 Flutter를 제거하면 자동 정리 · 또는 환경 변수 편집에서
+그 줄 삭제</td>
+</tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>PATH는 이 키트가 직접 건드리지 않습니다.</strong> 각 설치
-프로그램(winget·scoop)이 스스로 등록합니다. 그래서 설치 직후 현재
-창에서는 명령어가 안 먹히고, <strong>새 터미널</strong>을 열어야
-인식됩니다.</p>
+<p><strong>PATH는 대부분 이 키트가 건드리지 않습니다.</strong> 각 설치
+프로그램(winget·scoop)이 스스로 등록합니다. <strong>예외는 Flutter
+1건</strong>입니다: git으로 받는 Flutter는 PATH를 등록해 주는 설치
+프로그램이 없어, 키트가 <strong>사용자 PATH에 위 경로 1개만</strong>
+추가합니다(이미 있으면 추가 안 함, 기존 항목은 그대로 보존). 그래서 설치
+직후 현재 창에서는 명령어가 안 먹히고, <strong>새 터미널</strong>을
+열어야 인식됩니다.</p>
 </blockquote>
 <hr />
 <h2 id="15-빌드--테스트--배포-방법">15. 빌드 · 테스트 · 배포 방법</h2>
@@ -824,6 +888,11 @@ href="#17-문제--오류-대처-방법">14 참고</a>).</li>
 올라가지 않습니다).</li>
 <li><strong>리포트를 남에게 보낼 때</strong>는 PC 이름이 들어 있다는
 점만 알아두세요. 비밀번호·개인 파일 정보는 들어가지 않습니다.</li>
+<li><strong>Flutter는 <code>%USERPROFILE%\develop\flutter</code>에
+설치됩니다.</strong> 그 위치에 다른 폴더가 이미 있으면 키트는 덮어쓰지
+않고 실패로 알려 줍니다. Flutter 공식 문서는 경로에
+<strong>공백·특수문자</strong>가 없는 곳을 권장하며, 처음 실행할 때 Dart
+SDK(수백 MB)를 내려받느라 몇 분 걸립니다.</li>
 <li><strong>영어(비한국어) Windows</strong>에서는 메뉴 글자가 깨질 수
 있습니다(알려진 제약).</li>
 </ul>
@@ -860,6 +929,12 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 <td>네트워크·정책·winget 일시 오류</td>
 <td>자동 1회 재시도됨. 그래도 안 되면 <strong>[8] 직접
 다운로드</strong></td>
+</tr>
+<tr>
+<td>Flutter만 설치 실패</td>
+<td>Git 없음 · 네트워크 · 설치 위치에 이미 폴더 존재</td>
+<td>화면에 나온 사유대로 조치(Git 설치 / 폴더 이름 변경) 후 다시 실행.
+안 되면 <strong>[8] 직접 다운로드</strong></td>
 </tr>
 <tr>
 <td>관리자여도 설치 안 됨</td>

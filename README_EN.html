@@ -387,6 +387,25 @@ installs [1]–[4]</strong> (after the level's Y confirmation) and can
 also be installed standalone via [S]. Security details: <a
 href="#13-security--data-flow">§13</a>.</li>
 </ul>
+<p><strong>Flutter — not in winget, installed from the official
+repository (git)</strong></p>
+<ul>
+<li><strong>Flutter+Dart</strong>: winget has no Flutter package, so the
+kit downloads <strong>stable</strong> from Flutter's official repository
+(<code>github.com/flutter/flutter</code>) with git into
+<code>%USERPROFILE%\develop\flutter</code> (the location Flutter's docs
+recommend). <strong>Git is required</strong> (included from the Beginner
+level) and <strong>Java is not needed</strong> for Flutter. If Flutter
+already exists it is skipped; if the target folder already exists the
+kit <strong>does not overwrite it</strong> and reports a failure.
+Afterwards it is <strong>added to your user PATH</strong> so
+<code>flutter</code> works in a new terminal. Security: <a
+href="#13-security--data-flow">§13</a>; settings changed: <a
+href="#14-environment-variables">§14</a>.</li>
+<li>Building Android apps also needs Android Studio etc. (currently
+pointed to via [8] Direct download). <strong>iOS apps cannot be built on
+Windows</strong> (a Mac is required).</li>
+</ul>
 <p><strong>Automatic post-install steps</strong></p>
 <ul>
 <li>Sets Git line-ending option (<code>core.autocrlf true</code>)
@@ -537,7 +556,38 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary><b>v1.6.1 (2026-07-22) — latest</b></summary>
+<summary><b>v1.6.3 (2026-11-14) — latest</b></summary>
+
+<ul>
+<li><strong>Fixed</strong>: <strong>Flutter installation always
+failed</strong> — winget has no Flutter package
+(<code>Google.FlutterSDK</code>), so Advanced, All-in-one and [5] item
+12 failed every time (including the 5-second retry). The kit now
+downloads stable from Flutter's official repository (git), checks the
+first run, and reports success or failure honestly.</li>
+<li><strong>Changed</strong>: exactly <strong>one</strong> entry is
+added to the user PATH for Flutter (no duplicates, existing values
+preserved). [7] Remove only deletes the kit's own location and cleans
+that PATH entry. Flutter does not need Java, so choosing Flutter in [5]
+now checks for <strong>Git</strong> first instead of Java.</li>
+<li><strong>Safeguards</strong>: never overwrites or deletes an existing
+folder at the install location · includes a setting that avoids Windows
+long-path (260 character) errors.</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.2 (2026-09-08)</summary>
+
+<ul>
+<li>Docs only: added sections for environment variables,
+build/test/deploy and operational notes (no install behavior
+change).</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.1 (2026-07-22)</summary>
 
 <ul>
 <li><strong>Changed</strong>: <strong>scoop is now auto-included in
@@ -695,11 +745,18 @@ corporate/school PCs.</li>
 uses <code>--source winget</code> (Microsoft signature-verified).</li>
 <li><strong>Remote-script exception — scoop (1)</strong>: scoop is not
 in winget, so it runs the official installer
-(<code>https://get.scoop.sh</code>, HTTPS). This is the
-<strong>only</strong> remote-execution path, and it runs <strong>only
-during a level install [1]–[4] (after the Y confirmation) or when you
-pick [S]</strong>. Unlike winget there is no signature verification;
-only the official source is used.</li>
+(<code>https://get.scoop.sh</code>, HTTPS). This is the <strong>only
+path that downloads an installer script and runs it directly</strong>,
+and it runs <strong>only during a level install [1]–[4] (after the Y
+confirmation) or when you pick [S]</strong>. Unlike winget there is no
+signature verification; only the official source is used.</li>
+<li><strong>Flutter exception — one git repository</strong>: Flutter is
+not in winget, so the kit downloads the official repository
+(<code>https://github.com/flutter/flutter.git</code>, HTTPS, stable)
+with git. The downloaded Flutter tool <strong>fetches the Dart SDK from
+Google servers on its first run</strong> (no signature verification;
+official source only). The install location is inside your user folder,
+so no administrator rights are needed.</li>
 <li><strong>Minimal input</strong>: you type <strong>only menu
 numbers</strong>. No path for running arbitrary commands.</li>
 <li><strong>Privacy</strong>: Git name/email are <strong>only shown,
@@ -780,13 +837,23 @@ once</td>
 <td>Registry <code>HKCU\Console\VirtualTerminalLevel=1</code></td>
 <td>Delete that registry value</td>
 </tr>
+<tr>
+<td>User PATH (Flutter only)</td>
+<td><strong>Adds one entry</strong>:
+<code>%USERPROFILE%\develop\flutter\bin</code></td>
+<td>Removing Flutter in [7] cleans it up automatically, or delete that
+line in the environment variable editor</td>
+</tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>The kit never edits PATH directly.</strong> Each installer
-(winget, scoop) registers its own entry. That is why commands do not
-work in the current window right after installing — you must
-<strong>open a new terminal</strong>.</p>
+<p><strong>The kit mostly leaves PATH alone.</strong> Each installer
+(winget, scoop) registers its own entry. <strong>The one exception is
+Flutter</strong>: a git-downloaded Flutter has no installer to register
+it, so the kit adds <strong>only that one entry</strong> to your user
+PATH (not added if already present; existing entries are preserved).
+That is why commands do not work in the current window right after
+installing — you must <strong>open a new terminal</strong>.</p>
 </blockquote>
 <hr />
 <h2 id="15-build--test--release">15. Build · test · release</h2>
@@ -858,6 +925,12 @@ run. Delete them if you do not need them (they are in
 <li><strong>When sending a report to someone</strong>, just be aware it
 contains your PC name. It contains no passwords or personal file
 information.</li>
+<li><strong>Flutter is installed to
+<code>%USERPROFILE%\develop\flutter</code>.</strong> If a different
+folder already exists there, the kit does not overwrite it and reports a
+failure. Flutter's docs recommend a path <strong>without spaces or
+special characters</strong>, and the first run downloads the Dart SDK
+(hundreds of MB), which takes a few minutes.</li>
 <li><strong>On English (non-Korean) Windows</strong> the menu text may
 appear garbled (known limitation).</li>
 </ul>
@@ -894,6 +967,13 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 <td>Network/policy/winget hiccup</td>
 <td>It auto-retries once; if still failing, use <strong>[8] Direct
 download</strong></td>
+</tr>
+<tr>
+<td>Only Flutter fails</td>
+<td>No Git · network · a folder already exists at the install
+location</td>
+<td>Follow the reason shown (install Git / rename the folder) and rerun.
+If it still fails, use <strong>[8] Direct download</strong></td>
 </tr>
 <tr>
 <td>Fails even as admin</td>

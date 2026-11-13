@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.6.2
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.6.3
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -416,8 +416,8 @@ call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
 call :INSTALL "Go" "GoLang.Go"
 call :INSTALL "Rust" "Rustlang.Rustup"
-:: ÀÇÁ¸¼º 5¼øÀ§: Java ÀÌÈÄ ÇÊ¼ö
-call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+:: Flutter: winget ÆÐÅ°Áö ¾øÀ½ -> git °ø½Ä stable ¼³Ä¡ (Git ¼±Çà ÇÊ¿ä, Java ºÒÇÊ¿ä)
+call :INSTALL_FLUTTER
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 
 call :INSTALL_SCOOP
@@ -453,7 +453,7 @@ call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
 call :INSTALL "Go" "GoLang.Go"
 call :INSTALL "Rust" "Rustlang.Rustup"
-call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+call :INSTALL_FLUTTER
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
 call :INSTALL "PHP" "PHP.PHP"
@@ -962,14 +962,14 @@ if defined NEED_NODE (
 )
 set NEED_NODE=
 
-:: Flutter(12) -> Java 21 ¼±Çà ¼³Ä¡
+:: Flutter(12) -> Git ¼±Çà ¼³Ä¡ (Flutter ´Â git À¸·Î ¹ÞÀ½. Java ´Â ÇÊ¿ä ¾øÀ½)
 echo !SEL! | findstr /C:"12" >nul 2>&1
 if not errorlevel 1 (
-    where java >nul 2>&1
-    if errorlevel 1 (
-        echo  [¾È³»] Flutter´Â Java 21ÀÌ ÇÊ¿äÇÕ´Ï´Ù. ¸ÕÀú ¼³Ä¡ÇÕ´Ï´Ù.
+    call :FIND_GIT
+    if not defined FL_GIT (
+        echo  [¾È³»] Flutter´Â GitÀÌ ÇÊ¿äÇÕ´Ï´Ù. ¸ÕÀú ¼³Ä¡ÇÕ´Ï´Ù.
         set /a TOTAL+=1
-        call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
+        call :INSTALL "Git" "Git.Git"
     )
 )
 
@@ -985,7 +985,7 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="9"  call :INSTALL "Ollama" "Ollama.Ollama"
     if "%%n"=="10" call :INSTALL "Bun" "Oven-sh.Bun"
     if "%%n"=="11" call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
-    if "%%n"=="12" call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+    if "%%n"=="12" call :INSTALL_FLUTTER
     if "%%n"=="13" call :INSTALL "Go" "GoLang.Go"
     if "%%n"=="14" call :INSTALL "Rust" "Rustlang.Rustup"
     if "%%n"=="15" call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
@@ -1101,10 +1101,11 @@ echo.
 set /p DO_UPD="  Å°Æ® µµ±¸¸¦ ¾ÈÀüÇÏ°Ô ¾÷µ¥ÀÌÆ®ÇÒ±î¿ä? (y/n): "
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2) do (
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [¾÷±×·¹ÀÌµå] %%p
 )
+echo  [¾È³»] Flutter ´Â winget ÀÌ ¾Æ´Ï¶ó ÅÍ¹Ì³Î¿¡¼­ flutter upgrade ·Î ¾÷µ¥ÀÌÆ®ÇÏ¼¼¿ä.
 
 >> "%LOG_FILE%" echo ÀüÃ¼ ¾÷µ¥ÀÌÆ® ¿Ï·á: %TIME%
 echo.
@@ -1162,7 +1163,7 @@ if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.21.JDK --sour
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.17.JDK --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.11.JDK --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.8.JDK --source winget --silent >nul 2>&1
-if "!REM_SEL!"=="12" winget uninstall --id Google.FlutterSDK --source winget --silent
+if "!REM_SEL!"=="12" call :REMOVE_FLUTTER
 if "!REM_SEL!"=="13" winget uninstall --id GoLang.Go --source winget --silent
 if "!REM_SEL!"=="14" winget uninstall --id Rustlang.Rustup --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 --source winget --silent
@@ -1191,7 +1192,6 @@ for %%i in (
     PHP.PHP
     RubyInstallerTeam.RubyWithDevKit.3.3
     RubyInstallerTeam.RubyWithDevKit.3.2
-    Google.FlutterSDK
     Rustlang.Rustup
     GoLang.Go
     EclipseAdoptium.Temurin.21.JDK
@@ -1215,6 +1215,7 @@ for %%i in (
     winget uninstall --id %%i --source winget --silent >nul 2>&1
     echo    Á¦°Å: %%i
 )
+call :REMOVE_FLUTTER
 echo.
 echo  [npm] npm ÆÐÅ°Áö Á¦°Å Áß...
 for %%p in (vercel supabase stripe resend @railway/cli @clerk/clerk-sdk-node prisma uploadthing) do (
@@ -1391,6 +1392,136 @@ goto :eof
 :: ============================================================
 :: scoop ¼³Ä¡ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®, »ç¿ëÀÚ µ¿ÀÇ ÇÊ¿ä)
 :: ============================================================
+:: ============================================================
+:: Flutter ¼³Ä¡ ÇïÆÛ (winget ¿¡ Flutter ÆÐÅ°Áö°¡ ¾øÀ½ -> °ø½Ä ÀúÀå¼Ò git clone, stable)
+:: À§Ä¡: %USERPROFILE%\develop\flutter  [Flutter °ø½Ä ¹®¼­ ±ÇÀå: °ø¹é/°ü¸®ÀÚ °æ·Î È¸ÇÇ]
+:: ÀÌ¹Ì ÀÖÀ¸¸é °Ç³Ê¶Ü. Æú´õ°¡ ÀÌ¹Ì ÀÖÀ¸¸é Àý´ë µ¤¾î¾²°Å³ª Áö¿ìÁö ¾ÊÀ½. »ç¿ëÀÚ PATH ¿¡¸¸ Ãß°¡.
+:: ============================================================
+:INSTALL_FLUTTER
+set /a CURRENT+=1
+echo  [!CURRENT!/!TOTAL!] Flutter+Dart ¼³Ä¡ Áß...
+>> "%LOG_FILE%" echo [!CURRENT!/!TOTAL!] Flutter ½ÃÀÛ: %TIME%
+if not defined USERPROFILE goto FLUTTER_FAIL_NOHOME
+set "FL_DIR=%USERPROFILE%\develop\flutter"
+set "FL_BIN=%USERPROFILE%\develop\flutter\bin"
+where flutter >nul 2>&1
+if not errorlevel 1 goto FLUTTER_SKIP
+if exist "!FL_BIN!\flutter.bat" goto FLUTTER_SKIP_ADDPATH
+if exist "!FL_DIR!" goto FLUTTER_FAIL_EXISTS
+call :FIND_GIT
+if not defined FL_GIT goto FLUTTER_FAIL_NOGIT
+if not exist "%USERPROFILE%\develop" mkdir "%USERPROFILE%\develop" >nul 2>&1
+set GIT_TERMINAL_PROMPT=0
+echo         °ø½Ä ÀúÀå¼Ò¿¡¼­ ³»·Á¹Þ´Â Áß... ¸î ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù.
+"!FL_GIT!" -c core.longpaths=true clone https://github.com/flutter/flutter.git -b stable "!FL_DIR!" >nul 2>&1
+set INST_ERR=!errorlevel!
+if !INST_ERR! EQU 0 goto FLUTTER_CLONED
+echo         [Àç½Ãµµ] Flutter+Dart ½ÇÆÐ - 5ÃÊ ÈÄ Àç½Ãµµ...
+>> "%LOG_FILE%" echo   1Â÷ ½ÇÆÐ [errorlevel=!INST_ERR!], Àç½Ãµµ: %TIME%
+:: À§¿¡¼­ Æú´õ°¡ ¾øÀ½À» È®ÀÎÇßÀ¸¹Ç·Î Áö±Ý ÀÖ´Â Æú´õ´Â ¹æ±Ý ½ÇÆÐÇÑ clone ÀÌ ¸¸µç °Í
+if exist "!FL_DIR!" rmdir /s /q "!FL_DIR!" >nul 2>&1
+timeout /t 5 /nobreak >nul
+"!FL_GIT!" -c core.longpaths=true clone https://github.com/flutter/flutter.git -b stable "!FL_DIR!" >nul 2>&1
+set INST_ERR=!errorlevel!
+if !INST_ERR! NEQ 0 goto FLUTTER_FAIL_CLONE
+:FLUTTER_CLONED
+:: ±ä °æ·Î ÆÄÀÏÀÌ ÀÖ¾î ÀÌÈÄ flutter upgrade µµ ½ÇÆÐÇÏÁö ¾Êµµ·Ï, ÀÌ ÀúÀå¼Ò¿¡¸¸ ¼³Á¤ [Àü¿ª ¼³Á¤ ¾Æ´Ô]
+"!FL_GIT!" -C "!FL_DIR!" config core.longpaths true >nul 2>&1
+call :FLUTTER_PATH_ADD
+echo         Dart SDK ÁØºñ Áß... Ã³À½ ÇÑ ¹ø¸¸ ¸î ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù.
+call "!FL_BIN!\flutter.bat" --version >nul 2>&1
+if errorlevel 1 goto FLUTTER_FAIL_FIRSTRUN
+echo         [92m[¿Ï·á][0m Flutter+Dart
+>> "%LOG_FILE%" echo   °á°ú: ¼º°ø [git clone stable, Ã¹ ½ÇÇà È®ÀÎ]
+set /a INSTALL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [¼º°ø] Flutter+Dart
+goto :eof
+
+:FLUTTER_SKIP_ADDPATH
+call :FLUTTER_PATH_ADD
+:FLUTTER_SKIP
+echo         [°Ç³Ê¶Ü] Flutter+Dart [ÀÌ¹Ì ¼³Ä¡µÊ]
+>> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [Flutter ÀÌ¹Ì ÀÖÀ½]
+set /a SKIP_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] Flutter+Dart
+goto :eof
+
+:FLUTTER_FAIL_NOHOME
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - »ç¿ëÀÚ Æú´õ À§Ä¡¸¦ ¾Ë ¼ö ¾ø¾î ¼³Ä¡ÇÏÁö ¾Ê½À´Ï´Ù.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [USERPROFILE ¾øÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_EXISTS
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - ¼³Ä¡ À§Ä¡¿¡ Æú´õ°¡ ÀÌ¹Ì ÀÖ¾î µ¤¾î¾²Áö ¾Ê½À´Ï´Ù.
+echo                 !FL_DIR!
+echo                 Á÷Á¢ È®ÀÎÇÏ½Ã°Å³ª Æú´õ ÀÌ¸§À» ¹Ù²Û µÚ ´Ù½Ã ½ÇÇàÇØ ÁÖ¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [¼³Ä¡ Æú´õ ÀÌ¹Ì Á¸Àç, °Çµå¸®Áö ¾ÊÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_NOGIT
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - Git À» Ã£À» ¼ö ¾ø½À´Ï´Ù. Git ¼³Ä¡ ÈÄ ´Ù½Ã ½ÇÇàÇØ ÁÖ¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [Git ¾øÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_CLONE
+if exist "!FL_DIR!" rmdir /s /q "!FL_DIR!" >nul 2>&1
+echo         [91m[½ÇÆÐ][0m Flutter+Dart ³»·Á¹Þ±â ½ÇÆÐ - ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [git clone errorlevel=!INST_ERR!]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_FIRSTRUN
+echo         [91m[½ÇÆÐ][0m Flutter+Dart Ã¹ ½ÇÇà È®ÀÎ ½ÇÆÐ - »õ ÅÍ¹Ì³Î¿¡¼­ flutter --version À» ½ÇÇàÇØ º¸¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [flutter --version Ã¹ ½ÇÇà]
+:FLUTTER_FAIL_COUNT
+set /a FAIL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] Flutter+Dart
+goto :eof
+
+:: Git ½ÇÇà ÆÄÀÏ Ã£±â: ÀÌ¹ø ½ÇÇà¿¡¼­ ¸· ¼³Ä¡µÈ Git Àº PATH ¿¡ ¾ÆÁ÷ ¾øÀ» ¼ö ÀÖ¾î ¼³Ä¡ À§Ä¡µµ È®ÀÎ
+:FIND_GIT
+set "FL_GIT="
+where git >nul 2>&1
+if not errorlevel 1 set "FL_GIT=git"
+if defined FL_GIT goto :eof
+if exist "%ProgramFiles%\Git\cmd\git.exe" set "FL_GIT=%ProgramFiles%\Git\cmd\git.exe"
+if defined FL_GIT goto :eof
+if exist "%LOCALAPPDATA%\Programs\Git\cmd\git.exe" set "FL_GIT=%LOCALAPPDATA%\Programs\Git\cmd\git.exe"
+goto :eof
+
+:: »ç¿ëÀÚ PATH ¿¡ Flutter bin Ãß°¡ [»ç¿ëÀÚ ¹üÀ§¸¸, Áßº¹ ¹æÁö, ±âÁ¸ °ª º¸Á¸, µÇµ¹¸®±â´Â [7] Á¦°Å]
+:: ·¹Áö½ºÆ®¸® °ªÀ» ±×´ë·Î ÀÐ°í ¾²¹Ç·Î %USERPROFILE% °°Àº ±âÁ¸ Ç×¸ñÀÌ ±úÁöÁö ¾ÊÀ½ [setx ´Â 1024ÀÚ Àß¸² À§Çè]
+:FLUTTER_PATH_ADD
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $has=$false; foreach($e in $p.Split(';')){ if([Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ieq $b){ $has=$true } }; if(-not $has){ $n=($p.TrimEnd(';')+';'+$b).TrimStart(';'); $k.SetValue('Path',$n,[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User') }; $k.Close() } catch { exit 1 }" >nul 2>&1
+if errorlevel 1 (
+    echo         [¾È³»] »ç¿ëÀÚ PATH ÀÚµ¿ µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù. È¯°æ º¯¼ö ÆíÁý¿¡¼­ ¾Æ·¡ °æ·Î¸¦ Path ¿¡ Ãß°¡ÇØ ÁÖ¼¼¿ä.
+    echo                !FL_BIN!
+    >> "%LOG_FILE%" echo   PATH µî·Ï ½ÇÆÐ
+) else (
+    echo         [PATH] »ç¿ëÀÚ PATH ¿¡ Flutter µî·Ï È®ÀÎ - »õ ÅÍ¹Ì³Î¿¡¼­ flutter ¸í·ÉÀ» ¾µ ¼ö ÀÖ½À´Ï´Ù.
+    >> "%LOG_FILE%" echo   PATH µî·Ï È®ÀÎ
+)
+set "PATH=!PATH!;!FL_BIN!"
+goto :eof
+
+:: Flutter Á¦°Å [Å°Æ® ¼³Ä¡ À§Ä¡¸¸. ´Ù¸¥ °÷¿¡ Á÷Á¢ ¼³Ä¡ÇÑ Flutter ´Â °Çµå¸®Áö ¾ÊÀ½]
+:REMOVE_FLUTTER
+if not defined USERPROFILE goto :eof
+set "FL_DIR=%USERPROFILE%\develop\flutter"
+set "FL_BIN=%USERPROFILE%\develop\flutter\bin"
+if not exist "!FL_BIN!\flutter.bat" (
+    echo  [°Ç³Ê¶Ü] Å°Æ® ¼³Ä¡ À§Ä¡¿¡ Flutter °¡ ¾ø½À´Ï´Ù. ´Ù¸¥ °÷¿¡ Á÷Á¢ ¼³Ä¡ÇÑ Flutter ´Â Áö¿ìÁö ¾Ê½À´Ï´Ù.
+    goto :eof
+)
+echo.
+echo  Flutter Æú´õ¸¦ ÅëÂ°·Î »èÁ¦ÇÕ´Ï´Ù: !FL_DIR!
+set /p FL_DEL="  Y ¸¦ ÀÔ·ÂÇÏ¸é »èÁ¦ÇÕ´Ï´Ù: "
+if /i "!FL_DEL!" NEQ "y" goto :eof
+rmdir /s /q "!FL_DIR!" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $keep=@(); foreach($e in $p.Split(';')){ if($e.Trim() -ne '' -and [Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ine $b){ $keep+=$e } }; $k.SetValue('Path',($keep -join ';'),[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User'); $k.Close() } catch { exit 1 }" >nul 2>&1
+echo    Á¦°Å: Flutter [Æú´õ »èÁ¦ + »ç¿ëÀÚ PATH Á¤¸®]
+>> "%LOG_FILE%" echo   Flutter Á¦°Å ¿Ï·á
+goto :eof
+
 :: ============================================================
 :: scoop ¼³Ä¡ ÇïÆÛ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®). ·¹º§/[S] °ø¿ë, ºñ´ëÈ­Çü
 :: ============================================================
