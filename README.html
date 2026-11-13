@@ -394,10 +394,69 @@ Flutter 설치에 <strong>Java는 필요 없습니다</strong>. 이미 Flutter�
 않고</strong> 실패로 알려 줍니다. 설치 후 <strong>사용자 PATH에 자동
 추가</strong>되어 새 터미널에서 <code>flutter</code>를 쓸 수 있습니다.
 보안은 <a href="#13-보안--데이터-흐름">§13</a>, 설정 변경은 <a
-href="#14-환경-변수">§14</a>.</li>
-<li>Android 앱을 만들려면 Android Studio 등이 추가로 필요합니다(지금은
-[8] 직접 다운로드로 안내). <strong>iOS 앱 빌드는 Windows에서 할 수
-없습니다</strong>(Mac 필요).</li>
+href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메뉴 [M]
+(Flutter + 안드로이드)</strong></li>
+</ul>
+<p>레벨 [1]~[4]와 <strong>섞이지 않는 별도 메뉴</strong>입니다. 기존
+레벨의 동작은 그대로입니다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>설치 방식</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td>winget (<code>Git.Git</code>)</td>
+<td>Flutter를 받는 데 필요. 없으면 자동으로 함께 설치</td>
+</tr>
+<tr>
+<td>Flutter+Dart</td>
+<td>공식 저장소(git)</td>
+<td>위 설명 참고</td>
+</tr>
+<tr>
+<td><strong>Android Studio</strong></td>
+<td>winget (<code>Google.AndroidStudio</code>)</td>
+<td>안드로이드 SDK·에뮬레이터·Java(내장 JDK)를 갖춘 공식 개발 도구</td>
+</tr>
+<tr>
+<td><strong>adb</strong> (Android 플랫폼 도구)</td>
+<td>winget (<code>Google.PlatformTools</code>)</td>
+<td>실제 폰을 USB로 연결해 시험할 때 사용</td>
+</tr>
+<tr>
+<td>scrcpy (선택)</td>
+<td>winget (<code>Genymobile.scrcpy</code>)</td>
+<td>폰 화면을 PC에서 보고 조작</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>[M] 메뉴</strong>:
+<code>[1] 모바일 기본</code>(Git·Flutter·Android Studio·adb) ·
+<code>[2] 기본 + scrcpy</code> · <code>[3] 골라서 설치</code> ·
+<code>[4] 설치 후 할 일 안내</code>. 같은 도구를 [5] 선택
+설치(<code>28</code> Android Studio · <code>29</code> adb ·
+<code>30</code> scrcpy)로도 고를 수 있습니다.</li>
+<li><strong>설치 전 점검</strong>: 디스크 여유 약 10GB(실측: Flutter
+2.56 + Android SDK 4.35 + Android Studio 3.09GB), 가상화 켜짐
+여부(에뮬레이터용 — <strong>안내만 하고 설치는 막지 않습니다</strong>.
+실제 폰 연결에는 필요 없음).</li>
+<li><strong>설치 후 안내(자동화하지 않는 단계)</strong>: Android Studio
+첫 실행(SDK 내려받기) →
+<code>flutter doctor --android-licenses</code>(라이선스 동의는
+<strong>직접</strong>) → <code>flutter doctor</code> → 폰 USB 디버깅
+켜는 법. 키트는 <strong>환경 변수를 등록하지 않고</strong> 안내만
+합니다.</li>
+<li><strong>[9] 설치 확인</strong>: Android Studio·adb·scrcpy 항목 추가,
+그리고 원하면 <code>flutter doctor</code> 결과를 요약(정상/경고/오류)해
+보여 줍니다(1~2분 걸릴 수 있어 y를 눌렀을 때만 실행).</li>
+<li><strong>iOS 앱 빌드는 Windows에서 할 수 없습니다</strong>(Mac 필요).
+이 키트는 안드로이드 앱 개발 환경까지 준비합니다.</li>
 </ul>
 <p><strong>설치 후 자동으로 되는 것 (Post-install)</strong></p>
 <ul>
@@ -474,7 +533,8 @@ href="#14-환경-변수">§14</a>.</li>
 [0] 종료
 [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI 안내)
 [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
-[S] scoop 설치          개발용 패키지 매니저 (winget 외)</code></pre>
+[S] scoop 설치          개발용 패키지 매니저 (winget 외)
+[M] 모바일 앱 개발      Flutter + Android Studio + adb (안드로이드)</code></pre>
 <table>
 <thead>
 <tr>
@@ -508,6 +568,12 @@ href="#14-환경-변수">§14</a>.</li>
 <td><strong>scoop</strong>(개발용 패키지 매니저) 설치. winget에 없어
 공식 스크립트 사용 — 실행 전 <strong>동의(Y/N)</strong>. 보안 상세 <a
 href="#13-보안--데이터-흐름">§13</a></td>
+</tr>
+<tr>
+<td><strong>[M]</strong></td>
+<td><strong>모바일 앱 개발 환경</strong>(Git·Flutter·Android
+Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자세한
+내용은 <a href="#3-필요-프로그램설치되는-도구-목록">§3</a></td>
 </tr>
 <tr>
 <td><strong>[6]</strong></td>
@@ -545,7 +611,29 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
-<summary><b>v1.6.3 (2026-11-14) — 최신</b></summary>
+<summary><b>v1.7.0 (2026-11-14) — 최신</b></summary>
+
+<ul>
+<li><strong>Added</strong>: 메인 메뉴 <strong>[M] 모바일 앱
+개발</strong> — Git · Flutter · <strong>Android Studio</strong> ·
+<strong>adb</strong> · (선택) <strong>scrcpy</strong>를 한 번에 설치.
+<code>[1] 모바일 기본</code> / <code>[2] 기본 + scrcpy</code> /
+<code>[3] 골라서</code> / <code>[4] 설치 후 할 일 안내</code>. [5] 선택
+설치에도 28~30번으로 추가.</li>
+<li><strong>Added</strong>: 설치 전 <strong>가상화 점검</strong>(안내만,
+설치는 막지 않음)과 설치 후 <strong>순서별 안내</strong>(Android Studio
+첫 실행 · 라이선스 동의 · <code>flutter doctor</code> · 폰 USB 디버깅).
+환경 변수는 등록하지 않고 안내만.</li>
+<li><strong>Added</strong>: [9] 설치 확인에 Android Studio · adb ·
+scrcpy와 선택형 <strong><code>flutter doctor</code> 요약</strong>. [6]
+업데이트 · [7] 제거 · [8] 직접 다운로드에도 새 도구 반영.</li>
+<li><strong>참고</strong>: iOS 앱 빌드는 Windows에서 불가(Mac 필요).
+기존 레벨 [1]~[4]·[A]의 설치 목록은 바뀌지 않았습니다.</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.3 (2026-11-14)</summary>
 
 <ul>
 <li><strong>Fixed</strong>: <strong>Flutter 설치가 항상 실패하던
@@ -734,6 +822,10 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 <strong>처음 실행할 때 Dart SDK를 Google 서버에서 받습니다</strong>(서명
 검증 없음, 공식 출처만). 설치 위치가 사용자 폴더 안이라 관리자 권한은
 필요 없습니다.</li>
+<li><strong>모바일 도구(Android Studio·adb·scrcpy)는 모두 winget
+경유</strong>라 기존 도구와 같은 방식(서명 검증)입니다. Android SDK
+<strong>라이선스 동의는 사용자가 직접</strong> 합니다(키트가 대신
+동의하지 않음).</li>
 <li><strong>입력 최소화</strong>: 사용자는 <strong>메뉴 번호만</strong>
 입력. 임의 명령 실행 통로 없음.</li>
 <li><strong>개인정보 보호</strong>: Git 이름/이메일은 <strong>자동
@@ -827,6 +919,10 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 추가합니다(이미 있으면 추가 안 함, 기존 항목은 그대로 보존). 그래서 설치
 직후 현재 창에서는 명령어가 안 먹히고, <strong>새 터미널</strong>을
 열어야 인식됩니다.</p>
+<p><strong>Android SDK 관련 환경 변수(<code>ANDROID_HOME</code> 등)는
+키트가 등록하지 않습니다.</strong> SDK 위치를 못 찾는다고 나오면 [M]-[4]
+안내의 <code>flutter config --android-sdk</code> 명령을 한 번
+실행하세요(Flutter 자체 설정이라 PC 설정은 바뀌지 않습니다).</p>
 </blockquote>
 <hr />
 <h2 id="15-빌드--테스트--배포-방법">15. 빌드 · 테스트 · 배포 방법</h2>
@@ -893,6 +989,10 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 않고 실패로 알려 줍니다. Flutter 공식 문서는 경로에
 <strong>공백·특수문자</strong>가 없는 곳을 권장하며, 처음 실행할 때 Dart
 SDK(수백 MB)를 내려받느라 몇 분 걸립니다.</li>
+<li><strong>모바일 환경([M])은 용량이 큽니다.</strong> 디스크 약 10GB,
+설치 30~40분이 걸리고, Android Studio <strong>첫 실행 때 SDK를 추가로
+내려받습니다</strong>. 안드로이드 에뮬레이터는 PC의 가상화가 켜져 있어야
+빠르게 동작하며, 실제 폰을 USB로 연결하면 가상화 없이도 됩니다.</li>
 <li><strong>영어(비한국어) Windows</strong>에서는 메뉴 글자가 깨질 수
 있습니다(알려진 제약).</li>
 </ul>
@@ -937,6 +1037,13 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 안 되면 <strong>[8] 직접 다운로드</strong></td>
 </tr>
 <tr>
+<td><code>flutter doctor</code>에 Android 경고/오류</td>
+<td>Android Studio 첫 실행 전 · 라이선스 미동의 · SDK 위치</td>
+<td><strong>[M] → [4]</strong> 안내 순서대로: Android Studio 한 번 실행
+→ <code>flutter doctor --android-licenses</code> → 필요하면
+<code>flutter config --android-sdk</code></td>
+</tr>
+<tr>
 <td>관리자여도 설치 안 됨</td>
 <td>백신이 <code>.bat</code> 차단</td>
 <td>백신 허용 목록 추가 또는 잠시 실시간 보호 해제 후 재시도</td>
@@ -950,7 +1057,8 @@ PowerShell 런처로 개선 예정)</td>
 <tr>
 <td>디스크 공간 부족 경고</td>
 <td>여유 공간 미달</td>
-<td>공간 확보 후 재실행(레벨별 3/4/6/7GB 기준)</td>
+<td>공간 확보 후 재실행(레벨별 3/4/6/7GB, 모바일 [M]은 약 10GB
+기준)</td>
 </tr>
 </tbody>
 </table>
@@ -969,6 +1077,10 @@ PowerShell 런처로 개선 예정)</td>
 <p><strong>Q. 특정 버전(예: Python 3.11)을 깔 수 있나요?</strong> 네.
 <strong>[V] 버전 선택 설치</strong>에서 안정 버전만 고를 수
 있습니다.</p>
+<p><strong>Q. 모바일 앱(안드로이드)도 만들 수 있나요?</strong> 네. 메인
+메뉴 <strong>[M] 모바일 앱 개발</strong>에서 Flutter·Android
+Studio·adb를 한 번에 설치하고, 화면의 <strong>설치 후 할 일</strong>을
+따라 하세요. iOS 앱은 Windows에서 만들 수 없습니다(Mac 필요).</p>
 <p><strong>Q. 설치한 걸 지우려면?</strong> <strong>[7] 제거</strong> →
 개별 또는 전체.</p>
 <p><strong>Q. 인터넷이 꼭 필요한가요?</strong> 네. winget이 인터넷에서

@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.7.0] - 2026-11-14
+
+> **모바일 앱 개발 환경 설치를 추가했습니다.** 메인 메뉴 **[M]**에서 Git · Flutter · Android Studio · adb · (선택) scrcpy를 한 번에 설치합니다. 레벨 [1]~[4]와 섞지 않은 별도 메뉴라 기존 설치 목록은 그대로입니다. (v1.6.3의 Flutter 수정 위에 쌓은 두 번째 단계)
+
+### Added
+
+- **[M] 모바일 앱 개발** 메뉴: `[1] 모바일 기본`(Git·Flutter·Android Studio·adb) · `[2] 기본 + scrcpy` · `[3] 골라서 설치` · `[4] 설치 후 할 일 안내`. 설치 순서는 Git → Flutter → Android Studio → adb → scrcpy(의존성 순서). Flutter를 고르면 Git이 없을 때 자동으로 함께 설치합니다.
+- **새 설치 항목(모두 winget, 실존 확인된 ID)**: Android Studio(`Google.AndroidStudio`) · adb(`Google.PlatformTools`) · scrcpy(`Genymobile.scrcpy`). [5] 선택 설치에 28·29·30번으로도 추가.
+- **설치 전 가상화 점검**: 에뮬레이터용. **안내만 하고 설치는 막지 않습니다**(실제 폰 연결에는 불필요). 디스크 기준은 약 10GB(실측 합계: Flutter 2.56 + SDK 4.35 + Android Studio 3.09GB).
+- **설치 후 할 일 안내**: Android Studio 첫 실행(SDK 내려받기) → `flutter doctor --android-licenses`(**사용자가 직접** 동의) → `flutter doctor` → SDK 위치를 못 찾으면 `flutter config --android-sdk` → 폰 USB 디버깅 → 가상 폰. adb가 두 벌(키트 설치 + Android Studio 내장)일 때 버전 불일치 메시지가 나오면 `adb kill-server` 안내 포함.
+- **[9] 설치 확인**: 「모바일 앱 개발」 구역(Android Studio · adb · scrcpy). Android Studio는 PATH에 없는 프로그램이라 설치 위치 두 곳 또는 winget 목록으로 판정. 선택형 **`flutter doctor` 요약**(정상/경고/오류 + 해당 줄 표시, y를 눌렀을 때만 실행).
+
+### Changed
+
+- **[6] 업데이트 / [7] 제거(개별 20~22·전체) / [8] 직접 다운로드(25~27)**: 새 도구 반영. Android Studio를 제거해도 **Android SDK 폴더는 지우지 않고** 안내만 합니다(사용자 데이터·대용량).
+- 설치 후 PATH 검증 목록에 `adb` · `scrcpy` 추가. `.bat` 버전 주석 v1.7.0.
+
+### 안전장치 / 결정 사항
+
+- **환경 변수는 등록하지 않습니다**(`ANDROID_HOME` 등) — 사용자 결정. 대신 Flutter 자체 설정 명령을 안내합니다.
+- **라이선스 동의는 자동화하지 않습니다**(대화형·법적 동의).
+- 이 메뉴는 설치 방식을 **건너뜀 고정**으로 두어 이미 있는 도구를 건드리지 않습니다(업데이트는 [6]).
+- 범위는 **Flutter 기반 안드로이드**입니다. **iOS 앱 빌드는 Windows에서 불가(Mac 필요)**, Expo/React Native는 이번 범위가 아닙니다(사용자 결정).
+
+### 검증
+
+- **격리 테스트**(설치·레지스트리·실제 PATH 미접촉, 설치 함수는 스텁): [M] 1/2/3 각 선택, 설치 순서, 디스크 기준(10/4/3), Git 자동 추가·미추가, 취소·빈 입력·잘못된 번호, 안내 화면, 가상화 점검 실행, Android Studio 판정 3경로(Program Files · LOCALAPPDATA · 없음), `flutter doctor` 요약 5경우(정상·경고·오류·대체 체크 문자·출력 없음).
+- `.bat`: CP949 왕복 동일, CRLF만(bare LF 0), 라벨 중복·누락 0.
+- **미검증(사용자 확인 필요)**: 새 PC/새 계정에서 Android Studio·adb·scrcpy의 **실제 winget 설치**와 `[M]` 전체 흐름, Android Studio 첫 실행·라이선스 이후의 `flutter doctor` 전부 통과, 에뮬레이터 실행, adb 두 벌 공존 시 실제 동작(가설).
+
+---
+
 ## [v1.6.3] - 2026-11-14
 
 > **Flutter 설치가 매번 실패하던 문제**를 고쳤습니다. winget에 Flutter 패키지(`Google.FlutterSDK`)가 없어서 고급·올인원·[5] 선택 설치 12번에서 항상 실패(5초 재시도 포함)하던 것을, Flutter 공식 저장소(git)에서 stable을 받는 방식으로 바꿨습니다. (모바일 앱 개발 도구 확장의 첫 단계)

@@ -401,10 +401,70 @@ kit <strong>does not overwrite it</strong> and reports a failure.
 Afterwards it is <strong>added to your user PATH</strong> so
 <code>flutter</code> works in a new terminal. Security: <a
 href="#13-security--data-flow">§13</a>; settings changed: <a
-href="#14-environment-variables">§14</a>.</li>
-<li>Building Android apps also needs Android Studio etc. (currently
-pointed to via [8] Direct download). <strong>iOS apps cannot be built on
-Windows</strong> (a Mac is required).</li>
+href="#14-environment-variables">§14</a>. <strong>Mobile app development
+— main menu [M] (Flutter + Android)</strong></li>
+</ul>
+<p>A <strong>separate menu</strong> that is not mixed into levels
+[1]–[4]; existing levels behave exactly as before.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>How it is installed</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td>winget (<code>Git.Git</code>)</td>
+<td>Needed to fetch Flutter; installed automatically if missing</td>
+</tr>
+<tr>
+<td>Flutter+Dart</td>
+<td>official repository (git)</td>
+<td>See above</td>
+</tr>
+<tr>
+<td><strong>Android Studio</strong></td>
+<td>winget (<code>Google.AndroidStudio</code>)</td>
+<td>Official IDE with the Android SDK, emulator and a bundled JDK</td>
+</tr>
+<tr>
+<td><strong>adb</strong> (Android platform-tools)</td>
+<td>winget (<code>Google.PlatformTools</code>)</td>
+<td>For testing on a real phone over USB</td>
+</tr>
+<tr>
+<td>scrcpy (optional)</td>
+<td>winget (<code>Genymobile.scrcpy</code>)</td>
+<td>Mirror and control the phone screen from the PC</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>[M] menu</strong>: <code>[1] Mobile basic</code> (Git ·
+Flutter · Android Studio · adb) · <code>[2] Basic + scrcpy</code> ·
+<code>[3] Pick items</code> · <code>[4] After-install guide</code>. The
+same tools can also be picked in [5] Custom install (<code>28</code>
+Android Studio · <code>29</code> adb · <code>30</code> scrcpy).</li>
+<li><strong>Pre-checks</strong>: ~10 GB free disk (measured: Flutter
+2.56 + Android SDK 4.35 + Android Studio 3.09 GB) and whether
+virtualization is on (for the emulator — <strong>informational only,
+never blocks the install</strong>; not needed for a real phone).</li>
+<li><strong>After-install guide (steps that are not automated)</strong>:
+first Android Studio launch (SDK download) →
+<code>flutter doctor --android-licenses</code> (you accept the licenses
+<strong>yourself</strong>) → <code>flutter doctor</code> → enabling USB
+debugging on the phone. The kit <strong>does not set environment
+variables</strong>; it only shows guidance.</li>
+<li><strong>[9] Check install</strong>: adds Android Studio · adb ·
+scrcpy, and optionally a <code>flutter doctor</code> summary (OK /
+warnings / errors; it can take 1–2 minutes, so it runs only if you press
+y).</li>
+<li><strong>iOS apps cannot be built on Windows</strong> (a Mac is
+required). This kit prepares the Android app development
+environment.</li>
 </ul>
 <p><strong>Automatic post-install steps</strong></p>
 <ul>
@@ -484,7 +544,8 @@ press <strong>Enter</strong>.</li>
 [0] Exit
 [A] Easiest recommended  first-timers start here (5 basics + AI guide)
 [V] Version-select       specific stable versions (Python/Java/Ruby)
-[S] Install scoop        dev package manager (non-winget)</code></pre>
+[S] Install scoop        dev package manager (non-winget)
+[M] Mobile app dev       Flutter + Android Studio + adb (Android)</code></pre>
 <table>
 <thead>
 <tr>
@@ -519,6 +580,13 @@ Python/Java/Ruby. Not sure? Just press Enter (recommended)</td>
 <td>Installs <strong>scoop</strong> (dev package manager). Not in
 winget, so it uses the official script — asks for <strong>consent
 (Y/N)</strong>. Security: <a href="#13-security--data-flow">§13</a></td>
+</tr>
+<tr>
+<td><strong>[M]</strong></td>
+<td>Installs the <strong>mobile app development environment</strong>
+(Git · Flutter · Android Studio · adb · scrcpy) and shows the
+<strong>after-install guide</strong>. Details: <a
+href="#3-programs-installed-tool-list">§3</a></td>
 </tr>
 <tr>
 <td><strong>[6]</strong></td>
@@ -556,7 +624,34 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary><b>v1.6.3 (2026-11-14) — latest</b></summary>
+<summary><b>v1.7.0 (2026-11-14) — latest</b></summary>
+
+<ul>
+<li><strong>Added</strong>: main menu <strong>[M] Mobile app
+development</strong> — installs Git · Flutter · <strong>Android
+Studio</strong> · <strong>adb</strong> · (optional)
+<strong>scrcpy</strong> in one go: <code>[1] Mobile basic</code> /
+<code>[2] Basic + scrcpy</code> / <code>[3] Pick items</code> /
+<code>[4] After-install guide</code>. Also available as items 28–30 in
+[5] Custom install.</li>
+<li><strong>Added</strong>: a <strong>virtualization check</strong>
+before installing (informational, never blocks) and a
+<strong>step-by-step guide</strong> afterwards (first Android Studio
+launch · license acceptance · <code>flutter doctor</code> · USB
+debugging on the phone). Environment variables are not set; guidance
+only.</li>
+<li><strong>Added</strong>: [9] Check install now lists Android Studio ·
+adb · scrcpy and offers an optional <strong><code>flutter doctor</code>
+summary</strong>. [6] Update, [7] Remove and [8] Direct download include
+the new tools.</li>
+<li><strong>Note</strong>: iOS apps cannot be built on Windows (a Mac is
+required). The install lists of levels [1]–[4] and [A] are
+unchanged.</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.6.3 (2026-11-14)</summary>
 
 <ul>
 <li><strong>Fixed</strong>: <strong>Flutter installation always
@@ -757,6 +852,10 @@ with git. The downloaded Flutter tool <strong>fetches the Dart SDK from
 Google servers on its first run</strong> (no signature verification;
 official source only). The install location is inside your user folder,
 so no administrator rights are needed.</li>
+<li><strong>The mobile tools (Android Studio · adb · scrcpy) all go
+through winget</strong>, the same signature-verified path as the other
+tools. <strong>You accept the Android SDK licenses yourself</strong>;
+the kit never accepts them for you.</li>
 <li><strong>Minimal input</strong>: you type <strong>only menu
 numbers</strong>. No path for running arbitrary commands.</li>
 <li><strong>Privacy</strong>: Git name/email are <strong>only shown,
@@ -854,6 +953,11 @@ it, so the kit adds <strong>only that one entry</strong> to your user
 PATH (not added if already present; existing entries are preserved).
 That is why commands do not work in the current window right after
 installing — you must <strong>open a new terminal</strong>.</p>
+<p><strong>The kit does not set Android SDK environment variables
+(<code>ANDROID_HOME</code> etc.).</strong> If Flutter reports it cannot
+find the SDK, run the <code>flutter config --android-sdk</code> command
+shown in the [M] → [4] guide once (it is Flutter's own setting, so no PC
+setting changes).</p>
 </blockquote>
 <hr />
 <h2 id="15-build--test--release">15. Build · test · release</h2>
@@ -931,6 +1035,10 @@ folder already exists there, the kit does not overwrite it and reports a
 failure. Flutter's docs recommend a path <strong>without spaces or
 special characters</strong>, and the first run downloads the Dart SDK
 (hundreds of MB), which takes a few minutes.</li>
+<li><strong>The mobile environment ([M]) is large.</strong> About 10 GB
+of disk and 30–40 minutes; Android Studio <strong>downloads the SDK on
+its first launch</strong>. The Android emulator is fast only with
+virtualization enabled; a real phone over USB works without it.</li>
 <li><strong>On English (non-Korean) Windows</strong> the menu text may
 appear garbled (known limitation).</li>
 </ul>
@@ -988,9 +1096,18 @@ retry</td>
 limitation (a PowerShell launcher is planned)</td>
 </tr>
 <tr>
+<td><code>flutter doctor</code> shows Android warnings/errors</td>
+<td>Android Studio not yet launched · licenses not accepted · SDK
+location</td>
+<td>Follow <strong>[M] → [4]</strong>: launch Android Studio once →
+<code>flutter doctor --android-licenses</code> →
+<code>flutter config --android-sdk</code> if needed</td>
+</tr>
+<tr>
 <td>Low-disk warning</td>
 <td>Not enough free space</td>
-<td>Free up space and rerun (levels need 3/4/6/7 GB)</td>
+<td>Free up space and rerun (levels need 3/4/6/7 GB, mobile [M] about 10
+GB)</td>
 </tr>
 </tbody>
 </table>

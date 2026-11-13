@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.6.3
+:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.7.0
 :: AI 바이브코딩 입문자를 위한 원클릭 개발 환경 세팅 도구
 :: ============================================================
 
@@ -65,11 +65,13 @@ echo  ===========================================================
 echo    [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI)
 echo    [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
 echo    [S] scoop 설치            개발용 패키지 매니저 [비winget]
+echo    [M] 모바일 앱 개발        Flutter + Android Studio + adb [안드로이드]
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if /i "!MENU_CHOICE!"=="V" goto DO_VERSION
 if /i "!MENU_CHOICE!"=="S" goto DO_SCOOP
+if /i "!MENU_CHOICE!"=="M" goto DO_MOBILE
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -756,7 +758,7 @@ echo.
 echo  ---------------------------------------------------
 echo  [PATH 검증] 현재 터미널에서 인식되는 도구
 echo  ---------------------------------------------------
-for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php) do (
+for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php adb scrcpy) do (
     where %%c >nul 2>&1
     if not errorlevel 1 echo    [O] %%c
 )
@@ -871,6 +873,9 @@ echo   [ 올인원 / 추가 도구 (winget) ]
 echo     [15] Ruby            [16] PHP             [17] Git LFS
 echo     [18] Stripe CLI      [27] uv
 echo.
+echo   [ 모바일 앱 개발 ]   (Flutter 는 위 [12], 한 번에 설치는 메인 메뉴 [M])
+echo     [28] Android Studio  [29] adb [Android 플랫폼 도구]  [30] scrcpy
+echo.
 echo   [ 배포 / DB / 프로젝트 (npm) ]
 echo     [19] Vercel CLI      [20] Supabase CLI    [21] Stripe SDK
 echo     [22] Resend SDK      [23] Railway CLI     [24] Clerk
@@ -917,6 +922,9 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="25" echo    - Prisma [npm]
     if "%%n"=="26" echo    - Uploadthing [npm]
     if "%%n"=="27" echo    - uv
+    if "%%n"=="28" echo    - Android Studio
+    if "%%n"=="29" echo    - adb [Android 플랫폼 도구]
+    if "%%n"=="30" echo    - scrcpy [폰 화면 미러링]
 )
 echo  ---------------------------------------------------
 set /p CONFIRM_SEL="  Y=설치 시작 / N=다시 선택: "
@@ -973,6 +981,7 @@ if not errorlevel 1 (
     )
 )
 
+set MOB_SHOW=
 for %%n in (%SEL:,= %) do (
     if "%%n"=="1"  call :INSTALL "Git" "Git.Git"
     if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3"
@@ -1001,8 +1010,16 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="25" call :NPM_INSTALL "Prisma" "prisma"
     if "%%n"=="26" call :NPM_INSTALL "Uploadthing" "uploadthing"
     if "%%n"=="27" call :INSTALL "uv" "astral-sh.uv"
+    if "%%n"=="28" call :INSTALL "Android Studio" "Google.AndroidStudio"
+    if "%%n"=="29" call :INSTALL "adb [Android 플랫폼 도구]" "Google.PlatformTools"
+    if "%%n"=="30" call :INSTALL "scrcpy [폰 화면 미러링]" "Genymobile.scrcpy"
+    if "%%n"=="12" set MOB_SHOW=1
+    if "%%n"=="28" set MOB_SHOW=1
+    if "%%n"=="29" set MOB_SHOW=1
 )
 
+if defined MOB_SHOW call :POST_MOBILE
+set MOB_SHOW=
 call :MAKE_REPORTS
 call :PATH_CHECK
 call :DONE_MSG
@@ -1101,7 +1118,7 @@ echo.
 set /p DO_UPD="  키트 도구를 안전하게 업데이트할까요? (y/n): "
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2) do (
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [업그레이드] %%p
 )
@@ -1141,6 +1158,7 @@ echo  [6]GitHub CLI  [7]PS7  [8]pnpm  [9]Ollama  [10]Bun
 echo  [11]Java21  [12]Flutter  [13]Go  [14]Rust  [15]Ruby  [16]PHP
 echo  [17]Git LFS  [18]Stripe CLI
 echo  [19]uv
+echo  [20]Android Studio  [21]adb  [22]scrcpy
 echo  [0] 뒤로
 echo.
 set /p REM_SEL="  번호: "
@@ -1172,6 +1190,10 @@ if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
 if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
 if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
 if "!REM_SEL!"=="19" winget uninstall --id astral-sh.uv --source winget --silent
+if "!REM_SEL!"=="20" winget uninstall --id Google.AndroidStudio --source winget --silent
+if "!REM_SEL!"=="20" echo  [안내] Android SDK 폴더 [%LOCALAPPDATA%\Android\Sdk] 는 지우지 않았습니다. 필요하면 직접 삭제하세요.
+if "!REM_SEL!"=="21" winget uninstall --id Google.PlatformTools --source winget --silent
+if "!REM_SEL!"=="22" winget uninstall --id Genymobile.scrcpy --source winget --silent
 
 echo.
 echo  [완료] 제거 완료.
@@ -1186,6 +1208,9 @@ if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  제거 중... (시간이 걸릴 수 있습니다)
 for %%i in (
+    Genymobile.scrcpy
+    Google.PlatformTools
+    Google.AndroidStudio
     astral-sh.uv
     GitHub.GitLFS
     Stripe.StripeCLI
@@ -1216,6 +1241,7 @@ for %%i in (
     echo    제거: %%i
 )
 call :REMOVE_FLUTTER
+echo  [안내] Android SDK 폴더 [%LOCALAPPDATA%\Android\Sdk] 는 지우지 않았습니다. 필요하면 직접 삭제하세요.
 echo.
 echo  [npm] npm 패키지 제거 중...
 for %%p in (vercel supabase stripe resend @railway/cli @clerk/clerk-sdk-node prisma uploadthing) do (
@@ -1271,6 +1297,11 @@ echo    [22] LM Studio         https://lmstudio.ai/
 echo    [23] Windsurf          https://windsurf.com/
 echo    [24] Warp              https://www.warp.dev/
 echo.
+echo   --- 모바일 앱 개발 ---
+echo    [25] Android Studio    https://developer.android.com/studio
+echo    [26] Platform-Tools    https://developer.android.com/tools/releases/platform-tools
+echo    [27] scrcpy            https://github.com/Genymobile/scrcpy
+echo.
 echo   --- 개발 확장 CLI ---
 echo    [20] GitHub LFS        https://git-lfs.com/
 echo    [21] Stripe CLI        https://docs.stripe.com/stripe-cli
@@ -1304,6 +1335,9 @@ if "!MAN_CHOICE!"=="19" start "" "https://desktop.github.com/download/"         
 if "!MAN_CHOICE!"=="22" start "" "https://lmstudio.ai/"   & set _OPENED=1
 if "!MAN_CHOICE!"=="23" start "" "https://windsurf.com/"  & set _OPENED=1
 if "!MAN_CHOICE!"=="24" start "" "https://www.warp.dev/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="25" start "" "https://developer.android.com/studio"  & set _OPENED=1
+if "!MAN_CHOICE!"=="26" start "" "https://developer.android.com/tools/releases/platform-tools"  & set _OPENED=1
+if "!MAN_CHOICE!"=="27" start "" "https://github.com/Genymobile/scrcpy"  & set _OPENED=1
 
 if "!MAN_CHOICE!"=="20" start "" "https://git-lfs.com/"                                          & set _OPENED=1
 if "!MAN_CHOICE!"=="21" start "" "https://docs.stripe.com/stripe-cli"                            & set _OPENED=1
@@ -1352,6 +1386,11 @@ call :CHECK_ONE "Cargo" cargo
 call :CHECK_ONE "Ruby" ruby
 call :CHECK_ONE "PHP" php
 echo.
+echo  [ 모바일 앱 개발 ]
+call :CHECK_STUDIO
+call :CHECK_ONE "adb" adb
+call :CHECK_ONE "scrcpy" scrcpy
+echo.
 echo  [ 배포 / DB CLI ]
 call :CHECK_ONE "Stripe CLI" stripe
 call :CHECK_ONE "Vercel CLI" vercel
@@ -1363,6 +1402,12 @@ echo.
 echo  [ AI 에디터 ]
 call :CHECK_ONE "Cursor" cursor
 call :CHECK_ONE "Claude Code CLI" claude
+where flutter >nul 2>&1
+if not errorlevel 1 (
+    echo.
+    set /p FD_RUN="  flutter doctor 로 모바일 개발 준비 상태도 점검할까요? 1~2분 걸릴 수 있습니다. [y/n]: "
+    if /i "!FD_RUN!"=="y" call :FLUTTER_DOCTOR_SUMMARY
+)
 
 echo.
 echo  ---------------------------------------------------
@@ -1520,6 +1565,211 @@ rmdir /s /q "!FL_DIR!" >nul 2>&1
 powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $keep=@(); foreach($e in $p.Split(';')){ if($e.Trim() -ne '' -and [Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ine $b){ $keep+=$e } }; $k.SetValue('Path',($keep -join ';'),[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User'); $k.Close() } catch { exit 1 }" >nul 2>&1
 echo    제거: Flutter [폴더 삭제 + 사용자 PATH 정리]
 >> "%LOG_FILE%" echo   Flutter 제거 완료
+goto :eof
+
+:: ============================================================
+:: [M] 모바일 앱 개발 환경 [Flutter 기반 안드로이드]
+:: 구성: Git, Flutter, Android Studio, adb, scrcpy[선택]
+:: 환경 변수는 키트가 바꾸지 않고 안내만 한다. 라이선스 동의와 Android Studio 첫 실행은 사람이 직접 한다.
+:: ============================================================
+:DO_MOBILE
+cls
+echo.
+echo  ===================================================
+echo   [M] 모바일 앱 개발 환경 [Flutter / 안드로이드]
+echo  ===================================================
+echo.
+echo    [1] 모바일 기본     Git, Flutter, Android Studio, adb   [4개]
+echo    [2] 기본 + scrcpy   위 4개 + 폰 화면 미러링             [5개]
+echo    [3] 골라서 설치
+echo    [4] 설치 후 할 일 안내   [Android Studio 첫 실행 / 라이선스 / 폰 연결]
+echo    [0] 메인 메뉴로
+echo.
+echo  * 디스크 약 10GB, 설치 약 30~40분 [인터넷 속도에 따라 다름]
+echo  * iOS 앱은 Windows 에서 만들 수 없습니다 [Mac 필요]
+echo.
+set MOB_CHOICE=
+set MOB_GIT=
+set MOB_FL=
+set MOB_STUDIO=
+set MOB_ADB=
+set MOB_SCRCPY=
+set /p MOB_CHOICE="  번호: "
+if "!MOB_CHOICE!"=="0" goto MAIN_MENU
+if "!MOB_CHOICE!"=="1" goto MOBILE_BASIC
+if "!MOB_CHOICE!"=="2" goto MOBILE_PLUS
+if "!MOB_CHOICE!"=="3" goto MOBILE_PICK
+if "!MOB_CHOICE!"=="4" goto MOBILE_GUIDE
+goto DO_MOBILE
+
+:MOBILE_GUIDE
+cls
+call :POST_MOBILE
+pause
+goto DO_MOBILE
+
+:MOBILE_PLUS
+set MOB_SCRCPY=1
+:MOBILE_BASIC
+set MOB_GIT=1
+set MOB_FL=1
+set MOB_STUDIO=1
+set MOB_ADB=1
+goto MOBILE_CONFIRM
+
+:MOBILE_PICK
+echo.
+echo   [1] Git   [2] Flutter+Dart   [3] Android Studio   [4] adb   [5] scrcpy
+echo   번호를 쉼표로 입력하세요  [예: 2,3]      [0] 뒤로
+set MOB_SEL=
+set /p MOB_SEL="  번호: "
+if "!MOB_SEL!"=="" goto DO_MOBILE
+if "!MOB_SEL!"=="0" goto DO_MOBILE
+for %%n in (%MOB_SEL:,= %) do (
+    if "%%n"=="1" set MOB_GIT=1
+    if "%%n"=="2" set MOB_FL=1
+    if "%%n"=="3" set MOB_STUDIO=1
+    if "%%n"=="4" set MOB_ADB=1
+    if "%%n"=="5" set MOB_SCRCPY=1
+)
+
+:MOBILE_CONFIRM
+:: Flutter 는 git 으로 받으므로 Git 이 없으면 함께 설치
+if defined MOB_FL if not defined MOB_GIT (
+    call :FIND_GIT
+    if not defined FL_GIT (
+        echo  [안내] Flutter는 Git이 필요합니다. Git도 함께 설치합니다.
+        set MOB_GIT=1
+    )
+)
+set TOTAL=0
+if defined MOB_GIT set /a TOTAL+=1
+if defined MOB_FL set /a TOTAL+=1
+if defined MOB_STUDIO set /a TOTAL+=1
+if defined MOB_ADB set /a TOTAL+=1
+if defined MOB_SCRCPY set /a TOTAL+=1
+if !TOTAL! EQU 0 goto DO_MOBILE
+echo.
+echo  --------------------------------------------------
+echo  [모바일 설치 목록] !TOTAL!개
+if defined MOB_GIT echo    - Git
+if defined MOB_FL echo    - Flutter+Dart
+if defined MOB_STUDIO echo    - Android Studio
+if defined MOB_ADB echo    - adb [Android 플랫폼 도구]
+if defined MOB_SCRCPY echo    - scrcpy [폰 화면 미러링]
+echo  --------------------------------------------------
+echo  이미 설치된 도구는 건너뜁니다. 업데이트는 메인 메뉴 [6] 을 쓰세요.
+echo.
+set CONFIRM_MOB=
+set /p CONFIRM_MOB="  Y=설치 시작 / N=되돌아가기: "
+if /i "!CONFIRM_MOB!" NEQ "y" goto DO_MOBILE
+set UPGRADE_MODE=skip
+set LEVEL_NAME=모바일
+set DISK_MIN=3
+if defined MOB_FL set DISK_MIN=4
+if defined MOB_STUDIO set DISK_MIN=10
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_MOBILE
+goto PRE_CHECK
+
+:INSTALL_MOBILE
+cls
+echo.
+echo  [모바일 앱 개발 환경 설치] !TOTAL!개 도구를 설치합니다.
+echo.
+>> "%LOG_FILE%" echo === 모바일 설치 시작: %TIME% ===
+call :MOBILE_VIRT_CHECK
+echo.
+:: 의존성 순서: Git, Flutter [Git 필요], Android Studio, adb, scrcpy
+if defined MOB_GIT call :INSTALL "Git" "Git.Git"
+if defined MOB_FL call :INSTALL_FLUTTER
+if defined MOB_STUDIO call :INSTALL "Android Studio" "Google.AndroidStudio"
+if defined MOB_ADB call :INSTALL "adb [Android 플랫폼 도구]" "Google.PlatformTools"
+if defined MOB_SCRCPY call :INSTALL "scrcpy [폰 화면 미러링]" "Genymobile.scrcpy"
+call :POST_MOBILE
+call :MAKE_REPORTS
+call :PATH_CHECK
+call :DONE_MSG
+goto MAIN_MENU
+
+:: 가상화 확인 [안드로이드 에뮬레이터용]. 안내만 하고 설치는 막지 않는다. 실제 폰 연결에는 필요 없음.
+:MOBILE_VIRT_CHECK
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $c=Get-CimInstance Win32_ComputerSystem; $p=@(Get-CimInstance Win32_Processor); if($c.HypervisorPresent -or ($p | Where-Object { $_.VirtualizationFirmwareEnabled })){ exit 0 } else { exit 1 } } catch { exit 2 }" >nul 2>&1
+set VIRT_RC=!errorlevel!
+if !VIRT_RC! EQU 0 (
+    echo  [OK] 가상화 사용 가능 - 안드로이드 에뮬레이터를 쓸 수 있습니다
+    >> "%LOG_FILE%" echo OK: 가상화 사용 가능
+) else if !VIRT_RC! EQU 1 (
+    echo  [안내] 가상화가 꺼져 있습니다. 에뮬레이터는 느리거나 안 될 수 있습니다. [실제 폰 연결은 상관없음]
+    echo         켜려면 PC 시작 때 BIOS 설정에서 Intel VT-x 또는 AMD-V 를 켜세요.
+    >> "%LOG_FILE%" echo 안내: 가상화 꺼짐
+) else (
+    echo  [안내] 가상화 상태를 확인하지 못했습니다. 에뮬레이터에 문제가 있으면 BIOS 에서 가상화를 켜 보세요.
+    >> "%LOG_FILE%" echo 안내: 가상화 확인 실패
+)
+goto :eof
+
+:: 설치 후 할 일 안내 [자동화하지 않는 단계: 라이선스 동의 / Android Studio 첫 실행 / 폰 설정]
+:POST_MOBILE
+echo.
+echo  ---------------------------------------------------
+echo  [모바일 설치 후 할 일 - 순서대로 따라 하세요]
+echo  ---------------------------------------------------
+echo   1. Android Studio 를 한 번 실행합니다. [시작 메뉴에서 Android Studio]
+echo      설정 마법사가 나오면 Standard 를 고르고 끝날 때까지 기다리세요.
+echo      [Android SDK 를 내려받습니다. 몇 GB 라서 몇 분 걸립니다]
+echo   2. 새 터미널을 열고 라이선스에 동의합니다. [직접 y 를 눌러야 합니다]
+echo        flutter doctor --android-licenses
+echo   3. 준비 상태를 확인합니다. 모두 체크 표시면 끝입니다.
+echo        flutter doctor
+echo      SDK 를 못 찾는다고 나오면 아래 명령을 한 번 실행하세요.
+echo        flutter config --android-sdk "%LOCALAPPDATA%\Android\Sdk"
+echo   4. 실제 폰으로 시험하려면:
+echo      폰 설정 - 휴대전화 정보 - 빌드번호를 7번 누르기 - 개발자 옵션 - USB 디버깅 켜기
+echo      USB 로 연결한 뒤 adb devices 를 입력해 폰이 보이는지 확인하세요.
+echo   5. 폰 없이 시험하려면:
+echo      Android Studio - More Actions - Virtual Device Manager 에서 가상 폰을 만드세요.
+echo.
+echo   * iOS 앱은 Windows 에서 만들 수 없습니다 [Mac 필요].
+echo   * 환경 변수는 키트가 바꾸지 않습니다. 위 flutter config 명령으로 충분합니다.
+echo   * adb 가 두 벌[키트 설치 + Android Studio 내장]이라 버전 불일치 메시지가 나오면
+echo     adb kill-server 를 입력한 뒤 다시 시도하세요.
+echo.
+goto :eof
+
+:: Android Studio 설치 여부 [PATH 에 없는 프로그램이라 설치 위치 또는 winget 목록으로 확인]
+:CHECK_STUDIO
+if exist "%ProgramFiles%\Android\Android Studio\bin\studio64.exe" goto CHECK_STUDIO_OK
+if exist "%LOCALAPPDATA%\Programs\Android Studio\bin\studio64.exe" goto CHECK_STUDIO_OK
+winget list --id Google.AndroidStudio --source winget >nul 2>&1
+if not errorlevel 1 goto CHECK_STUDIO_OK
+echo    [X] Android Studio
+goto :eof
+:CHECK_STUDIO_OK
+echo    [O] Android Studio
+goto :eof
+
+:: flutter doctor 요약 [시간이 걸리므로 사용자가 y 를 눌렀을 때만]. 종료코드 0=정상 1=경고 2=오류 3=확인 못함
+:FLUTTER_DOCTOR_SUMMARY
+set "FD_OUT=%TEMP%\kit_flutter_doctor.txt"
+echo         flutter doctor 실행 중... 처음에는 1~2분 걸릴 수 있습니다.
+call flutter doctor > "!FD_OUT!" 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $t=Get-Content -LiteralPath $env:FD_OUT -Encoding UTF8 -ErrorAction Stop; if(-not $t){ exit 3 }; $c=0; foreach($l in $t){ if($l -match '^\[\x21\]'){ if($c -lt 1){ $c=1 }; Write-Host ('    '+$l) } elseif($l -match '^\[[^\]]\]' -and $l -notmatch '^\[(\u221a|\u2713)\]'){ $c=2; Write-Host ('    '+$l) } }; exit $c } catch { exit 3 }"
+set FD_RC=!errorlevel!
+del "!FD_OUT!" >nul 2>&1
+if !FD_RC! EQU 0 (
+    echo  [OK] flutter doctor: 모든 항목 정상 - 앱 개발 준비 완료
+) else if !FD_RC! EQU 1 (
+    echo  [안내] flutter doctor: 경고 항목이 있습니다. 메인 메뉴 [M] 의 [4] 설치 후 할 일 안내를 따라 하세요.
+) else if !FD_RC! EQU 2 (
+    echo  [안내] flutter doctor: 오류 항목이 있습니다. 메인 메뉴 [M] 의 [4] 설치 후 할 일 안내를 따라 하세요.
+) else (
+    echo  [안내] flutter doctor 결과를 읽지 못했습니다. 새 터미널에서 flutter doctor 를 직접 실행해 보세요.
+)
 goto :eof
 
 :: ============================================================
