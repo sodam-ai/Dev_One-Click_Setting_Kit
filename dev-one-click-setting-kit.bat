@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.7.0
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.7.1
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -38,6 +38,8 @@ echo   - ¼³Ä¡ Áß ÆÄ¶õ °æ°íÃ¢[Windows°¡ PC¸¦ º¸È£Çß½À´Ï´Ù]ÀÌ ¶°µµ Á¤»óÀÔ´Ï´Ù.
 echo     ±×·² ¶© [Ãß°¡ Á¤º¸] ¸¦ ´©¸¥ µÚ [½ÇÇà] À» ´©¸£¸é µË´Ï´Ù.
 echo   - ÀÎÅÍ³ÝÀ¸·Î ¹Þ±â ¶§¹®¿¡ ½Ã°£ÀÌ Á» °É·Áµµ Ã¢À» ´ÝÁö ¸¶¼¼¿ä.
 echo   - Ã³À½ÀÌ¶ó¸é ¸Þ´º¿¡¼­ [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡ ¸¦ ´©¸£¼¼¿ä.
+echo   - Æù ¾ÛÀ» ¸¸µé°í ½Í´Ù¸é [M] ¸ð¹ÙÀÏ ¾Û °³¹ß À» ´©¸£¼¼¿ä.
+echo   - ¿¹/¾Æ´Ï¿À Áú¹®Àº ¼ýÀÚ 1 [¿¹] ¶Ç´Â 2 [¾Æ´Ï¿À] ·Î ´äÇÏ¸é µË´Ï´Ù.
 echo.
 echo   - ¸ðµç µµ±¸´Â º£Å¸°¡ ¾Æ´Ñ '¾ÈÁ¤ ¹öÀü', Node¿Í Java´Â 'LTS(¿À·¡ Áö¿øµÇ´Â ¾ÈÀüÆÇ)'·Î ¼³Ä¡µË´Ï´Ù.
 pause
@@ -57,15 +59,15 @@ echo    ---------------------------------------------------
 echo    [5] ¼±ÅÃ ¼³Ä¡      ¿øÇÏ´Â °Í¸¸ °ñ¶ó¼­
 echo    [6] ¾÷µ¥ÀÌÆ®       ¼³Ä¡µÈ µµ±¸ ÀüÃ¼ ÃÖ½ÅÀ¸·Î
 echo    [7] Á¦°Å           µµ±¸ »èÁ¦ (°³º°/ÀüÃ¼)
-echo    [8] Á÷Á¢ ´Ù¿î·Îµå  °ø½Ä »çÀÌÆ® URL ¸ñ·Ï (winget ºÒ°¡ ½Ã)
-echo    [9] ¼³Ä¡ È®ÀÎ      O/X + ¹öÀü »óÅÂ Ç¥½Ã
+echo    [8] Á÷Á¢ ´Ù¿î·Îµå  ÀÚµ¿ ¼³Ä¡°¡ ¾È µÉ ¶§ °ø½Ä »çÀÌÆ®¿¡¼­ Á÷Á¢ ¹Þ±â
+echo    [9] ¼³Ä¡ È®ÀÎ      Àß ±ò·È´ÂÁö O/X ·Î È®ÀÎ + ¹öÀü Ç¥½Ã
 echo    [0] Á¾·á
 echo.
 echo  ===========================================================
-echo    [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡   Ã³À½ÀÌ¸é ÀÌ°Å! (±âº» 5Á¾ + AI)
-echo    [V] ¹öÀü ¼±ÅÃ ¼³Ä¡        Æ¯Á¤ ¾ÈÁ¤¹öÀü (Python/Java/Ruby)
-echo    [S] scoop ¼³Ä¡            °³¹ß¿ë ÆÐÅ°Áö ¸Å´ÏÀú [ºñwinget]
-echo    [M] ¸ð¹ÙÀÏ ¾Û °³¹ß        Flutter + Android Studio + adb [¾Èµå·ÎÀÌµå]
+echo    [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡   Ã³À½ÀÌ¸é ÀÌ°Å [±âº» 5Á¾ + AI µµ±¸]
+echo    [V] ¹öÀü ¼±ÅÃ ¼³Ä¡        ¿øÇÏ´Â ¹öÀüÀ¸·Î ¼³Ä¡ [Python/Java/Ruby]
+echo    [S] scoop ¼³Ä¡            ÇÁ·Î±×·¥ ¼³Ä¡¸¦ µµ¿ÍÁÖ´Â µµ±¸ [³ªÁß¿¡ ÇÊ¿äÇÒ ¶§]
+echo    [M] ¸ð¹ÙÀÏ ¾Û °³¹ß        Æù ¾Û ¸¸µé±â È¯°æ [Flutter, Android Studio]
 set /p MENU_CHOICE="  ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
@@ -104,7 +106,9 @@ if defined WIN_BUILD (
         echo         winget ¼öµ¿ ¼³Ä¡: https://aka.ms/getwinget
         echo.
         >> "%LOG_FILE%" echo ÁÖÀÇ: Windows ºôµå !WIN_BUILD! - winget ºÒ¾ÈÁ¤ °¡´É
-        set /p CONT_WIN="  °è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î? (Y/N): "
+        set CONT_WIN=
+        set /p CONT_WIN="  °è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î? 1=¿¹ / 2=¾Æ´Ï¿À: "
+        if "!CONT_WIN!"=="1" set CONT_WIN=y
         if /i "!CONT_WIN!" NEQ "y" goto MAIN_MENU
     ) else (
         echo  [OK] Windows ºôµå !WIN_BUILD!
@@ -170,7 +174,9 @@ if errorlevel 1 (
     echo  [ÁÖÀÇ] ÀÎÅÍ³Ý ¿¬°áÀ» È®ÀÎÇÏ¼¼¿ä.
     echo.
     >> "%LOG_FILE%" echo ÁÖÀÇ: ÀÎÅÍ³Ý ¿¬°á ºÒ¾ÈÁ¤
-    set /p CONT_NET="  °è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î? (Y/N): "
+    set CONT_NET=
+    set /p CONT_NET="  °è¼Ó ÁøÇàÇÏ½Ã°Ú½À´Ï±î? 1=¿¹ / 2=¾Æ´Ï¿À: "
+    if "!CONT_NET!"=="1" set CONT_NET=y
     if /i "!CONT_NET!" NEQ "y" goto MAIN_MENU
 ) else (
     echo  [OK] ÀÎÅÍ³Ý ¿¬°á È®ÀÎ
@@ -182,7 +188,9 @@ if not defined DISK_MIN set DISK_MIN=3
 powershell -nologo -command "if ((Get-PSDrive C).Free/1GB -lt !DISK_MIN!) { exit 1 }" >nul 2>&1
 if errorlevel 1 (
     echo  [°æ°í] Cµå¶óÀÌºê ¿©À¯ °ø°£ !DISK_MIN!GB ¹Ì¸¸ - ¼³Ä¡ Áß ½ÇÆÐÇÒ ¼ö ÀÖ½À´Ï´Ù.
-    set /p CONT_DISK="  °è¼ÓÇÏ½Ã°Ú½À´Ï±î? (y/n): "
+    set CONT_DISK=
+    set /p CONT_DISK="  °è¼ÓÇÏ½Ã°Ú½À´Ï±î? 1=¿¹ / 2=¾Æ´Ï¿À: "
+    if "!CONT_DISK!"=="1" set CONT_DISK=y
     if /i "!CONT_DISK!" NEQ "y" goto MAIN_MENU
 ) else (
     echo  [OK] µð½ºÅ© ¿©À¯ °ø°£ È®ÀÎ [!DISK_MIN!GB ÀÌ»ó]
@@ -231,7 +239,9 @@ echo  [¿ÕÃÊº¸ ¼³Ä¡ ¸ñ·Ï] 6°³ µµ±¸ (¾à 7ºÐ / µð½ºÅ© ~1GB)
 echo    Git, Python 3, Node.js LTS, VS Code, Windows Terminal, scoop
 echo  --------------------------------------------------
 echo.
-set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+set CONFIRM_INST=
+set /p CONFIRM_INST="  1=¼³Ä¡ ½ÃÀÛ / 2=¸ÞÀÎ ¸Þ´º·Î: "
+if "!CONFIRM_INST!"=="1" set CONFIRM_INST=y
 if /i "!CONFIRM_INST!" NEQ "y" goto MAIN_MENU
 echo.
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸ Ã³¸® ¹æ¹ý:
@@ -261,7 +271,9 @@ echo  [Áß±Þ ¼³Ä¡ ¸ñ·Ï] 12°³ µµ±¸ (¾à 15ºÐ / µð½ºÅ© ~2GB)
 echo    Git, Python, Node.js, GitHub CLI, PS7, pnpm, Bun, Ollama, VSCode, WinTerminal, scoop
 echo  --------------------------------------------------
 echo.
-set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+set CONFIRM_INST=
+set /p CONFIRM_INST="  1=¼³Ä¡ ½ÃÀÛ / 2=¸ÞÀÎ ¸Þ´º·Î: "
+if "!CONFIRM_INST!"=="1" set CONFIRM_INST=y
 if /i "!CONFIRM_INST!" NEQ "y" goto MAIN_MENU
 echo.
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸ Ã³¸® ¹æ¹ý:
@@ -291,7 +303,9 @@ echo  [°í±Þ ¼³Ä¡ ¸ñ·Ï] 17°³ µµ±¸ (¾à 35ºÐ / µð½ºÅ© ~6GB)
 echo    Áß±Þ Æ÷ÇÔ + Java 21 LTS, Flutter+Dart, Go, Rust
 echo  --------------------------------------------------
 echo.
-set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+set CONFIRM_INST=
+set /p CONFIRM_INST="  1=¼³Ä¡ ½ÃÀÛ / 2=¸ÞÀÎ ¸Þ´º·Î: "
+if "!CONFIRM_INST!"=="1" set CONFIRM_INST=y
 if /i "!CONFIRM_INST!" NEQ "y" goto MAIN_MENU
 echo.
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸ Ã³¸® ¹æ¹ý:
@@ -321,7 +335,9 @@ echo  [¿ÃÀÎ¿ø ¼³Ä¡ ¸ñ·Ï] 19°³ µµ±¸ (¾à 45ºÐ / µð½ºÅ© ~7GB)
 echo    °í±Þ Æ÷ÇÔ + Ruby, PHP
 echo  --------------------------------------------------
 echo.
-set /p CONFIRM_INST="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+set CONFIRM_INST=
+set /p CONFIRM_INST="  1=¼³Ä¡ ½ÃÀÛ / 2=¸ÞÀÎ ¸Þ´º·Î: "
+if "!CONFIRM_INST!"=="1" set CONFIRM_INST=y
 if /i "!CONFIRM_INST!" NEQ "y" goto MAIN_MENU
 echo.
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸ Ã³¸® ¹æ¹ý:
@@ -518,7 +534,7 @@ if not errorlevel 1 (
     goto :eof
 )
 
-echo         [°Ç³Ê¶Ü] %~1 (npm ¼³Ä¡ ½ÇÆÐ)
+echo         [½ÇÆÐ] %~1 npm ¼³Ä¡ ½ÇÆÐ - ÀÎÅÍ³Ý È®ÀÎ ÈÄ ´Ù½Ã ½ÇÇàÇØ º¸¼¼¿ä.
 >> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ (npm)
 >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] %~1 (npm)
 goto :eof
@@ -600,7 +616,7 @@ if not errorlevel 1 (
         >> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] %~1
     )
 ) else (
-echo         [91m[°Ç³Ê¶Ü][0m %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
+echo         [91m[½ÇÆÐ][0m %~1 ¼³Ä¡ ½ÇÆÐ - °ÆÁ¤¸¶¼¼¿ä! ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
     >> "%LOG_FILE%" echo   Àç½Ãµµ ½ÇÆÐ [errorlevel=!RETRY_ERR!]: %TIME%
     set /a FAIL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] %~1
@@ -651,7 +667,7 @@ if not errorlevel 1 (
         echo  [¿Ï·á] Claude Code CLI ¼³Ä¡ ¿Ï·á - »õ ÅÍ¹Ì³Î¿¡¼­ claude --version
     ) else (
         >> "%LOG_FILE%" echo POST: Claude Code CLI ¼³Ä¡ ½ÇÆÐ
-        echo  [°Ç³Ê¶Ü] Claude Code CLI ¼³Ä¡ ½ÇÆÐ - ÀÎÅÍ³Ý È®ÀÎ ÈÄ npm install -g @anthropic-ai/claude-code ·Î Àç½Ãµµ
+        echo  [½ÇÆÐ] Claude Code CLI ¼³Ä¡ ½ÇÆÐ - ÀÎÅÍ³Ý È®ÀÎ ÈÄ npm install -g @anthropic-ai/claude-code ·Î Àç½Ãµµ
     )
 )
 echo.
@@ -671,13 +687,21 @@ if not errorlevel 1 (
 )
 
 echo  [ÀÚµ¿] ¹èÆ÷/DB CLI µµ±¸ npm ¼³Ä¡ Áß...
-set /p INST_VERCEL="  Vercel CLI ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+set INST_VERCEL=
+set /p INST_VERCEL="  Vercel CLI ¼³Ä¡ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!INST_VERCEL!"=="1" set INST_VERCEL=y
 if /i "!INST_VERCEL!"=="y" call :NPM_INSTALL "Vercel CLI" "vercel"
-set /p INST_SUPABASE="  Supabase CLI ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+set INST_SUPABASE=
+set /p INST_SUPABASE="  Supabase CLI ¼³Ä¡ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!INST_SUPABASE!"=="1" set INST_SUPABASE=y
 if /i "!INST_SUPABASE!"=="y" call :NPM_INSTALL "Supabase CLI" "supabase"
-set /p INST_STRIPE="  Stripe SDK ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+set INST_STRIPE=
+set /p INST_STRIPE="  Stripe SDK ¼³Ä¡ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!INST_STRIPE!"=="1" set INST_STRIPE=y
 if /i "!INST_STRIPE!"=="y" call :NPM_INSTALL "Stripe SDK" "stripe"
-set /p INST_RESEND="  Resend SDK ¼³Ä¡ÇÒ±î¿ä? (y/n): "
+set INST_RESEND=
+set /p INST_RESEND="  Resend SDK ¼³Ä¡ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!INST_RESEND!"=="1" set INST_RESEND=y
 if /i "!INST_RESEND!"=="y" call :NPM_INSTALL "Resend SDK" "resend"
 goto :eof
 
@@ -734,7 +758,7 @@ if not exist "%REPORT_FILE%.tmp" >> "%REPORT_FILE%.tmp" echo   (¼³Ä¡ Ç×¸ñ ¾øÀ½)
     echo ====================================================
     type "%REPORT_FILE%.tmp"
     echo ====================================================
-    echo  ÀÌ ÆÄÀÏÀ» °­»ç¿¡°Ô Àü´ÞÇÏ¸é ¼³Ä¡ »óÅÂ¸¦ ÆÄ¾ÇÇÒ ¼ö ÀÖ½À´Ï´Ù.
+    echo  µµ¿òÀÌ ÇÊ¿äÇÏ¸é ÀÌ ÆÄÀÏÀ» °­»ç ¶Ç´Â µµ¿ÍÁÖ´Â ºÐ²² Àü´ÞÇÏ¼¼¿ä.
     echo ====================================================
 ) > "%REPORT_FILE%"
 
@@ -745,9 +769,9 @@ del "%REPORT_FILE%.tmp" >nul 2>&1
 >> "%LOG_FILE%" echo ¼º°ø: %INSTALL_COUNT% / °Ç³Ê¶Ü: %SKIP_COUNT% / ½ÇÆÐ: %FAIL_COUNT%
 
 echo.
-echo  [¸®Æ÷Æ® ÀúÀå ¿Ï·á] ¾Æ·¡ ÆÄÀÏÀ» °­»ç¿¡°Ô Àü´ÞÇØ ÁÖ¼¼¿ä:
-echo    %REPORT_FILE%  (°­»ç¿ë ¿ä¾à)
-echo    %LOG_FILE%     (µð¹ö±ë¿ë »ó¼¼)
+echo  [¸®Æ÷Æ® ÀúÀå ¿Ï·á] µµ¿òÀÌ ÇÊ¿äÇÏ¸é ¾Æ·¡ ÆÄÀÏÀ» °­»ç ¶Ç´Â µµ¿ÍÁÖ´Â ºÐ²² Àü´ÞÇØ ÁÖ¼¼¿ä:
+echo    %REPORT_FILE%  (¼³Ä¡ °á°ú ¿ä¾à)
+echo    %LOG_FILE%     (¹®Á¦ È®ÀÎ¿ë »ó¼¼)
 goto :eof
 
 :: ============================================================
@@ -772,7 +796,7 @@ goto :eof
 echo  ---------------------------------------------------
 if !FAIL_COUNT! GTR 0 (
     echo  [ÁÖÀÇ] ÀÏºÎ µµ±¸ ¼³Ä¡ ½ÇÆÐ: !FAIL_COUNT!°³
-    echo         %LOG_FILE% ¸¦ °­»ç¿¡°Ô Àü´ÞÇÏ¼¼¿ä.
+    echo         %LOG_FILE% ¸¦ °­»ç ¶Ç´Â µµ¿ÍÁÖ´Â ºÐ²² Àü´ÞÇÏ¼¼¿ä.
     echo.
 )
 echo  ¼³Ä¡°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù!
@@ -816,7 +840,9 @@ echo  Ã³À½ ½ÃÀÛ¿¡ ÇÊ¿äÇÑ ÇÙ½É µµ±¸¸¦ ÇÑ ¹ø¿¡ ¼³Ä¡ÇÕ´Ï´Ù.
 echo    - ±âº» 5Á¾: Git, Python, Node.js, VS Code, Windows Terminal
 echo    - AI: Claude Code[ÀÚµ¿ ¼³Ä¡]. Cursor / Claude Desktop Àº ´Ù¿î·Îµå ÆäÀÌÁö¸¦ ¿±´Ï´Ù(Á÷Á¢ ¼³Ä¡).
 echo.
-set /p CONFIRM_EASY="  Y=¼³Ä¡ ½ÃÀÛ / N=¸ÞÀÎ ¸Þ´º·Î: "
+set CONFIRM_EASY=
+set /p CONFIRM_EASY="  1=¼³Ä¡ ½ÃÀÛ / 2=¸ÞÀÎ ¸Þ´º·Î: "
+if "!CONFIRM_EASY!"=="1" set CONFIRM_EASY=y
 if /i "!CONFIRM_EASY!" NEQ "y" goto MAIN_MENU
 set UPGRADE_MODE=skip
 set LEVEL_NAME=ÃßÃµ¼³Ä¡
@@ -927,7 +953,9 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="30" echo    - scrcpy [Æù È­¸é ¹Ì·¯¸µ]
 )
 echo  ---------------------------------------------------
-set /p CONFIRM_SEL="  Y=¼³Ä¡ ½ÃÀÛ / N=´Ù½Ã ¼±ÅÃ: "
+set CONFIRM_SEL=
+set /p CONFIRM_SEL="  1=¼³Ä¡ ½ÃÀÛ / 2=´Ù½Ã ¼±ÅÃ: "
+if "!CONFIRM_SEL!"=="1" set CONFIRM_SEL=y
 if /i "!CONFIRM_SEL!" NEQ "y" goto DO_SELECT
 echo.
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸ Ã³¸® ¹æ¹ý:
@@ -1115,7 +1143,9 @@ echo.
 echo  [È®ÀÎ] Âü°í·Î, Áö±Ý ¾÷µ¥ÀÌÆ® °¡´ÉÇÑ ÀüÃ¼ ¸ñ·ÏÀÔ´Ï´Ù...
 winget upgrade --source winget
 echo.
-set /p DO_UPD="  Å°Æ® µµ±¸¸¦ ¾ÈÀüÇÏ°Ô ¾÷µ¥ÀÌÆ®ÇÒ±î¿ä? (y/n): "
+set DO_UPD=
+set /p DO_UPD="  Å°Æ® µµ±¸¸¦ ¾ÈÀüÇÏ°Ô ¾÷µ¥ÀÌÆ®ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!DO_UPD!"=="1" set DO_UPD=y
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
 for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy) do (
@@ -1203,7 +1233,9 @@ goto MAIN_MENU
 :REMOVE_ALL
 echo.
 echo  [°æ°í] ÀÌ Å°Æ®·Î ¼³Ä¡ÇÑ ¸ðµç µµ±¸¸¦ Á¦°ÅÇÕ´Ï´Ù.
-set /p REM_ALL_CONFIRM="  Y¸¦ ÀÔ·ÂÇÏ¸é ÁøÇàÇÕ´Ï´Ù: "
+set REM_ALL_CONFIRM=
+set /p REM_ALL_CONFIRM="  1=ÀüÃ¼ Á¦°Å ÁøÇà / 2=Ãë¼Ò: "
+if "!REM_ALL_CONFIRM!"=="1" set REM_ALL_CONFIRM=y
 if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  Á¦°Å Áß... (½Ã°£ÀÌ °É¸± ¼ö ÀÖ½À´Ï´Ù)
@@ -1405,7 +1437,9 @@ call :CHECK_ONE "Claude Code CLI" claude
 where flutter >nul 2>&1
 if not errorlevel 1 (
     echo.
-    set /p FD_RUN="  flutter doctor ·Î ¸ð¹ÙÀÏ °³¹ß ÁØºñ »óÅÂµµ Á¡°ËÇÒ±î¿ä? 1~2ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù. [y/n]: "
+    set FD_RUN=
+    set /p FD_RUN="  flutter doctor ·Î ¸ð¹ÙÀÏ °³¹ß ÁØºñ »óÅÂµµ Á¡°ËÇÒ±î¿ä? 1~2ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù. 1=¿¹ / 2=¾Æ´Ï¿À: "
+    if "!FD_RUN!"=="1" set FD_RUN=y
     if /i "!FD_RUN!"=="y" call :FLUTTER_DOCTOR_SUMMARY
 )
 
@@ -1559,7 +1593,9 @@ if not exist "!FL_BIN!\flutter.bat" (
 )
 echo.
 echo  Flutter Æú´õ¸¦ ÅëÂ°·Î »èÁ¦ÇÕ´Ï´Ù: !FL_DIR!
-set /p FL_DEL="  Y ¸¦ ÀÔ·ÂÇÏ¸é »èÁ¦ÇÕ´Ï´Ù: "
+set FL_DEL=
+set /p FL_DEL="  1=»èÁ¦ / 2=Ãë¼Ò: "
+if "!FL_DEL!"=="1" set FL_DEL=y
 if /i "!FL_DEL!" NEQ "y" goto :eof
 rmdir /s /q "!FL_DIR!" >nul 2>&1
 powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $keep=@(); foreach($e in $p.Split(';')){ if($e.Trim() -ne '' -and [Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ine $b){ $keep+=$e } }; $k.SetValue('Path',($keep -join ';'),[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User'); $k.Close() } catch { exit 1 }" >nul 2>&1
@@ -1661,7 +1697,8 @@ echo  --------------------------------------------------
 echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸´Â °Ç³Ê¶Ý´Ï´Ù. ¾÷µ¥ÀÌÆ®´Â ¸ÞÀÎ ¸Þ´º [6] À» ¾²¼¼¿ä.
 echo.
 set CONFIRM_MOB=
-set /p CONFIRM_MOB="  Y=¼³Ä¡ ½ÃÀÛ / N=µÇµ¹¾Æ°¡±â: "
+set /p CONFIRM_MOB="  1=¼³Ä¡ ½ÃÀÛ / 2=µÇµ¹¾Æ°¡±â: "
+if "!CONFIRM_MOB!"=="1" set CONFIRM_MOB=y
 if /i "!CONFIRM_MOB!" NEQ "y" goto DO_MOBILE
 set UPGRADE_MODE=skip
 set LEVEL_NAME=¸ð¹ÙÀÏ
@@ -1837,7 +1874,9 @@ if not errorlevel 1 (
     pause
     goto MAIN_MENU
 )
-set /p SCOOP_OK="  scoop À» Áö±Ý ¼³Ä¡ÇÒ±î¿ä? [Y/N]: "
+set SCOOP_OK=
+set /p SCOOP_OK="  scoop À» Áö±Ý ¼³Ä¡ÇÒ±î¿ä? 1=¿¹ / 2=¾Æ´Ï¿À: "
+if "!SCOOP_OK!"=="1" set SCOOP_OK=y
 if /i "!SCOOP_OK!" NEQ "y" goto MAIN_MENU
 echo.
 echo   scoop ¼³Ä¡ Áß... 1~2ºÐ °É¸®¸ç ÀÎÅÍ³ÝÀÌ ÇÊ¿äÇÕ´Ï´Ù.

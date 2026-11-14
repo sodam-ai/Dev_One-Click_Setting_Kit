@@ -595,6 +595,10 @@ Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자�
 </tr>
 </tbody>
 </table>
+<p><strong>예/아니오 질문</strong>은 <code>1</code>(예) /
+<code>2</code>(아니오) 숫자로 답해도 되고, 기존처럼
+<code>y</code>/<code>n</code>도 됩니다. 아무것도 입력하지 않고 Enter만
+누르면 <strong>실행하지 않고</strong> 돌아갑니다.</p>
 <hr />
 <h2 id="8-작동-방법--명령어">8. 작동 방법 &amp; 명령어</h2>
 <p>이 키트는 <strong>메뉴 번호만 입력</strong>하면 되므로 외울 명령어가
@@ -611,7 +615,33 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
-<summary><b>v1.7.0 (2026-11-14) — 최신</b></summary>
+<summary><b>v1.7.1 (2026-11-14) — 최신</b></summary>
+
+<ul>
+<li><strong>Fixed</strong>: 설치가 <strong>실패했는데 빨간
+<code>[건너뜀]</code>으로 표시</strong>되던 곳(winget · npm · Claude
+Code CLI)을 **<code>[실패]</code>**로 통일했습니다. 리포트에는 원래
+<code>[실패]</code>로 기록되고 있어 화면과 달라 헷갈리던
+부분입니다.</li>
+<li><strong>Changed</strong>: <strong>예/아니오 질문 19곳을 숫자로도
+답할 수 있게</strong> 했습니다(<code>1</code>=예 /
+<code>2</code>=아니오). 기존 <code>y</code>/<code>n</code>도 그대로
+됩니다. 제거·삭제 질문은 <code>1=삭제 / 2=취소</code>처럼 <strong>무엇이
+실행되는지 문구에 적었고</strong>, 그냥 Enter를 누르면 실행되지
+않습니다.</li>
+<li><strong>Changed</strong>: 메인 메뉴·첫 화면 문구를 <strong>쉬운
+말</strong>로
+다듬었습니다(<code>winget</code>·<code>패키지 매니저</code> 같은 용어
+줄임, 첫 화면에 <code>[M]</code> 모바일 안내 추가). 완료 화면의
+"강사에게 전달"을 **"강사 또는 도와주는 분께"**로 바꿔 혼자 쓰는 분도
+이해되게 했습니다.</li>
+<li><strong>참고</strong>: 설치 목록과 설치 동작은 바뀌지
+않았습니다(문구·입력 방식만 변경).</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.7.0 (2026-11-14)</summary>
 
 <ul>
 <li><strong>Added</strong>: 메인 메뉴 <strong>[M] 모바일 앱

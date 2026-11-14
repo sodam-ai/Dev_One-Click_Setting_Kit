@@ -197,6 +197,8 @@ The main menu shown on run:
 | **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
 | **[9]** | Shows each tool’s install state (O/X) and version |
 
+**Yes/no questions** can be answered with `1` (yes) / `2` (no), and the old `y`/`n` still works. Pressing just Enter does **not** run anything.
+
 ---
 
 ## 8. How it works & commands
@@ -223,7 +225,16 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.7.0 (2026-11-14) — latest</b></summary>
+<summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
+
+- **Fixed**: failed installs that were shown as a red `[건너뜀]` (skipped) — in winget, npm and Claude Code CLI — now show **`[실패]` (failed)**. The report already recorded them as failures, so the screen and the report disagreed.
+- **Changed**: **19 yes/no questions can now be answered with numbers** (`1` = yes / `2` = no). The old `y`/`n` still works. Remove/delete prompts say exactly what runs (e.g. `1=Delete / 2=Cancel` in Korean) and pressing just Enter does not run them.
+- **Changed**: main-menu and first-screen wording simplified (fewer terms like `winget` / `package manager`; the first screen now mentions **[M]**). "Send it to your instructor" on the finish screen now reads **"to your instructor or someone who helps you"** so solo users understand it.
+- **Note**: install lists and install behavior are unchanged (wording and input method only).
+</details>
+
+<details>
+<summary>v1.7.0 (2026-11-14)</summary>
 
 - **Added**: main menu **[M] Mobile app development** — installs Git · Flutter · **Android Studio** · **adb** · (optional) **scrcpy** in one go: `[1] Mobile basic` / `[2] Basic + scrcpy` / `[3] Pick items` / `[4] After-install guide`. Also available as items 28–30 in [5] Custom install.
 - **Added**: a **virtualization check** before installing (informational, never blocks) and a **step-by-step guide** afterwards (first Android Studio launch · license acceptance · `flutter doctor` · USB debugging on the phone). Environment variables are not set; guidance only.

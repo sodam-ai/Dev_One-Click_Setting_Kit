@@ -608,6 +608,10 @@ href="#3-programs-installed-tool-list">§3</a></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Yes/no questions</strong> can be answered with <code>1</code>
+(yes) / <code>2</code> (no), and the old <code>y</code>/<code>n</code>
+still works. Pressing just Enter does <strong>not</strong> run
+anything.</p>
 <hr />
 <h2 id="8-how-it-works--commands">8. How it works &amp; commands</h2>
 <p>You only ever <strong>type menu numbers</strong> — there are no
@@ -624,7 +628,32 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary><b>v1.7.0 (2026-11-14) — latest</b></summary>
+<summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
+
+<ul>
+<li><strong>Fixed</strong>: failed installs that were shown as a red
+<code>[건너뜀]</code> (skipped) — in winget, npm and Claude Code CLI —
+now show <strong><code>[실패]</code> (failed)</strong>. The report
+already recorded them as failures, so the screen and the report
+disagreed.</li>
+<li><strong>Changed</strong>: <strong>19 yes/no questions can now be
+answered with numbers</strong> (<code>1</code> = yes / <code>2</code> =
+no). The old <code>y</code>/<code>n</code> still works. Remove/delete
+prompts say exactly what runs (e.g. <code>1=Delete / 2=Cancel</code> in
+Korean) and pressing just Enter does not run them.</li>
+<li><strong>Changed</strong>: main-menu and first-screen wording
+simplified (fewer terms like <code>winget</code> /
+<code>package manager</code>; the first screen now mentions
+<strong>[M]</strong>). "Send it to your instructor" on the finish screen
+now reads <strong>"to your instructor or someone who helps you"</strong>
+so solo users understand it.</li>
+<li><strong>Note</strong>: install lists and install behavior are
+unchanged (wording and input method only).</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.7.0 (2026-11-14)</summary>
 
 <ul>
 <li><strong>Added</strong>: main menu <strong>[M] Mobile app
