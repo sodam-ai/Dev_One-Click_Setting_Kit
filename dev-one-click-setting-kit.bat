@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.7.1
+:: 바이브코딩 환경 키트 -- DEV-KIT.bat v1.8.0
 :: AI 바이브코딩 입문자를 위한 원클릭 개발 환경 세팅 도구
 :: ============================================================
 
@@ -30,6 +30,8 @@ set REPORT_FILE=%~dp0install-report-%REPORT_DATE%.txt
 set LOG_FILE=%~dp0install-log-%REPORT_DATE%.txt
 set START_TIME=%TIME%
 set UPGRADE_MODE=skip
+set "KIT_SELF=%~f0"
+set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 
 :: Enable ANSI color sequences (Windows 10+)
 reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >nul 2>&1
@@ -54,6 +56,7 @@ echo     그럴 땐 [추가 정보] 를 누른 뒤 [실행] 을 누르면 됩니다.
 echo   - 인터넷으로 받기 때문에 시간이 좀 걸려도 창을 닫지 마세요.
 echo   - 처음이라면 메뉴에서 [A] 가장 쉬운 추천 설치 를 누르세요.
 echo   - 폰 앱을 만들고 싶다면 [M] 모바일 앱 개발 을 누르세요.
+echo   - 웹 / 데스크톱 / 서버 개발 환경과 마크다운 뷰어는 [D] 를 누르세요.
 echo   - 예/아니오 질문은 숫자 1 [예] 또는 2 [아니오] 로 답하면 됩니다.
 echo.
 echo   - 모든 도구는 베타가 아닌 '안정 버전', Node와 Java는 'LTS(오래 지원되는 안전판)'로 설치됩니다.
@@ -83,6 +86,7 @@ echo    [A] 가장 쉬운 추천 설치   처음이면 이거 [기본 5종 + AI 도구]
 echo    [V] 버전 선택 설치        원하는 버전으로 설치 [Python/Java/Ruby]
 echo    [S] scoop 설치            프로그램 설치를 도와주는 도구 [나중에 필요할 때]
 echo    [M] 모바일 앱 개발        폰 앱 만들기 환경 [Flutter, Android Studio]
+echo    [D] 분야별 개발 환경      웹 / 데스크톱 / 서버 / 마크다운 뷰어
 set MENU_CHOICE=
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
@@ -90,6 +94,7 @@ if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if /i "!MENU_CHOICE!"=="V" goto DO_VERSION
 if /i "!MENU_CHOICE!"=="S" goto DO_SCOOP
 if /i "!MENU_CHOICE!"=="M" goto DO_MOBILE
+if /i "!MENU_CHOICE!"=="D" goto DO_DEV
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -462,6 +467,7 @@ call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :POST_INTERMEDIATE
 call :POST_ADVANCED
+call :RUST_NOTE
 call :MAKE_REPORTS
 call :PATH_CHECK
 call :DONE_MSG
@@ -500,6 +506,7 @@ call :INSTALL_SCOOP
 call :POST_BEGINNER
 call :POST_INTERMEDIATE
 call :POST_ADVANCED
+call :RUST_NOTE
 call :MAKE_REPORTS
 call :PATH_CHECK
 call :DONE_MSG
@@ -1044,6 +1051,7 @@ if not errorlevel 1 (
 )
 
 set MOB_SHOW=
+set RUST_SHOW=
 for %%n in (%SEL:,= %) do (
     if "%%n"=="1"  call :INSTALL "Git" "Git.Git"
     if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3"
@@ -1078,10 +1086,13 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="12" set MOB_SHOW=1
     if "%%n"=="28" set MOB_SHOW=1
     if "%%n"=="29" set MOB_SHOW=1
+    if "%%n"=="14" set RUST_SHOW=1
 )
 
 if defined MOB_SHOW call :POST_MOBILE
 set MOB_SHOW=
+if defined RUST_SHOW call :RUST_NOTE
+set RUST_SHOW=
 call :MAKE_REPORTS
 call :PATH_CHECK
 call :DONE_MSG
@@ -1471,6 +1482,14 @@ echo  [ 모바일 앱 개발 ]
 call :CHECK_STUDIO
 call :CHECK_ONE "adb" adb
 call :CHECK_ONE "scrcpy" scrcpy
+echo.
+echo  [ 분야별 개발 환경 / 문서 ]
+call :CHECK_BUILD
+call :CHECK_ONE "Docker" docker
+call :CHECK_WG "PostgreSQL 17" PostgreSQL.PostgreSQL.17
+call :CHECK_WG "Obsidian" Obsidian.Obsidian
+call :CHECK_WG "MarkText" MarkText.MarkText
+call :CHECK_WG "Zettlr" Zettlr.Zettlr
 echo.
 echo  [ 배포 / DB CLI ]
 call :CHECK_ONE "Stripe CLI" stripe
@@ -1863,6 +1882,633 @@ if !FD_RC! EQU 0 (
     echo  [안내] flutter doctor: 오류 항목이 있습니다. 메인 메뉴 [M] 의 [4] 설치 후 할 일 안내를 따라 하세요.
 ) else (
     echo  [안내] flutter doctor 결과를 읽지 못했습니다. 새 터미널에서 flutter doctor 를 직접 실행해 보세요.
+)
+goto :eof
+
+:: ============================================================
+:: [D] 분야별 개발 환경 허브 [v1.8.0]
+:: 웹 / 데스크톱 앱 / 모바일[M 연결] / 데이터-AI-서버 / 마크다운 뷰어
+:: 선택 화면은 :PICK [위/아래 화살표 + Enter, 또는 번호] 를 사용합니다.
+:: ============================================================
+:DO_DEV
+cls
+echo.
+echo  ===================================================
+echo   [D] 분야별 개발 환경
+echo  ===================================================
+set "PICK_TITLE=무엇을 만들고 싶으세요?"
+set "PICK_HINT=위/아래 화살표로 움직이고 Enter 로 선택  [번호도 가능 / 0 또는 Esc = 뒤로]"
+set PICK_COUNT=5
+set "PICK_1=웹 개발              웹 사이트 / 웹 서비스"
+set "PICK_2=데스크톱 앱 개발     PC 프로그램 [Rust / Tauri]"
+set "PICK_3=모바일 앱 개발       폰 앱 [Flutter / 안드로이드]"
+set "PICK_4=데이터 / AI / 서버   파이썬, AI, Docker, DB"
+set "PICK_5=마크다운 뷰어        .md 문서를 보기 좋게 열기"
+call :PICK
+if "!PICK_RESULT!"=="1" goto DEV_WEB
+if "!PICK_RESULT!"=="2" goto DEV_DESK
+if "!PICK_RESULT!"=="3" goto DO_MOBILE
+if "!PICK_RESULT!"=="4" goto DEV_DATA
+if "!PICK_RESULT!"=="5" goto DO_MDVIEW
+goto MAIN_MENU
+
+:DEV_WEB
+set "DEV_NAME=웹 개발"
+set "DEV_KEY=WEB"
+set "DEV_BASIC_TXT=Git, Node.js, VS Code, pnpm"
+set "DEV_BASIC_INFO=4개 / 약 5분 / 디스크 약 2GB [예상]"
+set "DEV_ALL_TXT=기본 + GitHub CLI, Bun, Vercel CLI, Supabase CLI"
+set "DEV_ALL_INFO=8개 / 약 10분 / 디스크 약 3GB [예상]"
+goto DEV_CHOOSE
+
+:DEV_DESK
+set "DEV_NAME=데스크톱 앱 개발"
+set "DEV_KEY=DESK"
+set "DEV_BASIC_TXT=Git, Node.js, VS Code, Rust, C++ 빌드 도구"
+set "DEV_BASIC_INFO=5개 / 약 30분 / 디스크 약 10GB [예상] / C++ 빌드 도구가 크고 관리자 권한이 필요합니다"
+set "DEV_ALL_TXT=기본 + GitHub CLI, pnpm"
+set "DEV_ALL_INFO=7개 / 약 35분 / 디스크 약 11GB [예상]"
+goto DEV_CHOOSE
+
+:DEV_DATA
+set "DEV_NAME=데이터 / AI / 서버"
+set "DEV_KEY=DATA"
+set "DEV_BASIC_TXT=Python 3, uv, VS Code, Ollama"
+set "DEV_BASIC_INFO=4개 / 약 10분 / 디스크 약 2GB [예상]"
+set "DEV_ALL_TXT=기본 + Docker Desktop, PostgreSQL"
+set "DEV_ALL_INFO=6개 / 약 30분 / 디스크 약 8GB [예상] / 관리자 권한 필요, PC 재시작이 필요할 수 있습니다"
+goto DEV_CHOOSE
+
+:DEV_CHOOSE
+cls
+echo.
+echo  ===================================================
+echo   [D] !DEV_NAME!
+echo  ===================================================
+echo.
+echo    [기본] !DEV_BASIC_TXT!
+echo           !DEV_BASIC_INFO!
+echo.
+echo    [전부] !DEV_ALL_TXT!
+echo           !DEV_ALL_INFO!
+echo.
+echo  * 이미 설치된 도구는 건너뜁니다.
+set "PICK_TITLE=설치 범위를 고르세요"
+set "PICK_HINT=위/아래 화살표로 움직이고 Enter 로 선택  [번호도 가능 / 0 또는 Esc = 뒤로]"
+set PICK_COUNT=2
+set "PICK_1=기본   꼭 필요한 것만"
+set "PICK_2=전부   기본 + 추가 도구"
+call :PICK
+if "!PICK_RESULT!"=="0" goto DO_DEV
+set DEV_MODE=!PICK_RESULT!
+for %%v in (GIT NODE VSCODE PNPM GH BUN VERCEL SUPA RUST BUILD PY UV OLLAMA DOCKER PG) do set "DEV_%%v="
+if "!DEV_KEY!"=="WEB" (
+    set DEV_GIT=1
+    set DEV_NODE=1
+    set DEV_VSCODE=1
+    set DEV_PNPM=1
+    if "!DEV_MODE!"=="2" (
+        set DEV_GH=1
+        set DEV_BUN=1
+        set DEV_VERCEL=1
+        set DEV_SUPA=1
+    )
+)
+if "!DEV_KEY!"=="DESK" (
+    set DEV_GIT=1
+    set DEV_NODE=1
+    set DEV_VSCODE=1
+    set DEV_RUST=1
+    set DEV_BUILD=1
+    if "!DEV_MODE!"=="2" (
+        set DEV_GH=1
+        set DEV_PNPM=1
+    )
+)
+if "!DEV_KEY!"=="DATA" (
+    set DEV_PY=1
+    set DEV_UV=1
+    set DEV_VSCODE=1
+    set DEV_OLLAMA=1
+    if "!DEV_MODE!"=="2" (
+        set DEV_DOCKER=1
+        set DEV_PG=1
+    )
+)
+
+:: 관리자 권한이 필요한 도구: C++ 빌드 도구 / Docker Desktop / PostgreSQL
+set DEV_NEEDADMIN=
+if defined DEV_BUILD set DEV_NEEDADMIN=1
+if defined DEV_DOCKER set DEV_NEEDADMIN=1
+if defined DEV_PG set DEV_NEEDADMIN=1
+if defined DEV_NEEDADMIN call :ADMIN_CAPABLE
+if defined DEV_NEEDADMIN if not defined ADMIN_OK (
+    echo.
+    echo  [주의] 이 PC 계정은 관리자가 아니라서 아래 도구는 설치하지 않습니다.
+    if defined DEV_BUILD echo         - C++ 빌드 도구
+    if defined DEV_DOCKER echo         - Docker Desktop
+    if defined DEV_PG echo         - PostgreSQL
+    echo         관리자 계정으로 로그인한 뒤 다시 실행하면 설치할 수 있습니다.
+    set DEV_BUILD=
+    set DEV_DOCKER=
+    set DEV_PG=
+    echo.
+    pause
+)
+
+if defined DEV_DOCKER (
+    echo.
+    echo  ---------------------------------------------------
+    echo  [Docker Desktop 설치 전에 꼭 읽어 주세요]
+    echo  ---------------------------------------------------
+    echo   1. 설치 후 PC 를 다시 시작해야 할 수 있습니다.
+    echo   2. 처음 실행하면 WSL2 [윈도우 안의 리눅스 기능] 를 켜라는 안내가 나올 수 있습니다.
+    echo      가상화가 꺼져 있으면 PC 시작 때 BIOS 에서 가상화를 켜야 합니다.
+    echo   3. 개인 / 학습용은 무료입니다. 큰 회사에서 업무용으로 쓰면 유료일 수 있습니다.
+    echo      약관: https://www.docker.com/legal/docker-subscription-service-agreement
+    echo   4. 디스크 약 5GB 이상, 메모리 8GB 이상을 권장합니다.
+    echo.
+    set DOCKER_OK=
+    set /p DOCKER_OK="  1=이해했고 Docker 설치 / 2=Docker 는 빼고 진행: "
+    if not "!DOCKER_OK!"=="1" set DEV_DOCKER=
+)
+
+if defined DEV_PG (
+    echo.
+    echo  ---------------------------------------------------
+    echo  [PostgreSQL 설치 전에 꼭 읽어 주세요]
+    echo  ---------------------------------------------------
+    echo   주의점
+    echo   1. 관리자 계정 이름은 postgres 입니다. 지금 정하는 비밀번호는 잃어버리면 찾을 수 없으니 꼭 메모하세요.
+    echo   2. 비밀번호는 영문 대소문자와 숫자만, 8자 이상으로 정하세요. 특수문자는 설치 오류의 원인이 됩니다.
+    echo   3. 비밀번호는 이 키트의 로그와 리포트에 저장하지 않습니다.
+    echo      다만 설치 도구 winget 이 자체 기록에 남길 수 있으니 다른 곳에서 쓰는 비밀번호는 쓰지 마세요.
+    echo   4. PC 를 켤 때마다 DB 서버가 함께 켜집니다 [포트 5432]. 안 쓸 때는 서비스를 중지하세요.
+    echo   5. 내 PC 안에서 연습용으로만 쓰세요. 인터넷에 공개하면 안 됩니다.
+    echo.
+    set PG_OK=
+    set /p PG_OK="  1=이해했고 PostgreSQL 설치 / 2=PostgreSQL 은 빼고 진행: "
+    if not "!PG_OK!"=="1" set DEV_PG=
+)
+
+set TOTAL=0
+for %%v in (GIT NODE VSCODE PNPM GH BUN RUST BUILD PY UV OLLAMA DOCKER PG) do if defined DEV_%%v set /a TOTAL+=1
+if !TOTAL! EQU 0 (
+    echo.
+    echo  [안내] 설치할 도구가 없어서 처음 화면으로 돌아갑니다.
+    pause
+    goto DO_DEV
+)
+echo.
+echo  --------------------------------------------------
+echo  [!DEV_NAME! 설치 목록] !TOTAL!개
+if defined DEV_GIT echo    - Git
+if defined DEV_NODE echo    - Node.js LTS
+if defined DEV_PY echo    - Python 3
+if defined DEV_UV echo    - uv
+if defined DEV_VSCODE echo    - VS Code
+if defined DEV_PNPM echo    - pnpm
+if defined DEV_GH echo    - GitHub CLI
+if defined DEV_BUN echo    - Bun
+if defined DEV_OLLAMA echo    - Ollama
+if defined DEV_BUILD echo    - C++ 빌드 도구
+if defined DEV_RUST echo    - Rust
+if defined DEV_DOCKER echo    - Docker Desktop
+if defined DEV_PG echo    - PostgreSQL [비밀번호를 직접 입력합니다]
+if defined DEV_VERCEL echo    - Vercel CLI [npm]
+if defined DEV_SUPA echo    - Supabase CLI [npm]
+echo  --------------------------------------------------
+echo  이미 설치된 도구는 건너뜁니다. 업데이트는 메인 메뉴 [6] 을 쓰세요.
+echo.
+set CONFIRM_DEV=
+set /p CONFIRM_DEV="  1=설치 시작 / 2=되돌아가기: "
+if "!CONFIRM_DEV!"=="1" set CONFIRM_DEV=y
+if /i "!CONFIRM_DEV!" NEQ "y" goto DO_DEV
+set UPGRADE_MODE=skip
+set "LEVEL_NAME=!DEV_NAME!"
+set DISK_MIN=3
+if defined DEV_DOCKER set DISK_MIN=8
+if defined DEV_BUILD set DISK_MIN=12
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_DEV
+goto PRE_CHECK
+
+:INSTALL_DEV
+cls
+echo.
+echo  [!DEV_NAME! 설치] !TOTAL!개 도구를 설치합니다.
+echo.
+>> "%LOG_FILE%" echo === 분야별 설치 시작 [!DEV_NAME!]: %TIME% ===
+:: 의존성 순서: Git, Node.js, Python 계열, 편집기, 빌드 도구, Rust, Docker, DB, npm 도구
+if defined DEV_GIT call :INSTALL "Git" "Git.Git"
+if defined DEV_NODE call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
+if defined DEV_PY call :INSTALL "Python 3" "Python.Python.3"
+if defined DEV_UV call :INSTALL "uv" "astral-sh.uv"
+if defined DEV_VSCODE call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
+if defined DEV_PNPM call :INSTALL "pnpm" "pnpm.pnpm"
+if defined DEV_GH call :INSTALL "GitHub CLI" "GitHub.cli"
+if defined DEV_BUN call :INSTALL "Bun" "Oven-sh.Bun"
+if defined DEV_OLLAMA call :INSTALL "Ollama" "Ollama.Ollama"
+if defined DEV_BUILD call :INSTALL_BUILDTOOLS
+if defined DEV_RUST call :INSTALL "Rust" "Rustlang.Rustup"
+if defined DEV_DOCKER call :INSTALL "Docker Desktop" "Docker.DockerDesktop"
+if defined DEV_PG call :INSTALL_PG
+if defined DEV_VERCEL call :DEV_NPM "Vercel CLI" "vercel"
+if defined DEV_SUPA call :DEV_NPM "Supabase CLI" "supabase"
+call :POST_DEV
+call :MAKE_REPORTS
+call :PATH_CHECK
+call :DONE_MSG
+goto MAIN_MENU
+
+:: Node.js 를 방금 설치하면 이 창의 PATH 에는 아직 npm 이 없다 -> 기본 설치 위치를 이 창에만 임시로 추가
+:DEV_NPM
+if exist "%ProgramFiles%\nodejs\npm.cmd" set "PATH=%ProgramFiles%\nodejs;%PATH%"
+where npm >nul 2>&1
+if errorlevel 1 (
+    echo         [건너뜀] %~1 : npm 을 찾지 못했습니다. 새 터미널에서 메인 메뉴 [5] 로 설치하세요.
+    >> "%LOG_FILE%" echo   %~1 npm 없음, 건너뜀
+    >> "%REPORT_FILE%.tmp" echo   [건너뜀] %~1 [npm 없음]
+    goto :eof
+)
+call :NPM_INSTALL %1 %2
+goto :eof
+
+:: 관리자 계정 여부 [관리자 그룹 소속이면 설치 중 권한 확인 창으로 올릴 수 있음]
+:ADMIN_CAPABLE
+set ADMIN_OK=
+whoami /groups 2>nul | find "S-1-5-32-544" >nul 2>&1
+if not errorlevel 1 set ADMIN_OK=1
+goto :eof
+
+:: C++ 빌드 도구[VC 도구] 설치 여부. 있으면 HAS_VC=1
+:HAS_VCTOOLS
+set HAS_VC=
+if exist "!VSWHERE!" (
+    "!VSWHERE!" -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath 2>nul | findstr /r "." >nul 2>&1
+    if not errorlevel 1 set HAS_VC=1
+)
+goto :eof
+
+:: Visual Studio Build Tools 는 winget 기본 설치만으로는 C++ 도구가 빠지므로 워크로드를 직접 지정한다
+:INSTALL_BUILDTOOLS
+set /a CURRENT+=1
+echo  [!CURRENT!/!TOTAL!] C++ 빌드 도구 설치 중... [용량이 커서 10~20분 걸릴 수 있습니다]
+>> "%LOG_FILE%" echo [!CURRENT!/!TOTAL!] VS BuildTools 시작: %TIME%
+call :HAS_VCTOOLS
+if defined HAS_VC (
+    echo         [건너뜀] C++ 빌드 도구 [이미 설치됨]
+    >> "%LOG_FILE%" echo   결과: 건너뜀 [이미 설치됨]
+    set /a SKIP_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [건너뜀] C++ 빌드 도구
+    goto :eof
+)
+echo         [안내] 관리자 권한 확인 창이 뜨면 [예] 를 누르세요. 설치 진행 창이 따로 열립니다.
+winget install --id Microsoft.VisualStudio.2022.BuildTools --source winget --accept-source-agreements --accept-package-agreements --override "--passive --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended" >nul 2>&1
+set BT_RC=!errorlevel!
+call :HAS_VCTOOLS
+if defined HAS_VC (
+    if !BT_RC! EQU 0 (
+        echo         [완료] C++ 빌드 도구
+    ) else (
+        echo         [완료] C++ 빌드 도구 [PC 를 다시 시작해야 할 수 있습니다]
+    )
+    >> "%LOG_FILE%" echo   결과: 성공 [rc=!BT_RC!]
+    set /a INSTALL_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [성공] C++ 빌드 도구
+    goto :eof
+)
+echo         [실패] C++ 빌드 도구 설치를 확인하지 못했습니다.
+echo                Visual Studio Installer 를 열어 [C++ 를 사용한 데스크톱 개발] 에 체크하고 설치해 보세요.
+>> "%LOG_FILE%" echo   결과: 실패 [rc=!BT_RC!]
+set /a FAIL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [실패] C++ 빌드 도구
+goto :eof
+
+:: PostgreSQL: 비밀번호를 PowerShell 에서 숨겨서 받아 설치 도구에 직접 전달한다. 이 파일에는 비밀번호가 들어오지 않는다.
+:INSTALL_PG
+set /a CURRENT+=1
+echo  [!CURRENT!/!TOTAL!] PostgreSQL 설치 중...
+>> "%LOG_FILE%" echo [!CURRENT!/!TOTAL!] PostgreSQL 시작: %TIME%
+winget list --id PostgreSQL.PostgreSQL.17 --source winget >nul 2>&1
+if not errorlevel 1 (
+    echo         [건너뜀] PostgreSQL [이미 설치됨]
+    >> "%LOG_FILE%" echo   결과: 건너뜀 [이미 설치됨]
+    set /a SKIP_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [건너뜀] PostgreSQL
+    goto :eof
+)
+echo         PostgreSQL 관리자 [postgres] 의 비밀번호를 정합니다.
+echo         영문 대소문자와 숫자만, 8자 이상. 입력해도 화면에 글자가 보이지 않는 것이 정상입니다.
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$s = (Get-Content -LiteralPath $env:KIT_SELF | Where-Object { $_ -like '::PG:*' } | ForEach-Object { $_.Substring(5) }) -join [Environment]::NewLine; Invoke-Expression $s"
+set PG_RC=!errorlevel!
+if !PG_RC! EQU 0 (
+    echo         [완료] PostgreSQL
+    >> "%LOG_FILE%" echo   결과: 성공
+    set /a INSTALL_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [성공] PostgreSQL
+    goto :eof
+)
+if !PG_RC! EQU 98 (
+    echo         [건너뜀] PostgreSQL : 비밀번호가 입력되지 않아 설치하지 않았습니다. 다시 하려면 이 메뉴를 다시 실행하세요.
+    >> "%LOG_FILE%" echo   결과: 건너뜀 [비밀번호 미입력]
+    set /a SKIP_COUNT+=1
+    >> "%REPORT_FILE%.tmp" echo   [건너뜀] PostgreSQL [비밀번호 미입력]
+    goto :eof
+)
+echo         [실패] PostgreSQL 설치 실패 [코드 !PG_RC!]. 설치 후 안내의 문제 해결을 확인하세요.
+>> "%LOG_FILE%" echo   결과: 실패 [rc=!PG_RC!]
+set /a FAIL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [실패] PostgreSQL
+goto :eof
+
+:: 분야별 설치 후 안내
+:POST_DEV
+if defined DEV_RUST call :RUST_NOTE
+if defined DEV_BUILD (
+    echo.
+    echo  ---------------------------------------------------
+    echo  [데스크톱 앱 개발 설치 후 안내]
+    echo  ---------------------------------------------------
+    echo   1. 새 터미널을 열고 rustc --version 과 cargo --version 으로 확인하세요.
+    echo   2. C++ 빌드 도구를 방금 설치했다면 PC 를 한 번 다시 시작하세요.
+    echo   3. Tauri 같은 웹 화면 기반 앱은 WebView2 가 필요합니다.
+    echo      Windows 11 에는 기본으로 들어 있고, Windows 10 은 Microsoft 공식 페이지에서 받으세요.
+    echo   4. 빌드할 때 link.exe 를 못 찾는다는 오류가 나면 C++ 빌드 도구가 빠진 것입니다. 이 메뉴를 다시 실행하세요.
+    echo.
+)
+if defined DEV_OLLAMA (
+    echo.
+    echo  - Ollama 로컬 AI 모델 안내 [2GB 이상, 직접 실행]:
+    echo      ollama pull llama3.2   [약 2GB]
+    echo.
+)
+if defined DEV_DOCKER (
+    echo.
+    echo  ---------------------------------------------------
+    echo  [Docker Desktop 설치 후 안내]
+    echo  ---------------------------------------------------
+    echo   1. PC 를 다시 시작한 뒤 시작 메뉴에서 Docker Desktop 을 한 번 실행하세요.
+    echo   2. WSL2 를 켜라는 안내가 나오면 따르세요. 안 켜지면 BIOS 에서 가상화를 켜야 합니다.
+    echo   3. 확인: 새 터미널에서 docker --version
+    echo   4. DB 를 Docker 로 쓰고 싶다면 포트 5432 를 PostgreSQL 과 같이 쓰지 마세요.
+    echo.
+)
+if defined DEV_PG (
+    echo.
+    echo  ---------------------------------------------------
+    echo  [PostgreSQL 설치 후 안내 / 문제 해결]
+    echo  ---------------------------------------------------
+    echo   - 접속 확인: 새 터미널에서 아래 명령 [비밀번호는 방금 정한 것]
+    echo       "C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres
+    echo   - 비밀번호를 잊었다면: 설정 파일을 고쳐야 해서 초보자에게는 어렵습니다.
+    echo       연습용이면 Windows 설정 - 앱 에서 PostgreSQL 을 삭제한 뒤 이 메뉴로 다시 설치하는 것이 가장 쉽습니다.
+    echo   - 설치가 실패했다면: 이미 다른 PostgreSQL 이 설치되어 있거나 포트 5432 를 다른 프로그램이 쓰고 있는지 확인하세요.
+    echo   - 안 쓸 때 끄기: Windows 키 + R 에서 services.msc 입력 - postgresql-x64-17 - 마우스 오른쪽 - 중지
+    echo       [시작 유형을 수동으로 바꾸면 PC 를 켤 때 자동으로 켜지지 않습니다]
+    echo   - 내 PC 안에서만 쓰세요. 인터넷에 공개하지 마세요.
+    echo.
+)
+goto :eof
+
+:: Rust 안내: C++ 빌드 도구가 없으면 Rust 로 프로그램을 만들 수 없다. 있으면 아무것도 보여주지 않는다.
+:RUST_NOTE
+call :HAS_VCTOOLS
+if defined HAS_VC goto :eof
+echo.
+echo  [Rust 안내] Rust 로 프로그램을 만들려면 C++ 빌드 도구가 따로 필요합니다.
+echo              메인 메뉴 [D] 의 데스크톱 앱 개발 에서 설치할 수 있습니다.
+echo.
+goto :eof
+
+:: ============================================================
+:: 마크다운 뷰어 [한 번에 하나씩 골라서 설치]
+:: ============================================================
+:DO_MDVIEW
+cls
+echo.
+echo  ===================================================
+echo   [D] 마크다운 뷰어   .md 문서를 보기 좋게 열어 주는 프로그램
+echo  ===================================================
+echo.
+echo   마크다운[.md] 은 AI 가 만들어 주는 설명서와 기록에 많이 쓰이는 문서 형식입니다.
+echo   메모장으로 열면 기호가 섞여 보이지만, 뷰어로 열면 깔끔하게 보입니다.
+echo.
+echo    Obsidian  가장 인기 있는 노트 앱. 무료. 폴더째 열어서 문서를 모아 볼 수 있습니다.
+echo              처음에는 기능이 많아 조금 복잡해 보일 수 있습니다.
+echo    MarkText  가장 단순합니다. 무료 오픈소스. 쓰는 대로 바로 보기 좋게 바뀝니다.
+echo    Zettlr    논문이나 긴 글을 쓰기에 좋습니다. 무료 오픈소스.
+echo    Typora    깔끔하지만 유료입니다. 설치하지 않고 공식 페이지만 열어 드립니다.
+echo    VS Code   이미 설치한 편집기로 미리보기. 따로 설치하지 않고 방법만 안내합니다.
+set "PICK_TITLE=설치하거나 열어볼 뷰어를 하나 고르세요"
+set "PICK_HINT=위/아래 화살표로 움직이고 Enter 로 선택  [번호도 가능 / 0 또는 Esc = 뒤로]"
+set PICK_COUNT=5
+set "PICK_1=Obsidian   설치 [무료]"
+set "PICK_2=MarkText   설치 [무료]"
+set "PICK_3=Zettlr     설치 [무료]"
+set "PICK_4=Typora     공식 페이지 열기 [유료 / 설치 안 함]"
+set "PICK_5=VS Code    설치 없이 미리보기 방법 보기"
+call :PICK
+if "!PICK_RESULT!"=="0" goto DO_DEV
+if "!PICK_RESULT!"=="4" goto MD_TYPORA
+if "!PICK_RESULT!"=="5" goto MD_VSCODE
+if "!PICK_RESULT!"=="1" (
+    set "MD_NAME=Obsidian"
+    set "MD_ID=Obsidian.Obsidian"
+)
+if "!PICK_RESULT!"=="2" (
+    set "MD_NAME=MarkText"
+    set "MD_ID=MarkText.MarkText"
+)
+if "!PICK_RESULT!"=="3" (
+    set "MD_NAME=Zettlr"
+    set "MD_ID=Zettlr.Zettlr"
+)
+goto MD_INSTALL
+
+:MD_TYPORA
+echo.
+echo  Typora 는 유료 프로그램이라 자동으로 설치하지 않습니다.
+echo  공식 페이지를 엽니다. 무료 체험 기간이 끝나면 결제가 필요할 수 있으니 확인한 뒤 받으세요.
+start "" "https://typora.io/"
+echo.
+pause
+goto DO_MDVIEW
+
+:MD_VSCODE
+cls
+echo.
+echo  ---------------------------------------------------
+echo  [VS Code 로 마크다운 미리보기]  [별도 설치 필요 없음]
+echo  ---------------------------------------------------
+echo   1. VS Code 를 엽니다.  [없으면 메인 메뉴 [1] 왕초보 설치에 들어 있습니다]
+echo   2. 파일 - 파일 열기 로 .md 파일을 엽니다.
+echo   3. Ctrl + Shift + V 를 누르면 보기 좋게 바뀐 모습이 열립니다.
+echo   4. 글과 미리보기를 나란히 보려면 Ctrl + K 를 누른 뒤 손을 떼고 V 를 누르세요.
+echo.
+pause
+goto DO_MDVIEW
+
+:MD_INSTALL
+echo.
+echo  [!MD_NAME!] 을 설치합니다.  이미 설치되어 있으면 건너뜁니다.
+set MD_OK=
+set /p MD_OK="  1=설치 시작 / 2=되돌아가기: "
+if "!MD_OK!"=="1" set MD_OK=y
+if /i "!MD_OK!" NEQ "y" goto DO_MDVIEW
+set UPGRADE_MODE=skip
+set "LEVEL_NAME=마크다운 뷰어"
+set DISK_MIN=2
+set TOTAL=1
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_MD
+goto PRE_CHECK
+
+:INSTALL_MD
+cls
+echo.
+echo  [!MD_NAME! 설치]
+echo.
+>> "%LOG_FILE%" echo === 마크다운 뷰어 설치 시작 [!MD_NAME!]: %TIME% ===
+call :INSTALL "!MD_NAME!" "!MD_ID!"
+call :MAKE_REPORTS
+echo.
+echo  ---------------------------------------------------
+echo  [!MD_NAME! 사용 시작]
+echo   1. 시작 메뉴에서 !MD_NAME! 을 엽니다.
+if "!MD_NAME!"=="Obsidian" echo   2. 처음 화면에서 [Open folder as vault / 폴더를 보관함으로 열기] 를 누르고 .md 파일이 있는 폴더를 고르세요.
+if not "!MD_NAME!"=="Obsidian" echo   2. 메뉴에서 파일 또는 폴더 열기 로 .md 파일을 고르세요.
+echo   3. .md 파일을 더블클릭해서 바로 열고 싶다면: 파일 마우스 오른쪽 - 연결 프로그램 - 다른 앱 선택 - 항상 사용
+echo  ---------------------------------------------------
+echo.
+pause
+goto DO_MDVIEW
+
+:: ------------------------------------------------------------
+:: :PICK - 위/아래 화살표 + Enter 또는 번호로 하나 고르기
+:: 입력: PICK_TITLE, PICK_HINT, PICK_COUNT, PICK_1 ~ PICK_n  [선택: PICK_DEFAULT]
+:: 출력: PICK_RESULT = 1~n,  0 = 뒤로 [Esc / 0 / 빈 Enter]
+:: 화살표 화면을 쓸 수 없는 환경이면 번호 입력 방식으로 자동 전환합니다.
+:: ------------------------------------------------------------
+:PICK
+set PICK_RESULT=
+:: 화살표 화면이 잘 안 되는 PC 에서는 KIT_NO_ARROW=1 로 켜 두면 번호 입력만 쓴다
+if defined KIT_NO_ARROW goto PICK_NUM
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$s = (Get-Content -LiteralPath $env:KIT_SELF | Where-Object { $_ -like '::PS:*' } | ForEach-Object { $_.Substring(5) }) -join [Environment]::NewLine; Invoke-Expression $s"
+set PICK_RC=!errorlevel!
+if !PICK_RC! GEQ 0 if !PICK_RC! LEQ !PICK_COUNT! (
+    set PICK_RESULT=!PICK_RC!
+    goto :eof
+)
+:PICK_NUM
+echo.
+echo   !PICK_TITLE!
+for /l %%i in (1,1,!PICK_COUNT!) do echo     [%%i] !PICK_%%i!
+echo     [0] 뒤로
+set PICK_IN=
+set /p PICK_IN="  번호: "
+if "!PICK_IN!"=="" (
+    set PICK_RESULT=0
+    goto :eof
+)
+for /l %%i in (0,1,!PICK_COUNT!) do if "!PICK_IN!"=="%%i" set PICK_RESULT=%%i
+if not defined PICK_RESULT (
+    echo.
+    echo  [안내] 0 부터 !PICK_COUNT! 사이의 번호만 입력하세요.
+    goto PICK_NUM
+)
+goto :eof
+
+:: 화살표 선택 화면 [PowerShell]. 위 :PICK 이 이 파일에서 ::PS: 로 시작하는 줄만 읽어 실행합니다.
+:: 이 줄들은 배치 파일에서는 주석으로 무시됩니다. 영문과 숫자만 사용합니다.
+::PS:function Wid([string]$s) { $w = 0; foreach ($c in $s.ToCharArray()) { if ([int]$c -gt 0x2E7F) { $w += 2 } else { $w += 1 } }; return $w }
+::PS:function Fit([string]$s, [int]$max) { while ((Wid $s) -gt $max) { $s = $s.Substring(0, $s.Length - 1) }; return $s }
+::PS:function Show([int]$cur) {
+::PS:  for ($i = 0; $i -lt $n; $i++) {
+::PS:    if ($i -eq $cur) { $mark = ' > ' } else { $mark = '   ' }
+::PS:    $line = Fit ($mark + [string]($i + 1) + '  ' + $items[$i]) ($maxw - 1)
+::PS:    $pad = ' ' * ($maxw - 1 - (Wid $line))
+::PS:    if ($i -eq $cur) { Write-Host ($line + $pad) -ForegroundColor Black -BackgroundColor Cyan } else { Write-Host ($line + $pad) }
+::PS:  }
+::PS:}
+::PS:try {
+::PS:  $test = $env:KIT_PICK_KEYS
+::PS:  if (-not $test -and [Console]::IsInputRedirected) { exit 99 }
+::PS:  $n = [int]$env:PICK_COUNT
+::PS:  $items = @(); for ($i = 1; $i -le $n; $i++) { $items += [Environment]::GetEnvironmentVariable('PICK_' + $i) }
+::PS:  $q = New-Object System.Collections.Queue
+::PS:  if ($test) { foreach ($t in ($test -split ',')) { $q.Enqueue($t.Trim()) } }
+::PS:  $maxw = 79
+::PS:  if (-not $test) { $maxw = [Console]::WindowWidth }
+::PS:  Write-Host ''
+::PS:  Write-Host ('  ' + $env:PICK_TITLE)
+::PS:  Write-Host ('  ' + $env:PICK_HINT)
+::PS:  Write-Host ''
+::PS:  $sel = 0
+::PS:  if ($env:PICK_DEFAULT) { $d = [int]$env:PICK_DEFAULT - 1; if ($d -ge 0 -and $d -lt $n) { $sel = $d } }
+::PS:  Show $sel
+::PS:  $top = 0
+::PS:  if (-not $test) { $top = [Console]::CursorTop - $n; [Console]::CursorVisible = $false }
+::PS:  $result = -1
+::PS:  while ($result -lt 0) {
+::PS:    if ($test) { if ($q.Count -eq 0) { exit 97 }; $k = [string]$q.Dequeue() }
+::PS:    else { $ki = [Console]::ReadKey($true); $k = $ki.Key.ToString(); if ([string]$ki.KeyChar -match '^[0-9]$') { $k = [string]$ki.KeyChar } }
+::PS:    switch -Regex ($k) {
+::PS:      '^(UpArrow|Up)$' { if ($sel -gt 0) { $sel-- } else { $sel = $n - 1 } }
+::PS:      '^(DownArrow|Down)$' { if ($sel -lt $n - 1) { $sel++ } else { $sel = 0 } }
+::PS:      '^(Enter|Return)$' { $result = $sel + 1 }
+::PS:      '^(Escape|Esc)$' { $result = 0 }
+::PS:      '^[0-9]$' { $dg = [int]$k; if ($dg -eq 0) { $result = 0 } elseif ($dg -le $n) { $sel = $dg - 1 } }
+::PS:    }
+::PS:    if ($result -lt 0 -and -not $test) { [Console]::SetCursorPosition(0, $top); Show $sel }
+::PS:  }
+::PS:  if (-not $test) { [Console]::CursorVisible = $true }
+::PS:  if ($result -gt 0) { Write-Host ('  > ' + $items[$result - 1]) }
+::PS:  exit $result
+::PS:} catch { try { [Console]::CursorVisible = $true } catch { }; exit 99 }
+
+:: PostgreSQL 비밀번호 입력 + 설치 [PowerShell]. :INSTALL_PG 가 ::PG: 로 시작하는 줄만 읽어 실행합니다.
+:: 종료 코드: 0 = 성공, 98 = 비밀번호 입력 실패 [3회], 그 밖 = winget 종료 코드
+::PG:$ErrorActionPreference = 'Stop'
+::PG:try {
+::PG:  $pw = $env:KIT_TEST_PGPW
+::PG:  for ($t = 0; $t -lt 3 -and -not $pw; $t++) {
+::PG:    $a = Read-Host 'Password' -AsSecureString
+::PG:    $b = Read-Host 'Password again' -AsSecureString
+::PG:    $pa = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($a))
+::PG:    $pb = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($b))
+::PG:    if ($pa -eq $pb -and $pa -match '^[A-Za-z0-9]{8,64}$') { $pw = $pa } else { Write-Host '  Not accepted: use letters and digits only, 8+ characters, and type the same twice.' }
+::PG:  }
+::PG:  if (-not $pw) { exit 98 }
+::PG:  $ov = '--mode unattended --unattendedmodeui none --superpassword ' + $pw
+::PG:  & winget install --id PostgreSQL.PostgreSQL.17 --source winget --accept-source-agreements --accept-package-agreements --override $ov | Out-Null
+::PG:  exit $LASTEXITCODE
+::PG:} catch { exit 98 }
+
+:: 설치 상태 확인용: winget 목록에 있는지로 확인 [PATH 에 없는 프로그램용]. %~1 = 표시 이름, %~2 = winget ID
+:CHECK_WG
+winget list --id %~2 --source winget >nul 2>&1
+if errorlevel 1 (
+    echo    [X] %~1
+) else (
+    echo    [O] %~1
+)
+goto :eof
+
+:CHECK_BUILD
+call :HAS_VCTOOLS
+if defined HAS_VC (
+    echo    [O] C++ 빌드 도구
+) else (
+    echo    [X] C++ 빌드 도구
 )
 goto :eof
 
