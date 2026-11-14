@@ -587,7 +587,7 @@ No. **Windows only.**
 
 **1) License of this kit (code/docs)**
 
-- **Apache License 2.0** — Copyright © 2026 **SoDam AI Studio**. Full text: [LICENSE](./LICENSE) (the official text, unmodified); copyright and third-party notice: [NOTICE](./NOTICE). The same copyright/license header is at the top of the `.bat`, so **the license notice travels even if you distribute the single file.**
+- **Apache License 2.0** — Copyright © 2026 **SoDam AI Studio**. Full text: [LICENSE](./LICENSE) (the official Apache 2.0 text; **only the appendix copyright line** is filled in with “SoDam AI Studio”); copyright and third-party notice: [NOTICE](./NOTICE). The same copyright/license header is at the top of the `.bat`, so **the license notice travels even if you distribute the single file.**
 - Permits: **free use, modification, distribution, and commercial use.**
 - Conditions: on distribution, **include a copy of the license**, **state changes**, keep copyright notices.
 - Limitation: **no trademark rights** granted (do not use the “SoDam AI Studio” name/logo without permission).
