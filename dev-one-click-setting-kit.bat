@@ -3,7 +3,7 @@ chcp 949 >nul
 setlocal enabledelayedexpansion
 
 :: ============================================================
-:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.6.2
+:: ¹ÙÀÌºêÄÚµù È¯°æ Å°Æ® -- DEV-KIT.bat v1.7.0
 :: AI ¹ÙÀÌºêÄÚµù ÀÔ¹®ÀÚ¸¦ À§ÇÑ ¿øÅ¬¸¯ °³¹ß È¯°æ ¼¼ÆÃ µµ±¸
 :: ============================================================
 
@@ -65,11 +65,13 @@ echo  ===========================================================
 echo    [A] °¡Àå ½¬¿î ÃßÃµ ¼³Ä¡   Ã³À½ÀÌ¸é ÀÌ°Å! (±âº» 5Á¾ + AI)
 echo    [V] ¹öÀü ¼±ÅÃ ¼³Ä¡        Æ¯Á¤ ¾ÈÁ¤¹öÀü (Python/Java/Ruby)
 echo    [S] scoop ¼³Ä¡            °³¹ß¿ë ÆÐÅ°Áö ¸Å´ÏÀú [ºñwinget]
+echo    [M] ¸ð¹ÙÀÏ ¾Û °³¹ß        Flutter + Android Studio + adb [¾Èµå·ÎÀÌµå]
 set /p MENU_CHOICE="  ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
 if /i "!MENU_CHOICE!"=="V" goto DO_VERSION
 if /i "!MENU_CHOICE!"=="S" goto DO_SCOOP
+if /i "!MENU_CHOICE!"=="M" goto DO_MOBILE
 if "!MENU_CHOICE!"=="1" goto DO_LEVEL_1
 if "!MENU_CHOICE!"=="2" goto DO_LEVEL_2
 if "!MENU_CHOICE!"=="3" goto DO_LEVEL_3
@@ -416,8 +418,8 @@ call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
 call :INSTALL "Go" "GoLang.Go"
 call :INSTALL "Rust" "Rustlang.Rustup"
-:: ÀÇÁ¸¼º 5¼øÀ§: Java ÀÌÈÄ ÇÊ¼ö
-call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+:: Flutter: winget ÆÐÅ°Áö ¾øÀ½ -> git °ø½Ä stable ¼³Ä¡ (Git ¼±Çà ÇÊ¿ä, Java ºÒÇÊ¿ä)
+call :INSTALL_FLUTTER
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 
 call :INSTALL_SCOOP
@@ -453,7 +455,7 @@ call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
 call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
 call :INSTALL "Go" "GoLang.Go"
 call :INSTALL "Rust" "Rustlang.Rustup"
-call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+call :INSTALL_FLUTTER
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
 call :INSTALL "PHP" "PHP.PHP"
@@ -756,7 +758,7 @@ echo.
 echo  ---------------------------------------------------
 echo  [PATH °ËÁõ] ÇöÀç ÅÍ¹Ì³Î¿¡¼­ ÀÎ½ÄµÇ´Â µµ±¸
 echo  ---------------------------------------------------
-for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php) do (
+for %%c in (git python node npm pnpm bun go rustc rustup flutter dart java gh pwsh ruby php adb scrcpy) do (
     where %%c >nul 2>&1
     if not errorlevel 1 echo    [O] %%c
 )
@@ -871,6 +873,9 @@ echo   [ ¿ÃÀÎ¿ø / Ãß°¡ µµ±¸ (winget) ]
 echo     [15] Ruby            [16] PHP             [17] Git LFS
 echo     [18] Stripe CLI      [27] uv
 echo.
+echo   [ ¸ð¹ÙÀÏ ¾Û °³¹ß ]   (Flutter ´Â À§ [12], ÇÑ ¹ø¿¡ ¼³Ä¡´Â ¸ÞÀÎ ¸Þ´º [M])
+echo     [28] Android Studio  [29] adb [Android ÇÃ·§Æû µµ±¸]  [30] scrcpy
+echo.
 echo   [ ¹èÆ÷ / DB / ÇÁ·ÎÁ§Æ® (npm) ]
 echo     [19] Vercel CLI      [20] Supabase CLI    [21] Stripe SDK
 echo     [22] Resend SDK      [23] Railway CLI     [24] Clerk
@@ -917,6 +922,9 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="25" echo    - Prisma [npm]
     if "%%n"=="26" echo    - Uploadthing [npm]
     if "%%n"=="27" echo    - uv
+    if "%%n"=="28" echo    - Android Studio
+    if "%%n"=="29" echo    - adb [Android ÇÃ·§Æû µµ±¸]
+    if "%%n"=="30" echo    - scrcpy [Æù È­¸é ¹Ì·¯¸µ]
 )
 echo  ---------------------------------------------------
 set /p CONFIRM_SEL="  Y=¼³Ä¡ ½ÃÀÛ / N=´Ù½Ã ¼±ÅÃ: "
@@ -962,17 +970,18 @@ if defined NEED_NODE (
 )
 set NEED_NODE=
 
-:: Flutter(12) -> Java 21 ¼±Çà ¼³Ä¡
+:: Flutter(12) -> Git ¼±Çà ¼³Ä¡ (Flutter ´Â git À¸·Î ¹ÞÀ½. Java ´Â ÇÊ¿ä ¾øÀ½)
 echo !SEL! | findstr /C:"12" >nul 2>&1
 if not errorlevel 1 (
-    where java >nul 2>&1
-    if errorlevel 1 (
-        echo  [¾È³»] Flutter´Â Java 21ÀÌ ÇÊ¿äÇÕ´Ï´Ù. ¸ÕÀú ¼³Ä¡ÇÕ´Ï´Ù.
+    call :FIND_GIT
+    if not defined FL_GIT (
+        echo  [¾È³»] Flutter´Â GitÀÌ ÇÊ¿äÇÕ´Ï´Ù. ¸ÕÀú ¼³Ä¡ÇÕ´Ï´Ù.
         set /a TOTAL+=1
-        call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
+        call :INSTALL "Git" "Git.Git"
     )
 )
 
+set MOB_SHOW=
 for %%n in (%SEL:,= %) do (
     if "%%n"=="1"  call :INSTALL "Git" "Git.Git"
     if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3"
@@ -985,7 +994,7 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="9"  call :INSTALL "Ollama" "Ollama.Ollama"
     if "%%n"=="10" call :INSTALL "Bun" "Oven-sh.Bun"
     if "%%n"=="11" call :INSTALL "Java 21 LTS" "EclipseAdoptium.Temurin.21.JDK"
-    if "%%n"=="12" call :INSTALL "Flutter+Dart" "Google.FlutterSDK"
+    if "%%n"=="12" call :INSTALL_FLUTTER
     if "%%n"=="13" call :INSTALL "Go" "GoLang.Go"
     if "%%n"=="14" call :INSTALL "Rust" "Rustlang.Rustup"
     if "%%n"=="15" call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
@@ -1001,8 +1010,16 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="25" call :NPM_INSTALL "Prisma" "prisma"
     if "%%n"=="26" call :NPM_INSTALL "Uploadthing" "uploadthing"
     if "%%n"=="27" call :INSTALL "uv" "astral-sh.uv"
+    if "%%n"=="28" call :INSTALL "Android Studio" "Google.AndroidStudio"
+    if "%%n"=="29" call :INSTALL "adb [Android ÇÃ·§Æû µµ±¸]" "Google.PlatformTools"
+    if "%%n"=="30" call :INSTALL "scrcpy [Æù È­¸é ¹Ì·¯¸µ]" "Genymobile.scrcpy"
+    if "%%n"=="12" set MOB_SHOW=1
+    if "%%n"=="28" set MOB_SHOW=1
+    if "%%n"=="29" set MOB_SHOW=1
 )
 
+if defined MOB_SHOW call :POST_MOBILE
+set MOB_SHOW=
 call :MAKE_REPORTS
 call :PATH_CHECK
 call :DONE_MSG
@@ -1101,10 +1118,11 @@ echo.
 set /p DO_UPD="  Å°Æ® µµ±¸¸¦ ¾ÈÀüÇÏ°Ô ¾÷µ¥ÀÌÆ®ÇÒ±î¿ä? (y/n): "
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Google.FlutterSDK Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2) do (
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [¾÷±×·¹ÀÌµå] %%p
 )
+echo  [¾È³»] Flutter ´Â winget ÀÌ ¾Æ´Ï¶ó ÅÍ¹Ì³Î¿¡¼­ flutter upgrade ·Î ¾÷µ¥ÀÌÆ®ÇÏ¼¼¿ä.
 
 >> "%LOG_FILE%" echo ÀüÃ¼ ¾÷µ¥ÀÌÆ® ¿Ï·á: %TIME%
 echo.
@@ -1140,6 +1158,7 @@ echo  [6]GitHub CLI  [7]PS7  [8]pnpm  [9]Ollama  [10]Bun
 echo  [11]Java21  [12]Flutter  [13]Go  [14]Rust  [15]Ruby  [16]PHP
 echo  [17]Git LFS  [18]Stripe CLI
 echo  [19]uv
+echo  [20]Android Studio  [21]adb  [22]scrcpy
 echo  [0] µÚ·Î
 echo.
 set /p REM_SEL="  ¹øÈ£: "
@@ -1162,7 +1181,7 @@ if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.21.JDK --sour
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.17.JDK --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.11.JDK --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="11" winget uninstall --id EclipseAdoptium.Temurin.8.JDK --source winget --silent >nul 2>&1
-if "!REM_SEL!"=="12" winget uninstall --id Google.FlutterSDK --source winget --silent
+if "!REM_SEL!"=="12" call :REMOVE_FLUTTER
 if "!REM_SEL!"=="13" winget uninstall --id GoLang.Go --source winget --silent
 if "!REM_SEL!"=="14" winget uninstall --id Rustlang.Rustup --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 --source winget --silent
@@ -1171,6 +1190,10 @@ if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
 if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
 if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
 if "!REM_SEL!"=="19" winget uninstall --id astral-sh.uv --source winget --silent
+if "!REM_SEL!"=="20" winget uninstall --id Google.AndroidStudio --source winget --silent
+if "!REM_SEL!"=="20" echo  [¾È³»] Android SDK Æú´õ [%LOCALAPPDATA%\Android\Sdk] ´Â Áö¿ìÁö ¾Ê¾Ò½À´Ï´Ù. ÇÊ¿äÇÏ¸é Á÷Á¢ »èÁ¦ÇÏ¼¼¿ä.
+if "!REM_SEL!"=="21" winget uninstall --id Google.PlatformTools --source winget --silent
+if "!REM_SEL!"=="22" winget uninstall --id Genymobile.scrcpy --source winget --silent
 
 echo.
 echo  [¿Ï·á] Á¦°Å ¿Ï·á.
@@ -1185,13 +1208,15 @@ if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  Á¦°Å Áß... (½Ã°£ÀÌ °É¸± ¼ö ÀÖ½À´Ï´Ù)
 for %%i in (
+    Genymobile.scrcpy
+    Google.PlatformTools
+    Google.AndroidStudio
     astral-sh.uv
     GitHub.GitLFS
     Stripe.StripeCLI
     PHP.PHP
     RubyInstallerTeam.RubyWithDevKit.3.3
     RubyInstallerTeam.RubyWithDevKit.3.2
-    Google.FlutterSDK
     Rustlang.Rustup
     GoLang.Go
     EclipseAdoptium.Temurin.21.JDK
@@ -1215,6 +1240,8 @@ for %%i in (
     winget uninstall --id %%i --source winget --silent >nul 2>&1
     echo    Á¦°Å: %%i
 )
+call :REMOVE_FLUTTER
+echo  [¾È³»] Android SDK Æú´õ [%LOCALAPPDATA%\Android\Sdk] ´Â Áö¿ìÁö ¾Ê¾Ò½À´Ï´Ù. ÇÊ¿äÇÏ¸é Á÷Á¢ »èÁ¦ÇÏ¼¼¿ä.
 echo.
 echo  [npm] npm ÆÐÅ°Áö Á¦°Å Áß...
 for %%p in (vercel supabase stripe resend @railway/cli @clerk/clerk-sdk-node prisma uploadthing) do (
@@ -1270,6 +1297,11 @@ echo    [22] LM Studio         https://lmstudio.ai/
 echo    [23] Windsurf          https://windsurf.com/
 echo    [24] Warp              https://www.warp.dev/
 echo.
+echo   --- ¸ð¹ÙÀÏ ¾Û °³¹ß ---
+echo    [25] Android Studio    https://developer.android.com/studio
+echo    [26] Platform-Tools    https://developer.android.com/tools/releases/platform-tools
+echo    [27] scrcpy            https://github.com/Genymobile/scrcpy
+echo.
 echo   --- °³¹ß È®Àå CLI ---
 echo    [20] GitHub LFS        https://git-lfs.com/
 echo    [21] Stripe CLI        https://docs.stripe.com/stripe-cli
@@ -1303,6 +1335,9 @@ if "!MAN_CHOICE!"=="19" start "" "https://desktop.github.com/download/"         
 if "!MAN_CHOICE!"=="22" start "" "https://lmstudio.ai/"   & set _OPENED=1
 if "!MAN_CHOICE!"=="23" start "" "https://windsurf.com/"  & set _OPENED=1
 if "!MAN_CHOICE!"=="24" start "" "https://www.warp.dev/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="25" start "" "https://developer.android.com/studio"  & set _OPENED=1
+if "!MAN_CHOICE!"=="26" start "" "https://developer.android.com/tools/releases/platform-tools"  & set _OPENED=1
+if "!MAN_CHOICE!"=="27" start "" "https://github.com/Genymobile/scrcpy"  & set _OPENED=1
 
 if "!MAN_CHOICE!"=="20" start "" "https://git-lfs.com/"                                          & set _OPENED=1
 if "!MAN_CHOICE!"=="21" start "" "https://docs.stripe.com/stripe-cli"                            & set _OPENED=1
@@ -1351,6 +1386,11 @@ call :CHECK_ONE "Cargo" cargo
 call :CHECK_ONE "Ruby" ruby
 call :CHECK_ONE "PHP" php
 echo.
+echo  [ ¸ð¹ÙÀÏ ¾Û °³¹ß ]
+call :CHECK_STUDIO
+call :CHECK_ONE "adb" adb
+call :CHECK_ONE "scrcpy" scrcpy
+echo.
 echo  [ ¹èÆ÷ / DB CLI ]
 call :CHECK_ONE "Stripe CLI" stripe
 call :CHECK_ONE "Vercel CLI" vercel
@@ -1362,6 +1402,12 @@ echo.
 echo  [ AI ¿¡µðÅÍ ]
 call :CHECK_ONE "Cursor" cursor
 call :CHECK_ONE "Claude Code CLI" claude
+where flutter >nul 2>&1
+if not errorlevel 1 (
+    echo.
+    set /p FD_RUN="  flutter doctor ·Î ¸ð¹ÙÀÏ °³¹ß ÁØºñ »óÅÂµµ Á¡°ËÇÒ±î¿ä? 1~2ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù. [y/n]: "
+    if /i "!FD_RUN!"=="y" call :FLUTTER_DOCTOR_SUMMARY
+)
 
 echo.
 echo  ---------------------------------------------------
@@ -1391,6 +1437,341 @@ goto :eof
 :: ============================================================
 :: scoop ¼³Ä¡ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®, »ç¿ëÀÚ µ¿ÀÇ ÇÊ¿ä)
 :: ============================================================
+:: ============================================================
+:: Flutter ¼³Ä¡ ÇïÆÛ (winget ¿¡ Flutter ÆÐÅ°Áö°¡ ¾øÀ½ -> °ø½Ä ÀúÀå¼Ò git clone, stable)
+:: À§Ä¡: %USERPROFILE%\develop\flutter  [Flutter °ø½Ä ¹®¼­ ±ÇÀå: °ø¹é/°ü¸®ÀÚ °æ·Î È¸ÇÇ]
+:: ÀÌ¹Ì ÀÖÀ¸¸é °Ç³Ê¶Ü. Æú´õ°¡ ÀÌ¹Ì ÀÖÀ¸¸é Àý´ë µ¤¾î¾²°Å³ª Áö¿ìÁö ¾ÊÀ½. »ç¿ëÀÚ PATH ¿¡¸¸ Ãß°¡.
+:: ============================================================
+:INSTALL_FLUTTER
+set /a CURRENT+=1
+echo  [!CURRENT!/!TOTAL!] Flutter+Dart ¼³Ä¡ Áß...
+>> "%LOG_FILE%" echo [!CURRENT!/!TOTAL!] Flutter ½ÃÀÛ: %TIME%
+if not defined USERPROFILE goto FLUTTER_FAIL_NOHOME
+set "FL_DIR=%USERPROFILE%\develop\flutter"
+set "FL_BIN=%USERPROFILE%\develop\flutter\bin"
+where flutter >nul 2>&1
+if not errorlevel 1 goto FLUTTER_SKIP
+if exist "!FL_BIN!\flutter.bat" goto FLUTTER_SKIP_ADDPATH
+if exist "!FL_DIR!" goto FLUTTER_FAIL_EXISTS
+call :FIND_GIT
+if not defined FL_GIT goto FLUTTER_FAIL_NOGIT
+if not exist "%USERPROFILE%\develop" mkdir "%USERPROFILE%\develop" >nul 2>&1
+set GIT_TERMINAL_PROMPT=0
+echo         °ø½Ä ÀúÀå¼Ò¿¡¼­ ³»·Á¹Þ´Â Áß... ¸î ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù.
+"!FL_GIT!" -c core.longpaths=true clone https://github.com/flutter/flutter.git -b stable "!FL_DIR!" >nul 2>&1
+set INST_ERR=!errorlevel!
+if !INST_ERR! EQU 0 goto FLUTTER_CLONED
+echo         [Àç½Ãµµ] Flutter+Dart ½ÇÆÐ - 5ÃÊ ÈÄ Àç½Ãµµ...
+>> "%LOG_FILE%" echo   1Â÷ ½ÇÆÐ [errorlevel=!INST_ERR!], Àç½Ãµµ: %TIME%
+:: À§¿¡¼­ Æú´õ°¡ ¾øÀ½À» È®ÀÎÇßÀ¸¹Ç·Î Áö±Ý ÀÖ´Â Æú´õ´Â ¹æ±Ý ½ÇÆÐÇÑ clone ÀÌ ¸¸µç °Í
+if exist "!FL_DIR!" rmdir /s /q "!FL_DIR!" >nul 2>&1
+timeout /t 5 /nobreak >nul
+"!FL_GIT!" -c core.longpaths=true clone https://github.com/flutter/flutter.git -b stable "!FL_DIR!" >nul 2>&1
+set INST_ERR=!errorlevel!
+if !INST_ERR! NEQ 0 goto FLUTTER_FAIL_CLONE
+:FLUTTER_CLONED
+:: ±ä °æ·Î ÆÄÀÏÀÌ ÀÖ¾î ÀÌÈÄ flutter upgrade µµ ½ÇÆÐÇÏÁö ¾Êµµ·Ï, ÀÌ ÀúÀå¼Ò¿¡¸¸ ¼³Á¤ [Àü¿ª ¼³Á¤ ¾Æ´Ô]
+"!FL_GIT!" -C "!FL_DIR!" config core.longpaths true >nul 2>&1
+call :FLUTTER_PATH_ADD
+echo         Dart SDK ÁØºñ Áß... Ã³À½ ÇÑ ¹ø¸¸ ¸î ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù.
+call "!FL_BIN!\flutter.bat" --version >nul 2>&1
+if errorlevel 1 goto FLUTTER_FAIL_FIRSTRUN
+echo         [92m[¿Ï·á][0m Flutter+Dart
+>> "%LOG_FILE%" echo   °á°ú: ¼º°ø [git clone stable, Ã¹ ½ÇÇà È®ÀÎ]
+set /a INSTALL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [¼º°ø] Flutter+Dart
+goto :eof
+
+:FLUTTER_SKIP_ADDPATH
+call :FLUTTER_PATH_ADD
+:FLUTTER_SKIP
+echo         [°Ç³Ê¶Ü] Flutter+Dart [ÀÌ¹Ì ¼³Ä¡µÊ]
+>> "%LOG_FILE%" echo   °á°ú: °Ç³Ê¶Ü [Flutter ÀÌ¹Ì ÀÖÀ½]
+set /a SKIP_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [°Ç³Ê¶Ü] Flutter+Dart
+goto :eof
+
+:FLUTTER_FAIL_NOHOME
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - »ç¿ëÀÚ Æú´õ À§Ä¡¸¦ ¾Ë ¼ö ¾ø¾î ¼³Ä¡ÇÏÁö ¾Ê½À´Ï´Ù.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [USERPROFILE ¾øÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_EXISTS
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - ¼³Ä¡ À§Ä¡¿¡ Æú´õ°¡ ÀÌ¹Ì ÀÖ¾î µ¤¾î¾²Áö ¾Ê½À´Ï´Ù.
+echo                 !FL_DIR!
+echo                 Á÷Á¢ È®ÀÎÇÏ½Ã°Å³ª Æú´õ ÀÌ¸§À» ¹Ù²Û µÚ ´Ù½Ã ½ÇÇàÇØ ÁÖ¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [¼³Ä¡ Æú´õ ÀÌ¹Ì Á¸Àç, °Çµå¸®Áö ¾ÊÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_NOGIT
+echo         [91m[½ÇÆÐ][0m Flutter+Dart - Git À» Ã£À» ¼ö ¾ø½À´Ï´Ù. Git ¼³Ä¡ ÈÄ ´Ù½Ã ½ÇÇàÇØ ÁÖ¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [Git ¾øÀ½]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_CLONE
+if exist "!FL_DIR!" rmdir /s /q "!FL_DIR!" >nul 2>&1
+echo         [91m[½ÇÆÐ][0m Flutter+Dart ³»·Á¹Þ±â ½ÇÆÐ - ¸Þ´º [8] Á÷Á¢ ´Ù¿î·Îµå¿¡¼­ ¹ÞÀ» ¼ö ÀÖ¾î¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [git clone errorlevel=!INST_ERR!]
+goto FLUTTER_FAIL_COUNT
+
+:FLUTTER_FAIL_FIRSTRUN
+echo         [91m[½ÇÆÐ][0m Flutter+Dart Ã¹ ½ÇÇà È®ÀÎ ½ÇÆÐ - »õ ÅÍ¹Ì³Î¿¡¼­ flutter --version À» ½ÇÇàÇØ º¸¼¼¿ä.
+>> "%LOG_FILE%" echo   °á°ú: ½ÇÆÐ [flutter --version Ã¹ ½ÇÇà]
+:FLUTTER_FAIL_COUNT
+set /a FAIL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [½ÇÆÐ] Flutter+Dart
+goto :eof
+
+:: Git ½ÇÇà ÆÄÀÏ Ã£±â: ÀÌ¹ø ½ÇÇà¿¡¼­ ¸· ¼³Ä¡µÈ Git Àº PATH ¿¡ ¾ÆÁ÷ ¾øÀ» ¼ö ÀÖ¾î ¼³Ä¡ À§Ä¡µµ È®ÀÎ
+:FIND_GIT
+set "FL_GIT="
+where git >nul 2>&1
+if not errorlevel 1 set "FL_GIT=git"
+if defined FL_GIT goto :eof
+if exist "%ProgramFiles%\Git\cmd\git.exe" set "FL_GIT=%ProgramFiles%\Git\cmd\git.exe"
+if defined FL_GIT goto :eof
+if exist "%LOCALAPPDATA%\Programs\Git\cmd\git.exe" set "FL_GIT=%LOCALAPPDATA%\Programs\Git\cmd\git.exe"
+goto :eof
+
+:: »ç¿ëÀÚ PATH ¿¡ Flutter bin Ãß°¡ [»ç¿ëÀÚ ¹üÀ§¸¸, Áßº¹ ¹æÁö, ±âÁ¸ °ª º¸Á¸, µÇµ¹¸®±â´Â [7] Á¦°Å]
+:: ·¹Áö½ºÆ®¸® °ªÀ» ±×´ë·Î ÀÐ°í ¾²¹Ç·Î %USERPROFILE% °°Àº ±âÁ¸ Ç×¸ñÀÌ ±úÁöÁö ¾ÊÀ½ [setx ´Â 1024ÀÚ Àß¸² À§Çè]
+:FLUTTER_PATH_ADD
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $has=$false; foreach($e in $p.Split(';')){ if([Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ieq $b){ $has=$true } }; if(-not $has){ $n=($p.TrimEnd(';')+';'+$b).TrimStart(';'); $k.SetValue('Path',$n,[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User') }; $k.Close() } catch { exit 1 }" >nul 2>&1
+if errorlevel 1 (
+    echo         [¾È³»] »ç¿ëÀÚ PATH ÀÚµ¿ µî·Ï¿¡ ½ÇÆÐÇß½À´Ï´Ù. È¯°æ º¯¼ö ÆíÁý¿¡¼­ ¾Æ·¡ °æ·Î¸¦ Path ¿¡ Ãß°¡ÇØ ÁÖ¼¼¿ä.
+    echo                !FL_BIN!
+    >> "%LOG_FILE%" echo   PATH µî·Ï ½ÇÆÐ
+) else (
+    echo         [PATH] »ç¿ëÀÚ PATH ¿¡ Flutter µî·Ï È®ÀÎ - »õ ÅÍ¹Ì³Î¿¡¼­ flutter ¸í·ÉÀ» ¾µ ¼ö ÀÖ½À´Ï´Ù.
+    >> "%LOG_FILE%" echo   PATH µî·Ï È®ÀÎ
+)
+set "PATH=!PATH!;!FL_BIN!"
+goto :eof
+
+:: Flutter Á¦°Å [Å°Æ® ¼³Ä¡ À§Ä¡¸¸. ´Ù¸¥ °÷¿¡ Á÷Á¢ ¼³Ä¡ÇÑ Flutter ´Â °Çµå¸®Áö ¾ÊÀ½]
+:REMOVE_FLUTTER
+if not defined USERPROFILE goto :eof
+set "FL_DIR=%USERPROFILE%\develop\flutter"
+set "FL_BIN=%USERPROFILE%\develop\flutter\bin"
+if not exist "!FL_BIN!\flutter.bat" (
+    echo  [°Ç³Ê¶Ü] Å°Æ® ¼³Ä¡ À§Ä¡¿¡ Flutter °¡ ¾ø½À´Ï´Ù. ´Ù¸¥ °÷¿¡ Á÷Á¢ ¼³Ä¡ÇÑ Flutter ´Â Áö¿ìÁö ¾Ê½À´Ï´Ù.
+    goto :eof
+)
+echo.
+echo  Flutter Æú´õ¸¦ ÅëÂ°·Î »èÁ¦ÇÕ´Ï´Ù: !FL_DIR!
+set /p FL_DEL="  Y ¸¦ ÀÔ·ÂÇÏ¸é »èÁ¦ÇÕ´Ï´Ù: "
+if /i "!FL_DEL!" NEQ "y" goto :eof
+rmdir /s /q "!FL_DIR!" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=$env:FL_BIN.TrimEnd('\'); $k=[Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment'); $p=[string]$k.GetValue('Path','',[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames); $keep=@(); foreach($e in $p.Split(';')){ if($e.Trim() -ne '' -and [Environment]::ExpandEnvironmentVariables($e.Trim()).TrimEnd('\') -ine $b){ $keep+=$e } }; $k.SetValue('Path',($keep -join ';'),[Microsoft.Win32.RegistryValueKind]::ExpandString); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH','1','User'); [Environment]::SetEnvironmentVariable('KIT_PATH_REFRESH',$null,'User'); $k.Close() } catch { exit 1 }" >nul 2>&1
+echo    Á¦°Å: Flutter [Æú´õ »èÁ¦ + »ç¿ëÀÚ PATH Á¤¸®]
+>> "%LOG_FILE%" echo   Flutter Á¦°Å ¿Ï·á
+goto :eof
+
+:: ============================================================
+:: [M] ¸ð¹ÙÀÏ ¾Û °³¹ß È¯°æ [Flutter ±â¹Ý ¾Èµå·ÎÀÌµå]
+:: ±¸¼º: Git, Flutter, Android Studio, adb, scrcpy[¼±ÅÃ]
+:: È¯°æ º¯¼ö´Â Å°Æ®°¡ ¹Ù²ÙÁö ¾Ê°í ¾È³»¸¸ ÇÑ´Ù. ¶óÀÌ¼±½º µ¿ÀÇ¿Í Android Studio Ã¹ ½ÇÇàÀº »ç¶÷ÀÌ Á÷Á¢ ÇÑ´Ù.
+:: ============================================================
+:DO_MOBILE
+cls
+echo.
+echo  ===================================================
+echo   [M] ¸ð¹ÙÀÏ ¾Û °³¹ß È¯°æ [Flutter / ¾Èµå·ÎÀÌµå]
+echo  ===================================================
+echo.
+echo    [1] ¸ð¹ÙÀÏ ±âº»     Git, Flutter, Android Studio, adb   [4°³]
+echo    [2] ±âº» + scrcpy   À§ 4°³ + Æù È­¸é ¹Ì·¯¸µ             [5°³]
+echo    [3] °ñ¶ó¼­ ¼³Ä¡
+echo    [4] ¼³Ä¡ ÈÄ ÇÒ ÀÏ ¾È³»   [Android Studio Ã¹ ½ÇÇà / ¶óÀÌ¼±½º / Æù ¿¬°á]
+echo    [0] ¸ÞÀÎ ¸Þ´º·Î
+echo.
+echo  * µð½ºÅ© ¾à 10GB, ¼³Ä¡ ¾à 30~40ºÐ [ÀÎÅÍ³Ý ¼Óµµ¿¡ µû¶ó ´Ù¸§]
+echo  * iOS ¾ÛÀº Windows ¿¡¼­ ¸¸µé ¼ö ¾ø½À´Ï´Ù [Mac ÇÊ¿ä]
+echo.
+set MOB_CHOICE=
+set MOB_GIT=
+set MOB_FL=
+set MOB_STUDIO=
+set MOB_ADB=
+set MOB_SCRCPY=
+set /p MOB_CHOICE="  ¹øÈ£: "
+if "!MOB_CHOICE!"=="0" goto MAIN_MENU
+if "!MOB_CHOICE!"=="1" goto MOBILE_BASIC
+if "!MOB_CHOICE!"=="2" goto MOBILE_PLUS
+if "!MOB_CHOICE!"=="3" goto MOBILE_PICK
+if "!MOB_CHOICE!"=="4" goto MOBILE_GUIDE
+goto DO_MOBILE
+
+:MOBILE_GUIDE
+cls
+call :POST_MOBILE
+pause
+goto DO_MOBILE
+
+:MOBILE_PLUS
+set MOB_SCRCPY=1
+:MOBILE_BASIC
+set MOB_GIT=1
+set MOB_FL=1
+set MOB_STUDIO=1
+set MOB_ADB=1
+goto MOBILE_CONFIRM
+
+:MOBILE_PICK
+echo.
+echo   [1] Git   [2] Flutter+Dart   [3] Android Studio   [4] adb   [5] scrcpy
+echo   ¹øÈ£¸¦ ½°Ç¥·Î ÀÔ·ÂÇÏ¼¼¿ä  [¿¹: 2,3]      [0] µÚ·Î
+set MOB_SEL=
+set /p MOB_SEL="  ¹øÈ£: "
+if "!MOB_SEL!"=="" goto DO_MOBILE
+if "!MOB_SEL!"=="0" goto DO_MOBILE
+for %%n in (%MOB_SEL:,= %) do (
+    if "%%n"=="1" set MOB_GIT=1
+    if "%%n"=="2" set MOB_FL=1
+    if "%%n"=="3" set MOB_STUDIO=1
+    if "%%n"=="4" set MOB_ADB=1
+    if "%%n"=="5" set MOB_SCRCPY=1
+)
+
+:MOBILE_CONFIRM
+:: Flutter ´Â git À¸·Î ¹ÞÀ¸¹Ç·Î Git ÀÌ ¾øÀ¸¸é ÇÔ²² ¼³Ä¡
+if defined MOB_FL if not defined MOB_GIT (
+    call :FIND_GIT
+    if not defined FL_GIT (
+        echo  [¾È³»] Flutter´Â GitÀÌ ÇÊ¿äÇÕ´Ï´Ù. Gitµµ ÇÔ²² ¼³Ä¡ÇÕ´Ï´Ù.
+        set MOB_GIT=1
+    )
+)
+set TOTAL=0
+if defined MOB_GIT set /a TOTAL+=1
+if defined MOB_FL set /a TOTAL+=1
+if defined MOB_STUDIO set /a TOTAL+=1
+if defined MOB_ADB set /a TOTAL+=1
+if defined MOB_SCRCPY set /a TOTAL+=1
+if !TOTAL! EQU 0 goto DO_MOBILE
+echo.
+echo  --------------------------------------------------
+echo  [¸ð¹ÙÀÏ ¼³Ä¡ ¸ñ·Ï] !TOTAL!°³
+if defined MOB_GIT echo    - Git
+if defined MOB_FL echo    - Flutter+Dart
+if defined MOB_STUDIO echo    - Android Studio
+if defined MOB_ADB echo    - adb [Android ÇÃ·§Æû µµ±¸]
+if defined MOB_SCRCPY echo    - scrcpy [Æù È­¸é ¹Ì·¯¸µ]
+echo  --------------------------------------------------
+echo  ÀÌ¹Ì ¼³Ä¡µÈ µµ±¸´Â °Ç³Ê¶Ý´Ï´Ù. ¾÷µ¥ÀÌÆ®´Â ¸ÞÀÎ ¸Þ´º [6] À» ¾²¼¼¿ä.
+echo.
+set CONFIRM_MOB=
+set /p CONFIRM_MOB="  Y=¼³Ä¡ ½ÃÀÛ / N=µÇµ¹¾Æ°¡±â: "
+if /i "!CONFIRM_MOB!" NEQ "y" goto DO_MOBILE
+set UPGRADE_MODE=skip
+set LEVEL_NAME=¸ð¹ÙÀÏ
+set DISK_MIN=3
+if defined MOB_FL set DISK_MIN=4
+if defined MOB_STUDIO set DISK_MIN=10
+set CURRENT=0
+set INSTALL_COUNT=0
+set SKIP_COUNT=0
+set FAIL_COUNT=0
+del "%REPORT_FILE%.tmp" >nul 2>&1
+set PRE_CHECK_RETURN=INSTALL_MOBILE
+goto PRE_CHECK
+
+:INSTALL_MOBILE
+cls
+echo.
+echo  [¸ð¹ÙÀÏ ¾Û °³¹ß È¯°æ ¼³Ä¡] !TOTAL!°³ µµ±¸¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+echo.
+>> "%LOG_FILE%" echo === ¸ð¹ÙÀÏ ¼³Ä¡ ½ÃÀÛ: %TIME% ===
+call :MOBILE_VIRT_CHECK
+echo.
+:: ÀÇÁ¸¼º ¼ø¼­: Git, Flutter [Git ÇÊ¿ä], Android Studio, adb, scrcpy
+if defined MOB_GIT call :INSTALL "Git" "Git.Git"
+if defined MOB_FL call :INSTALL_FLUTTER
+if defined MOB_STUDIO call :INSTALL "Android Studio" "Google.AndroidStudio"
+if defined MOB_ADB call :INSTALL "adb [Android ÇÃ·§Æû µµ±¸]" "Google.PlatformTools"
+if defined MOB_SCRCPY call :INSTALL "scrcpy [Æù È­¸é ¹Ì·¯¸µ]" "Genymobile.scrcpy"
+call :POST_MOBILE
+call :MAKE_REPORTS
+call :PATH_CHECK
+call :DONE_MSG
+goto MAIN_MENU
+
+:: °¡»óÈ­ È®ÀÎ [¾Èµå·ÎÀÌµå ¿¡¹Ä·¹ÀÌÅÍ¿ë]. ¾È³»¸¸ ÇÏ°í ¼³Ä¡´Â ¸·Áö ¾Ê´Â´Ù. ½ÇÁ¦ Æù ¿¬°á¿¡´Â ÇÊ¿ä ¾øÀ½.
+:MOBILE_VIRT_CHECK
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $c=Get-CimInstance Win32_ComputerSystem; $p=@(Get-CimInstance Win32_Processor); if($c.HypervisorPresent -or ($p | Where-Object { $_.VirtualizationFirmwareEnabled })){ exit 0 } else { exit 1 } } catch { exit 2 }" >nul 2>&1
+set VIRT_RC=!errorlevel!
+if !VIRT_RC! EQU 0 (
+    echo  [OK] °¡»óÈ­ »ç¿ë °¡´É - ¾Èµå·ÎÀÌµå ¿¡¹Ä·¹ÀÌÅÍ¸¦ ¾µ ¼ö ÀÖ½À´Ï´Ù
+    >> "%LOG_FILE%" echo OK: °¡»óÈ­ »ç¿ë °¡´É
+) else if !VIRT_RC! EQU 1 (
+    echo  [¾È³»] °¡»óÈ­°¡ ²¨Á® ÀÖ½À´Ï´Ù. ¿¡¹Ä·¹ÀÌÅÍ´Â ´À¸®°Å³ª ¾È µÉ ¼ö ÀÖ½À´Ï´Ù. [½ÇÁ¦ Æù ¿¬°áÀº »ó°ü¾øÀ½]
+    echo         ÄÑ·Á¸é PC ½ÃÀÛ ¶§ BIOS ¼³Á¤¿¡¼­ Intel VT-x ¶Ç´Â AMD-V ¸¦ ÄÑ¼¼¿ä.
+    >> "%LOG_FILE%" echo ¾È³»: °¡»óÈ­ ²¨Áü
+) else (
+    echo  [¾È³»] °¡»óÈ­ »óÅÂ¸¦ È®ÀÎÇÏÁö ¸øÇß½À´Ï´Ù. ¿¡¹Ä·¹ÀÌÅÍ¿¡ ¹®Á¦°¡ ÀÖÀ¸¸é BIOS ¿¡¼­ °¡»óÈ­¸¦ ÄÑ º¸¼¼¿ä.
+    >> "%LOG_FILE%" echo ¾È³»: °¡»óÈ­ È®ÀÎ ½ÇÆÐ
+)
+goto :eof
+
+:: ¼³Ä¡ ÈÄ ÇÒ ÀÏ ¾È³» [ÀÚµ¿È­ÇÏÁö ¾Ê´Â ´Ü°è: ¶óÀÌ¼±½º µ¿ÀÇ / Android Studio Ã¹ ½ÇÇà / Æù ¼³Á¤]
+:POST_MOBILE
+echo.
+echo  ---------------------------------------------------
+echo  [¸ð¹ÙÀÏ ¼³Ä¡ ÈÄ ÇÒ ÀÏ - ¼ø¼­´ë·Î µû¶ó ÇÏ¼¼¿ä]
+echo  ---------------------------------------------------
+echo   1. Android Studio ¸¦ ÇÑ ¹ø ½ÇÇàÇÕ´Ï´Ù. [½ÃÀÛ ¸Þ´º¿¡¼­ Android Studio]
+echo      ¼³Á¤ ¸¶¹ý»ç°¡ ³ª¿À¸é Standard ¸¦ °í¸£°í ³¡³¯ ¶§±îÁö ±â´Ù¸®¼¼¿ä.
+echo      [Android SDK ¸¦ ³»·Á¹Þ½À´Ï´Ù. ¸î GB ¶ó¼­ ¸î ºÐ °É¸³´Ï´Ù]
+echo   2. »õ ÅÍ¹Ì³ÎÀ» ¿­°í ¶óÀÌ¼±½º¿¡ µ¿ÀÇÇÕ´Ï´Ù. [Á÷Á¢ y ¸¦ ´­·¯¾ß ÇÕ´Ï´Ù]
+echo        flutter doctor --android-licenses
+echo   3. ÁØºñ »óÅÂ¸¦ È®ÀÎÇÕ´Ï´Ù. ¸ðµÎ Ã¼Å© Ç¥½Ã¸é ³¡ÀÔ´Ï´Ù.
+echo        flutter doctor
+echo      SDK ¸¦ ¸ø Ã£´Â´Ù°í ³ª¿À¸é ¾Æ·¡ ¸í·ÉÀ» ÇÑ ¹ø ½ÇÇàÇÏ¼¼¿ä.
+echo        flutter config --android-sdk "%LOCALAPPDATA%\Android\Sdk"
+echo   4. ½ÇÁ¦ ÆùÀ¸·Î ½ÃÇèÇÏ·Á¸é:
+echo      Æù ¼³Á¤ - ÈÞ´ëÀüÈ­ Á¤º¸ - ºôµå¹øÈ£¸¦ 7¹ø ´©¸£±â - °³¹ßÀÚ ¿É¼Ç - USB µð¹ö±ë ÄÑ±â
+echo      USB ·Î ¿¬°áÇÑ µÚ adb devices ¸¦ ÀÔ·ÂÇØ ÆùÀÌ º¸ÀÌ´ÂÁö È®ÀÎÇÏ¼¼¿ä.
+echo   5. Æù ¾øÀÌ ½ÃÇèÇÏ·Á¸é:
+echo      Android Studio - More Actions - Virtual Device Manager ¿¡¼­ °¡»ó ÆùÀ» ¸¸µå¼¼¿ä.
+echo.
+echo   * iOS ¾ÛÀº Windows ¿¡¼­ ¸¸µé ¼ö ¾ø½À´Ï´Ù [Mac ÇÊ¿ä].
+echo   * È¯°æ º¯¼ö´Â Å°Æ®°¡ ¹Ù²ÙÁö ¾Ê½À´Ï´Ù. À§ flutter config ¸í·ÉÀ¸·Î ÃæºÐÇÕ´Ï´Ù.
+echo   * adb °¡ µÎ ¹ú[Å°Æ® ¼³Ä¡ + Android Studio ³»Àå]ÀÌ¶ó ¹öÀü ºÒÀÏÄ¡ ¸Þ½ÃÁö°¡ ³ª¿À¸é
+echo     adb kill-server ¸¦ ÀÔ·ÂÇÑ µÚ ´Ù½Ã ½ÃµµÇÏ¼¼¿ä.
+echo.
+goto :eof
+
+:: Android Studio ¼³Ä¡ ¿©ºÎ [PATH ¿¡ ¾ø´Â ÇÁ·Î±×·¥ÀÌ¶ó ¼³Ä¡ À§Ä¡ ¶Ç´Â winget ¸ñ·ÏÀ¸·Î È®ÀÎ]
+:CHECK_STUDIO
+if exist "%ProgramFiles%\Android\Android Studio\bin\studio64.exe" goto CHECK_STUDIO_OK
+if exist "%LOCALAPPDATA%\Programs\Android Studio\bin\studio64.exe" goto CHECK_STUDIO_OK
+winget list --id Google.AndroidStudio --source winget >nul 2>&1
+if not errorlevel 1 goto CHECK_STUDIO_OK
+echo    [X] Android Studio
+goto :eof
+:CHECK_STUDIO_OK
+echo    [O] Android Studio
+goto :eof
+
+:: flutter doctor ¿ä¾à [½Ã°£ÀÌ °É¸®¹Ç·Î »ç¿ëÀÚ°¡ y ¸¦ ´­·¶À» ¶§¸¸]. Á¾·áÄÚµå 0=Á¤»ó 1=°æ°í 2=¿À·ù 3=È®ÀÎ ¸øÇÔ
+:FLUTTER_DOCTOR_SUMMARY
+set "FD_OUT=%TEMP%\kit_flutter_doctor.txt"
+echo         flutter doctor ½ÇÇà Áß... Ã³À½¿¡´Â 1~2ºÐ °É¸± ¼ö ÀÖ½À´Ï´Ù.
+call flutter doctor > "!FD_OUT!" 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $t=Get-Content -LiteralPath $env:FD_OUT -Encoding UTF8 -ErrorAction Stop; if(-not $t){ exit 3 }; $c=0; foreach($l in $t){ if($l -match '^\[\x21\]'){ if($c -lt 1){ $c=1 }; Write-Host ('    '+$l) } elseif($l -match '^\[[^\]]\]' -and $l -notmatch '^\[(\u221a|\u2713)\]'){ $c=2; Write-Host ('    '+$l) } }; exit $c } catch { exit 3 }"
+set FD_RC=!errorlevel!
+del "!FD_OUT!" >nul 2>&1
+if !FD_RC! EQU 0 (
+    echo  [OK] flutter doctor: ¸ðµç Ç×¸ñ Á¤»ó - ¾Û °³¹ß ÁØºñ ¿Ï·á
+) else if !FD_RC! EQU 1 (
+    echo  [¾È³»] flutter doctor: °æ°í Ç×¸ñÀÌ ÀÖ½À´Ï´Ù. ¸ÞÀÎ ¸Þ´º [M] ÀÇ [4] ¼³Ä¡ ÈÄ ÇÒ ÀÏ ¾È³»¸¦ µû¶ó ÇÏ¼¼¿ä.
+) else if !FD_RC! EQU 2 (
+    echo  [¾È³»] flutter doctor: ¿À·ù Ç×¸ñÀÌ ÀÖ½À´Ï´Ù. ¸ÞÀÎ ¸Þ´º [M] ÀÇ [4] ¼³Ä¡ ÈÄ ÇÒ ÀÏ ¾È³»¸¦ µû¶ó ÇÏ¼¼¿ä.
+) else (
+    echo  [¾È³»] flutter doctor °á°ú¸¦ ÀÐÁö ¸øÇß½À´Ï´Ù. »õ ÅÍ¹Ì³Î¿¡¼­ flutter doctor ¸¦ Á÷Á¢ ½ÇÇàÇØ º¸¼¼¿ä.
+)
+goto :eof
+
 :: ============================================================
 :: scoop ¼³Ä¡ ÇïÆÛ (winget ¹ÌÁö¿ø -> °ø½Ä ¼³Ä¡ ½ºÅ©¸³Æ®). ·¹º§/[S] °ø¿ë, ºñ´ëÈ­Çü
 :: ============================================================

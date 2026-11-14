@@ -96,6 +96,27 @@
 
 - **scoop**: 개발용 명령줄 패키지 매니저. winget에 없어 공식 설치 스크립트(`get.scoop.sh`)로 설치합니다. **레벨 [1]~[4] 설치에 자동 포함**(레벨 시작 시 Y 확인 후)되고, [S]로 단독 설치도 됩니다. 보안 상세는 [§13](#13-보안--데이터-흐름).
 
+**Flutter — winget에 없어서 공식 저장소(git)로 설치**
+
+- **Flutter+Dart**: winget에 Flutter 패키지가 없어, Flutter 공식 저장소(`github.com/flutter/flutter`)의 **stable**을 git으로 받아 `%USERPROFILE%\develop\flutter`에 설치합니다(Flutter 공식 문서 권장 위치). **Git이 필요**하고(왕초보 레벨에 포함), Flutter 설치에 **Java는 필요 없습니다**. 이미 Flutter가 있으면 건너뛰고, 설치 위치에 폴더가 이미 있으면 **덮어쓰지 않고** 실패로 알려 줍니다. 설치 후 **사용자 PATH에 자동 추가**되어 새 터미널에서 `flutter`를 쓸 수 있습니다. 보안은 [§13](#13-보안--데이터-흐름), 설정 변경은 [§14](#14-환경-변수).
+**모바일 앱 개발 — 메인 메뉴 [M] (Flutter + 안드로이드)**
+
+레벨 [1]~[4]와 **섞이지 않는 별도 메뉴**입니다. 기존 레벨의 동작은 그대로입니다.
+
+| 항목 | 설치 방식 | 설명 |
+|------|----------|------|
+| Git | winget (`Git.Git`) | Flutter를 받는 데 필요. 없으면 자동으로 함께 설치 |
+| Flutter+Dart | 공식 저장소(git) | 위 설명 참고 |
+| **Android Studio** | winget (`Google.AndroidStudio`) | 안드로이드 SDK·에뮬레이터·Java(내장 JDK)를 갖춘 공식 개발 도구 |
+| **adb** (Android 플랫폼 도구) | winget (`Google.PlatformTools`) | 실제 폰을 USB로 연결해 시험할 때 사용 |
+| scrcpy (선택) | winget (`Genymobile.scrcpy`) | 폰 화면을 PC에서 보고 조작 |
+
+- **[M] 메뉴**: `[1] 모바일 기본`(Git·Flutter·Android Studio·adb) · `[2] 기본 + scrcpy` · `[3] 골라서 설치` · `[4] 설치 후 할 일 안내`. 같은 도구를 [5] 선택 설치(`28` Android Studio · `29` adb · `30` scrcpy)로도 고를 수 있습니다.
+- **설치 전 점검**: 디스크 여유 약 10GB(실측: Flutter 2.56 + Android SDK 4.35 + Android Studio 3.09GB), 가상화 켜짐 여부(에뮬레이터용 — **안내만 하고 설치는 막지 않습니다**. 실제 폰 연결에는 필요 없음).
+- **설치 후 안내(자동화하지 않는 단계)**: Android Studio 첫 실행(SDK 내려받기) → `flutter doctor --android-licenses`(라이선스 동의는 **직접**) → `flutter doctor` → 폰 USB 디버깅 켜는 법. 키트는 **환경 변수를 등록하지 않고** 안내만 합니다.
+- **[9] 설치 확인**: Android Studio·adb·scrcpy 항목 추가, 그리고 원하면 `flutter doctor` 결과를 요약(정상/경고/오류)해 보여 줍니다(1~2분 걸릴 수 있어 y를 눌렀을 때만 실행).
+- **iOS 앱 빌드는 Windows에서 할 수 없습니다**(Mac 필요). 이 키트는 안드로이드 앱 개발 환경까지 준비합니다.
+
 **설치 후 자동으로 되는 것 (Post-install)**
 
 - Git 줄바꿈 설정(`core.autocrlf true`) 자동
@@ -160,6 +181,7 @@
 [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI 안내)
 [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
 [S] scoop 설치          개발용 패키지 매니저 (winget 외)
+[M] 모바일 앱 개발      Flutter + Android Studio + adb (안드로이드)
 ```
 
 | 메뉴 | 설명 |
@@ -169,6 +191,7 @@
 | **[5]** | 번호를 쉼표로 입력(예: `1,3,8`). **Enter만 누르면 권장 기본팩(1~5)**. 고른 도구 **이름을 미리 보여준 뒤** 설치 |
 | **[V]** | Python/Java/Ruby의 **특정 안정 버전** 선택. 잘 모르면 그냥 Enter(권장값) |
 | **[S]** | **scoop**(개발용 패키지 매니저) 설치. winget에 없어 공식 스크립트 사용 — 실행 전 **동의(Y/N)**. 보안 상세 [§13](#13-보안--데이터-흐름) |
+| **[M]** | **모바일 앱 개발 환경**(Git·Flutter·Android Studio·adb·scrcpy) 설치와 **설치 후 할 일 안내**. 자세한 내용은 [§3](#3-필요-프로그램설치되는-도구-목록) |
 | **[6]** | 이 키트가 설치한 도구만 **안정(LTS) 버전으로** 업데이트 |
 | **[7]** | 개별/전체 제거 |
 | **[8]** | winget으로 안 될 때 공식 다운로드 페이지를 브라우저로 엶 (URL은 **Ctrl+클릭**) |
@@ -200,7 +223,30 @@ git config --global user.email "your@email.com"
 ## 9. 업데이트 내용 요약
 
 <details>
-<summary><b>v1.6.1 (2026-07-22) — 최신</b></summary>
+<summary><b>v1.7.0 (2026-11-14) — 최신</b></summary>
+
+- **Added**: 메인 메뉴 **[M] 모바일 앱 개발** — Git · Flutter · **Android Studio** · **adb** · (선택) **scrcpy**를 한 번에 설치. `[1] 모바일 기본` / `[2] 기본 + scrcpy` / `[3] 골라서` / `[4] 설치 후 할 일 안내`. [5] 선택 설치에도 28~30번으로 추가.
+- **Added**: 설치 전 **가상화 점검**(안내만, 설치는 막지 않음)과 설치 후 **순서별 안내**(Android Studio 첫 실행 · 라이선스 동의 · `flutter doctor` · 폰 USB 디버깅). 환경 변수는 등록하지 않고 안내만.
+- **Added**: [9] 설치 확인에 Android Studio · adb · scrcpy와 선택형 **`flutter doctor` 요약**. [6] 업데이트 · [7] 제거 · [8] 직접 다운로드에도 새 도구 반영.
+- **참고**: iOS 앱 빌드는 Windows에서 불가(Mac 필요). 기존 레벨 [1]~[4]·[A]의 설치 목록은 바뀌지 않았습니다.
+</details>
+
+<details>
+<summary>v1.6.3 (2026-11-14)</summary>
+
+- **Fixed**: **Flutter 설치가 항상 실패하던 문제** — winget에 Flutter 패키지(`Google.FlutterSDK`)가 없어서 고급·올인원·[5] 12번에서 매번 실패(5초 재시도 포함)했습니다. 이제 Flutter 공식 저장소(git)에서 stable을 받아 설치하고, 첫 실행까지 확인한 뒤 성공/실패를 정직하게 표시합니다.
+- **Changed**: 사용자 PATH에 Flutter 경로 **1개만** 자동 추가(중복 방지·기존 값 보존). [7] 제거는 키트가 설치한 위치만 지우고 PATH 항목도 정리합니다. Flutter는 Java가 필요 없어, [5]에서 Flutter를 고르면 Java 대신 **Git**을 먼저 확인합니다.
+- **안전장치**: 설치 위치에 폴더가 있으면 절대 덮어쓰거나 지우지 않음 · Windows 긴 경로(260자) 오류 방지 설정 포함.
+</details>
+
+<details>
+<summary>v1.6.2 (2026-09-08)</summary>
+
+- 문서 전용: 환경 변수·빌드/테스트/배포·운영 주의사항 절 추가(설치 동작 변경 없음).
+</details>
+
+<details>
+<summary>v1.6.1 (2026-07-22)</summary>
 
 - **Changed**: **scoop을 왕초보 [1]~[4] 설치에 자동 포함**. 레벨 설치를 고르면 scoop도 함께 설치됩니다(레벨 시작 시 Y 확인 후). [S] 단독 설치도 유지. 개수 갱신(왕초보 6·중급 12·고급 17·올인원 19).
 - **참고**: [A] 추천 설치는 기존대로(scoop 미포함).
@@ -301,7 +347,9 @@ PRD/                            ← 초기 기획 문서 (참고용)
 
 - **관리자 권한 불필요**(사용자 범위 설치). 기업/학교 PC 대응.
 - **공식 소스만(winget)**: winget 설치는 전부 `--source winget`(Microsoft 서명 검증).
-- **원격 스크립트 예외 — scoop 1건**: scoop은 winget에 없어 공식 설치 스크립트(`https://get.scoop.sh`, HTTPS)를 실행합니다. **유일한 원격 실행 경로**이며, **레벨 [1]~[4] 설치(시작 시 Y 확인) 또는 [S] 선택** 시에만 실행됩니다(winget과 달리 서명 검증은 없고, 공식 출처만 사용).
+- **원격 스크립트 예외 — scoop 1건**: scoop은 winget에 없어 공식 설치 스크립트(`https://get.scoop.sh`, HTTPS)를 실행합니다. **설치 스크립트를 받아 바로 실행하는 유일한 경로**이며, **레벨 [1]~[4] 설치(시작 시 Y 확인) 또는 [S] 선택** 시에만 실행됩니다(winget과 달리 서명 검증은 없고, 공식 출처만 사용).
+- **Flutter 예외 — git 저장소 1건**: Flutter는 winget에 없어 공식 저장소(`https://github.com/flutter/flutter.git`, HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가 **처음 실행할 때 Dart SDK를 Google 서버에서 받습니다**(서명 검증 없음, 공식 출처만). 설치 위치가 사용자 폴더 안이라 관리자 권한은 필요 없습니다.
+- **모바일 도구(Android Studio·adb·scrcpy)는 모두 winget 경유**라 기존 도구와 같은 방식(서명 검증)입니다. Android SDK **라이선스 동의는 사용자가 직접** 합니다(키트가 대신 동의하지 않음).
 - **입력 최소화**: 사용자는 **메뉴 번호만** 입력. 임의 명령 실행 통로 없음.
 - **개인정보 보호**: Git 이름/이메일은 **자동 저장하지 않고 안내만**.
 - **외부 전송 없음**: 만들어지는 파일은 **로컬**(리포트/로그)뿐. 서버로 보내지 않음.
@@ -332,9 +380,12 @@ PRD/                            ← 초기 기획 문서 (참고용)
 | Git 줄바꿈 | `core.autocrlf=true` | `git config --global --unset core.autocrlf` |
 | npm 광고 끄기 | `fund=false` | `npm config delete fund` |
 | 콘솔 색상 | 레지스트리 `HKCU\Console\VirtualTerminalLevel=1` | 해당 레지스트리 값 삭제 |
+| 사용자 PATH (Flutter만) | `%USERPROFILE%\develop\flutter\bin` **1개 추가** | [7] 제거에서 Flutter를 제거하면 자동 정리 · 또는 환경 변수 편집에서 그 줄 삭제 |
 
-> **PATH는 이 키트가 직접 건드리지 않습니다.** 각 설치 프로그램(winget·scoop)이 스스로 등록합니다.
+> **PATH는 대부분 이 키트가 건드리지 않습니다.** 각 설치 프로그램(winget·scoop)이 스스로 등록합니다. **예외는 Flutter 1건**입니다: git으로 받는 Flutter는 PATH를 등록해 주는 설치 프로그램이 없어, 키트가 **사용자 PATH에 위 경로 1개만** 추가합니다(이미 있으면 추가 안 함, 기존 항목은 그대로 보존).
 > 그래서 설치 직후 현재 창에서는 명령어가 안 먹히고, **새 터미널**을 열어야 인식됩니다.
+>
+> **Android SDK 관련 환경 변수(`ANDROID_HOME` 등)는 키트가 등록하지 않습니다.** SDK 위치를 못 찾는다고 나오면 [M]-[4] 안내의 `flutter config --android-sdk` 명령을 한 번 실행하세요(Flutter 자체 설정이라 PC 설정은 바뀌지 않습니다).
 
 ---
 
@@ -381,6 +432,8 @@ PRD/                            ← 초기 기획 문서 (참고용)
 - **백신이 `.bat`을 차단**할 수 있습니다. 공식 저장소에서 받은 파일이 맞는지 확인한 뒤 허용 목록에 추가하세요.
 - **로그·리포트 파일**은 실행할 때마다 날짜별로 쌓입니다. 필요 없으면 지워도 됩니다(`.gitignore`에 있어 저장소에는 올라가지 않습니다).
 - **리포트를 남에게 보낼 때**는 PC 이름이 들어 있다는 점만 알아두세요. 비밀번호·개인 파일 정보는 들어가지 않습니다.
+- **Flutter는 `%USERPROFILE%\develop\flutter`에 설치됩니다.** 그 위치에 다른 폴더가 이미 있으면 키트는 덮어쓰지 않고 실패로 알려 줍니다. Flutter 공식 문서는 경로에 **공백·특수문자**가 없는 곳을 권장하며, 처음 실행할 때 Dart SDK(수백 MB)를 내려받느라 몇 분 걸립니다.
+- **모바일 환경([M])은 용량이 큽니다.** 디스크 약 10GB, 설치 30~40분이 걸리고, Android Studio **첫 실행 때 SDK를 추가로 내려받습니다**. 안드로이드 에뮬레이터는 PC의 가상화가 켜져 있어야 빠르게 동작하며, 실제 폰을 USB로 연결하면 가상화 없이도 됩니다.
 - **영어(비한국어) Windows**에서는 메뉴 글자가 깨질 수 있습니다(알려진 제약).
 
 ---
@@ -393,9 +446,11 @@ PRD/                            ← 초기 기획 문서 (참고용)
 | `winget을 찾을 수 없습니다` | 앱 설치 관리자 없음 | Microsoft Store에서 **“앱 설치 관리자”** 설치, 또는 https://aka.ms/getwinget |
 | 설치 중 창이 갑자기 닫힘 | 오류 발생 | 같은 폴더의 `install-log-날짜.txt` **마지막 줄** 확인 |
 | 특정 도구만 설치 실패 | 네트워크·정책·winget 일시 오류 | 자동 1회 재시도됨. 그래도 안 되면 **[8] 직접 다운로드** |
+| Flutter만 설치 실패 | Git 없음 · 네트워크 · 설치 위치에 이미 폴더 존재 | 화면에 나온 사유대로 조치(Git 설치 / 폴더 이름 변경) 후 다시 실행. 안 되면 **[8] 직접 다운로드** |
+| `flutter doctor`에 Android 경고/오류 | Android Studio 첫 실행 전 · 라이선스 미동의 · SDK 위치 | **[M] → [4]** 안내 순서대로: Android Studio 한 번 실행 → `flutter doctor --android-licenses` → 필요하면 `flutter config --android-sdk` |
 | 관리자여도 설치 안 됨 | 백신이 `.bat` 차단 | 백신 허용 목록 추가 또는 잠시 실시간 보호 해제 후 재시도 |
 | **메뉴 글자가 깨져 보임** | **영어(비한국어) Windows** | 한국어 Windows에서는 정상. 영어 Windows는 알려진 제약(향후 PowerShell 런처로 개선 예정) |
-| 디스크 공간 부족 경고 | 여유 공간 미달 | 공간 확보 후 재실행(레벨별 3/4/6/7GB 기준) |
+| 디스크 공간 부족 경고 | 여유 공간 미달 | 공간 확보 후 재실행(레벨별 3/4/6/7GB, 모바일 [M]은 약 10GB 기준) |
 
 > 오류 신고 시: 스크린샷 대신 `install-log-날짜.txt`를 첨부하면 원인 파악이 쉽습니다. (민감정보 없음)
 
@@ -414,6 +469,9 @@ PRD/                            ← 초기 기획 문서 (참고용)
 
 **Q. 특정 버전(예: Python 3.11)을 깔 수 있나요?**
 네. **[V] 버전 선택 설치**에서 안정 버전만 고를 수 있습니다.
+
+**Q. 모바일 앱(안드로이드)도 만들 수 있나요?**
+네. 메인 메뉴 **[M] 모바일 앱 개발**에서 Flutter·Android Studio·adb를 한 번에 설치하고, 화면의 **설치 후 할 일**을 따라 하세요. iOS 앱은 Windows에서 만들 수 없습니다(Mac 필요).
 
 **Q. 설치한 걸 지우려면?**
 **[7] 제거** → 개별 또는 전체.

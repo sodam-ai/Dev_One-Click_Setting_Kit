@@ -96,6 +96,27 @@ Installation is split into **4 cumulative levels**. Higher levels include all lo
 
 - **scoop**: a command-line package manager for developers. Not in winget, so it is installed via the official script (`get.scoop.sh`). It is **auto-included in level installs [1]–[4]** (after the level's Y confirmation) and can also be installed standalone via [S]. Security details: [§13](#13-security--data-flow).
 
+**Flutter — not in winget, installed from the official repository (git)**
+
+- **Flutter+Dart**: winget has no Flutter package, so the kit downloads **stable** from Flutter's official repository (`github.com/flutter/flutter`) with git into `%USERPROFILE%\develop\flutter` (the location Flutter's docs recommend). **Git is required** (included from the Beginner level) and **Java is not needed** for Flutter. If Flutter already exists it is skipped; if the target folder already exists the kit **does not overwrite it** and reports a failure. Afterwards it is **added to your user PATH** so `flutter` works in a new terminal. Security: [§13](#13-security--data-flow); settings changed: [§14](#14-environment-variables).
+**Mobile app development — main menu [M] (Flutter + Android)**
+
+A **separate menu** that is not mixed into levels [1]–[4]; existing levels behave exactly as before.
+
+| Item | How it is installed | Notes |
+|------|--------------------|-------|
+| Git | winget (`Git.Git`) | Needed to fetch Flutter; installed automatically if missing |
+| Flutter+Dart | official repository (git) | See above |
+| **Android Studio** | winget (`Google.AndroidStudio`) | Official IDE with the Android SDK, emulator and a bundled JDK |
+| **adb** (Android platform-tools) | winget (`Google.PlatformTools`) | For testing on a real phone over USB |
+| scrcpy (optional) | winget (`Genymobile.scrcpy`) | Mirror and control the phone screen from the PC |
+
+- **[M] menu**: `[1] Mobile basic` (Git · Flutter · Android Studio · adb) · `[2] Basic + scrcpy` · `[3] Pick items` · `[4] After-install guide`. The same tools can also be picked in [5] Custom install (`28` Android Studio · `29` adb · `30` scrcpy).
+- **Pre-checks**: ~10 GB free disk (measured: Flutter 2.56 + Android SDK 4.35 + Android Studio 3.09 GB) and whether virtualization is on (for the emulator — **informational only, never blocks the install**; not needed for a real phone).
+- **After-install guide (steps that are not automated)**: first Android Studio launch (SDK download) → `flutter doctor --android-licenses` (you accept the licenses **yourself**) → `flutter doctor` → enabling USB debugging on the phone. The kit **does not set environment variables**; it only shows guidance.
+- **[9] Check install**: adds Android Studio · adb · scrcpy, and optionally a `flutter doctor` summary (OK / warnings / errors; it can take 1–2 minutes, so it runs only if you press y).
+- **iOS apps cannot be built on Windows** (a Mac is required). This kit prepares the Android app development environment.
+
 **Automatic post-install steps**
 
 - Sets Git line-ending option (`core.autocrlf true`) automatically
@@ -160,6 +181,7 @@ The main menu shown on run:
 [A] Easiest recommended  first-timers start here (5 basics + AI guide)
 [V] Version-select       specific stable versions (Python/Java/Ruby)
 [S] Install scoop        dev package manager (non-winget)
+[M] Mobile app dev       Flutter + Android Studio + adb (Android)
 ```
 
 | Menu | Description |
@@ -169,6 +191,7 @@ The main menu shown on run:
 | **[5]** | Enter numbers with commas (e.g., `1,3,8`). **Press Enter alone = recommended pack (1–5).** Shows the **names** of chosen tools before installing |
 | **[V]** | Choose a **specific stable version** of Python/Java/Ruby. Not sure? Just press Enter (recommended) |
 | **[S]** | Installs **scoop** (dev package manager). Not in winget, so it uses the official script — asks for **consent (Y/N)**. Security: [§13](#13-security--data-flow) |
+| **[M]** | Installs the **mobile app development environment** (Git · Flutter · Android Studio · adb · scrcpy) and shows the **after-install guide**. Details: [§3](#3-programs-installed-tool-list) |
 | **[6]** | Updates only the tools this kit installed, to **stable (LTS)** |
 | **[7]** | Remove single or all |
 | **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
@@ -200,7 +223,30 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.6.1 (2026-07-22) — latest</b></summary>
+<summary><b>v1.7.0 (2026-11-14) — latest</b></summary>
+
+- **Added**: main menu **[M] Mobile app development** — installs Git · Flutter · **Android Studio** · **adb** · (optional) **scrcpy** in one go: `[1] Mobile basic` / `[2] Basic + scrcpy` / `[3] Pick items` / `[4] After-install guide`. Also available as items 28–30 in [5] Custom install.
+- **Added**: a **virtualization check** before installing (informational, never blocks) and a **step-by-step guide** afterwards (first Android Studio launch · license acceptance · `flutter doctor` · USB debugging on the phone). Environment variables are not set; guidance only.
+- **Added**: [9] Check install now lists Android Studio · adb · scrcpy and offers an optional **`flutter doctor` summary**. [6] Update, [7] Remove and [8] Direct download include the new tools.
+- **Note**: iOS apps cannot be built on Windows (a Mac is required). The install lists of levels [1]–[4] and [A] are unchanged.
+</details>
+
+<details>
+<summary>v1.6.3 (2026-11-14)</summary>
+
+- **Fixed**: **Flutter installation always failed** — winget has no Flutter package (`Google.FlutterSDK`), so Advanced, All-in-one and [5] item 12 failed every time (including the 5-second retry). The kit now downloads stable from Flutter's official repository (git), checks the first run, and reports success or failure honestly.
+- **Changed**: exactly **one** entry is added to the user PATH for Flutter (no duplicates, existing values preserved). [7] Remove only deletes the kit's own location and cleans that PATH entry. Flutter does not need Java, so choosing Flutter in [5] now checks for **Git** first instead of Java.
+- **Safeguards**: never overwrites or deletes an existing folder at the install location · includes a setting that avoids Windows long-path (260 character) errors.
+</details>
+
+<details>
+<summary>v1.6.2 (2026-09-08)</summary>
+
+- Docs only: added sections for environment variables, build/test/deploy and operational notes (no install behavior change).
+</details>
+
+<details>
+<summary>v1.6.1 (2026-07-22)</summary>
 
 - **Changed**: **scoop is now auto-included in level installs [1]–[4]**. Picking a level also installs scoop (after the level's Y confirmation). Standalone [S] install still available. Counts updated (Beginner 6 · Intermediate 12 · Advanced 17 · All-in-one 19).
 - **Note**: [A] Easiest recommended stays as-is (scoop not included).
@@ -301,7 +347,9 @@ Double-click
 
 - **No admin required** (user-scope install). Works on corporate/school PCs.
 - **Official source only (winget)**: every winget install uses `--source winget` (Microsoft signature-verified).
-- **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only** remote-execution path, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
+- **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only path that downloads an installer script and runs it directly**, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
+- **Flutter exception — one git repository**: Flutter is not in winget, so the kit downloads the official repository (`https://github.com/flutter/flutter.git`, HTTPS, stable) with git. The downloaded Flutter tool **fetches the Dart SDK from Google servers on its first run** (no signature verification; official source only). The install location is inside your user folder, so no administrator rights are needed.
+- **The mobile tools (Android Studio · adb · scrcpy) all go through winget**, the same signature-verified path as the other tools. **You accept the Android SDK licenses yourself**; the kit never accepts them for you.
 - **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
 - **Privacy**: Git name/email are **only shown, never auto-saved**.
 - **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.
@@ -332,9 +380,12 @@ Double-click
 | Git line endings | `core.autocrlf=true` | `git config --global --unset core.autocrlf` |
 | Disable npm ads | `fund=false` | `npm config delete fund` |
 | Console colours | Registry `HKCU\Console\VirtualTerminalLevel=1` | Delete that registry value |
+| User PATH (Flutter only) | **Adds one entry**: `%USERPROFILE%\develop\flutter\bin` | Removing Flutter in [7] cleans it up automatically, or delete that line in the environment variable editor |
 
-> **The kit never edits PATH directly.** Each installer (winget, scoop) registers its own entry.
+> **The kit mostly leaves PATH alone.** Each installer (winget, scoop) registers its own entry. **The one exception is Flutter**: a git-downloaded Flutter has no installer to register it, so the kit adds **only that one entry** to your user PATH (not added if already present; existing entries are preserved).
 > That is why commands do not work in the current window right after installing — you must **open a new terminal**.
+>
+> **The kit does not set Android SDK environment variables (`ANDROID_HOME` etc.).** If Flutter reports it cannot find the SDK, run the `flutter config --android-sdk` command shown in the [M] → [4] guide once (it is Flutter's own setting, so no PC setting changes).
 
 ---
 
@@ -381,6 +432,8 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 - **Antivirus software may block the `.bat`.** Confirm the file came from the official repository, then add it to the allow list.
 - **Log and report files** accumulate by date on every run. Delete them if you do not need them (they are in `.gitignore`, so they never reach the repository).
 - **When sending a report to someone**, just be aware it contains your PC name. It contains no passwords or personal file information.
+- **Flutter is installed to `%USERPROFILE%\develop\flutter`.** If a different folder already exists there, the kit does not overwrite it and reports a failure. Flutter's docs recommend a path **without spaces or special characters**, and the first run downloads the Dart SDK (hundreds of MB), which takes a few minutes.
+- **The mobile environment ([M]) is large.** About 10 GB of disk and 30–40 minutes; Android Studio **downloads the SDK on its first launch**. The Android emulator is fast only with virtualization enabled; a real phone over USB works without it.
 - **On English (non-Korean) Windows** the menu text may appear garbled (known limitation).
 
 ---
@@ -393,9 +446,11 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 | `winget not found` | App Installer missing | Install **“App Installer”** from Microsoft Store, or https://aka.ms/getwinget |
 | Window closes suddenly mid-install | An error occurred | Check the **last line** of `install-log-DATE.txt` in the same folder |
 | Only a specific tool fails | Network/policy/winget hiccup | It auto-retries once; if still failing, use **[8] Direct download** |
+| Only Flutter fails | No Git · network · a folder already exists at the install location | Follow the reason shown (install Git / rename the folder) and rerun. If it still fails, use **[8] Direct download** |
 | Fails even as admin | Antivirus blocks the `.bat` | Add it to the allowlist, or briefly disable real-time protection and retry |
 | **Menu text looks garbled** | **English (non-Korean) Windows** | Fine on Korean Windows. On English Windows this is a known limitation (a PowerShell launcher is planned) |
-| Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB) |
+| `flutter doctor` shows Android warnings/errors | Android Studio not yet launched · licenses not accepted · SDK location | Follow **[M] → [4]**: launch Android Studio once → `flutter doctor --android-licenses` → `flutter config --android-sdk` if needed |
+| Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB, mobile [M] about 10 GB) |
 
 > When reporting an error, attach `install-log-DATE.txt` instead of a screenshot — it makes diagnosis easier. (No sensitive info inside.)
 

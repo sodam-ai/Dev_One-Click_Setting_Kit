@@ -4,6 +4,73 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.7.0] - 2026-11-14
+
+> **모바일 앱 개발 환경 설치를 추가했습니다.** 메인 메뉴 **[M]**에서 Git · Flutter · Android Studio · adb · (선택) scrcpy를 한 번에 설치합니다. 레벨 [1]~[4]와 섞지 않은 별도 메뉴라 기존 설치 목록은 그대로입니다. (v1.6.3의 Flutter 수정 위에 쌓은 두 번째 단계)
+
+### Added
+
+- **[M] 모바일 앱 개발** 메뉴: `[1] 모바일 기본`(Git·Flutter·Android Studio·adb) · `[2] 기본 + scrcpy` · `[3] 골라서 설치` · `[4] 설치 후 할 일 안내`. 설치 순서는 Git → Flutter → Android Studio → adb → scrcpy(의존성 순서). Flutter를 고르면 Git이 없을 때 자동으로 함께 설치합니다.
+- **새 설치 항목(모두 winget, 실존 확인된 ID)**: Android Studio(`Google.AndroidStudio`) · adb(`Google.PlatformTools`) · scrcpy(`Genymobile.scrcpy`). [5] 선택 설치에 28·29·30번으로도 추가.
+- **설치 전 가상화 점검**: 에뮬레이터용. **안내만 하고 설치는 막지 않습니다**(실제 폰 연결에는 불필요). 디스크 기준은 약 10GB(실측 합계: Flutter 2.56 + SDK 4.35 + Android Studio 3.09GB).
+- **설치 후 할 일 안내**: Android Studio 첫 실행(SDK 내려받기) → `flutter doctor --android-licenses`(**사용자가 직접** 동의) → `flutter doctor` → SDK 위치를 못 찾으면 `flutter config --android-sdk` → 폰 USB 디버깅 → 가상 폰. adb가 두 벌(키트 설치 + Android Studio 내장)일 때 버전 불일치 메시지가 나오면 `adb kill-server` 안내 포함.
+- **[9] 설치 확인**: 「모바일 앱 개발」 구역(Android Studio · adb · scrcpy). Android Studio는 PATH에 없는 프로그램이라 설치 위치 두 곳 또는 winget 목록으로 판정. 선택형 **`flutter doctor` 요약**(정상/경고/오류 + 해당 줄 표시, y를 눌렀을 때만 실행).
+
+### Changed
+
+- **[6] 업데이트 / [7] 제거(개별 20~22·전체) / [8] 직접 다운로드(25~27)**: 새 도구 반영. Android Studio를 제거해도 **Android SDK 폴더는 지우지 않고** 안내만 합니다(사용자 데이터·대용량).
+- 설치 후 PATH 검증 목록에 `adb` · `scrcpy` 추가. `.bat` 버전 주석 v1.7.0.
+
+### 안전장치 / 결정 사항
+
+- **환경 변수는 등록하지 않습니다**(`ANDROID_HOME` 등) — 사용자 결정. 대신 Flutter 자체 설정 명령을 안내합니다.
+- **라이선스 동의는 자동화하지 않습니다**(대화형·법적 동의).
+- 이 메뉴는 설치 방식을 **건너뜀 고정**으로 두어 이미 있는 도구를 건드리지 않습니다(업데이트는 [6]).
+- 범위는 **Flutter 기반 안드로이드**입니다. **iOS 앱 빌드는 Windows에서 불가(Mac 필요)**, Expo/React Native는 이번 범위가 아닙니다(사용자 결정).
+
+### 검증
+
+- **격리 테스트**(설치·레지스트리·실제 PATH 미접촉, 설치 함수는 스텁): [M] 1/2/3 각 선택, 설치 순서, 디스크 기준(10/4/3), Git 자동 추가·미추가, 취소·빈 입력·잘못된 번호, 안내 화면, 가상화 점검 실행, Android Studio 판정 3경로(Program Files · LOCALAPPDATA · 없음), `flutter doctor` 요약 5경우(정상·경고·오류·대체 체크 문자·출력 없음).
+- `.bat`: CP949 왕복 동일, CRLF만(bare LF 0), 라벨 중복·누락 0.
+- **미검증(사용자 확인 필요)**: 새 PC/새 계정에서 Android Studio·adb·scrcpy의 **실제 winget 설치**와 `[M]` 전체 흐름, Android Studio 첫 실행·라이선스 이후의 `flutter doctor` 전부 통과, 에뮬레이터 실행, adb 두 벌 공존 시 실제 동작(가설).
+
+---
+
+## [v1.6.3] - 2026-11-14
+
+> **Flutter 설치가 매번 실패하던 문제**를 고쳤습니다. winget에 Flutter 패키지(`Google.FlutterSDK`)가 없어서 고급·올인원·[5] 선택 설치 12번에서 항상 실패(5초 재시도 포함)하던 것을, Flutter 공식 저장소(git)에서 stable을 받는 방식으로 바꿨습니다. (모바일 앱 개발 도구 확장의 첫 단계)
+
+### Fixed
+
+- **Flutter 설치**: `winget install Google.FlutterSDK`(존재하지 않는 ID) 대신 `git clone https://github.com/flutter/flutter.git -b stable`을 `%USERPROFILE%\develop\flutter`(Flutter 공식 문서 권장 위치)에 실행. 설치 후 `flutter --version`으로 **첫 실행까지 확인**하고 성공/실패를 정직하게 표시합니다(가짜 성공 금지).
+- **Windows 긴 경로(260자) 오류**: 실제 clone 시험에서 `Filename too long`으로 checkout이 실패하는 것을 발견 → clone에 `-c core.longpaths=true`를 넣고, 받은 저장소에만 같은 설정을 남겨 이후 `flutter upgrade`도 되게 했습니다(전역 git 설정은 건드리지 않음).
+
+### Changed
+
+- **사용자 PATH에 Flutter 경로 1개만 자동 추가**: git으로 받는 Flutter는 PATH를 등록해 주는 설치 프로그램이 없기 때문(사용자 결정). 레지스트리 값을 그대로 읽고 `REG_EXPAND_SZ`로 쓰므로 기존 `%USERPROFILE%` 같은 항목이 깨지지 않고, `setx`의 1024자 잘림 위험이 없으며, 이미 있으면 추가하지 않습니다.
+- **[7] 제거 / 전체 제거**: Flutter는 키트 설치 위치(`%USERPROFILE%\develop\flutter`)만 삭제(Y 확인) + PATH 항목 정리. 다른 곳에 직접 설치한 Flutter는 건드리지 않습니다.
+- **[6] 업데이트**: Flutter는 winget 대상이 아니므로 목록에서 제거하고 `flutter upgrade` 안내만 출력.
+- **[5] 선택 설치**: Flutter 선택 시 Java 대신 **Git**을 먼저 확인합니다. 근거: 이 PC 실측에서 `flutter doctor`가 쓰는 Java는 Android Studio 내장 JDK(`jbr`)였고, Flutter 설치 자체에는 Java가 필요 없습니다. (Java 21 단독 설치 항목은 그대로 유지)
+
+### 안전장치
+
+- 설치 위치에 폴더가 이미 있으면 **절대 덮어쓰거나 지우지 않고** 실패로 알립니다(실패한 clone이 만든 찌꺼기 폴더만 정리).
+- `where flutter`로 이미 있으면 건너뜀(이 키트 밖에서 설치한 Flutter 보호).
+- Git이 방금 설치돼 현재 창의 PATH에 없는 경우를 위해 Git 설치 위치도 확인합니다.
+
+### 문서
+
+- README(한/영, md+html) §3 Flutter 설치 방식 · §9 변경 이력 · §13 보안(Flutter 예외) · §14 PATH 예외와 되돌리는 법 · §16 · §17 갱신. **"iOS 앱 빌드는 Windows에서 불가(Mac 필요)"** 명시.
+- HTML은 기존 파일을 100% 재현함을 확인한 방식(pandoc + 기존 CSS 보존)으로 재생성.
+
+### 검증
+
+- 격리 테스트 **27/27 통과**: 가짜 사용자 폴더·별도 레지스트리 키·로컬 git 저장소로 clone 대체. 건너뜀/폴더 존재/Git 없음/clone 실패(재시도·정리)/성공/첫 실행 실패/PATH 중복 방지·기존값 보존·`REG_EXPAND_SZ` 유지/제거 Y·N/공백·한글 사용자 폴더.
+- **실제 GitHub stable clone 성공 1회**(155초, 1.41GB, Dart SDK 첫 실행 통과, 깊은 경로 조건 포함).
+- `.bat`: CRLF 1,621줄·bare LF 0·CP949 왕복 동일·라벨 중복/누락 0, 메인 메뉴·[9] 설치 확인 구문 오류 0.
+- **미검증(사용자 확인 필요)**: 새 PC/새 사용자 계정에서의 처음부터 설치, 한글 사용자명에서 Flutter 도구 동작, 레벨 [3][4]·[5] 전체 흐름(winget 실제 설치가 필요해 격리 불가).
+
+---
 ## [v1.6.2] - 2026-09-08
 
 > 문서 전용 릴리스입니다. **설치 동작(`.bat` 로직)은 변경되지 않았습니다.** GUIDE 문서가 v1.5에서 삭제되면서 README가 단독 설명서가 됐는데, 정작 환경 변수·빌드/테스트/배포·운영 주의사항이 어디에도 없던 공백을 채웠습니다.
