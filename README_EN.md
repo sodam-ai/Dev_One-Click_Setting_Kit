@@ -42,6 +42,7 @@ With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 - **automatically find and install** the tools you need,
 - **skip or upgrade** tools you already have, and
 - create a **result summary file** when done.
+- set up a **mobile (Android) app development environment** from one menu, **[M]** (Flutter · Android Studio · adb).
 
 > ⚠️ **Windows only.** It does not work on macOS or Linux.
 
@@ -53,6 +54,12 @@ With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 | winget | Windows’ built-in “automatic program installer” |
 | CLI | A program you use by typing commands instead of clicking |
 | LTS | “Long-Term Support” — a stable, long-supported version |
+| PATH | The list of places where the terminal looks for programs. After installing, open a **new terminal** for it to apply |
+| Flutter | Google’s **app-building toolkit**; build once and run on Android and more |
+| Android Studio | The **official program** for building and testing Android apps |
+| adb | The **connection tool** between your PC and an Android phone over USB |
+| Emulator | A **virtual smartphone** running inside your PC |
+| Virtualization | A PC feature (turned on in the BIOS) that makes the emulator fast. **Not needed with a real phone** |
 
 ---
 
@@ -62,9 +69,11 @@ With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 |------|-------------|
 | OS | **Windows 10 (21H2, build 19044+)** or **Windows 11** |
 | Internet | **Required** (winget downloads tools from the internet) |
-| Free disk space | ~3 GB for Beginner, ~7 GB+ for a full install |
+| Free disk space | ~3 GB for Beginner, ~7 GB+ for a full install, **~10 GB for mobile [M]** |
 | Privileges | **Admin not required** (mostly). Run as admin only if some tools fail |
 | winget | Usually built into Windows 10/11. If missing, see [Troubleshooting](#17-troubleshooting) |
+| PowerShell | Built into Windows. The kit uses it for the date, disk check and number validation (some features may not work if it is blocked) |
+| Time | Beginner ~7 min to All-in-one ~45 min, **mobile [M] ~30–40 min** (depends on internet speed) |
 
 > On older Windows 10 (21H1 or below) winget is unstable; the kit warns you and asks whether to continue.
 
@@ -139,6 +148,8 @@ Repo page → **Releases** → latest → under **Assets** click `dev-one-click-
 `< > Code` → **Download ZIP** → unzip → use `dev-one-click-setting-kit.bat` inside.
 
 > You only need the single `.bat` file. Other files are docs / dev history.
+>
+> **How to check that your file is current:** right-click the `.bat` → open with Notepad; the first comment line shows `DEV-KIT.bat v<number>`. The **[M] mobile menu** is in **v1.7.0 or later**; **number (1/2) answers, number validation and the Enter-repeat fix** are in **v1.7.1 or later**. If the file from Releases has a lower version, use **Option B (ZIP)** to get the file from the `main` branch.
 
 ---
 
@@ -146,8 +157,8 @@ Repo page → **Releases** → latest → under **Assets** click `dev-one-click-
 
 1. **Double-click** `dev-one-click-setting-kit.bat`.
 2. If a blue SmartScreen warning appears: **[More info] → [Run anyway]**.
-3. At the menu, first-timers press **`A`** (easiest recommended) or **`1`** (Beginner) + **Enter**.
-4. Press **`Y`** to start; for the “already installed” prompt just press **Enter** (skip).
+3. At the menu, first-timers press **`A`** (easiest recommended) or **`1`** (Beginner) + **Enter**. (To build phone apps, press **`M`**.)
+4. Answer “start installing?” with **`1`** (yes); the old `y` also works. In level installs, for the “already installed” prompt just press **Enter** (skip).
 5. When done, open a **new terminal** as instructed and start using it.
 
 ---
@@ -158,6 +169,7 @@ Repo page → **Releases** → latest → under **Assets** click `dev-one-click-
 2. **Double-click.** Admin usually not needed. If some tools fail, **right-click → “Run as administrator.”**
 3. A **blue SmartScreen** window is normal: **[More info] → [Run anyway].**
 4. A black screen (terminal) shows a menu. Type a number/letter and press **Enter**.
+5. Answer yes/no questions with **`1` = yes / `2` = no**. **Pressing just Enter does not run anything** (questions with a default use the default).
 
 > Downloads take time. **Do not close the window.**
 
@@ -212,6 +224,17 @@ python --version
 node --version
 claude --version
 ```
+
+**If you installed mobile ([M]) — check in a new terminal**
+
+```
+flutter --version
+flutter doctor
+adb version
+```
+
+- `flutter doctor`: shows the readiness of app development item by item. If it shows warnings, follow the [M] → [4] guide in order.
+- `adb version`: confirms adb (the phone connection tool) is installed. Use `adb devices` to see whether the phone is visible.
 
 **First time with Git (once)** — set your name/email (the kit only guides, never auto-saves):
 
@@ -322,7 +345,7 @@ README.md / README.html          ← Korean guide (identical content)
 README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
-PRD/                            ← early planning docs (reference)
+PRD/                            ← early planning docs (reference · may differ from the current implementation)
 ```
 
 > Auto-created on run: `install-report-DATE.txt` (summary), `install-log-DATE.txt` (detail) — excluded from the repo by `.gitignore`.
@@ -338,10 +361,19 @@ Double-click
   → [Pre-check] Windows version · winget · package-list update · internet · disk · existing installs
   → Install tools (dependency order: Git → Python/Node → pnpm/Bun → Java → Flutter …)
       · If present: skip / upgrade choice
-      · On failure: auto-retry once after 5s → then skip (points to [8])
+      · On failure: auto-retry once after 5s → then shown as **[실패] (failed)** (points to [8] Direct download)
   → Post-install setup (Git line-endings, pip upgrade, etc.)
   → Save 2 reports + print PATH check
   → “Open a new terminal to start” message
+```
+
+**Mobile ([M]) flow**
+
+```
+M → 1 Mobile basic / 2 Basic+scrcpy / 3 Pick items / 4 Guide only
+  → [Pre-check] ~10 GB disk · virtualization (informational only, never blocks)
+  → Install Git → Flutter → Android Studio → adb → (scrcpy)
+  → After-install guide (done by you): first Android Studio launch → accept licenses → flutter doctor → USB debugging on the phone
 ```
 
 ---
@@ -349,8 +381,11 @@ Double-click
 ## 12. Architecture
 
 - **Single file**: one pure Windows batch script (`.bat`). No separate install/build.
-- **Package manager**: **winget** (Microsoft-official, signature-verified). Each tool comes from its official source.
+- **Package manager**: **winget** (the official repository run by Microsoft). Each tool comes from its official source, and winget **checks the downloaded installer’s hash against the repository record**.
 - **Structure (subroutines)**: menu → `:PRE_CHECK` → `:INSTALL` / `:NPM_INSTALL` (install + retry) → `:POST_*` (post-install) → `:MAKE_REPORTS` → `:PATH_CHECK`.
+- **Two exception install paths**: **scoop** (official install script) and **Flutter** (official git repository), kept in dedicated subroutines (`:INSTALL_SCOOP`, `:INSTALL_FLUTTER`) that report `[실패]` (failed) honestly.
+- **Mobile menu**: `:DO_MOBILE` (choice) → pre-check → `:INSTALL_MOBILE` → `:POST_MOBILE` (guide). A **separate flow, not mixed into levels [1]–[4].**
+- **Input handling**: every prompt clears its variable first, so **pressing just Enter never repeats the previous choice**; numbers in [5], [M]-3 and [7] are **validated** before use (special characters and out-of-range numbers are rejected).
 - **Portability**: `%~dp0`-based, so it works even if you rename/move the file.
 - **Encoding**: CP949 (for Korean Windows). On English Windows the menu text may look garbled (known limitation — see [14](#17-troubleshooting)).
 
@@ -359,13 +394,16 @@ Double-click
 ## 13. Security / data flow
 
 - **No admin required** (user-scope install). Works on corporate/school PCs.
-- **Official source only (winget)**: every winget install uses `--source winget` (Microsoft signature-verified).
+- **Official source only (winget)**: every winget install uses `--source winget` (the official repository run by Microsoft). winget **checks the installer’s hash against the repository record** (whether each vendor’s own signature is verified differs per tool).
 - **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only path that downloads an installer script and runs it directly**, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
 - **Flutter exception — one git repository**: Flutter is not in winget, so the kit downloads the official repository (`https://github.com/flutter/flutter.git`, HTTPS, stable) with git. The downloaded Flutter tool **fetches the Dart SDK from Google servers on its first run** (no signature verification; official source only). The install location is inside your user folder, so no administrator rights are needed.
 - **The mobile tools (Android Studio · adb · scrcpy) all go through winget**, the same signature-verified path as the other tools. **You accept the Android SDK licenses yourself**; the kit never accepts them for you.
-- **Minimal input**: you type **only menu numbers**. No path for running arbitrary commands.
+- **Minimal, validated input**: you type **only menu numbers**. Numbers in [5] and [M] accept digits, commas and the valid range only; anything else is rejected. No path for running arbitrary commands.
+- **What the scoop step changes**: when installing scoop, the kit **sets the PowerShell execution policy (current-user scope) to `RemoteSigned`** and runs the official script (the value scoop requires). How to undo: [§14](#14-environment-variables).
+- **What is installed via npm**: Claude Code CLI, Railway CLI in the level installs, and any npm tools you answer yes to or pick in [5] (Vercel CLI, etc.) come from the **npm registry, not winget** (npm’s package-integrity checks apply).
 - **Privacy**: Git name/email are **only shown, never auto-saved**.
-- **No external transmission**: the only files created are **local** (report/log). Nothing is sent to a server.
+- **The kit sends no data**: the only files created are **local** (report/log); nothing is sent to a server. The network actions the kit itself performs are: (1) one connectivity `ping` (8.8.8.8), (2) calling winget and npm, (3) downloading the official scoop script (`get.scoop.sh`), and (4) fetching the official Flutter repository (`github.com/flutter/flutter`) — all official sources listed above. Any other connection (Dart SDK, Android SDK, etc.) is made by the installed tools themselves.
+- **Installed tools’ own traffic**: installed tools (e.g. Flutter, Android Studio, VS Code) may send **usage statistics or check for updates**. That follows each tool’s settings and terms, not the kit.
 - **Report contents**: PC name (COMPUTERNAME) and results only. **No username, home path, or passwords.**
 - **No secrets**: the code/docs contain no API keys, tokens, or passwords.
 
@@ -379,10 +417,11 @@ Double-click
 
 | Variable | What it is used for |
 |----------|--------------------|
-| `%USERPROFILE%` | Locating the scoop install (`...\scoop\shims\scoop.cmd`) |
+| `%USERPROFILE%` | Locating the scoop install (`...\scoop\shims\scoop.cmd`) and the **Flutter install location** (`...\develop\flutter`) |
+| `%ProgramFiles%` | Locating Git and Android Studio (when just installed and not yet on PATH) |
 | `%SCOOP%` | **If you already keep scoop in a custom folder**, that location is used first |
 | `%LOCALAPPDATA%` | Stores the marker file that shows the first-run notice only once |
-| `%TEMP%` | Temporary work |
+| `%TEMP%` | Temporary work (the temp file for the `flutter doctor` summary is deleted afterwards) |
 | `%COMPUTERNAME%` | Records the PC name in the install report |
 | `%DATE%` · `%TIME%` | Report/log file names and elapsed-time calculation |
 
@@ -393,10 +432,11 @@ Double-click
 | Git line endings | `core.autocrlf=true` | `git config --global --unset core.autocrlf` |
 | Disable npm ads | `fund=false` | `npm config delete fund` |
 | Console colours | Registry `HKCU\Console\VirtualTerminalLevel=1` | Delete that registry value |
+| PowerShell execution policy (only when installing scoop) | Current-user scope `RemoteSigned` | `Set-ExecutionPolicy Undefined -Scope CurrentUser` (scoop may stop working) |
 | User PATH (Flutter only) | **Adds one entry**: `%USERPROFILE%\develop\flutter\bin` | Removing Flutter in [7] cleans it up automatically, or delete that line in the environment variable editor |
 
 > **The kit mostly leaves PATH alone.** Each installer (winget, scoop) registers its own entry. **The one exception is Flutter**: a git-downloaded Flutter has no installer to register it, so the kit adds **only that one entry** to your user PATH (not added if already present; existing entries are preserved).
-> That is why commands do not work in the current window right after installing — you must **open a new terminal**.
+> That is why commands do not work in the current window right after installing — you must **open a new terminal**. (To notify Windows of the PATH change, the kit **briefly creates and immediately deletes** a user variable named `KIT_PATH_REFRESH`.)
 >
 > **The kit does not set Android SDK environment variables (`ANDROID_HOME` etc.).** If Flutter reports it cannot find the SDK, run the `flutter config --android-sdk` command shown in the [M] → [4] guide once (it is Flutter's own setting, so no PC setting changes).
 
@@ -423,13 +463,17 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 1. Copy the modified block into a separate `.bat` and run it in `cmd` → verify both branches and the output
 2. Run the whole kit → enter each menu number and confirm there are no error messages
 3. Use `[9] Check installation` to confirm nothing existing broke
+4. **Test bad input too**: empty input (just Enter), non-existent numbers, special characters (`&` `(` `"` `%`), very long input.
+
+> ⚠️ **Do not just run the install flows on your own PC.** A level install runs the scoop official script and changes the PowerShell execution policy, and `[A]` opens browser windows. To test install/remove flows, **put fake `winget`/`npm`/`scoop` executables first on PATH** and point `USERPROFILE`/`LOCALAPPDATA` at temporary folders to isolate them. Do not push several input lines at once — send them **one line at a time after each question appears** (a batch prompt does not reliably accept bulk line input).
 
 ### Release — for maintainers
 
 1. Add the changes to `CHANGELOG.md`
 2. Update the version number in the comment at the top of the `.bat`
 3. Commit the changes → PR → merge into `main`
-4. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.6.2`) → **attach `dev-one-click-setting-kit.bat` under Assets**
+4. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.7.1`) → **attach `dev-one-click-setting-kit.bat` under Assets**
+5. Just before attaching, confirm the file is **byte-identical to the one in the repository** (CP949 and CRLF preserved)
 
 > ⚠️ **Never delete the `*.bat -text` line in `.gitattributes`.**
 > Without it, downloading the ZIP from GitHub converts the `.bat` line endings to LF and **the window closes the instant you run it.** (This was a real bug fixed in v1.5.1.)
@@ -447,6 +491,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 - **When sending a report to someone**, just be aware it contains your PC name. It contains no passwords or personal file information.
 - **Flutter is installed to `%USERPROFILE%\develop\flutter`.** If a different folder already exists there, the kit does not overwrite it and reports a failure. Flutter's docs recommend a path **without spaces or special characters**, and the first run downloads the Dart SDK (hundreds of MB), which takes a few minutes.
 - **The mobile environment ([M]) is large.** About 10 GB of disk and 30–40 minutes; Android Studio **downloads the SDK on its first launch**. The Android emulator is fast only with virtualization enabled; a real phone over USB works without it.
+- **scoop is installed automatically with the level installs** (it is in the list shown at the start). If you do not want it, use [5] Custom install.
 - **On English (non-Korean) Windows** the menu text may appear garbled (known limitation).
 
 ---
@@ -460,6 +505,8 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 | Window closes suddenly mid-install | An error occurred | Check the **last line** of `install-log-DATE.txt` in the same folder |
 | Only a specific tool fails | Network/policy/winget hiccup | It auto-retries once; if still failing, use **[8] Direct download** |
 | Only Flutter fails | No Git · network · a folder already exists at the install location | Follow the reason shown (install Git / rename the folder) and rerun. If it still fails, use **[8] Direct download** |
+| A hint like “enter digits 1 to 30 only…” appears | Non-digit/non-comma characters or an out-of-range number in [5]/[M] | Enter **digits and commas only**, e.g. `1,3,6` |
+| `adb server version doesn't match` message | adb exists in two places (kit-installed + inside Android Studio) with different versions | Type `adb kill-server`, then try again |
 | Fails even as admin | Antivirus blocks the `.bat` | Add it to the allowlist, or briefly disable real-time protection and retry |
 | **Menu text looks garbled** | **English (non-Korean) Windows** | Fine on Korean Windows. On English Windows this is a known limitation (a PowerShell launcher is planned) |
 | `flutter doctor` shows Android warnings/errors | Android Studio not yet launched · licenses not accepted · SDK location | Follow **[M] → [4]**: launch Android Studio once → `flutter doctor --android-licenses` → `flutter config --android-sdk` if needed |
@@ -482,6 +529,18 @@ Usually no. It guides you to admin only when a tool fails.
 
 **Q. Can I install a specific version (e.g., Python 3.11)?**
 Yes — via **[V] Version-select install**, stable versions only.
+
+**Q. How do I answer yes/no questions?**
+Type `1` (yes) or `2` (no); the old `y`/`n` still works. **Pressing just Enter does not run anything.**
+
+**Q. Can I try building apps without a phone?**
+Yes — with Android Studio’s **virtual phone (emulator)**. It is fast only if **virtualization** is on in your PC; otherwise it may be slow or not work. A real phone over USB works without virtualization.
+
+**Q. I already have Flutter or Android Studio — can I still use [M]?**
+Yes. Anything already present is **skipped**. For Flutter, if a **different folder already exists** at the kit location (`%USERPROFILE%\develop\flutter`), the kit **does not overwrite it and reports a failure.**
+
+**Q. Can I build iPhone (iOS) apps?**
+No. Building iOS apps **requires a Mac**, so it cannot be done on Windows. This kit prepares Android.
 
 **Q. How do I remove what I installed?**
 **[7] Remove** → single or all.
@@ -508,13 +567,45 @@ No. **Windows only.**
 
 **2) Licenses of the “third-party tools” this kit installs (important)**
 
-- This kit does **not redistribute** any tool; it merely **downloads and installs each tool’s official build via winget**.
-- Each installed tool (Git, Python, Node.js, VS Code, Java, Go, Rust, Flutter, Ruby, PHP, Ollama, etc.) is governed by **its own license** (e.g., Git = GPLv2, Python = PSF, Node.js/pnpm = MIT, VS Code/Go = their respective open-source licenses).
-- **For commercial use / redistribution, you must review and comply with each tool’s license separately.** This kit’s Apache 2.0 **does not apply to the installed tools.**
+- This kit does **not redistribute** any tool; it merely **downloads and installs each tool’s official build via winget (or the official repository, official script, or npm).**
+- Each installed tool is governed by **its own license and terms.** This kit’s Apache 2.0 **does not apply to the installed tools.**
+- **For commercial use / redistribution, you must review and comply with each tool’s license separately.**
 
-**3) Notes on use**
+The table below is a **reference summary** (based on public information; **terms can change, so always check each official license document**).
 
-- Everything installs only from winget’s official (Microsoft-verified) source, and this kit sends none of your data anywhere.
+| Tool | License (summary) | Note |
+|------|-------------------|------|
+| Git | GPL-2.0 | |
+| Python | PSF License | |
+| Node.js · pnpm | MIT | |
+| VS Code | Source is MIT; the **distributed build is under Microsoft’s software license terms** | Check the build’s terms separately |
+| Go | BSD-3-Clause | |
+| Rust | MIT or Apache-2.0 | |
+| Java (Eclipse Temurin) | GPL-2.0 + Classpath Exception | |
+| Flutter · Dart | BSD-3-Clause | |
+| **Android Studio · Android SDK · platform-tools (adb)** | **Google’s terms** (Android SDK License Agreement, etc.) | **You accept the SDK licenses yourself** (`flutter doctor --android-licenses`) |
+| scrcpy | Apache-2.0 | |
+| Ruby · PHP | Their own licenses (Ruby License / PHP License) | |
+| Ollama | MIT | **AI models you download have their own per-model licenses** |
+| **Claude Code CLI** | **Anthropic’s terms (commercial software)** | The service’s terms and pricing apply |
+| Others (GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI, etc.) | Each official repository’s license | Check before installing |
+
+**3) Trademarks and affiliation**
+
+- Names and logos such as Android, Google, Flutter, Git, Python, Node.js and Visual Studio Code are **trademarks of their respective owners.** This kit is an **independent tool with no affiliation, sponsorship or endorsement** from those companies or projects.
+- The “SoDam AI Studio” name/logo is not licensed for use under Apache 2.0 (no trademark rights granted).
+
+**4) Checklist for commercial use**
+
+- To **distribute this kit at a company or in a class**: include the LICENSE copy · state changes · keep copyright notices (Apache 2.0).
+- To **use the installed tools for commercial product development**: check **each tool’s terms** in the table above (especially Android SDK, Claude Code and the VS Code build).
+- The copyright/license of **the apps/outputs you make** is your responsibility. For **AI-generated code**, check the AI service’s terms (ownership, usage limits).
+- **Publishing to app stores** (Google Play, etc.) follows each store’s developer terms. iOS (App Store) requires **a Mac and Apple’s developer terms.**
+- If your app handles personal data, review the applicable **privacy laws** separately (in Korea: the Personal Information Protection Act).
+
+**5) Notes on use**
+
+- winget installs come from the **official winget repository.** The exceptions are scoop (official script), Flutter (official repository) and npm tools (npm registry), listed in [§13](#13-security--data-flow). The kit does not send your data anywhere.
 - Responsibility for final installation and use rests with **the user.**
 
 ---

@@ -246,6 +246,9 @@ HTML(README_EN.html)</a></p>
 <li>필요한 도구를 <strong>자동으로 찾아 설치</strong>하고,</li>
 <li>이미 있는 도구는 <strong>건너뛰거나 최신으로 올려</strong>주고,</li>
 <li>설치가 끝나면 <strong>결과 요약 파일</strong>을 만들어 줍니다.</li>
+<li><strong>스마트폰(안드로이드) 앱을 만들 환경</strong>도 메뉴
+<strong>[M]</strong> 하나로 설치합니다(Flutter · Android Studio ·
+adb).</li>
 </ul>
 <blockquote>
 <p>⚠️ <strong>Windows 전용</strong>입니다. macOS·Linux에서는 작동하지
@@ -276,6 +279,33 @@ HTML(README_EN.html)</a></p>
 <td>LTS</td>
 <td>“오래 지원되는 안정 버전”(장기 안전판)</td>
 </tr>
+<tr>
+<td>PATH</td>
+<td>터미널이 프로그램을 찾는 위치 목록. 설치 직후 <strong>새
+터미널</strong>을 열어야 반영됩니다</td>
+</tr>
+<tr>
+<td>Flutter</td>
+<td>구글이 만든 <strong>앱 제작 도구</strong>. 한 번 만들면 안드로이드
+등에서 실행됩니다</td>
+</tr>
+<tr>
+<td>Android Studio</td>
+<td>안드로이드 앱을 만들고 시험하는 <strong>공식 프로그램</strong></td>
+</tr>
+<tr>
+<td>adb</td>
+<td>PC와 안드로이드 폰을 USB로 이어 주는 <strong>연결 도구</strong></td>
+</tr>
+<tr>
+<td>에뮬레이터</td>
+<td>PC 안에서 돌아가는 <strong>가짜 스마트폰</strong></td>
+</tr>
+<tr>
+<td>가상화</td>
+<td>에뮬레이터를 빠르게 돌리는 PC 기능(컴퓨터 설정[BIOS]에서 켭니다).
+<strong>실제 폰을 쓰면 필요 없습니다</strong></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -299,7 +329,8 @@ HTML(README_EN.html)</a></p>
 </tr>
 <tr>
 <td>디스크 여유 공간</td>
-<td>왕초보 3GB / 전체 설치 시 약 7GB 이상 권장</td>
+<td>왕초보 3GB / 전체 설치 시 약 7GB 이상 권장 / <strong>모바일 [M] 약
+10GB</strong></td>
 </tr>
 <tr>
 <td>권한</td>
@@ -310,6 +341,16 @@ HTML(README_EN.html)</a></p>
 <td>winget</td>
 <td>Windows 10/11에 보통 내장. 없으면 <a
 href="#17-문제--오류-대처-방법">설치 안내</a> 참고</td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td>Windows에 기본 내장. 키트가 날짜·디스크 확인과 번호 검증에
+사용합니다(막혀 있으면 일부 기능이 동작하지 않을 수 있음)</td>
+</tr>
+<tr>
+<td>시간</td>
+<td>왕초보 약 7분 ~ 올인원 약 45분, <strong>모바일 [M] 약
+30~40분</strong>(인터넷 속도에 따라 다름)</td>
 </tr>
 </tbody>
 </table>
@@ -487,6 +528,13 @@ href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메�
 <blockquote>
 <p>파일 하나(<code>.bat</code>)만 있으면 됩니다. 다른 파일은 설명서·개발
 기록입니다.</p>
+<p><strong>내 파일이 최신인지 확인하는 법:</strong> <code>.bat</code>을
+우클릭 → 메모장으로 열면 맨 위 주석에 <code>DEV-KIT.bat v숫자</code>가
+있습니다. 이 문서의 <strong>[M] 모바일 메뉴</strong>는 <strong>v1.7.0
+이상</strong>, <strong>숫자(1/2) 선택 · 번호 검증 · Enter 반복
+방지</strong>는 <strong>v1.7.1 이상</strong>에 들어 있습니다.
+Releases에서 받은 파일의 버전이 이보다 낮으면, <strong>방법
+B(ZIP)</strong> 로 <code>main</code> 브랜치의 파일을 받으세요.</p>
 </blockquote>
 <hr />
 <h2 id="5-빠른-시작-3분-요약">5. 빠른 시작 (3분 요약)</h2>
@@ -497,9 +545,11 @@ href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메�
 [실행]</strong>.</li>
 <li>메뉴가 나오면 처음이면 <strong><code>A</code></strong>(가장 쉬운
 추천 설치) 또는 <strong><code>1</code></strong>(왕초보) 입력 후
-<strong>Enter</strong>.</li>
-<li>**<code>Y</code>**로 설치 시작 → 이미 설치된 것 처리엔 그냥
-<strong>Enter</strong>(건너뜀).</li>
+<strong>Enter</strong>. (폰 앱을 만들고 싶다면
+<strong><code>M</code></strong>)</li>
+<li>“설치 시작?” 질문에는 <strong><code>1</code></strong>(예)을
+입력합니다(기존처럼 <code>y</code>도 됩니다). 레벨 설치에서 “이미 설치된
+것 처리”를 물으면 그냥 <strong>Enter</strong>(건너뜀).</li>
 <li>끝나면 안내대로 <strong>새 터미널</strong>을 열어 사용 시작.</li>
 </ol>
 <hr />
@@ -513,6 +563,10 @@ href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메�
 <strong>[추가 정보] → [실행]</strong>.</li>
 <li>검은 화면(터미널)에 메뉴가 뜹니다. 원하는 번호/문자를 입력하고
 <strong>Enter</strong>.</li>
+<li>예/아니오 질문은 <strong><code>1</code>=예 /
+<code>2</code>=아니오</strong>로 답합니다. <strong>아무것도 입력하지
+않고 Enter만 누르면 실행하지 않습니다</strong>(기본값이 있는 질문은
+기본값).</li>
 </ol>
 <blockquote>
 <p>인터넷으로 내려받기 때문에 시간이 걸릴 수 있습니다. <strong>창을 닫지
@@ -609,6 +663,16 @@ Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자�
 python --version
 node --version
 claude --version</code></pre>
+<p><strong>모바일([M])을 설치했다면 — 새 터미널에서 확인</strong></p>
+<pre><code>flutter --version
+flutter doctor
+adb version</code></pre>
+<ul>
+<li><code>flutter doctor</code>: 앱 개발 준비 상태를 항목별로 보여
+줍니다. 경고가 나오면 [M] → [4] 안내를 순서대로 따라 하세요.</li>
+<li><code>adb version</code>: adb(폰 연결 도구)가 설치됐는지 확인합니다.
+폰이 보이는지는 <code>adb devices</code>로 확인합니다.</li>
+</ul>
 <p><strong>Git 첫 사용 시(1회만)</strong> — 이름·이메일 설정(키트는
 안내만 하고 자동 저장하지 않음):</p>
 <pre><code>git config --global user.name  &quot;홍길동&quot;
@@ -808,7 +872,7 @@ README.md / README.html          ← 한국어 설명서 (내용 동일)
 README_EN.md / README_EN.html    ← 영어 설명서 (내용 동일)
 CHANGELOG.md                     ← 버전별 변경 이력
 LICENSE                          ← 라이선스 (Apache License 2.0)
-PRD/                            ← 초기 기획 문서 (참고용)</code></pre>
+PRD/                            ← 초기 기획 문서 (참고용 · 현재 구현과 다를 수 있음)</code></pre>
 <blockquote>
 <p>실행 후 자동 생성: <code>install-report-날짜.txt</code>(요약),
 <code>install-log-날짜.txt</code>(상세) — <code>.gitignore</code>로
@@ -822,21 +886,40 @@ PRD/                            ← 초기 기획 문서 (참고용)</code></pre
   → [사전 체크] Windows 버전 · winget · 패키지목록 갱신 · 인터넷 · 디스크 · 기존 설치 감지
   → 도구 설치 (의존성 순서: Git → Python·Node → pnpm·Bun → Java → Flutter …)
       · 이미 있으면 건너뜀/업그레이드 선택
-      · 실패 시 5초 후 1회 자동 재시도 → 그래도 실패면 건너뜀([8] 안내)
+      · 실패 시 5초 후 1회 자동 재시도 → 그래도 실패면 **[실패]로 표시**([8] 직접 다운로드 안내)
   → 설치 후 자동 설정 (Git 줄바꿈, pip 최신화 등)
   → 리포트 2종 저장 + PATH 검증 출력
   → “새 터미널을 열어 시작하세요” 안내</code></pre>
+<p><strong>모바일([M]) 흐름</strong></p>
+<pre><code>M → 1 모바일 기본 / 2 기본+scrcpy / 3 골라서 / 4 안내만
+  → [사전 체크] 디스크 약 10GB · 가상화 여부(안내만, 설치는 막지 않음)
+  → Git → Flutter → Android Studio → adb → (scrcpy) 순서로 설치
+  → 설치 후 할 일 안내(사람이 직접): Android Studio 첫 실행 → 라이선스 동의 → flutter doctor → 폰 USB 디버깅</code></pre>
 <hr />
 <h2 id="12-아키텍처">12. 아키텍처</h2>
 <ul>
 <li><strong>단일 파일</strong>: 순수 Windows 배치
 스크립트(<code>.bat</code>) 1개. 별도 설치/빌드 없음.</li>
-<li><strong>패키지 관리</strong>: <strong>winget</strong>(Microsoft
-공식·서명 검증) 사용. 각 도구는 공식 소스에서 설치.</li>
+<li><strong>패키지 관리</strong>: <strong>winget</strong>(Microsoft 운영
+공식 저장소) 사용. 각 도구는 공식 소스에서 설치하며, winget이
+<strong>내려받은 설치 파일의 해시(지문)를 저장소 정보와
+대조</strong>합니다.</li>
 <li><strong>구조(서브루틴)</strong>: 메뉴 → <code>:PRE_CHECK</code>(사전
 점검) → <code>:INSTALL</code>/<code>:NPM_INSTALL</code>(설치·재시도) →
 <code>:POST_*</code>(설치 후 설정) → <code>:MAKE_REPORTS</code>(리포트)
 → <code>:PATH_CHECK</code>(검증).</li>
+<li><strong>예외 설치 경로 2건</strong>: winget에 없는
+<strong>scoop</strong>(공식 설치 스크립트)과
+<strong>Flutter</strong>(공식 저장소 git). 전용
+서브루틴(<code>:INSTALL_SCOOP</code>, <code>:INSTALL_FLUTTER</code>)으로
+분리되어 있고, 실패 시 정직하게 <code>[실패]</code>를 표시합니다.</li>
+<li><strong>모바일 메뉴</strong>: <code>:DO_MOBILE</code>(선택) → 사전
+점검 → <code>:INSTALL_MOBILE</code> → <code>:POST_MOBILE</code>(안내).
+레벨 [1]~[4]와 <strong>섞이지 않는 별도 흐름</strong>입니다.</li>
+<li><strong>입력 처리</strong>: 모든 입력 칸은 질문 직전에 값을 비워
+<strong>Enter만 누르면 이전 선택이 반복되지 않고</strong>,
+[5]·[M]-3·[7]의 번호는 <strong>검증 후</strong> 사용합니다(특수문자·범위
+밖 번호 거부).</li>
 <li><strong>이식성</strong>: <code>%~dp0</code> 기반이라 파일
 위치·이름을 바꿔도 작동.</li>
 <li><strong>인코딩</strong>: CP949(한국어 Windows 기준). 영어
@@ -849,7 +932,9 @@ href="#17-문제--오류-대처-방법">14 참고</a>).</li>
 <li><strong>관리자 권한 불필요</strong>(사용자 범위 설치). 기업/학교 PC
 대응.</li>
 <li><strong>공식 소스만(winget)</strong>: winget 설치는 전부
-<code>--source winget</code>(Microsoft 서명 검증).</li>
+<code>--source winget</code>(Microsoft 운영 공식 저장소). winget은 설치
+파일의 <strong>해시를 저장소 정보와 대조</strong>합니다(각 설치
+프로그램의 개발사 서명 검증 여부는 도구마다 다릅니다).</li>
 <li><strong>원격 스크립트 예외 — scoop 1건</strong>: scoop은 winget에
 없어 공식 설치 스크립트(<code>https://get.scoop.sh</code>, HTTPS)를
 실행합니다. <strong>설치 스크립트를 받아 바로 실행하는 유일한
@@ -866,12 +951,32 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 경유</strong>라 기존 도구와 같은 방식(서명 검증)입니다. Android SDK
 <strong>라이선스 동의는 사용자가 직접</strong> 합니다(키트가 대신
 동의하지 않음).</li>
-<li><strong>입력 최소화</strong>: 사용자는 <strong>메뉴 번호만</strong>
-입력. 임의 명령 실행 통로 없음.</li>
+<li><strong>입력 최소화·검증</strong>: 사용자는 <strong>메뉴
+번호만</strong> 입력합니다. [5]·[M]의 번호는 숫자·쉼표·범위만 허용하고,
+그 외 입력은 거부합니다. 임의 명령 실행 통로 없음.</li>
+<li><strong>scoop 단계가 바꾸는 것</strong>: scoop을 설치할 때 키트가
+<strong>PowerShell 실행 정책(현재 사용자 범위)을
+<code>RemoteSigned</code>로 설정</strong>하고 공식 스크립트를
+실행합니다(scoop이 요구하는 값). 되돌리는 법은 <a
+href="#14-환경-변수">§14</a>.</li>
+<li><strong>npm으로 설치되는 것</strong>: Claude Code CLI, 레벨 설치의
+Railway CLI, 그리고 Y로 고르거나 [5]에서 고른 npm 도구(Vercel CLI 등)는
+<strong>winget이 아니라 npm 레지스트리</strong>에서 받습니다(npm의
+패키지 무결성 확인 방식).</li>
 <li><strong>개인정보 보호</strong>: Git 이름/이메일은 <strong>자동
 저장하지 않고 안내만</strong>.</li>
-<li><strong>외부 전송 없음</strong>: 만들어지는 파일은
-<strong>로컬</strong>(리포트/로그)뿐. 서버로 보내지 않음.</li>
+<li><strong>키트가 보내는 데이터 없음</strong>: 만들어지는 파일은
+<strong>로컬</strong>(리포트/로그)뿐이며 서버로 보내지 않습니다. 키트가
+직접 하는 네트워크 동작은 ① 인터넷 연결 확인용
+<code>ping</code>(8.8.8.8) 1회 ② winget·npm 호출 ③ scoop 공식 스크립트
+내려받기(<code>get.scoop.sh</code>) ④ Flutter 공식 저장소
+받기(<code>github.com/flutter/flutter</code>)뿐이며, 전부 위에 적은 공식
+출처입니다. 그 밖의 접속(Dart SDK·Android SDK 등)은 설치된 도구 자체가
+합니다.</li>
+<li><strong>설치되는 도구의 자체 통신</strong>: 설치된 도구(예:
+Flutter·Android Studio·VS Code)는 각자 <strong>사용 통계·업데이트
+확인</strong>을 할 수 있습니다. 이는 키트가 아니라 해당 도구의
+설정·약관을 따릅니다.</li>
 <li><strong>리포트 내용</strong>: PC 이름(COMPUTERNAME)·설치 결과만.
 <strong>사용자명·홈 경로·비밀번호 등 민감정보 미포함.</strong></li>
 <li><strong>시크릿 없음</strong>: 코드/문서에 API 키·토큰·비밀번호가
@@ -892,7 +997,14 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 <tbody>
 <tr>
 <td><code>%USERPROFILE%</code></td>
-<td>scoop 설치 위치 확인(<code>...\scoop\shims\scoop.cmd</code>)</td>
+<td>scoop 설치 위치 확인(<code>...\scoop\shims\scoop.cmd</code>),
+<strong>Flutter 설치
+위치</strong>(<code>...\develop\flutter</code>)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles%</code></td>
+<td>Git·Android Studio 설치 위치 확인(방금 설치돼 PATH에 아직 없을
+때)</td>
 </tr>
 <tr>
 <td><code>%SCOOP%</code></td>
@@ -905,7 +1017,8 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 </tr>
 <tr>
 <td><code>%TEMP%</code></td>
-<td>임시 작업</td>
+<td>임시 작업(<code>flutter doctor</code> 요약용 임시 파일은 끝나면
+지웁니다)</td>
 </tr>
 <tr>
 <td><code>%COMPUTERNAME%</code></td>
@@ -943,6 +1056,12 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 <td>해당 레지스트리 값 삭제</td>
 </tr>
 <tr>
+<td>PowerShell 실행 정책 (scoop 설치 시만)</td>
+<td>현재 사용자 범위 <code>RemoteSigned</code></td>
+<td><code>Set-ExecutionPolicy Undefined -Scope CurrentUser</code> (단,
+scoop이 동작하지 않을 수 있음)</td>
+</tr>
+<tr>
 <td>사용자 PATH (Flutter만)</td>
 <td><code>%USERPROFILE%\develop\flutter\bin</code> <strong>1개
 추가</strong></td>
@@ -958,7 +1077,9 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 프로그램이 없어, 키트가 <strong>사용자 PATH에 위 경로 1개만</strong>
 추가합니다(이미 있으면 추가 안 함, 기존 항목은 그대로 보존). 그래서 설치
 직후 현재 창에서는 명령어가 안 먹히고, <strong>새 터미널</strong>을
-열어야 인식됩니다.</p>
+열어야 인식됩니다. (PATH 변경을 윈도우에 알리려고
+<code>KIT_PATH_REFRESH</code>라는 사용자 변수를 <strong>잠깐 만들었다
+바로 지웁니다</strong>.)</p>
 <p><strong>Android SDK 관련 환경 변수(<code>ANDROID_HOME</code> 등)는
 키트가 등록하지 않습니다.</strong> SDK 위치를 못 찾는다고 나오면 [M]-[4]
 안내의 <code>flutter config --android-sdk</code> 명령을 한 번
@@ -989,15 +1110,31 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 실행 → 분기·출력 확인</li>
 <li>전체 실행 → 메뉴 번호를 하나씩 입력해 오류 문구가 없는지 확인</li>
 <li><code>[9] 설치 확인</code>으로 기존 기능이 깨지지 않았는지 확인</li>
+<li><strong>잘못된 입력도 시험</strong>하세요: 빈 입력(Enter만), 없는
+번호, 특수문자(<code>&amp;</code> <code>(</code> <code>"</code>
+<code>%</code>), 아주 긴 입력.</li>
 </ol>
+<blockquote>
+<p>⚠️ <strong>내 PC에서 설치 흐름을 그냥 돌려 보지 마세요.</strong> 레벨
+설치는 scoop 공식 스크립트를 실행하며 PowerShell 실행 정책을 바꾸고,
+<code>[A]</code>는 브라우저 창을 엽니다. 설치·제거 흐름을 시험할 때는
+<strong>가짜 <code>winget</code>/<code>npm</code>/<code>scoop</code>
+실행 파일을 PATH 맨 앞에 두고</strong>,
+<code>USERPROFILE</code>·<code>LOCALAPPDATA</code>를 임시 폴더로 바꿔
+격리하세요. 입력은 한 번에 여러 줄을 밀어 넣지 말고 <strong>질문이
+화면에 나온 뒤 한 줄씩</strong> 보내야 정확합니다(배치의 입력 칸은 줄
+단위 일괄 입력을 안정적으로 받지 못합니다).</p>
+</blockquote>
 <h3 id="배포--유지보수자용">배포 — 유지보수자용</h3>
 <ol type="1">
 <li><code>CHANGELOG.md</code>에 변경 내용 추가</li>
 <li><code>.bat</code> 파일 맨 위 주석의 버전 번호 갱신</li>
 <li>변경사항 commit → PR → <code>main</code> 병합</li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → 태그(예:
-<code>v1.6.2</code>) 지정 → <strong>Assets에
+<code>v1.7.1</code>) 지정 → <strong>Assets에
 <code>dev-one-click-setting-kit.bat</code> 첨부</strong></li>
+<li>첨부 직전에 <strong>저장소의 파일과 바이트가
+같은지</strong>(CP949·CRLF 유지) 확인</li>
 </ol>
 <blockquote>
 <p>⚠️ <strong><code>.gitattributes</code>의 <code>*.bat -text</code>
@@ -1033,6 +1170,9 @@ SDK(수백 MB)를 내려받느라 몇 분 걸립니다.</li>
 설치 30~40분이 걸리고, Android Studio <strong>첫 실행 때 SDK를 추가로
 내려받습니다</strong>. 안드로이드 에뮬레이터는 PC의 가상화가 켜져 있어야
 빠르게 동작하며, 실제 폰을 USB로 연결하면 가상화 없이도 됩니다.</li>
+<li><strong>scoop은 레벨 설치에서 자동으로 함께
+설치</strong>됩니다(시작할 때 보여 주는 목록에 포함). 원치 않으면 [5]
+선택 설치를 쓰세요.</li>
 <li><strong>영어(비한국어) Windows</strong>에서는 메뉴 글자가 깨질 수
 있습니다(알려진 제약).</li>
 </ul>
@@ -1084,6 +1224,17 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 <code>flutter config --android-sdk</code></td>
 </tr>
 <tr>
+<td><code>1부터 30 사이의 숫자만…</code> 안내가 나옴</td>
+<td>[5]·[M]에 숫자·쉼표 이외를 입력하거나 범위 밖 번호 입력</td>
+<td>안내대로 <code>1,3,6</code>처럼 <strong>숫자와 쉼표만</strong>
+입력</td>
+</tr>
+<tr>
+<td><code>adb server version doesn't match</code> 메시지</td>
+<td>adb가 두 곳(키트 설치 + Android Studio 내장)에 있어 버전이 다름</td>
+<td><code>adb kill-server</code> 입력 후 다시 시도</td>
+</tr>
+<tr>
 <td>관리자여도 설치 안 됨</td>
 <td>백신이 <code>.bat</code> 차단</td>
 <td>백신 허용 목록 추가 또는 잠시 실시간 보호 해제 후 재시도</td>
@@ -1121,6 +1272,23 @@ PowerShell 런처로 개선 예정)</td>
 메뉴 <strong>[M] 모바일 앱 개발</strong>에서 Flutter·Android
 Studio·adb를 한 번에 설치하고, 화면의 <strong>설치 후 할 일</strong>을
 따라 하세요. iOS 앱은 Windows에서 만들 수 없습니다(Mac 필요).</p>
+<p><strong>Q. 예/아니오는 어떻게 답하나요?</strong> <code>1</code>(예)
+또는 <code>2</code>(아니오)를 입력하세요. 기존처럼
+<code>y</code>/<code>n</code>도 됩니다. <strong>아무것도 입력하지 않고
+Enter만 누르면 실행하지 않습니다.</strong></p>
+<p><strong>Q. 폰이 없어도 앱을 만들어 볼 수 있나요?</strong> 네. Android
+Studio의 <strong>가상 폰(에뮬레이터)</strong> 으로 시험할 수 있습니다.
+다만 PC의 <strong>가상화</strong>가 켜져 있어야 빠르고, 꺼져 있으면
+느리거나 안 될 수 있습니다. 실제 폰을 USB로 연결하면 가상화 없이
+됩니다.</p>
+<p><strong>Q. Flutter나 Android Studio가 이미 있는데 [M]을 써도
+되나요?</strong> 네. 이미 있는 것은 <strong>건너뜀</strong>으로
+처리합니다. 단 Flutter는 키트
+위치(<code>%USERPROFILE%\develop\flutter</code>)에 <strong>다른 폴더가
+이미 있으면 덮어쓰지 않고 실패로 알립니다.</strong></p>
+<p><strong>Q. 아이폰(iOS) 앱도 만들 수 있나요?</strong> 아니요. iOS 앱
+빌드는 <strong>Mac이 필요</strong>해서 Windows에서는 할 수 없습니다. 이
+키트는 안드로이드까지 준비합니다.</p>
 <p><strong>Q. 설치한 걸 지우려면?</strong> <strong>[7] 제거</strong> →
 개별 또는 전체.</p>
 <p><strong>Q. 인터넷이 꼭 필요한가요?</strong> 네. winget이 인터넷에서
@@ -1151,21 +1319,134 @@ AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>.</li>
 <p><strong>2) 이 키트가 설치하는 “제3자 도구”의 라이선스
 (중요)</strong></p>
 <ul>
-<li>이 키트는 도구를 <strong>직접 배포하지 않고</strong>,
-<strong>winget으로 각 도구의 공식 설치본을 내려받아 설치</strong>할
-뿐입니다.</li>
-<li>설치되는 각 도구(Git, Python, Node.js, VS Code, Java, Go, Rust,
-Flutter, Ruby, PHP, Ollama 등)는 <strong>각자 고유의
-라이선스</strong>(예: Git=GPLv2, Python=PSF, Node.js·pnpm=MIT, VS
-Code·Go=오픈소스 라이선스 등)를 따릅니다.</li>
+<li>이 키트는 도구를 <strong>직접 배포하지 않고</strong>, <strong>각
+도구의 공식 설치본을 winget(또는 공식 저장소·공식 스크립트·npm)으로
+내려받아 설치</strong>할 뿐입니다.</li>
+<li>설치되는 각 도구는 <strong>각자 고유의 라이선스·이용약관</strong>을
+따릅니다. 이 키트의 Apache 2.0은 <strong>설치되는 도구에는 적용되지
+않습니다.</strong></li>
 <li><strong>상업적 사용·재배포 시</strong>에는 <strong>각 도구의
-라이선스를 개별적으로 확인·준수</strong>해야 합니다. 이 키트의 Apache
-2.0은 <strong>설치되는 도구에는 적용되지 않습니다.</strong></li>
+라이선스를 개별적으로 확인·준수</strong>해야 합니다.</li>
 </ul>
-<p><strong>3) 사용 시 유의</strong></p>
+<p>아래는 <strong>참고용 요약</strong>입니다(공개 정보 기준,
+<strong>조건은 바뀔 수 있으므로 반드시 각 공식 라이선스 문서를
+확인</strong>하세요).</p>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>라이선스(요약)</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td>GPL-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Python</td>
+<td>PSF License</td>
+<td></td>
+</tr>
+<tr>
+<td>Node.js · pnpm</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>소스는 MIT, <strong>배포판은 Microsoft 소프트웨어 라이선스
+조건</strong></td>
+<td>배포판 약관 별도 확인</td>
+</tr>
+<tr>
+<td>Go</td>
+<td>BSD-3-Clause</td>
+<td></td>
+</tr>
+<tr>
+<td>Rust</td>
+<td>MIT 또는 Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Java (Eclipse Temurin)</td>
+<td>GPL-2.0 + Classpath Exception</td>
+<td></td>
+</tr>
+<tr>
+<td>Flutter · Dart</td>
+<td>BSD-3-Clause</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Android Studio · Android SDK · 플랫폼
+도구(adb)</strong></td>
+<td><strong>Google의 약관</strong>(Android SDK 라이선스 계약 등)</td>
+<td><strong>SDK 라이선스 동의는 사용자가
+직접</strong>(<code>flutter doctor --android-licenses</code>)</td>
+</tr>
+<tr>
+<td>scrcpy</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Ruby · PHP</td>
+<td>각자의 고유 라이선스(Ruby License / PHP License)</td>
+<td></td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>MIT</td>
+<td>내려받는 <strong>AI 모델은 모델별 라이선스</strong>가 따로 있음</td>
+</tr>
+<tr>
+<td><strong>Claude Code CLI</strong></td>
+<td><strong>Anthropic의 약관(상용 소프트웨어)</strong></td>
+<td>사용 시 해당 서비스 약관·요금 적용</td>
+</tr>
+<tr>
+<td>그 밖의 도구(GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI
+등)</td>
+<td>각 공식 저장소의 라이선스</td>
+<td>설치 전 확인</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3) 상표·제휴 관계</strong></p>
 <ul>
-<li>winget의 공식 소스(Microsoft 검증)에서만 설치되며, 이 키트는
-사용자의 어떤 데이터도 외부로 전송하지 않습니다.</li>
+<li>Android · Google · Flutter · Git · Python · Node.js · Visual Studio
+Code 등의 <strong>이름과 로고는 각 소유자의 상표</strong>입니다. 이
+키트는 해당 회사·프로젝트와 <strong>제휴·후원·보증 관계가 없는 독립
+도구</strong>입니다.</li>
+<li>“SoDam AI Studio” 이름·로고는 Apache 2.0으로 사용이 허락되지
+않습니다(상표권 미부여).</li>
+</ul>
+<p><strong>4) 상업적 사용 시 체크리스트</strong></p>
+<ul>
+<li>이 키트를 <strong>회사·수업에서 배포</strong>하려면: LICENSE 사본
+포함 · 변경 사실 고지 · 저작권 표시 유지(Apache 2.0).</li>
+<li>키트로 설치한 도구를 <strong>상업 제품 개발에 사용</strong>하려면:
+위 표의 <strong>각 도구 약관</strong>(특히 Android SDK·Claude Code·VS
+Code 배포판)을 확인하세요.</li>
+<li><strong>내가 만든 앱/결과물</strong>의 저작권·라이선스는 만든 사람의
+책임입니다. <strong>AI가 생성한 코드</strong>는 사용한 AI 서비스의
+약관(소유권·사용 제한)을 확인하세요.</li>
+<li><strong>앱 스토어 배포</strong>(Google Play 등)는 각 스토어의 개발자
+약관을 따릅니다. iOS(App Store)는 <strong>Mac과 Apple 개발자
+약관</strong>이 필요합니다.</li>
+<li>개인정보가 담긴 앱을 만든다면 <strong>개인정보 보호 관련
+법령</strong>(국내: 개인정보 보호법)을 별도로 검토하세요.</li>
+</ul>
+<p><strong>5) 사용 시 유의</strong></p>
+<ul>
+<li>winget 설치는 <strong>winget 공식 저장소</strong>에서 받습니다.
+예외는 scoop(공식 스크립트)·Flutter(공식 저장소)·npm 도구(npm
+레지스트리)이며 <a href="#13-보안--데이터-흐름">§13</a>에 적어
+두었습니다. 키트가 사용자 데이터를 외부로 전송하지 않습니다.</li>
 <li>최종 설치·사용에 대한 책임은 <strong>사용자 본인</strong>에게
 있습니다.</li>
 </ul>
