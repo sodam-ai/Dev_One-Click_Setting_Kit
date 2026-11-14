@@ -45,6 +45,7 @@ With this kit, running **just `dev-one-click-setting-kit.bat`** will:
 - **skip or upgrade** tools you already have, and
 - create a **result summary file** when done.
 - set up a **mobile (Android) app development environment** from one menu, **[M]** (Flutter · Android Studio · adb).
+- set up **web, desktop-app and data/AI/server development environments** and a **Markdown viewer** from one menu, **[D]**.
 
 > ⚠️ **Windows only.** It does not work on macOS or Linux.
 
@@ -128,6 +129,36 @@ A **separate menu** that is not mixed into levels [1]–[4]; existing levels beh
 - **[9] Check install**: adds Android Studio · adb · scrcpy, and optionally a `flutter doctor` summary (OK / warnings / errors; it can take 1–2 minutes, so it runs only if you press y).
 - **iOS apps cannot be built on Windows** (a Mac is required). This kit prepares the Android app development environment.
 
+**Development environments by field — main menu [D]**
+
+A **separate menu** that does not mix with levels [1]–[4] or [M] (existing behavior is unchanged). Pick a field, then only **[Basic] / [Everything]**. Choose with **Up/Down arrows + Enter**, or by **number**.
+
+| Field | [Basic] | [Everything] adds | Notes |
+|-------|---------|-------------------|-------|
+| Web | Git · Node.js · VS Code · pnpm | GitHub CLI · Bun · Vercel CLI · Supabase CLI | npm tools (Vercel, Supabase) are attempted in the same window even right after Node.js is installed |
+| Desktop apps | Git · Node.js · VS Code · **Rust** · **C++ build tools** | GitHub CLI · pnpm | **Administrator account required**, about 10 GB of disk (estimate) |
+| Mobile apps | links to main menu **[M]** | | see [M] above |
+| Data / AI / Server | Python 3 · uv · VS Code · Ollama | **Docker Desktop** · **PostgreSQL** | Docker and PostgreSQL **need an administrator account** and show a warning/consent screen first |
+| Markdown viewer | table below | | one at a time |
+
+- **Why are C++ build tools in Desktop [Basic]?** Building Windows programs with Rust requires the Microsoft C++ build tools (the linker). Without them `cargo build` fails even though Rust is installed. winget's default install leaves out the C++ components, so the kit explicitly selects the **"Desktop development with C++"** workload (several GB, 10–20 minutes).
+- **Administrator rights**: C++ build tools, Docker Desktop and PostgreSQL need an **administrator account**. If your account is not in the Administrators group, only those tools are skipped (with the reason shown) and the rest continue. If Windows shows a **permission prompt during install, click Yes**.
+- **Docker Desktop**: before installing you read a notice (a restart may be needed · WSL2/virtualization · free for personal/learning use, possibly paid for business use at larger companies) and choose **1 = agree / 2 = continue without it**.
+- **PostgreSQL**: you **type the administrator (`postgres`) password on screen during install** (nothing is shown as you type · letters and digits, 8+ characters · typed twice). Afterwards the kit shows **cautions and troubleshooting** (checking the connection · forgotten password · how to stop the service). The password is not stored in the kit's log or report (see [§13](#13-security--data-flow)).
+- **Rust note**: if you install only Rust (Advanced · All-in-one · [5] item 14) and the C++ build tools are missing, a note at the end says **"install them from [D] → Desktop apps"** (not shown if already present). The existing install lists are unchanged.
+
+**Markdown viewer — last item of [D]**
+
+Installs a program that opens `.md` (Markdown) documents nicely, **one at a time**. Each program is described on screen before you choose.
+
+| Viewer | How | Description |
+|--------|-----|-------------|
+| Obsidian | winget | The most popular note app. Open a whole folder to browse documents. Can look complex at first |
+| MarkText | winget | One of the simplest. Free open source (MIT) |
+| Zettlr | winget | Good for papers and long writing. Free open source (GPL-3.0) |
+| Typora | **opens the official page only** | Paid, so it is not installed automatically (also not in winget) |
+| VS Code | nothing to install | Only explains how to preview with `Ctrl+Shift+V` in the editor you already have |
+
 **Automatic post-install steps**
 
 - Sets Git line-ending option (`core.autocrlf true`) automatically
@@ -151,7 +182,7 @@ Repo page → **Releases** → latest → under **Assets** click `dev-one-click-
 
 > You only need the single `.bat` file. Other files are docs / dev history.
 >
-> **How to check that your file is current:** right-click the `.bat` → open with Notepad; the first comment line shows `DEV-KIT.bat v<number>`. The **[M] mobile menu** is in **v1.7.0 or later**; **number (1/2) answers, number validation and the Enter-repeat fix** are in **v1.7.1 or later**. If the file from Releases has a lower version, use **Option B (ZIP)** to get the file from the `main` branch.
+> **How to check that your file is current:** right-click the `.bat` → open with Notepad; the first comment line shows `DEV-KIT.bat v<number>`. The **[M] mobile menu** is in **v1.7.0 or later**; **number (1/2) answers, number validation and the Enter-repeat fix** are in **v1.7.1 or later**, and **[D] development environments, Markdown viewers and arrow-key selection** are in **v1.8.0 or later**. If the file from Releases has a lower version, use **Option B (ZIP)** to get the file from the `main` branch.
 
 ---
 
@@ -196,6 +227,7 @@ The main menu shown on run:
 [V] Version-select       specific stable versions (Python/Java/Ruby)
 [S] Install scoop        dev package manager (non-winget)
 [M] Mobile app dev       Flutter + Android Studio + adb (Android)
+[D] Dev environments    Web / Desktop / Server / Markdown viewer
 ```
 
 | Menu | Description |
@@ -206,12 +238,15 @@ The main menu shown on run:
 | **[V]** | Choose a **specific stable version** of Python/Java/Ruby. Not sure? Just press Enter (recommended) |
 | **[S]** | Installs **scoop** (dev package manager). Not in winget, so it uses the official script — asks for **consent (Y/N)**. Security: [§13](#13-security--data-flow) |
 | **[M]** | Installs the **mobile app development environment** (Git · Flutter · Android Studio · adb · scrcpy) and shows the **after-install guide**. Details: [§3](#3-programs-installed-tool-list) |
+| **[D]** | **Development environments by field**: Web / Desktop apps / Mobile (→[M]) / Data·AI·Server / Markdown viewer. Pick a field, then **[Basic] / [Everything]**. Details: [§3](#3-programs-installed-tool-list) |
 | **[6]** | Updates only the tools this kit installed, to **stable (LTS)** |
 | **[7]** | Remove single or all |
 | **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
 | **[9]** | Shows each tool’s install state (O/X) and version |
 
 **Yes/no questions** can be answered with `1` (yes) / `2` (no), and the old `y`/`n` still works. Pressing just Enter does **not** run anything. Invalid numbers in [5]/[M] show a hint and ask again.
+
+The selection screens **inside [D]** are chosen by **moving with the Up/Down arrows and pressing Enter**, or by **pressing a number** (`0` or `Esc` = back). If the arrow screen cannot be used in your environment, it **switches to number input automatically**. The existing menus ([1]–[9], [M], etc.) still use number input.
 
 ---
 
@@ -250,7 +285,21 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details>
-<summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
+<summary><b>v1.8.0 (2026-11-15) — latest</b></summary>
+
+- **Added**: main menu **[D] Development environments by field** — Web / Desktop apps / Mobile (→[M]) / Data·AI·Server / Markdown viewer. Pick a field, then only `[Basic]` or `[Everything]`.
+- **Added**: **Markdown viewers** — install Obsidian · MarkText · Zettlr **one at a time**. Typora is paid, so only its official page opens; for VS Code only the preview steps are shown.
+- **Added**: **Up/Down arrows + Enter (or number)** selection screens (new menus only). If arrows cannot be used it switches to number input automatically, and you can force number-only input with the environment variable `KIT_NO_ARROW=1`.
+- **Added**: **C++ build tools** (Visual Studio Build Tools, C++ workload selected) in Desktop [Basic]. Required to build programs with Rust.
+- **Added**: **Docker Desktop · PostgreSQL** (Data/AI/Server [Everything]) — warning/consent screens first. The PostgreSQL password is entered hidden and is not stored in the kit's log or report; cautions and troubleshooting are shown afterwards.
+- **Added**: accounts that are not in the Administrators group skip only the tools that need admin rights (C++ build tools · Docker · PostgreSQL), with the reason shown.
+- **Added**: [9] Check install now lists C++ build tools · Docker · PostgreSQL · Obsidian · MarkText · Zettlr.
+- **Changed**: after installing Rust via Advanced · All-in-one · [5] item 14, a **one-line note** appears if the C++ build tools are missing (install lists unchanged).
+- **Note**: install lists and behavior of levels [1]–[4] · [A] · [M] are unchanged. Installing Docker · PostgreSQL · C++ build tools with the real winget was not tested (system-wide tools); only the install-call shape and screen flow were checked with a fake winget.
+</details>
+
+<details>
+<summary><b>v1.7.1 (2026-11-14)</b></summary>
 
 - **Fixed**: failed installs that were shown as a red `[건너뜀]` (skipped) — in winget, npm and Claude Code CLI — now show **`[실패]` (failed)**. The report already recorded them as failures, so the screen and the report disagreed.
 - **Fixed**: in **every input prompt (35)** — main menu, remove and version select included — pressing just Enter no longer **repeats the previous choice** (e.g. Enter at the main menu re-ran the last menu; Enter in single remove removed the same tool again).
@@ -396,11 +445,13 @@ M → 1 Mobile basic / 2 Basic+scrcpy / 3 Pick items / 4 Guide only
 
 ## 13. Security / data flow
 
-- **No admin required** (user-scope install). Works on corporate/school PCs.
+- **Existing level installs are attempted without admin rights** (user-scope install). Works on corporate/school PCs. However, **[D]'s C++ build tools · Docker Desktop · PostgreSQL need an administrator account** (only those tools are skipped otherwise).
 - **Official source only (winget)**: every winget install uses `--source winget` (the official repository run by Microsoft). winget **checks the installer’s hash against the repository record** (whether each vendor’s own signature is verified differs per tool).
 - **Remote-script exception — scoop (1)**: scoop is not in winget, so it runs the official installer (`https://get.scoop.sh`, HTTPS). This is the **only path that downloads an installer script and runs it directly**, and it runs **only during a level install [1]–[4] (after the Y confirmation) or when you pick [S]**. Unlike winget there is no signature verification; only the official source is used.
 - **Flutter exception — one git repository**: Flutter is not in winget, so the kit downloads the official repository (`https://github.com/flutter/flutter.git`, HTTPS, stable) with git. The downloaded Flutter tool **fetches the Dart SDK from Google servers on its first run** (no signature verification; official source only). The install location is inside your user folder, so no administrator rights are needed.
 - **The mobile tools (Android Studio · adb · scrcpy) all go through winget**, the same signature-verified path as the other tools. **You accept the Android SDK licenses yourself**; the kit never accepts them for you.
+- **[D]'s tools also all go through winget** (Obsidian · MarkText · Zettlr · C++ build tools · Docker Desktop · PostgreSQL). The C++ build tools use `--override` to select the components, and PostgreSQL uses `--override` to pass the password.
+- **PostgreSQL password handling**: the password is read **hidden** in a PowerShell prompt and handed straight to the installer (winget). **It is not kept in the batch file, the kit log, the report or on screen.** However, the installer may record it in its own logs, and other programs on the same PC can see it on the command line while installing, so **do not reuse a password you use elsewhere.** Only letters and digits are allowed because special characters break the install command.
 - **Minimal, validated input**: you type **only menu numbers**. Numbers in [5] and [M] accept digits, commas and the valid range only; anything else is rejected. No path for running arbitrary commands.
 - **What the scoop step changes**: when installing scoop, the kit **sets the PowerShell execution policy (current-user scope) to `RemoteSigned`** and runs the official script (the value scoop requires). How to undo: [§14](#14-environment-variables).
 - **What is installed via npm**: Claude Code CLI, Railway CLI in the level installs, and any npm tools you answer yes to or pick in [5] (Vercel CLI, etc.) come from the **npm registry, not winget** (npm’s package-integrity checks apply).
@@ -416,12 +467,16 @@ M → 1 Mobile basic / 2 Basic+scrcpy / 3 Pick items / 4 Guide only
 
 **There are no environment variables you need to set.** Download the file and run it. (It does not use a `.env` file either.)
 
+**Optional (advanced):** on a PC where the arrow selection screen looks wrong, set the environment variable `KIT_NO_ARROW=1` to use **number input only** (if arrows cannot be used it also switches to number input by itself).
+
 **Standard Windows variables the kit only reads**
 
 | Variable | What it is used for |
 |----------|--------------------|
 | `%USERPROFILE%` | Locating the scoop install (`...\scoop\shims\scoop.cmd`) and the **Flutter install location** (`...\develop\flutter`) |
 | `%ProgramFiles%` | Locating Git and Android Studio (when just installed and not yet on PATH) |
+| `%ProgramFiles(x86)%` | **Detecting the C++ build tools** (the Visual Studio helper `vswhere`) |
+| `%ProgramFiles%\nodejs` | For [D]'s npm tools (Vercel, Supabase): when Node.js was just installed and is not on PATH yet, added to PATH **for this window only** (not saved) |
 | `%SCOOP%` | **If you already keep scoop in a custom folder**, that location is used first |
 | `%LOCALAPPDATA%` | Stores the marker file that shows the first-run notice only once |
 | `%TEMP%` | Temporary work (the temp file for the `flutter doctor` summary is deleted afterwards) |
@@ -475,7 +530,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 1. Add the changes to `CHANGELOG.md`
 2. Update the version number in the comment at the top of the `.bat`
 3. Commit the changes → PR → merge into `main`
-4. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.7.1`) → **attach `dev-one-click-setting-kit.bat` under Assets**
+4. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.8.0`) → **attach `dev-one-click-setting-kit.bat` under Assets**
 5. Just before attaching, confirm the file is **byte-identical to the one in the repository** (CP949 and CRLF preserved)
 
 > ⚠️ **Never delete the `*.bat -text` line in `.gitattributes`.**
@@ -513,6 +568,10 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 | Fails even as admin | Antivirus blocks the `.bat` | Add it to the allowlist, or briefly disable real-time protection and retry |
 | **Menu text looks garbled** | **English (non-Korean) Windows** | Fine on Korean Windows. On English Windows this is a known limitation (a PowerShell launcher is planned) |
 | `flutter doctor` shows Android warnings/errors | Android Studio not yet launched · licenses not accepted · SDK location | Follow **[M] → [4]**: launch Android Studio once → `flutter doctor --android-licenses` → `flutter config --android-sdk` if needed |
+| [D] arrows do not move or the screen looks odd | The arrow screen does not suit some consoles | You can **type a number and press Enter** instead (it may switch to number input by itself). If it stays odd, set the environment variable `KIT_NO_ARROW=1` |
+| C++ build tools · Docker · PostgreSQL were not installed | Not an administrator account | Sign in with an administrator account and run [D] again (skipped tools are named on screen) |
+| `cargo build` fails with Rust (`link.exe` not found) | C++ build tools are missing | Install them from **[D] → Desktop apps** (a PC restart may be needed afterwards) |
+| Forgot the PostgreSQL password | Recovering it means editing a config file, hard for beginners | For practice use, uninstall PostgreSQL in Windows Settings → Apps and reinstall it from [D] |
 | Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB, mobile [M] about 10 GB) |
 
 > When reporting an error, attach `install-log-DATE.txt` instead of a screenshot — it makes diagnosis easier. (No sensitive info inside.)
@@ -615,10 +674,16 @@ The table below is a **reference summary** (based on public information; **terms
 | scrcpy | Apache-2.0 | |
 | Ruby · PHP | Ruby: Ruby License or BSD-2-Clause family / PHP: PHP License or BSD-3-Clause **depending on the version** | **Check per version** |
 | Ollama | MIT | **AI models you download have their own per-model licenses** |
+| **Obsidian** | **Obsidian terms (proprietary software)** | Check the official terms for usage conditions |
+| MarkText | MIT | |
+| Zettlr | GPL-3.0 | |
+| **Docker Desktop** | **Docker subscription service agreement (proprietary)** | Free for personal/learning use, but **business use at larger companies may be paid** |
+| PostgreSQL | PostgreSQL License | |
+| **Microsoft C++ build tools** | **Microsoft (Visual Studio) license terms** | You accept those terms during installation |
 | **Claude Code CLI** | **Anthropic’s terms (commercial software)** | The service’s terms and pricing apply |
 | Others (GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI, etc.) | Each official repository’s license | Check before installing |
 
-> **Verification status (2026-11-14):** **Confirmed** from official GitHub repository information — pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI · Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI (and the Apache-2.0 marking of Rust and the Temurin build scripts). **Could not be confirmed automatically; the generally known information is listed** — Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android-related tools · Claude Code. **Check these against the official documents before installing or distributing.**
+> **Verification status (2026-11-14):** **Confirmed** from official GitHub repository information — pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI · Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI (and the Apache-2.0 marking of Rust and the Temurin build scripts). **Could not be confirmed automatically; the generally known information is listed** — Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android-related tools · Claude Code. **Check these against the official documents before installing or distributing.** (Added 2026-11-15: confirmed from the license field of the winget manifests — Obsidian · MarkText · Zettlr · Docker Desktop · PostgreSQL · Visual Studio Build Tools.)
 
 **3) Trademarks and affiliation**
 

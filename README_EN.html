@@ -257,6 +257,9 @@ need,</li>
 <li>set up a <strong>mobile (Android) app development
 environment</strong> from one menu, <strong>[M]</strong> (Flutter ·
 Android Studio · adb).</li>
+<li>set up <strong>web, desktop-app and data/AI/server development
+environments</strong> and a <strong>Markdown viewer</strong> from one
+menu, <strong>[D]</strong>.</li>
 </ul>
 <blockquote>
 <p>⚠️ <strong>Windows only.</strong> It does not work on macOS or
@@ -513,6 +516,131 @@ y).</li>
 required). This kit prepares the Android app development
 environment.</li>
 </ul>
+<p><strong>Development environments by field — main menu
+[D]</strong></p>
+<p>A <strong>separate menu</strong> that does not mix with levels
+[1]–[4] or [M] (existing behavior is unchanged). Pick a field, then only
+<strong>[Basic] / [Everything]</strong>. Choose with <strong>Up/Down
+arrows + Enter</strong>, or by <strong>number</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>[Basic]</th>
+<th>[Everything] adds</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web</td>
+<td>Git · Node.js · VS Code · pnpm</td>
+<td>GitHub CLI · Bun · Vercel CLI · Supabase CLI</td>
+<td>npm tools (Vercel, Supabase) are attempted in the same window even
+right after Node.js is installed</td>
+</tr>
+<tr>
+<td>Desktop apps</td>
+<td>Git · Node.js · VS Code · <strong>Rust</strong> · <strong>C++ build
+tools</strong></td>
+<td>GitHub CLI · pnpm</td>
+<td><strong>Administrator account required</strong>, about 10 GB of disk
+(estimate)</td>
+</tr>
+<tr>
+<td>Mobile apps</td>
+<td>links to main menu <strong>[M]</strong></td>
+<td></td>
+<td>see [M] above</td>
+</tr>
+<tr>
+<td>Data / AI / Server</td>
+<td>Python 3 · uv · VS Code · Ollama</td>
+<td><strong>Docker Desktop</strong> · <strong>PostgreSQL</strong></td>
+<td>Docker and PostgreSQL <strong>need an administrator account</strong>
+and show a warning/consent screen first</td>
+</tr>
+<tr>
+<td>Markdown viewer</td>
+<td>table below</td>
+<td></td>
+<td>one at a time</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Why are C++ build tools in Desktop [Basic]?</strong>
+Building Windows programs with Rust requires the Microsoft C++ build
+tools (the linker). Without them <code>cargo build</code> fails even
+though Rust is installed. winget's default install leaves out the C++
+components, so the kit explicitly selects the <strong>"Desktop
+development with C++"</strong> workload (several GB, 10–20
+minutes).</li>
+<li><strong>Administrator rights</strong>: C++ build tools, Docker
+Desktop and PostgreSQL need an <strong>administrator account</strong>.
+If your account is not in the Administrators group, only those tools are
+skipped (with the reason shown) and the rest continue. If Windows shows
+a <strong>permission prompt during install, click Yes</strong>.</li>
+<li><strong>Docker Desktop</strong>: before installing you read a notice
+(a restart may be needed · WSL2/virtualization · free for
+personal/learning use, possibly paid for business use at larger
+companies) and choose <strong>1 = agree / 2 = continue without
+it</strong>.</li>
+<li><strong>PostgreSQL</strong>: you <strong>type the administrator
+(<code>postgres</code>) password on screen during install</strong>
+(nothing is shown as you type · letters and digits, 8+ characters ·
+typed twice). Afterwards the kit shows <strong>cautions and
+troubleshooting</strong> (checking the connection · forgotten password ·
+how to stop the service). The password is not stored in the kit's log or
+report (see <a href="#13-security--data-flow">§13</a>).</li>
+<li><strong>Rust note</strong>: if you install only Rust (Advanced ·
+All-in-one · [5] item 14) and the C++ build tools are missing, a note at
+the end says <strong>"install them from [D] → Desktop apps"</strong>
+(not shown if already present). The existing install lists are
+unchanged.</li>
+</ul>
+<p><strong>Markdown viewer — last item of [D]</strong></p>
+<p>Installs a program that opens <code>.md</code> (Markdown) documents
+nicely, <strong>one at a time</strong>. Each program is described on
+screen before you choose.</p>
+<table>
+<thead>
+<tr>
+<th>Viewer</th>
+<th>How</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Obsidian</td>
+<td>winget</td>
+<td>The most popular note app. Open a whole folder to browse documents.
+Can look complex at first</td>
+</tr>
+<tr>
+<td>MarkText</td>
+<td>winget</td>
+<td>One of the simplest. Free open source (MIT)</td>
+</tr>
+<tr>
+<td>Zettlr</td>
+<td>winget</td>
+<td>Good for papers and long writing. Free open source (GPL-3.0)</td>
+</tr>
+<tr>
+<td>Typora</td>
+<td><strong>opens the official page only</strong></td>
+<td>Paid, so it is not installed automatically (also not in winget)</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>nothing to install</td>
+<td>Only explains how to preview with <code>Ctrl+Shift+V</code> in the
+editor you already have</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Automatic post-install steps</strong></p>
 <ul>
 <li>Sets Git line-ending option (<code>core.autocrlf true</code>)
@@ -549,9 +677,11 @@ the <code>.bat</code> → open with Notepad; the first comment line shows
 <code>DEV-KIT.bat v&lt;number&gt;</code>. The <strong>[M] mobile
 menu</strong> is in <strong>v1.7.0 or later</strong>; <strong>number
 (1/2) answers, number validation and the Enter-repeat fix</strong> are
-in <strong>v1.7.1 or later</strong>. If the file from Releases has a
-lower version, use <strong>Option B (ZIP)</strong> to get the file from
-the <code>main</code> branch.</p>
+in <strong>v1.7.1 or later</strong>, and <strong>[D] development
+environments, Markdown viewers and arrow-key selection</strong> are in
+<strong>v1.8.0 or later</strong>. If the file from Releases has a lower
+version, use <strong>Option B (ZIP)</strong> to get the file from the
+<code>main</code> branch.</p>
 </blockquote>
 <hr />
 <h2 id="5-quick-start-3-minute-summary">5. Quick start (3-minute
@@ -606,7 +736,8 @@ anything</strong> (questions with a default use the default).</li>
 [A] Easiest recommended  first-timers start here (5 basics + AI guide)
 [V] Version-select       specific stable versions (Python/Java/Ruby)
 [S] Install scoop        dev package manager (non-winget)
-[M] Mobile app dev       Flutter + Android Studio + adb (Android)</code></pre>
+[M] Mobile app dev       Flutter + Android Studio + adb (Android)
+[D] Dev environments    Web / Desktop / Server / Markdown viewer</code></pre>
 <table>
 <thead>
 <tr>
@@ -650,6 +781,13 @@ winget, so it uses the official script — asks for <strong>consent
 href="#3-programs-installed-tool-list">§3</a></td>
 </tr>
 <tr>
+<td><strong>[D]</strong></td>
+<td><strong>Development environments by field</strong>: Web / Desktop
+apps / Mobile (→[M]) / Data·AI·Server / Markdown viewer. Pick a field,
+then <strong>[Basic] / [Everything]</strong>. Details: <a
+href="#3-programs-installed-tool-list">§3</a></td>
+</tr>
+<tr>
 <td><strong>[6]</strong></td>
 <td>Updates only the tools this kit installed, to <strong>stable
 (LTS)</strong></td>
@@ -673,6 +811,12 @@ href="#3-programs-installed-tool-list">§3</a></td>
 (yes) / <code>2</code> (no), and the old <code>y</code>/<code>n</code>
 still works. Pressing just Enter does <strong>not</strong> run anything.
 Invalid numbers in [5]/[M] show a hint and ask again.</p>
+<p>The selection screens <strong>inside [D]</strong> are chosen by
+<strong>moving with the Up/Down arrows and pressing Enter</strong>, or
+by <strong>pressing a number</strong> (<code>0</code> or
+<code>Esc</code> = back). If the arrow screen cannot be used in your
+environment, it <strong>switches to number input automatically</strong>.
+The existing menus ([1]–[9], [M], etc.) still use number input.</p>
 <hr />
 <h2 id="8-how-it-works--commands">8. How it works &amp; commands</h2>
 <p>You only ever <strong>type menu numbers</strong> — there are no
@@ -702,7 +846,46 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
+<summary><b>v1.8.0 (2026-11-15) — latest</b></summary>
+
+<ul>
+<li><strong>Added</strong>: main menu <strong>[D] Development
+environments by field</strong> — Web / Desktop apps / Mobile (→[M]) /
+Data·AI·Server / Markdown viewer. Pick a field, then only
+<code>[Basic]</code> or <code>[Everything]</code>.</li>
+<li><strong>Added</strong>: <strong>Markdown viewers</strong> — install
+Obsidian · MarkText · Zettlr <strong>one at a time</strong>. Typora is
+paid, so only its official page opens; for VS Code only the preview
+steps are shown.</li>
+<li><strong>Added</strong>: <strong>Up/Down arrows + Enter (or
+number)</strong> selection screens (new menus only). If arrows cannot be
+used it switches to number input automatically, and you can force
+number-only input with the environment variable
+<code>KIT_NO_ARROW=1</code>.</li>
+<li><strong>Added</strong>: <strong>C++ build tools</strong> (Visual
+Studio Build Tools, C++ workload selected) in Desktop [Basic]. Required
+to build programs with Rust.</li>
+<li><strong>Added</strong>: <strong>Docker Desktop · PostgreSQL</strong>
+(Data/AI/Server [Everything]) — warning/consent screens first. The
+PostgreSQL password is entered hidden and is not stored in the kit's log
+or report; cautions and troubleshooting are shown afterwards.</li>
+<li><strong>Added</strong>: accounts that are not in the Administrators
+group skip only the tools that need admin rights (C++ build tools ·
+Docker · PostgreSQL), with the reason shown.</li>
+<li><strong>Added</strong>: [9] Check install now lists C++ build tools
+· Docker · PostgreSQL · Obsidian · MarkText · Zettlr.</li>
+<li><strong>Changed</strong>: after installing Rust via Advanced ·
+All-in-one · [5] item 14, a <strong>one-line note</strong> appears if
+the C++ build tools are missing (install lists unchanged).</li>
+<li><strong>Note</strong>: install lists and behavior of levels [1]–[4]
+· [A] · [M] are unchanged. Installing Docker · PostgreSQL · C++ build
+tools with the real winget was not tested (system-wide tools); only the
+install-call shape and screen flow were checked with a fake winget.</li>
+</ul>
+</details>
+
+<details>
+<summary><b>v1.7.1 (2026-11-14)</b></summary>
 
 <ul>
 <li><strong>Fixed</strong>: failed installs that were shown as a red
@@ -970,8 +1153,11 @@ href="#17-troubleshooting">14</a>).</li>
 <hr />
 <h2 id="13-security--data-flow">13. Security / data flow</h2>
 <ul>
-<li><strong>No admin required</strong> (user-scope install). Works on
-corporate/school PCs.</li>
+<li><strong>Existing level installs are attempted without admin
+rights</strong> (user-scope install). Works on corporate/school PCs.
+However, <strong>[D]'s C++ build tools · Docker Desktop · PostgreSQL
+need an administrator account</strong> (only those tools are skipped
+otherwise).</li>
 <li><strong>Official source only (winget)</strong>: every winget install
 uses <code>--source winget</code> (the official repository run by
 Microsoft). winget <strong>checks the installer’s hash against the
@@ -995,6 +1181,18 @@ so no administrator rights are needed.</li>
 through winget</strong>, the same signature-verified path as the other
 tools. <strong>You accept the Android SDK licenses yourself</strong>;
 the kit never accepts them for you.</li>
+<li><strong>[D]'s tools also all go through winget</strong> (Obsidian ·
+MarkText · Zettlr · C++ build tools · Docker Desktop · PostgreSQL). The
+C++ build tools use <code>--override</code> to select the components,
+and PostgreSQL uses <code>--override</code> to pass the password.</li>
+<li><strong>PostgreSQL password handling</strong>: the password is read
+<strong>hidden</strong> in a PowerShell prompt and handed straight to
+the installer (winget). <strong>It is not kept in the batch file, the
+kit log, the report or on screen.</strong> However, the installer may
+record it in its own logs, and other programs on the same PC can see it
+on the command line while installing, so <strong>do not reuse a password
+you use elsewhere.</strong> Only letters and digits are allowed because
+special characters break the install command.</li>
 <li><strong>Minimal, validated input</strong>: you type <strong>only
 menu numbers</strong>. Numbers in [5] and [M] accept digits, commas and
 the valid range only; anything else is rejected. No path for running
@@ -1033,6 +1231,11 @@ tokens, or passwords.</li>
 <p><strong>There are no environment variables you need to set.</strong>
 Download the file and run it. (It does not use a <code>.env</code> file
 either.)</p>
+<p><strong>Optional (advanced):</strong> on a PC where the arrow
+selection screen looks wrong, set the environment variable
+<code>KIT_NO_ARROW=1</code> to use <strong>number input only</strong>
+(if arrows cannot be used it also switches to number input by
+itself).</p>
 <p><strong>Standard Windows variables the kit only reads</strong></p>
 <table>
 <thead>
@@ -1052,6 +1255,17 @@ and the <strong>Flutter install location</strong>
 <td><code>%ProgramFiles%</code></td>
 <td>Locating Git and Android Studio (when just installed and not yet on
 PATH)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles(x86)%</code></td>
+<td><strong>Detecting the C++ build tools</strong> (the Visual Studio
+helper <code>vswhere</code>)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles%\nodejs</code></td>
+<td>For [D]'s npm tools (Vercel, Supabase): when Node.js was just
+installed and is not on PATH yet, added to PATH <strong>for this window
+only</strong> (not saved)</td>
 </tr>
 <tr>
 <td><code>%SCOOP%</code></td>
@@ -1188,7 +1402,7 @@ prompt does not reliably accept bulk line input).</p>
 <code>.bat</code></li>
 <li>Commit the changes → PR → merge into <code>main</code></li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → set a tag
-(e.g. <code>v1.7.1</code>) → <strong>attach
+(e.g. <code>v1.8.0</code>) → <strong>attach
 <code>dev-one-click-setting-kit.bat</code> under Assets</strong></li>
 <li>Just before attaching, confirm the file is <strong>byte-identical to
 the one in the repository</strong> (CP949 and CRLF preserved)</li>
@@ -1311,6 +1525,32 @@ location</td>
 <td>Follow <strong>[M] → [4]</strong>: launch Android Studio once →
 <code>flutter doctor --android-licenses</code> →
 <code>flutter config --android-sdk</code> if needed</td>
+</tr>
+<tr>
+<td>[D] arrows do not move or the screen looks odd</td>
+<td>The arrow screen does not suit some consoles</td>
+<td>You can <strong>type a number and press Enter</strong> instead (it
+may switch to number input by itself). If it stays odd, set the
+environment variable <code>KIT_NO_ARROW=1</code></td>
+</tr>
+<tr>
+<td>C++ build tools · Docker · PostgreSQL were not installed</td>
+<td>Not an administrator account</td>
+<td>Sign in with an administrator account and run [D] again (skipped
+tools are named on screen)</td>
+</tr>
+<tr>
+<td><code>cargo build</code> fails with Rust (<code>link.exe</code> not
+found)</td>
+<td>C++ build tools are missing</td>
+<td>Install them from <strong>[D] → Desktop apps</strong> (a PC restart
+may be needed afterwards)</td>
+</tr>
+<tr>
+<td>Forgot the PostgreSQL password</td>
+<td>Recovering it means editing a config file, hard for beginners</td>
+<td>For practice use, uninstall PostgreSQL in Windows Settings → Apps
+and reinstall it from [D]</td>
 </tr>
 <tr>
 <td>Low-disk warning</td>
@@ -1566,6 +1806,38 @@ BSD-3-Clause <strong>depending on the version</strong></td>
 licenses</strong></td>
 </tr>
 <tr>
+<td><strong>Obsidian</strong></td>
+<td><strong>Obsidian terms (proprietary software)</strong></td>
+<td>Check the official terms for usage conditions</td>
+</tr>
+<tr>
+<td>MarkText</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Zettlr</td>
+<td>GPL-3.0</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Docker Desktop</strong></td>
+<td><strong>Docker subscription service agreement
+(proprietary)</strong></td>
+<td>Free for personal/learning use, but <strong>business use at larger
+companies may be paid</strong></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>PostgreSQL License</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Microsoft C++ build tools</strong></td>
+<td><strong>Microsoft (Visual Studio) license terms</strong></td>
+<td>You accept those terms during installation</td>
+</tr>
+<tr>
 <td><strong>Claude Code CLI</strong></td>
 <td><strong>Anthropic’s terms (commercial software)</strong></td>
 <td>The service’s terms and pricing apply</td>
@@ -1587,7 +1859,9 @@ Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI
 information is listed</strong> — Git · Python · Node.js · Bun · Git LFS
 · Ruby · scoop · Android-related tools · Claude Code. <strong>Check
 these against the official documents before installing or
-distributing.</strong></p>
+distributing.</strong> (Added 2026-11-15: confirmed from the license
+field of the winget manifests — Obsidian · MarkText · Zettlr · Docker
+Desktop · PostgreSQL · Visual Studio Build Tools.)</p>
 </blockquote>
 <p><strong>3) Trademarks and affiliation</strong></p>
 <ul>
