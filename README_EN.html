@@ -208,6 +208,10 @@ computers and AI</strong> can just follow along.</p>
 href="./README.md">한국어 (README.md)</a> · <a
 href="./README.html">Korean HTML (README.html)</a> · <a
 href="./README_EN.html">English HTML (README_EN.html)</a></p>
+<p><strong>License:</strong> Apache License 2.0 · Copyright © 2026 SoDam
+AI Studio · <strong>commercial use allowed (with conditions)</strong> →
+details in <a
+href="#19-legal--copyright--license--commercial-use">§19</a></p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol type="1">
@@ -250,6 +254,9 @@ error-prone.</p>
 need,</li>
 <li><strong>skip or upgrade</strong> tools you already have, and</li>
 <li>create a <strong>result summary file</strong> when done.</li>
+<li>set up a <strong>mobile (Android) app development
+environment</strong> from one menu, <strong>[M]</strong> (Flutter ·
+Android Studio · adb).</li>
 </ul>
 <blockquote>
 <p>⚠️ <strong>Windows only.</strong> It does not work on macOS or
@@ -280,6 +287,35 @@ Linux.</p>
 <td>LTS</td>
 <td>“Long-Term Support” — a stable, long-supported version</td>
 </tr>
+<tr>
+<td>PATH</td>
+<td>The list of places where the terminal looks for programs. After
+installing, open a <strong>new terminal</strong> for it to apply</td>
+</tr>
+<tr>
+<td>Flutter</td>
+<td>Google’s <strong>app-building toolkit</strong>; build once and run
+on Android and more</td>
+</tr>
+<tr>
+<td>Android Studio</td>
+<td>The <strong>official program</strong> for building and testing
+Android apps</td>
+</tr>
+<tr>
+<td>adb</td>
+<td>The <strong>connection tool</strong> between your PC and an Android
+phone over USB</td>
+</tr>
+<tr>
+<td>Emulator</td>
+<td>A <strong>virtual smartphone</strong> running inside your PC</td>
+</tr>
+<tr>
+<td>Virtualization</td>
+<td>A PC feature (turned on in the BIOS) that makes the emulator fast.
+<strong>Not needed with a real phone</strong></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -304,7 +340,8 @@ internet)</td>
 </tr>
 <tr>
 <td>Free disk space</td>
-<td>~3 GB for Beginner, ~7 GB+ for a full install</td>
+<td>~3 GB for Beginner, ~7 GB+ for a full install, **~10 GB for mobile
+[M]**</td>
 </tr>
 <tr>
 <td>Privileges</td>
@@ -315,6 +352,16 @@ some tools fail</td>
 <td>winget</td>
 <td>Usually built into Windows 10/11. If missing, see <a
 href="#17-troubleshooting">Troubleshooting</a></td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td>Built into Windows. The kit uses it for the date, disk check and
+number validation (some features may not work if it is blocked)</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>Beginner ~7 min to All-in-one ~45 min, <strong>mobile [M] ~30–40
+min</strong> (depends on internet speed)</td>
 </tr>
 </tbody>
 </table>
@@ -497,6 +544,14 @@ opens their official pages instead.</p>
 <blockquote>
 <p>You only need the single <code>.bat</code> file. Other files are docs
 / dev history.</p>
+<p><strong>How to check that your file is current:</strong> right-click
+the <code>.bat</code> → open with Notepad; the first comment line shows
+<code>DEV-KIT.bat v&lt;number&gt;</code>. The <strong>[M] mobile
+menu</strong> is in <strong>v1.7.0 or later</strong>; <strong>number
+(1/2) answers, number validation and the Enter-repeat fix</strong> are
+in <strong>v1.7.1 or later</strong>. If the file from Releases has a
+lower version, use <strong>Option B (ZIP)</strong> to get the file from
+the <code>main</code> branch.</p>
 </blockquote>
 <hr />
 <h2 id="5-quick-start-3-minute-summary">5. Quick start (3-minute
@@ -508,9 +563,12 @@ summary)</h2>
 anyway]</strong>.</li>
 <li>At the menu, first-timers press <strong><code>A</code></strong>
 (easiest recommended) or <strong><code>1</code></strong> (Beginner) +
-<strong>Enter</strong>.</li>
-<li>Press <strong><code>Y</code></strong> to start; for the “already
-installed” prompt just press <strong>Enter</strong> (skip).</li>
+<strong>Enter</strong>. (To build phone apps, press
+<strong><code>M</code></strong>.)</li>
+<li>Answer “start installing?” with <strong><code>1</code></strong>
+(yes); the old <code>y</code> also works. In level installs, for the
+“already installed” prompt just press <strong>Enter</strong>
+(skip).</li>
 <li>When done, open a <strong>new terminal</strong> as instructed and
 start using it.</li>
 </ol>
@@ -525,6 +583,9 @@ tools fail, <strong>right-click → “Run as administrator.”</strong></li>
 info] → [Run anyway].</strong></li>
 <li>A black screen (terminal) shows a menu. Type a number/letter and
 press <strong>Enter</strong>.</li>
+<li>Answer yes/no questions with <strong><code>1</code> = yes /
+<code>2</code> = no</strong>. <strong>Pressing just Enter does not run
+anything</strong> (questions with a default use the default).</li>
 </ol>
 <blockquote>
 <p>Downloads take time. <strong>Do not close the window.</strong></p>
@@ -608,6 +669,10 @@ href="#3-programs-installed-tool-list">§3</a></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Yes/no questions</strong> can be answered with <code>1</code>
+(yes) / <code>2</code> (no), and the old <code>y</code>/<code>n</code>
+still works. Pressing just Enter does <strong>not</strong> run anything.
+Invalid numbers in [5]/[M] show a hint and ask again.</p>
 <hr />
 <h2 id="8-how-it-works--commands">8. How it works &amp; commands</h2>
 <p>You only ever <strong>type menu numbers</strong> — there are no
@@ -617,6 +682,19 @@ terminal</strong> you can confirm things installed:</p>
 python --version
 node --version
 claude --version</code></pre>
+<p><strong>If you installed mobile ([M]) — check in a new
+terminal</strong></p>
+<pre><code>flutter --version
+flutter doctor
+adb version</code></pre>
+<ul>
+<li><code>flutter doctor</code>: shows the readiness of app development
+item by item. If it shows warnings, follow the [M] → [4] guide in
+order.</li>
+<li><code>adb version</code>: confirms adb (the phone connection tool)
+is installed. Use <code>adb devices</code> to see whether the phone is
+visible.</li>
+</ul>
 <p><strong>First time with Git (once)</strong> — set your name/email
 (the kit only guides, never auto-saves):</p>
 <pre><code>git config --global user.name  &quot;Your Name&quot;
@@ -624,7 +702,44 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details>
-<summary><b>v1.7.0 (2026-11-14) — latest</b></summary>
+<summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
+
+<ul>
+<li><strong>Fixed</strong>: failed installs that were shown as a red
+<code>[건너뜀]</code> (skipped) — in winget, npm and Claude Code CLI —
+now show <strong><code>[실패]</code> (failed)</strong>. The report
+already recorded them as failures, so the screen and the report
+disagreed.</li>
+<li><strong>Fixed</strong>: in <strong>every input prompt (35)</strong>
+— main menu, remove and version select included — pressing just Enter no
+longer <strong>repeats the previous choice</strong> (e.g. Enter at the
+main menu re-ran the last menu; Enter in single remove removed the same
+tool again).</li>
+<li><strong>Fixed</strong>: added <strong>number validation</strong> to
+[5] Custom install and [M] Pick items (digits and commas only, in
+range). Special characters used to freeze the window, a non-existent
+number could show "install complete", and in [7] single remove a
+non-existent number showed "remove complete" — all fixed. The finish
+message no longer says only "install complete" when everything
+failed.</li>
+<li><strong>Changed</strong>: <strong>19 yes/no questions can now be
+answered with numbers</strong> (<code>1</code> = yes / <code>2</code> =
+no). The old <code>y</code>/<code>n</code> still works. Remove/delete
+prompts say exactly what runs (e.g. <code>1=Delete / 2=Cancel</code> in
+Korean) and pressing just Enter does not run them.</li>
+<li><strong>Changed</strong>: main-menu and first-screen wording
+simplified (fewer terms like <code>winget</code> /
+<code>package manager</code>; the first screen now mentions
+<strong>[M]</strong>). "Send it to your instructor" on the finish screen
+now reads <strong>"to your instructor or someone who helps you"</strong>
+so solo users understand it.</li>
+<li><strong>Note</strong>: install lists and install behavior are
+unchanged (wording and input method only).</li>
+</ul>
+</details>
+
+<details>
+<summary>v1.7.0 (2026-11-14)</summary>
 
 <ul>
 <li><strong>Added</strong>: main menu <strong>[M] Mobile app
@@ -794,7 +909,8 @@ README.md / README.html          ← Korean guide (identical content)
 README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
-PRD/                            ← early planning docs (reference)</code></pre>
+NOTICE                           ← copyright and third-party (installed tools) notice
+PRD/                            ← early planning docs (reference · may differ from the current implementation)</code></pre>
 <blockquote>
 <p>Auto-created on run: <code>install-report-DATE.txt</code> (summary),
 <code>install-log-DATE.txt</code> (detail) — excluded from the repo by
@@ -808,23 +924,43 @@ PRD/                            ← early planning docs (reference)</code></pre>
   → [Pre-check] Windows version · winget · package-list update · internet · disk · existing installs
   → Install tools (dependency order: Git → Python/Node → pnpm/Bun → Java → Flutter …)
       · If present: skip / upgrade choice
-      · On failure: auto-retry once after 5s → then skip (points to [8])
+      · On failure: auto-retry once after 5s → then shown as **[실패] (failed)** (points to [8] Direct download)
   → Post-install setup (Git line-endings, pip upgrade, etc.)
   → Save 2 reports + print PATH check
   → “Open a new terminal to start” message</code></pre>
+<p><strong>Mobile ([M]) flow</strong></p>
+<pre><code>M → 1 Mobile basic / 2 Basic+scrcpy / 3 Pick items / 4 Guide only
+  → [Pre-check] ~10 GB disk · virtualization (informational only, never blocks)
+  → Install Git → Flutter → Android Studio → adb → (scrcpy)
+  → After-install guide (done by you): first Android Studio launch → accept licenses → flutter doctor → USB debugging on the phone</code></pre>
 <hr />
 <h2 id="12-architecture">12. Architecture</h2>
 <ul>
 <li><strong>Single file</strong>: one pure Windows batch script
 (<code>.bat</code>). No separate install/build.</li>
-<li><strong>Package manager</strong>: <strong>winget</strong>
-(Microsoft-official, signature-verified). Each tool comes from its
-official source.</li>
+<li><strong>Package manager</strong>: <strong>winget</strong> (the
+official repository run by Microsoft). Each tool comes from its official
+source, and winget <strong>checks the downloaded installer’s hash
+against the repository record</strong>.</li>
 <li><strong>Structure (subroutines)</strong>: menu →
 <code>:PRE_CHECK</code> → <code>:INSTALL</code> /
 <code>:NPM_INSTALL</code> (install + retry) → <code>:POST_*</code>
 (post-install) → <code>:MAKE_REPORTS</code> →
 <code>:PATH_CHECK</code>.</li>
+<li><strong>Two exception install paths</strong>: <strong>scoop</strong>
+(official install script) and <strong>Flutter</strong> (official git
+repository), kept in dedicated subroutines (<code>:INSTALL_SCOOP</code>,
+<code>:INSTALL_FLUTTER</code>) that report <code>[실패]</code> (failed)
+honestly.</li>
+<li><strong>Mobile menu</strong>: <code>:DO_MOBILE</code> (choice) →
+pre-check → <code>:INSTALL_MOBILE</code> → <code>:POST_MOBILE</code>
+(guide). A <strong>separate flow, not mixed into levels
+[1]–[4].</strong></li>
+<li><strong>Input handling</strong>: every prompt clears its variable
+first, so <strong>pressing just Enter never repeats the previous
+choice</strong>; numbers in [5], [M]-3 and [7] are
+<strong>validated</strong> before use (special characters and
+out-of-range numbers are rejected).</li>
 <li><strong>Portability</strong>: <code>%~dp0</code>-based, so it works
 even if you rename/move the file.</li>
 <li><strong>Encoding</strong>: CP949 (for Korean Windows). On English
@@ -837,7 +973,10 @@ href="#17-troubleshooting">14</a>).</li>
 <li><strong>No admin required</strong> (user-scope install). Works on
 corporate/school PCs.</li>
 <li><strong>Official source only (winget)</strong>: every winget install
-uses <code>--source winget</code> (Microsoft signature-verified).</li>
+uses <code>--source winget</code> (the official repository run by
+Microsoft). winget <strong>checks the installer’s hash against the
+repository record</strong> (whether each vendor’s own signature is
+verified differs per tool).</li>
 <li><strong>Remote-script exception — scoop (1)</strong>: scoop is not
 in winget, so it runs the official installer
 (<code>https://get.scoop.sh</code>, HTTPS). This is the <strong>only
@@ -856,13 +995,34 @@ so no administrator rights are needed.</li>
 through winget</strong>, the same signature-verified path as the other
 tools. <strong>You accept the Android SDK licenses yourself</strong>;
 the kit never accepts them for you.</li>
-<li><strong>Minimal input</strong>: you type <strong>only menu
-numbers</strong>. No path for running arbitrary commands.</li>
+<li><strong>Minimal, validated input</strong>: you type <strong>only
+menu numbers</strong>. Numbers in [5] and [M] accept digits, commas and
+the valid range only; anything else is rejected. No path for running
+arbitrary commands.</li>
+<li><strong>What the scoop step changes</strong>: when installing scoop,
+the kit <strong>sets the PowerShell execution policy (current-user
+scope) to <code>RemoteSigned</code></strong> and runs the official
+script (the value scoop requires). How to undo: <a
+href="#14-environment-variables">§14</a>.</li>
+<li><strong>What is installed via npm</strong>: Claude Code CLI, Railway
+CLI in the level installs, and any npm tools you answer yes to or pick
+in [5] (Vercel CLI, etc.) come from the <strong>npm registry, not
+winget</strong> (npm’s package-integrity checks apply).</li>
 <li><strong>Privacy</strong>: Git name/email are <strong>only shown,
 never auto-saved</strong>.</li>
-<li><strong>No external transmission</strong>: the only files created
-are <strong>local</strong> (report/log). Nothing is sent to a
-server.</li>
+<li><strong>The kit sends no data</strong>: the only files created are
+<strong>local</strong> (report/log); nothing is sent to a server. The
+network actions the kit itself performs are: (1) one connectivity
+<code>ping</code> (8.8.8.8), (2) calling winget and npm, (3) downloading
+the official scoop script (<code>get.scoop.sh</code>), and (4) fetching
+the official Flutter repository
+(<code>github.com/flutter/flutter</code>) — all official sources listed
+above. Any other connection (Dart SDK, Android SDK, etc.) is made by the
+installed tools themselves.</li>
+<li><strong>Installed tools’ own traffic</strong>: installed tools (e.g.
+Flutter, Android Studio, VS Code) may send <strong>usage statistics or
+check for updates</strong>. That follows each tool’s settings and terms,
+not the kit.</li>
 <li><strong>Report contents</strong>: PC name (COMPUTERNAME) and results
 only. <strong>No username, home path, or passwords.</strong></li>
 <li><strong>No secrets</strong>: the code/docs contain no API keys,
@@ -884,8 +1044,14 @@ either.)</p>
 <tbody>
 <tr>
 <td><code>%USERPROFILE%</code></td>
-<td>Locating the scoop install
-(<code>...\scoop\shims\scoop.cmd</code>)</td>
+<td>Locating the scoop install (<code>...\scoop\shims\scoop.cmd</code>)
+and the <strong>Flutter install location</strong>
+(<code>...\develop\flutter</code>)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles%</code></td>
+<td>Locating Git and Android Studio (when just installed and not yet on
+PATH)</td>
 </tr>
 <tr>
 <td><code>%SCOOP%</code></td>
@@ -899,7 +1065,8 @@ once</td>
 </tr>
 <tr>
 <td><code>%TEMP%</code></td>
-<td>Temporary work</td>
+<td>Temporary work (the temp file for the <code>flutter doctor</code>
+summary is deleted afterwards)</td>
 </tr>
 <tr>
 <td><code>%COMPUTERNAME%</code></td>
@@ -937,6 +1104,12 @@ once</td>
 <td>Delete that registry value</td>
 </tr>
 <tr>
+<td>PowerShell execution policy (only when installing scoop)</td>
+<td>Current-user scope <code>RemoteSigned</code></td>
+<td><code>Set-ExecutionPolicy Undefined -Scope CurrentUser</code> (scoop
+may stop working)</td>
+</tr>
+<tr>
 <td>User PATH (Flutter only)</td>
 <td><strong>Adds one entry</strong>:
 <code>%USERPROFILE%\develop\flutter\bin</code></td>
@@ -952,7 +1125,10 @@ Flutter</strong>: a git-downloaded Flutter has no installer to register
 it, so the kit adds <strong>only that one entry</strong> to your user
 PATH (not added if already present; existing entries are preserved).
 That is why commands do not work in the current window right after
-installing — you must <strong>open a new terminal</strong>.</p>
+installing — you must <strong>open a new terminal</strong>. (To notify
+Windows of the PATH change, the kit <strong>briefly creates and
+immediately deletes</strong> a user variable named
+<code>KIT_PATH_REFRESH</code>.)</p>
 <p><strong>The kit does not set Android SDK environment variables
 (<code>ANDROID_HOME</code> etc.).</strong> If Flutter reports it cannot
 find the SDK, run the <code>flutter config --android-sdk</code> command
@@ -989,7 +1165,22 @@ in <code>cmd</code> → verify both branches and the output</li>
 error messages</li>
 <li>Use <code>[9] Check installation</code> to confirm nothing existing
 broke</li>
+<li><strong>Test bad input too</strong>: empty input (just Enter),
+non-existent numbers, special characters (<code>&amp;</code>
+<code>(</code> <code>"</code> <code>%</code>), very long input.</li>
 </ol>
+<blockquote>
+<p>⚠️ <strong>Do not just run the install flows on your own PC.</strong>
+A level install runs the scoop official script and changes the
+PowerShell execution policy, and <code>[A]</code> opens browser windows.
+To test install/remove flows, <strong>put fake
+<code>winget</code>/<code>npm</code>/<code>scoop</code> executables
+first on PATH</strong> and point
+<code>USERPROFILE</code>/<code>LOCALAPPDATA</code> at temporary folders
+to isolate them. Do not push several input lines at once — send them
+<strong>one line at a time after each question appears</strong> (a batch
+prompt does not reliably accept bulk line input).</p>
+</blockquote>
 <h3 id="release--for-maintainers">Release — for maintainers</h3>
 <ol type="1">
 <li>Add the changes to <code>CHANGELOG.md</code></li>
@@ -997,8 +1188,10 @@ broke</li>
 <code>.bat</code></li>
 <li>Commit the changes → PR → merge into <code>main</code></li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → set a tag
-(e.g. <code>v1.6.2</code>) → <strong>attach
+(e.g. <code>v1.7.1</code>) → <strong>attach
 <code>dev-one-click-setting-kit.bat</code> under Assets</strong></li>
+<li>Just before attaching, confirm the file is <strong>byte-identical to
+the one in the repository</strong> (CP949 and CRLF preserved)</li>
 </ol>
 <blockquote>
 <p>⚠️ <strong>Never delete the <code>*.bat -text</code> line in
@@ -1039,6 +1232,9 @@ special characters</strong>, and the first run downloads the Dart SDK
 of disk and 30–40 minutes; Android Studio <strong>downloads the SDK on
 its first launch</strong>. The Android emulator is fast only with
 virtualization enabled; a real phone over USB works without it.</li>
+<li><strong>scoop is installed automatically with the level
+installs</strong> (it is in the list shown at the start). If you do not
+want it, use [5] Custom install.</li>
 <li><strong>On English (non-Korean) Windows</strong> the menu text may
 appear garbled (known limitation).</li>
 </ul>
@@ -1082,6 +1278,19 @@ download</strong></td>
 location</td>
 <td>Follow the reason shown (install Git / rename the folder) and rerun.
 If it still fails, use <strong>[8] Direct download</strong></td>
+</tr>
+<tr>
+<td>A hint like “enter digits 1 to 30 only…” appears</td>
+<td>Non-digit/non-comma characters or an out-of-range number in
+[5]/[M]</td>
+<td>Enter <strong>digits and commas only</strong>, e.g.
+<code>1,3,6</code></td>
+</tr>
+<tr>
+<td><code>adb server version doesn't match</code> message</td>
+<td>adb exists in two places (kit-installed + inside Android Studio)
+with different versions</td>
+<td>Type <code>adb kill-server</code>, then try again</td>
 </tr>
 <tr>
 <td>Fails even as admin</td>
@@ -1128,6 +1337,23 @@ guides you to admin only when a tool fails.</p>
 <p><strong>Q. Can I install a specific version (e.g., Python
 3.11)?</strong> Yes — via <strong>[V] Version-select install</strong>,
 stable versions only.</p>
+<p><strong>Q. How do I answer yes/no questions?</strong> Type
+<code>1</code> (yes) or <code>2</code> (no); the old
+<code>y</code>/<code>n</code> still works. <strong>Pressing just Enter
+does not run anything.</strong></p>
+<p><strong>Q. Can I try building apps without a phone?</strong> Yes —
+with Android Studio’s <strong>virtual phone (emulator)</strong>. It is
+fast only if <strong>virtualization</strong> is on in your PC; otherwise
+it may be slow or not work. A real phone over USB works without
+virtualization.</p>
+<p><strong>Q. I already have Flutter or Android Studio — can I still use
+[M]?</strong> Yes. Anything already present is <strong>skipped</strong>.
+For Flutter, if a <strong>different folder already exists</strong> at
+the kit location (<code>%USERPROFILE%\develop\flutter</code>), the kit
+<strong>does not overwrite it and reports a failure.</strong></p>
+<p><strong>Q. Can I build iPhone (iOS) apps?</strong> No. Building iOS
+apps <strong>requires a Mac</strong>, so it cannot be done on Windows.
+This kit prepares Android.</p>
 <p><strong>Q. How do I remove what I installed?</strong> <strong>[7]
 Remove</strong> → single or all.</p>
 <p><strong>Q. Is internet required?</strong> Yes. winget downloads the
@@ -1144,10 +1370,101 @@ legal advice or guarantee any legal effect.</strong> For important
 decisions (commercial distribution, redistribution, etc.),
 <strong>consult a qualified professional such as a lawyer.</strong></p>
 </blockquote>
+<p><strong>At a glance (plain words)</strong></p>
+<table>
+<thead>
+<tr>
+<th>What you want to do</th>
+<th style="text-align: center;">Allowed?</th>
+<th>What you must keep to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Just use it</strong> at home, work or school</td>
+<td style="text-align: center;">Yes</td>
+<td>Installed tools follow their own terms</td>
+</tr>
+<tr>
+<td><strong>Modify · copy · fork</strong></td>
+<td style="text-align: center;">Yes</td>
+<td><strong>Mark changed files as changed</strong>; keep copyright and
+license notices</td>
+</tr>
+<tr>
+<td><strong>Redistribute</strong> (including handing it to students or
+using it as teaching material)</td>
+<td style="text-align: center;">Yes</td>
+<td>Give the <strong>LICENSE copy</strong> along with it and do not
+remove the copyright/license header at the top of the
+<code>.bat</code></td>
+</tr>
+<tr>
+<td><strong>Sell it · include it in a paid service · deliver it to a
+company/client</strong></td>
+<td style="text-align: center;">Yes, within the Apache 2.0
+conditions</td>
+<td>Installed tools have separate licenses. <strong>Do not make new
+“warranty” promises</strong> (this kit comes with no warranty). For
+contract-bound delivery, <strong>legal review is
+recommended</strong></td>
+</tr>
+<tr>
+<td><strong>Use the “SoDam AI Studio” name/logo as your own product
+name</strong></td>
+<td style="text-align: center;"><strong>Not permitted</strong></td>
+<td>You may only state the <strong>origin truthfully</strong>, e.g.
+“based on SoDam AI Studio’s kit”</td>
+</tr>
+<tr>
+<td><strong>Say this kit’s license (Apache 2.0) also covers the tools it
+installs</strong></td>
+<td style="text-align: center;"><strong>Must not</strong></td>
+<td>Each tool has its own license</td>
+</tr>
+<tr>
+<td><strong>Claim an official partnership, sponsorship or
+endorsement</strong> by Google, Microsoft, Anthropic, etc.</td>
+<td style="text-align: center;"><strong>Must not</strong></td>
+<td>This kit is an independent tool</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What you must check yourself</strong></p>
+<ul>
+<li>The license/terms of each installed tool — especially the
+<strong>Android SDK license acceptance</strong>, <strong>Claude Code
+(Anthropic terms and pricing)</strong> and the <strong>VS Code build
+terms</strong></li>
+<li>The <strong>pricing and model-usage policies of the AI services/APIs
+you use</strong>, <strong>external service terms</strong> (Vercel,
+Supabase, Stripe, etc.) and the <strong>per-model licenses of AI
+models</strong> downloaded with Ollama</li>
+<li>The license of any <strong>fonts, images, icons, audio or
+video</strong> you put into your own project (none are included in this
+repository)</li>
+<li><strong>Personal-data handling</strong> and <strong>app-store
+terms</strong> for the apps you build</li>
+</ul>
+<p><strong>What you must not do</strong></p>
+<ul>
+<li>Anything marked “Not permitted / Must not” in the table above</li>
+<li>Posting <strong>other people’s personal data, non-public material,
+client information or internal documents</strong> in this repository’s
+docs, screenshots, issues or PRs</li>
+<li>Posting <strong>reports or logs publicly as-is</strong> (reports
+contain your PC name)</li>
+</ul>
 <p><strong>1) License of this kit (code/docs)</strong></p>
 <ul>
 <li><strong>Apache License 2.0</strong> — Copyright © 2026 <strong>SoDam
-AI Studio</strong>. Full text: <a href="./LICENSE">LICENSE</a>.</li>
+AI Studio</strong>. Full text: <a href="./LICENSE">LICENSE</a> (the
+official Apache 2.0 text; <strong>only the appendix copyright
+line</strong> is filled in with “SoDam AI Studio”); copyright and
+third-party notice: <a href="./NOTICE">NOTICE</a>. The same
+copyright/license header is at the top of the <code>.bat</code>, so
+<strong>the license notice travels even if you distribute the single
+file.</strong></li>
 <li>Permits: <strong>free use, modification, distribution, and
 commercial use.</strong></li>
 <li>Conditions: on distribution, <strong>include a copy of the
@@ -1162,22 +1479,204 @@ liable for damages from use (Apache 2.0 §7–8).</li>
 (important)</strong></p>
 <ul>
 <li>This kit does <strong>not redistribute</strong> any tool; it merely
-<strong>downloads and installs each tool’s official build via
-winget</strong>.</li>
-<li>Each installed tool (Git, Python, Node.js, VS Code, Java, Go, Rust,
-Flutter, Ruby, PHP, Ollama, etc.) is governed by <strong>its own
-license</strong> (e.g., Git = GPLv2, Python = PSF, Node.js/pnpm = MIT,
-VS Code/Go = their respective open-source licenses).</li>
+<strong>downloads and installs each tool’s official build via winget (or
+the official repository, official script, or npm).</strong></li>
+<li>Each installed tool is governed by <strong>its own license and
+terms.</strong> This kit’s Apache 2.0 <strong>does not apply to the
+installed tools.</strong></li>
 <li><strong>For commercial use / redistribution, you must review and
-comply with each tool’s license separately.</strong> This kit’s Apache
-2.0 <strong>does not apply to the installed tools.</strong></li>
+comply with each tool’s license separately.</strong></li>
 </ul>
-<p><strong>3) Notes on use</strong></p>
+<p>The table below is a <strong>reference summary</strong> (based on
+public information; <strong>terms can change, so always check each
+official license document</strong>).</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>License (summary)</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td>GPL-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Python</td>
+<td>PSF License</td>
+<td></td>
+</tr>
+<tr>
+<td>Node.js · pnpm</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>Source is MIT; the <strong>distributed build is under Microsoft’s
+software license terms</strong></td>
+<td>Check the build’s terms separately</td>
+</tr>
+<tr>
+<td>Go</td>
+<td>BSD-3-Clause</td>
+<td></td>
+</tr>
+<tr>
+<td>Rust</td>
+<td>MIT or Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Java (Eclipse Temurin)</td>
+<td>GPL-2.0 + Classpath Exception</td>
+<td></td>
+</tr>
+<tr>
+<td>Flutter · Dart</td>
+<td>BSD-3-Clause</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Android Studio · Android SDK · platform-tools
+(adb)</strong></td>
+<td><strong>Google’s terms</strong> (Android SDK License Agreement,
+etc.)</td>
+<td><strong>You accept the SDK licenses yourself</strong>
+(<code>flutter doctor --android-licenses</code>)</td>
+</tr>
+<tr>
+<td>scrcpy</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Ruby · PHP</td>
+<td>Ruby: Ruby License or BSD-2-Clause family / PHP: PHP License or
+BSD-3-Clause <strong>depending on the version</strong></td>
+<td><strong>Check per version</strong></td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>MIT</td>
+<td><strong>AI models you download have their own per-model
+licenses</strong></td>
+</tr>
+<tr>
+<td><strong>Claude Code CLI</strong></td>
+<td><strong>Anthropic’s terms (commercial software)</strong></td>
+<td>The service’s terms and pricing apply</td>
+</tr>
+<tr>
+<td>Others (GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI, etc.)</td>
+<td>Each official repository’s license</td>
+<td>Check before installing</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verification status (2026-11-14):</strong>
+<strong>Confirmed</strong> from official GitHub repository information —
+pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI ·
+Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI
+(and the Apache-2.0 marking of Rust and the Temurin build scripts).
+<strong>Could not be confirmed automatically; the generally known
+information is listed</strong> — Git · Python · Node.js · Bun · Git LFS
+· Ruby · scoop · Android-related tools · Claude Code. <strong>Check
+these against the official documents before installing or
+distributing.</strong></p>
+</blockquote>
+<p><strong>3) Trademarks and affiliation</strong></p>
 <ul>
-<li>Everything installs only from winget’s official (Microsoft-verified)
-source, and this kit sends none of your data anywhere.</li>
+<li>Names and logos such as Android, Google, Flutter, Git, Python,
+Node.js and Visual Studio Code are <strong>trademarks of their
+respective owners.</strong> This kit is an <strong>independent tool with
+no affiliation, sponsorship or endorsement</strong> from those companies
+or projects.</li>
+<li>The “SoDam AI Studio” name/logo is not licensed for use under Apache
+2.0 (no trademark rights granted).</li>
+</ul>
+<p><strong>4) Checklist for commercial use</strong></p>
+<ul>
+<li>To <strong>distribute this kit at a company or in a class</strong>:
+include the LICENSE copy · state changes · keep copyright notices
+(Apache 2.0).</li>
+<li>To <strong>use the installed tools for commercial product
+development</strong>: check <strong>each tool’s terms</strong> in the
+table above (especially Android SDK, Claude Code and the VS Code
+build).</li>
+<li>The copyright/license of <strong>the apps/outputs you make</strong>
+is your responsibility. For <strong>AI-generated code</strong>, check
+the AI service’s terms (ownership, usage limits).</li>
+<li><strong>Publishing to app stores</strong> (Google Play, etc.)
+follows each store’s developer terms. iOS (App Store) requires <strong>a
+Mac and Apple’s developer terms.</strong></li>
+<li>If your app handles personal data, review the applicable
+<strong>privacy laws</strong> separately (in Korea: the Personal
+Information Protection Act).</li>
+</ul>
+<p><strong>5) Notes on use</strong></p>
+<ul>
+<li>winget installs come from the <strong>official winget
+repository.</strong> The exceptions are scoop (official script), Flutter
+(official repository) and npm tools (npm registry), listed in <a
+href="#13-security--data-flow">§13</a>. The kit does not send your data
+anywhere.</li>
 <li>Responsibility for final installation and use rests with <strong>the
 user.</strong></li>
+</ul>
+<p><strong>6) Disclosure of AI-assisted authoring</strong></p>
+<ul>
+<li>Parts of this repository’s code and documents were <strong>written
+or edited with the help of an AI tool (Anthropic Claude)</strong> (many
+commits carry a co-author trailer).</li>
+<li>The <strong>copyright ownership and protection scope of AI-generated
+output, and the possibility that it resembles existing works,</strong>
+are interpreted differently by country and case — <strong>legal/expert
+review needed.</strong></li>
+<li>The same applies to <strong>your own output</strong> made with AI
+coding using this kit. <strong>Before publishing, selling or delivering
+it, check the copyright, sources, commercial-use permission and the
+possibility of infringing similar works yourself.</strong></li>
+</ul>
+<p><strong>7) External material and sample data in this
+repository</strong></p>
+<ul>
+<li>This repository <strong>contains no images, icons, fonts, audio,
+video, sample accounts or customer data</strong> (checked 2026-11-14;
+there are no dependency files). Email addresses in the docs, such as
+<code>your@email.com</code>, are <strong>fictional
+examples.</strong></li>
+<li>When editing the docs, do not add <strong>other people’s works,
+screenshots (showing a PC name, username or path), personal data or
+non-public material.</strong></li>
+<li>The <code>PRD/</code> folder holds <strong>early planning
+documents</strong>, was generated with an AI tool and may differ from
+the current implementation. It is under the same license (Apache 2.0) as
+the rest of the repository.</li>
+</ul>
+<p><strong>8) When you send changes or suggestions</strong></p>
+<ul>
+<li>Changes or suggestions you submit to this repository are
+<strong>treated as provided under the Apache 2.0 terms unless agreed
+otherwise</strong> (Apache 2.0 §5).</li>
+</ul>
+<p><strong>9) Items needing legal/expert review</strong></p>
+<ul>
+<li>Liability scope and warranty wording when this kit is
+<strong>included in contract-bound delivery or a paid
+service</strong></li>
+<li>Copyright ownership and protection scope of <strong>AI-assisted
+output</strong></li>
+<li><strong>Commercial-use terms of the installed tools</strong>
+(especially the Android SDK, Claude Code, the VS Code build and Ollama
+models)</li>
+<li>Apps/services handling <strong>personal data</strong> (in Korea: the
+Personal Information Protection Act) and the laws of each country for
+<strong>overseas distribution</strong></li>
 </ul>
 <hr />
 <p><sub>By SoDam AI Studio · License: Apache License 2.0 · Windows
