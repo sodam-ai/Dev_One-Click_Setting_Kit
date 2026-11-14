@@ -68,6 +68,7 @@ echo    [A] 가장 쉬운 추천 설치   처음이면 이거 [기본 5종 + AI 도구]
 echo    [V] 버전 선택 설치        원하는 버전으로 설치 [Python/Java/Ruby]
 echo    [S] scoop 설치            프로그램 설치를 도와주는 도구 [나중에 필요할 때]
 echo    [M] 모바일 앱 개발        폰 앱 만들기 환경 [Flutter, Android Studio]
+set MENU_CHOICE=
 set /p MENU_CHOICE="  번호를 입력하세요: "
 
 if /i "!MENU_CHOICE!"=="A" goto DO_EASY
@@ -248,6 +249,7 @@ echo  이미 설치된 도구 처리 방법:
 echo    [1] 건너뜀    (현재 버전 유지)
 echo    [2] 업그레이드 (최신 버전으로)
 echo    [3] 제거       (삭제만)
+set UPGRADE_CHOICE=
 set /p UPGRADE_CHOICE="  선택 (기본값=1): "
 if "!UPGRADE_CHOICE!"=="" set UPGRADE_CHOICE=1
 if "!UPGRADE_CHOICE!"=="2" (set UPGRADE_MODE=upgrade) else (
@@ -280,6 +282,7 @@ echo  이미 설치된 도구 처리 방법:
 echo    [1] 건너뜀    (현재 버전 유지)
 echo    [2] 업그레이드 (최신 버전으로)
 echo    [3] 제거       (삭제만)
+set UPGRADE_CHOICE=
 set /p UPGRADE_CHOICE="  선택 (기본값=1): "
 if "!UPGRADE_CHOICE!"=="" set UPGRADE_CHOICE=1
 if "!UPGRADE_CHOICE!"=="2" (set UPGRADE_MODE=upgrade) else (
@@ -312,6 +315,7 @@ echo  이미 설치된 도구 처리 방법:
 echo    [1] 건너뜀    (현재 버전 유지)
 echo    [2] 업그레이드 (최신 버전으로)
 echo    [3] 제거       (삭제만)
+set UPGRADE_CHOICE=
 set /p UPGRADE_CHOICE="  선택 (기본값=1): "
 if "!UPGRADE_CHOICE!"=="" set UPGRADE_CHOICE=1
 if "!UPGRADE_CHOICE!"=="2" (set UPGRADE_MODE=upgrade) else (
@@ -344,6 +348,7 @@ echo  이미 설치된 도구 처리 방법:
 echo    [1] 건너뜀    (현재 버전 유지)
 echo    [2] 업그레이드 (최신 버전으로)
 echo    [3] 제거       (삭제만)
+set UPGRADE_CHOICE=
 set /p UPGRADE_CHOICE="  선택 (기본값=1): "
 if "!UPGRADE_CHOICE!"=="" set UPGRADE_CHOICE=1
 if "!UPGRADE_CHOICE!"=="2" (set UPGRADE_MODE=upgrade) else (
@@ -799,7 +804,11 @@ if !FAIL_COUNT! GTR 0 (
     echo         %LOG_FILE% 를 강사 또는 도와주는 분께 전달하세요.
     echo.
 )
-echo  설치가 완료되었습니다!
+if !FAIL_COUNT! GTR 0 (
+    echo  설치 과정이 끝났습니다. 실패한 도구는 위 안내를 확인하세요.
+) else (
+    echo  설치가 완료되었습니다.
+)
 echo.
 echo  [다음 단계 가이드]
 echo   1. 새 터미널 열기 (시작메뉴 -> Windows Terminal 또는 PowerShell)
@@ -912,9 +921,18 @@ echo  ---------------------------------------------------
 echo    [0] 메인 메뉴로       [Enter] 권장 기본팩([1]~[5]) 설치
 echo  ---------------------------------------------------
 echo.
+set SEL=
 set /p SEL="  번호 입력: "
 if "!SEL!"=="0" goto MAIN_MENU
 if "!SEL!"=="" set SEL=1,2,3,4,5
+:: 입력 검증: 1~30 숫자와 쉼표/공백만 허용 [특수문자가 for 문을 깨뜨려 멈추거나, 없는 번호로 가짜 완료가 뜨는 것 방지]
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $ok = ($env:SEL -match '^[0-9, ]+$'); foreach($n in ($env:SEL -split '[, ]+')){ if($n -ne ''){ if([int]$n -lt 1 -or [int]$n -gt 30){ $ok = $false } } }; if($ok){ exit 0 } else { exit 1 } } catch { exit 1 }" >nul 2>&1
+if errorlevel 1 (
+    echo.
+    echo  [안내] 번호는 1부터 30 사이의 숫자만, 쉼표로 구분해서 입력하세요. 예: 1,3,6
+    pause
+    goto DO_SELECT
+)
 
 echo.
 echo  선택: !SEL!
@@ -962,6 +980,7 @@ echo  이미 설치된 도구 처리 방법:
 echo    [1] 건너뜀    (현재 버전 유지)
 echo    [2] 업그레이드 (최신 버전으로)
 echo    [3] 제거       (삭제만)
+set UPGRADE_CHOICE=
 set /p UPGRADE_CHOICE="  선택 (기본값=1): "
 if "!UPGRADE_CHOICE!"=="" set UPGRADE_CHOICE=1
 if "!UPGRADE_CHOICE!"=="2" (set UPGRADE_MODE=upgrade) else (
@@ -1065,6 +1084,7 @@ echo  ---------------------------------------------------
 echo    [1] Python      [2] Java(JDK)      [3] Ruby
 echo    [0] 메인 메뉴로
 echo.
+set VER_LANG=
 set /p VER_LANG="  언어 번호: "
 if "!VER_LANG!"=="0" goto MAIN_MENU
 if "!VER_LANG!"=="1" goto VER_PYTHON
@@ -1076,6 +1096,7 @@ goto DO_VERSION
 echo.
 echo  [Python 버전] 안정 버전만 - 잘 모르면 그냥 Enter
 echo    [1] 3.13    [2] 3.12    [3] 3.11
+set PV=
 set /p PV="  선택 (기본=최신 권장): "
 set VER_NAME=Python
 set VER_ID=Python.Python.3
@@ -1088,6 +1109,7 @@ goto VER_INSTALL
 echo.
 echo  [Java(JDK) 버전] 전부 LTS - 잘 모르면 그냥 Enter
 echo    [1] 21(권장)    [2] 17    [3] 11    [4] 8
+set JV=
 set /p JV="  선택 (기본=21 LTS): "
 set VER_NAME=Java-JDK
 set VER_ID=EclipseAdoptium.Temurin.21.JDK
@@ -1100,6 +1122,7 @@ goto VER_INSTALL
 echo.
 echo  [Ruby 버전] 안정 버전 - 잘 모르면 그냥 Enter
 echo    [1] 3.3(권장)    [2] 3.2
+set RV=
 set /p RV="  선택 (기본=3.3): "
 set VER_NAME=Ruby
 set VER_ID=RubyInstallerTeam.RubyWithDevKit.3.3
@@ -1172,6 +1195,7 @@ echo    [2] 전체 제거
 echo    [0] 메인 메뉴
 echo.
 echo  * 0 = 메인 메뉴로 돌아가기
+set REM_CHOICE=
 set /p REM_CHOICE="  번호: "
 if "!REM_CHOICE!"=="0" goto MAIN_MENU
 if "!REM_CHOICE!"=="1" goto REMOVE_ONE
@@ -1191,8 +1215,17 @@ echo  [19]uv
 echo  [20]Android Studio  [21]adb  [22]scrcpy
 echo  [0] 뒤로
 echo.
+set REM_SEL=
 set /p REM_SEL="  번호: "
 if "!REM_SEL!"=="0"  goto DO_REMOVE
+set REM_OK=
+for /L %%i in (1,1,22) do if "!REM_SEL!"=="%%i" set REM_OK=1
+if not defined REM_OK (
+    echo.
+    echo  [안내] 목록에 있는 번호 1~22 중에서 입력하세요. 아무것도 제거하지 않았습니다.
+    pause
+    goto REMOVE_ONE
+)
 
 if "!REM_SEL!"=="1"  winget uninstall --id Git.Git --source winget --silent
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3 --source winget --silent
@@ -1341,6 +1374,7 @@ echo.
 echo  ---------------------------------------------------
 echo    [0] 메인 메뉴로
 echo.
+set MAN_CHOICE=
 set /p MAN_CHOICE="  번호 입력: "
 if "!MAN_CHOICE!"=="0" goto MAIN_MENU
 
@@ -1630,6 +1664,7 @@ set MOB_FL=
 set MOB_STUDIO=
 set MOB_ADB=
 set MOB_SCRCPY=
+set MOB_CHOICE=
 set /p MOB_CHOICE="  번호: "
 if "!MOB_CHOICE!"=="0" goto MAIN_MENU
 if "!MOB_CHOICE!"=="1" goto MOBILE_BASIC
@@ -1661,6 +1696,13 @@ set MOB_SEL=
 set /p MOB_SEL="  번호: "
 if "!MOB_SEL!"=="" goto DO_MOBILE
 if "!MOB_SEL!"=="0" goto DO_MOBILE
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $ok = ($env:MOB_SEL -match '^[0-9, ]+$'); foreach($n in ($env:MOB_SEL -split '[, ]+')){ if($n -ne ''){ if([int]$n -lt 1 -or [int]$n -gt 5){ $ok = $false } } }; if($ok){ exit 0 } else { exit 1 } } catch { exit 1 }" >nul 2>&1
+if errorlevel 1 (
+    echo.
+    echo  [안내] 번호는 1부터 5 사이의 숫자만, 쉼표로 구분해서 입력하세요. 예: 2,3
+    pause
+    goto MOBILE_PICK
+)
 for %%n in (%MOB_SEL:,= %) do (
     if "%%n"=="1" set MOB_GIT=1
     if "%%n"=="2" set MOB_FL=1

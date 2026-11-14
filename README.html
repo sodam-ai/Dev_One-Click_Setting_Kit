@@ -598,7 +598,8 @@ Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자�
 <p><strong>예/아니오 질문</strong>은 <code>1</code>(예) /
 <code>2</code>(아니오) 숫자로 답해도 되고, 기존처럼
 <code>y</code>/<code>n</code>도 됩니다. 아무것도 입력하지 않고 Enter만
-누르면 <strong>실행하지 않고</strong> 돌아갑니다.</p>
+누르면 <strong>실행하지 않고</strong> 돌아갑니다. [5]·[M]에서 번호가
+잘못되면 안내 후 다시 묻습니다.</p>
 <hr />
 <h2 id="8-작동-방법--명령어">8. 작동 방법 &amp; 명령어</h2>
 <p>이 키트는 <strong>메뉴 번호만 입력</strong>하면 되므로 외울 명령어가
@@ -623,6 +624,15 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 Code CLI)을 **<code>[실패]</code>**로 통일했습니다. 리포트에는 원래
 <code>[실패]</code>로 기록되고 있어 화면과 달라 헷갈리던
 부분입니다.</li>
+<li><strong>Fixed</strong>: 메인 메뉴·제거·버전 선택을 포함한 **모든
+입력 칸(35곳)**에서, 아무것도 입력하지 않고 Enter만 누르면 <strong>이전
+선택이 반복되던 문제</strong>를 고쳤습니다(예: 메인 메뉴에서 Enter가
+직전 메뉴를 다시 실행, 개별 제거에서 같은 도구가 또 제거).</li>
+<li><strong>Fixed</strong>: [5] 선택 설치·[M] 골라서 설치의 <strong>번호
+입력 검증</strong>을 추가했습니다(숫자·쉼표만, 범위 안). 특수문자를
+넣으면 창이 멈추던 문제, 없는 번호인데 "설치 완료"로 보이던 문제, [7]
+개별 제거에서 없는 번호가 "제거 완료"로 보이던 문제를 고쳤습니다. 모두
+실패했는데 "설치가 완료되었습니다"만 나오던 문구도 정리했습니다.</li>
 <li><strong>Changed</strong>: <strong>예/아니오 질문 19곳을 숫자로도
 답할 수 있게</strong> 했습니다(<code>1</code>=예 /
 <code>2</code>=아니오). 기존 <code>y</code>/<code>n</code>도 그대로

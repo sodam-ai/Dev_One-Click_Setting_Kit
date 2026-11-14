@@ -197,7 +197,7 @@ The main menu shown on run:
 | **[8]** | Opens official download pages in your browser when winget fails (URLs: **Ctrl+Click**) |
 | **[9]** | Shows each tool’s install state (O/X) and version |
 
-**Yes/no questions** can be answered with `1` (yes) / `2` (no), and the old `y`/`n` still works. Pressing just Enter does **not** run anything.
+**Yes/no questions** can be answered with `1` (yes) / `2` (no), and the old `y`/`n` still works. Pressing just Enter does **not** run anything. Invalid numbers in [5]/[M] show a hint and ask again.
 
 ---
 
@@ -228,6 +228,8 @@ git config --global user.email "your@email.com"
 <summary><b>v1.7.1 (2026-11-14) — latest</b></summary>
 
 - **Fixed**: failed installs that were shown as a red `[건너뜀]` (skipped) — in winget, npm and Claude Code CLI — now show **`[실패]` (failed)**. The report already recorded them as failures, so the screen and the report disagreed.
+- **Fixed**: in **every input prompt (35)** — main menu, remove and version select included — pressing just Enter no longer **repeats the previous choice** (e.g. Enter at the main menu re-ran the last menu; Enter in single remove removed the same tool again).
+- **Fixed**: added **number validation** to [5] Custom install and [M] Pick items (digits and commas only, in range). Special characters used to freeze the window, a non-existent number could show "install complete", and in [7] single remove a non-existent number showed "remove complete" — all fixed. The finish message no longer says only "install complete" when everything failed.
 - **Changed**: **19 yes/no questions can now be answered with numbers** (`1` = yes / `2` = no). The old `y`/`n` still works. Remove/delete prompts say exactly what runs (e.g. `1=Delete / 2=Cancel` in Korean) and pressing just Enter does not run them.
 - **Changed**: main-menu and first-screen wording simplified (fewer terms like `winget` / `package manager`; the first screen now mentions **[M]**). "Send it to your instructor" on the finish screen now reads **"to your instructor or someone who helps you"** so solo users understand it.
 - **Note**: install lists and install behavior are unchanged (wording and input method only).

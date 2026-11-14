@@ -610,8 +610,8 @@ href="#3-programs-installed-tool-list">§3</a></td>
 </table>
 <p><strong>Yes/no questions</strong> can be answered with <code>1</code>
 (yes) / <code>2</code> (no), and the old <code>y</code>/<code>n</code>
-still works. Pressing just Enter does <strong>not</strong> run
-anything.</p>
+still works. Pressing just Enter does <strong>not</strong> run anything.
+Invalid numbers in [5]/[M] show a hint and ask again.</p>
 <hr />
 <h2 id="8-how-it-works--commands">8. How it works &amp; commands</h2>
 <p>You only ever <strong>type menu numbers</strong> — there are no
@@ -636,6 +636,18 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 now show <strong><code>[실패]</code> (failed)</strong>. The report
 already recorded them as failures, so the screen and the report
 disagreed.</li>
+<li><strong>Fixed</strong>: in <strong>every input prompt (35)</strong>
+— main menu, remove and version select included — pressing just Enter no
+longer <strong>repeats the previous choice</strong> (e.g. Enter at the
+main menu re-ran the last menu; Enter in single remove removed the same
+tool again).</li>
+<li><strong>Fixed</strong>: added <strong>number validation</strong> to
+[5] Custom install and [M] Pick items (digits and commas only, in
+range). Special characters used to freeze the window, a non-existent
+number could show "install complete", and in [7] single remove a
+non-existent number showed "remove complete" — all fixed. The finish
+message no longer says only "install complete" when everything
+failed.</li>
 <li><strong>Changed</strong>: <strong>19 yes/no questions can now be
 answered with numbers</strong> (<code>1</code> = yes / <code>2</code> =
 no). The old <code>y</code>/<code>n</code> still works. Remove/delete
