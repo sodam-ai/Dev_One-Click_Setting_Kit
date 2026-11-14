@@ -208,6 +208,10 @@ computers and AI</strong> can just follow along.</p>
 href="./README.md">한국어 (README.md)</a> · <a
 href="./README.html">Korean HTML (README.html)</a> · <a
 href="./README_EN.html">English HTML (README_EN.html)</a></p>
+<p><strong>License:</strong> Apache License 2.0 · Copyright © 2026 SoDam
+AI Studio · <strong>commercial use allowed (with conditions)</strong> →
+details in <a
+href="#19-legal--copyright--license--commercial-use">§19</a></p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol type="1">
@@ -905,6 +909,7 @@ README.md / README.html          ← Korean guide (identical content)
 README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
+NOTICE                           ← copyright and third-party (installed tools) notice
 PRD/                            ← early planning docs (reference · may differ from the current implementation)</code></pre>
 <blockquote>
 <p>Auto-created on run: <code>install-report-DATE.txt</code> (summary),
@@ -1365,10 +1370,99 @@ legal advice or guarantee any legal effect.</strong> For important
 decisions (commercial distribution, redistribution, etc.),
 <strong>consult a qualified professional such as a lawyer.</strong></p>
 </blockquote>
+<p><strong>At a glance (plain words)</strong></p>
+<table>
+<thead>
+<tr>
+<th>What you want to do</th>
+<th style="text-align: center;">Allowed?</th>
+<th>What you must keep to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Just use it</strong> at home, work or school</td>
+<td style="text-align: center;">Yes</td>
+<td>Installed tools follow their own terms</td>
+</tr>
+<tr>
+<td><strong>Modify · copy · fork</strong></td>
+<td style="text-align: center;">Yes</td>
+<td><strong>Mark changed files as changed</strong>; keep copyright and
+license notices</td>
+</tr>
+<tr>
+<td><strong>Redistribute</strong> (including handing it to students or
+using it as teaching material)</td>
+<td style="text-align: center;">Yes</td>
+<td>Give the <strong>LICENSE copy</strong> along with it and do not
+remove the copyright/license header at the top of the
+<code>.bat</code></td>
+</tr>
+<tr>
+<td><strong>Sell it · include it in a paid service · deliver it to a
+company/client</strong></td>
+<td style="text-align: center;">Yes, within the Apache 2.0
+conditions</td>
+<td>Installed tools have separate licenses. <strong>Do not make new
+“warranty” promises</strong> (this kit comes with no warranty). For
+contract-bound delivery, <strong>legal review is
+recommended</strong></td>
+</tr>
+<tr>
+<td><strong>Use the “SoDam AI Studio” name/logo as your own product
+name</strong></td>
+<td style="text-align: center;"><strong>Not permitted</strong></td>
+<td>You may only state the <strong>origin truthfully</strong>, e.g.
+“based on SoDam AI Studio’s kit”</td>
+</tr>
+<tr>
+<td><strong>Say this kit’s license (Apache 2.0) also covers the tools it
+installs</strong></td>
+<td style="text-align: center;"><strong>Must not</strong></td>
+<td>Each tool has its own license</td>
+</tr>
+<tr>
+<td><strong>Claim an official partnership, sponsorship or
+endorsement</strong> by Google, Microsoft, Anthropic, etc.</td>
+<td style="text-align: center;"><strong>Must not</strong></td>
+<td>This kit is an independent tool</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What you must check yourself</strong></p>
+<ul>
+<li>The license/terms of each installed tool — especially the
+<strong>Android SDK license acceptance</strong>, <strong>Claude Code
+(Anthropic terms and pricing)</strong> and the <strong>VS Code build
+terms</strong></li>
+<li>The <strong>pricing and model-usage policies of the AI services/APIs
+you use</strong>, <strong>external service terms</strong> (Vercel,
+Supabase, Stripe, etc.) and the <strong>per-model licenses of AI
+models</strong> downloaded with Ollama</li>
+<li>The license of any <strong>fonts, images, icons, audio or
+video</strong> you put into your own project (none are included in this
+repository)</li>
+<li><strong>Personal-data handling</strong> and <strong>app-store
+terms</strong> for the apps you build</li>
+</ul>
+<p><strong>What you must not do</strong></p>
+<ul>
+<li>Anything marked “Not permitted / Must not” in the table above</li>
+<li>Posting <strong>other people’s personal data, non-public material,
+client information or internal documents</strong> in this repository’s
+docs, screenshots, issues or PRs</li>
+<li>Posting <strong>reports or logs publicly as-is</strong> (reports
+contain your PC name)</li>
+</ul>
 <p><strong>1) License of this kit (code/docs)</strong></p>
 <ul>
 <li><strong>Apache License 2.0</strong> — Copyright © 2026 <strong>SoDam
-AI Studio</strong>. Full text: <a href="./LICENSE">LICENSE</a>.</li>
+AI Studio</strong>. Full text: <a href="./LICENSE">LICENSE</a> (the
+official text, unmodified); copyright and third-party notice: <a
+href="./NOTICE">NOTICE</a>. The same copyright/license header is at the
+top of the <code>.bat</code>, so <strong>the license notice travels even
+if you distribute the single file.</strong></li>
 <li>Permits: <strong>free use, modification, distribution, and
 commercial use.</strong></li>
 <li>Conditions: on distribution, <strong>include a copy of the
@@ -1459,8 +1553,9 @@ etc.)</td>
 </tr>
 <tr>
 <td>Ruby · PHP</td>
-<td>Their own licenses (Ruby License / PHP License)</td>
-<td></td>
+<td>Ruby: Ruby License or BSD-2-Clause family / PHP: PHP License or
+BSD-3-Clause <strong>depending on the version</strong></td>
+<td><strong>Check per version</strong></td>
 </tr>
 <tr>
 <td>Ollama</td>
@@ -1480,6 +1575,18 @@ licenses</strong></td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Verification status (2026-11-14):</strong>
+<strong>Confirmed</strong> from official GitHub repository information —
+pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI ·
+Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI
+(and the Apache-2.0 marking of Rust and the Temurin build scripts).
+<strong>Could not be confirmed automatically; the generally known
+information is listed</strong> — Git · Python · Node.js · Bun · Git LFS
+· Ruby · scoop · Android-related tools · Claude Code. <strong>Check
+these against the official documents before installing or
+distributing.</strong></p>
+</blockquote>
 <p><strong>3) Trademarks and affiliation</strong></p>
 <ul>
 <li>Names and logos such as Android, Google, Flutter, Git, Python,
@@ -1518,6 +1625,56 @@ href="#13-security--data-flow">§13</a>. The kit does not send your data
 anywhere.</li>
 <li>Responsibility for final installation and use rests with <strong>the
 user.</strong></li>
+</ul>
+<p><strong>6) Disclosure of AI-assisted authoring</strong></p>
+<ul>
+<li>Parts of this repository’s code and documents were <strong>written
+or edited with the help of an AI tool (Anthropic Claude)</strong> (many
+commits carry a co-author trailer).</li>
+<li>The <strong>copyright ownership and protection scope of AI-generated
+output, and the possibility that it resembles existing works,</strong>
+are interpreted differently by country and case — <strong>legal/expert
+review needed.</strong></li>
+<li>The same applies to <strong>your own output</strong> made with AI
+coding using this kit. <strong>Before publishing, selling or delivering
+it, check the copyright, sources, commercial-use permission and the
+possibility of infringing similar works yourself.</strong></li>
+</ul>
+<p><strong>7) External material and sample data in this
+repository</strong></p>
+<ul>
+<li>This repository <strong>contains no images, icons, fonts, audio,
+video, sample accounts or customer data</strong> (checked 2026-11-14;
+there are no dependency files). Email addresses in the docs, such as
+<code>your@email.com</code>, are <strong>fictional
+examples.</strong></li>
+<li>When editing the docs, do not add <strong>other people’s works,
+screenshots (showing a PC name, username or path), personal data or
+non-public material.</strong></li>
+<li>The <code>PRD/</code> folder holds <strong>early planning
+documents</strong>, was generated with an AI tool and may differ from
+the current implementation. It is under the same license (Apache 2.0) as
+the rest of the repository.</li>
+</ul>
+<p><strong>8) When you send changes or suggestions</strong></p>
+<ul>
+<li>Changes or suggestions you submit to this repository are
+<strong>treated as provided under the Apache 2.0 terms unless agreed
+otherwise</strong> (Apache 2.0 §5).</li>
+</ul>
+<p><strong>9) Items needing legal/expert review</strong></p>
+<ul>
+<li>Liability scope and warranty wording when this kit is
+<strong>included in contract-bound delivery or a paid
+service</strong></li>
+<li>Copyright ownership and protection scope of <strong>AI-assisted
+output</strong></li>
+<li><strong>Commercial-use terms of the installed tools</strong>
+(especially the Android SDK, Claude Code, the VS Code build and Ollama
+models)</li>
+<li>Apps/services handling <strong>personal data</strong> (in Korea: the
+Personal Information Protection Act) and the laws of each country for
+<strong>overseas distribution</strong></li>
 </ul>
 <hr />
 <p><sub>By SoDam AI Studio · License: Apache License 2.0 · Windows

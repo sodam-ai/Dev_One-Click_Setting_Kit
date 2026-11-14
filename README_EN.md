@@ -5,6 +5,8 @@
 
 **Other formats / languages:** [한국어 (README.md)](./README.md) · [Korean HTML (README.html)](./README.html) · [English HTML (README_EN.html)](./README_EN.html)
 
+**License:** Apache License 2.0 · Copyright © 2026 SoDam AI Studio · **commercial use allowed (with conditions)** → details in [§19](#19-legal--copyright--license--commercial-use)
+
 ---
 
 ## Table of Contents
@@ -345,6 +347,7 @@ README.md / README.html          ← Korean guide (identical content)
 README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
+NOTICE                           ← copyright and third-party (installed tools) notice
 PRD/                            ← early planning docs (reference · may differ from the current implementation)
 ```
 
@@ -557,9 +560,34 @@ No. **Windows only.**
 
 > **Notice (disclaimer):** This section is **general information for reference only** and **does not constitute legal advice or guarantee any legal effect.** For important decisions (commercial distribution, redistribution, etc.), **consult a qualified professional such as a lawyer.**
 
+**At a glance (plain words)**
+
+| What you want to do | Allowed? | What you must keep to |
+|--------------------|:-------:|-----------------------|
+| **Just use it** at home, work or school | Yes | Installed tools follow their own terms |
+| **Modify · copy · fork** | Yes | **Mark changed files as changed**; keep copyright and license notices |
+| **Redistribute** (including handing it to students or using it as teaching material) | Yes | Give the **LICENSE copy** along with it and do not remove the copyright/license header at the top of the `.bat` |
+| **Sell it · include it in a paid service · deliver it to a company/client** | Yes, within the Apache 2.0 conditions | Installed tools have separate licenses. **Do not make new “warranty” promises** (this kit comes with no warranty). For contract-bound delivery, **legal review is recommended** |
+| **Use the “SoDam AI Studio” name/logo as your own product name** | **Not permitted** | You may only state the **origin truthfully**, e.g. “based on SoDam AI Studio’s kit” |
+| **Say this kit’s license (Apache 2.0) also covers the tools it installs** | **Must not** | Each tool has its own license |
+| **Claim an official partnership, sponsorship or endorsement** by Google, Microsoft, Anthropic, etc. | **Must not** | This kit is an independent tool |
+
+**What you must check yourself**
+
+- The license/terms of each installed tool — especially the **Android SDK license acceptance**, **Claude Code (Anthropic terms and pricing)** and the **VS Code build terms**
+- The **pricing and model-usage policies of the AI services/APIs you use**, **external service terms** (Vercel, Supabase, Stripe, etc.) and the **per-model licenses of AI models** downloaded with Ollama
+- The license of any **fonts, images, icons, audio or video** you put into your own project (none are included in this repository)
+- **Personal-data handling** and **app-store terms** for the apps you build
+
+**What you must not do**
+
+- Anything marked “Not permitted / Must not” in the table above
+- Posting **other people’s personal data, non-public material, client information or internal documents** in this repository’s docs, screenshots, issues or PRs
+- Posting **reports or logs publicly as-is** (reports contain your PC name)
+
 **1) License of this kit (code/docs)**
 
-- **Apache License 2.0** — Copyright © 2026 **SoDam AI Studio**. Full text: [LICENSE](./LICENSE).
+- **Apache License 2.0** — Copyright © 2026 **SoDam AI Studio**. Full text: [LICENSE](./LICENSE) (the official text, unmodified); copyright and third-party notice: [NOTICE](./NOTICE). The same copyright/license header is at the top of the `.bat`, so **the license notice travels even if you distribute the single file.**
 - Permits: **free use, modification, distribution, and commercial use.**
 - Conditions: on distribution, **include a copy of the license**, **state changes**, keep copyright notices.
 - Limitation: **no trademark rights** granted (do not use the “SoDam AI Studio” name/logo without permission).
@@ -585,10 +613,12 @@ The table below is a **reference summary** (based on public information; **terms
 | Flutter · Dart | BSD-3-Clause | |
 | **Android Studio · Android SDK · platform-tools (adb)** | **Google’s terms** (Android SDK License Agreement, etc.) | **You accept the SDK licenses yourself** (`flutter doctor --android-licenses`) |
 | scrcpy | Apache-2.0 | |
-| Ruby · PHP | Their own licenses (Ruby License / PHP License) | |
+| Ruby · PHP | Ruby: Ruby License or BSD-2-Clause family / PHP: PHP License or BSD-3-Clause **depending on the version** | **Check per version** |
 | Ollama | MIT | **AI models you download have their own per-model licenses** |
 | **Claude Code CLI** | **Anthropic’s terms (commercial software)** | The service’s terms and pricing apply |
 | Others (GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI, etc.) | Each official repository’s license | Check before installing |
+
+> **Verification status (2026-11-14):** **Confirmed** from official GitHub repository information — pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI · Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI (and the Apache-2.0 marking of Rust and the Temurin build scripts). **Could not be confirmed automatically; the generally known information is listed** — Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android-related tools · Claude Code. **Check these against the official documents before installing or distributing.**
 
 **3) Trademarks and affiliation**
 
@@ -607,6 +637,29 @@ The table below is a **reference summary** (based on public information; **terms
 
 - winget installs come from the **official winget repository.** The exceptions are scoop (official script), Flutter (official repository) and npm tools (npm registry), listed in [§13](#13-security--data-flow). The kit does not send your data anywhere.
 - Responsibility for final installation and use rests with **the user.**
+
+**6) Disclosure of AI-assisted authoring**
+
+- Parts of this repository’s code and documents were **written or edited with the help of an AI tool (Anthropic Claude)** (many commits carry a co-author trailer).
+- The **copyright ownership and protection scope of AI-generated output, and the possibility that it resembles existing works,** are interpreted differently by country and case — **legal/expert review needed.**
+- The same applies to **your own output** made with AI coding using this kit. **Before publishing, selling or delivering it, check the copyright, sources, commercial-use permission and the possibility of infringing similar works yourself.**
+
+**7) External material and sample data in this repository**
+
+- This repository **contains no images, icons, fonts, audio, video, sample accounts or customer data** (checked 2026-11-14; there are no dependency files). Email addresses in the docs, such as `your@email.com`, are **fictional examples.**
+- When editing the docs, do not add **other people’s works, screenshots (showing a PC name, username or path), personal data or non-public material.**
+- The `PRD/` folder holds **early planning documents**, was generated with an AI tool and may differ from the current implementation. It is under the same license (Apache 2.0) as the rest of the repository.
+
+**8) When you send changes or suggestions**
+
+- Changes or suggestions you submit to this repository are **treated as provided under the Apache 2.0 terms unless agreed otherwise** (Apache 2.0 §5).
+
+**9) Items needing legal/expert review**
+
+- Liability scope and warranty wording when this kit is **included in contract-bound delivery or a paid service**
+- Copyright ownership and protection scope of **AI-assisted output**
+- **Commercial-use terms of the installed tools** (especially the Android SDK, Claude Code, the VS Code build and Ollama models)
+- Apps/services handling **personal data** (in Korea: the Personal Information Protection Act) and the laws of each country for **overseas distribution**
 
 ---
 

@@ -7,6 +7,21 @@ setlocal enabledelayedexpansion
 :: AI 바이브코딩 입문자를 위한 원클릭 개발 환경 세팅 도구
 :: ============================================================
 
+:: ============================================================
+:: Dev_One-Click_Setting_Kit - dev-one-click-setting-kit.bat
+:: Copyright 2026 SoDam AI Studio
+:: SPDX-License-Identifier: Apache-2.0
+:: Licensed under the Apache License, Version 2.0 (the "License");
+:: you may not use this file except in compliance with the License.
+:: You may obtain a copy of the License at
+::     https://www.apache.org/licenses/LICENSE-2.0
+:: Provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
+:: This kit does not include third-party software. It only installs tools from
+:: their official sources; each installed tool is under its own license and terms.
+:: 이 키트가 설치하는 도구는 각자의 라이선스와 약관을 따릅니다.
+:: LICENSE / NOTICE / README: https://github.com/sodam-ai/Dev_One-Click_Setting_Kit
+:: ============================================================
+
 :: 날짜 변수 (PowerShell로 로케일 독립적 처리)
 for /f %%d in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd" 2^>nul') do set REPORT_DATE=%%d
 if not defined REPORT_DATE set REPORT_DATE=%DATE:~0,4%%DATE:~5,2%%DATE:~8,2%

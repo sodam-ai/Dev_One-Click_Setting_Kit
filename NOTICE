@@ -1,0 +1,15 @@
+Dev_One-Click_Setting_Kit
+Copyright 2026 SoDam AI Studio
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This kit does not include or redistribute third-party software. It only
+downloads and installs tools from their official sources (winget, the official
+Flutter git repository, the official scoop install script, npm). Each installed
+tool is governed by its own license and terms, which are not covered by this
+notice or by the Apache License, Version 2.0 of this kit.
+
+Product and company names (for example Android, Google, Flutter, Git, Python,
+Node.js, Visual Studio Code, Claude) are trademarks of their respective owners.
+This kit is an independent tool with no affiliation with, or endorsement by,
+those owners.

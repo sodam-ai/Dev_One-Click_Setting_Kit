@@ -208,6 +208,9 @@ id="dev_one-click_setting_kit--바이브코딩-환경-원클릭-설정-키트">D
 (README_EN.md)</a> · <a href="./README.html">한국어
 HTML(README.html)</a> · <a href="./README_EN.html">English
 HTML(README_EN.html)</a></p>
+<p><strong>라이선스:</strong> Apache License 2.0 · 저작권 © 2026 SoDam
+AI Studio · <strong>상업적 사용 가능(조건 있음)</strong> → 자세히는 <a
+href="#19-법률--저작권--라이선스--상업적-용도">§19</a></p>
 <hr />
 <h2 id="목차">목차</h2>
 <ol type="1">
@@ -872,6 +875,7 @@ README.md / README.html          ← 한국어 설명서 (내용 동일)
 README_EN.md / README_EN.html    ← 영어 설명서 (내용 동일)
 CHANGELOG.md                     ← 버전별 변경 이력
 LICENSE                          ← 라이선스 (Apache License 2.0)
+NOTICE                           ← 저작권·제3자(설치 도구) 안내
 PRD/                            ← 초기 기획 문서 (참고용 · 현재 구현과 다를 수 있음)</code></pre>
 <blockquote>
 <p>실행 후 자동 생성: <code>install-report-날짜.txt</code>(요약),
@@ -1304,10 +1308,90 @@ Studio의 <strong>가상 폰(에뮬레이터)</strong> 으로 시험할 수 있�
 배포·재배포 등 중요한 판단은 <strong>변호사 등 전문가 확인을
 권장</strong>합니다.</p>
 </blockquote>
+<p><strong>한눈에 보기 (쉬운 말)</strong></p>
+<table>
+<thead>
+<tr>
+<th>하고 싶은 일</th>
+<th style="text-align: center;">가능?</th>
+<th>꼭 지킬 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>개인·회사·학교에서 <strong>그냥 사용</strong></td>
+<td style="text-align: center;">가능</td>
+<td>설치되는 도구는 각자의 약관을 따릅니다</td>
+</tr>
+<tr>
+<td><strong>수정 · 복제 · 포크</strong></td>
+<td style="text-align: center;">가능</td>
+<td>바꾼 파일에 <strong>바꿨다는 표시</strong>, 저작권·라이선스 표시
+유지</td>
+</tr>
+<tr>
+<td><strong>재배포</strong>(수강생에게 나눠 주기·교육 자료로 쓰기
+포함)</td>
+<td style="text-align: center;">가능</td>
+<td><strong>LICENSE 사본</strong>을 함께 주고, <code>.bat</code> 맨 위
+저작권·라이선스 머리말을 지우지 않기</td>
+</tr>
+<tr>
+<td><strong>판매 · 유료 서비스에 포함 · 회사/고객사 납품</strong></td>
+<td style="text-align: center;">Apache 2.0 조건 안에서 가능</td>
+<td>설치되는 도구의 라이선스는 별도입니다. <strong>새로운 “보증” 약속을
+하지 마세요</strong>(이 키트는 무보증). 계약이 걸린 납품은 <strong>법무
+확인 권장</strong></td>
+</tr>
+<tr>
+<td>“SoDam AI Studio” <strong>이름·로고를 내 제품 이름처럼
+사용</strong></td>
+<td style="text-align: center;"><strong>허락되지 않음</strong></td>
+<td>“원본은 SoDam AI Studio의 키트”처럼 <strong>출처를 사실대로 밝히는
+정도</strong>만 가능</td>
+</tr>
+<tr>
+<td>이 키트의 라이선스(Apache 2.0)가 <strong>설치되는 도구에도
+적용된다고 안내</strong></td>
+<td style="text-align: center;"><strong>하면 안 됨</strong></td>
+<td>각 도구의 라이선스가 따로 있습니다</td>
+</tr>
+<tr>
+<td>구글·마이크로소프트·Anthropic 등과 <strong>공식 제휴·후원·보증
+관계라고 표시</strong></td>
+<td style="text-align: center;"><strong>하면 안 됨</strong></td>
+<td>이 키트는 독립 도구입니다</td>
+</tr>
+</tbody>
+</table>
+<p><strong>직접 확인해야 하는 것</strong></p>
+<ul>
+<li>설치되는 각 도구의 라이선스·약관 — 특히 <strong>Android SDK 라이선스
+동의</strong>, <strong>Claude Code(Anthropic 약관·요금)</strong>,
+<strong>VS Code 배포판 약관</strong></li>
+<li>내가 쓰는 <strong>AI 서비스·API의 요금제와 모델 사용 정책</strong>,
+<strong>외부 서비스 약관</strong>(Vercel·Supabase·Stripe 등), Ollama로
+받는 <strong>AI 모델별 라이선스</strong></li>
+<li>내 프로젝트에 넣을 <strong>폰트·이미지·아이콘·음원·영상</strong>의
+라이선스(이 저장소에는 들어 있지 않습니다)</li>
+<li>내가 만든 앱의 <strong>개인정보 처리</strong>와 <strong>앱 스토어
+약관</strong></li>
+</ul>
+<p><strong>하면 안 되는 것</strong></p>
+<ul>
+<li>위 표에서 “허락되지 않음/하면 안 됨”으로 표시한 것</li>
+<li><strong>타인의 개인정보·비공개 자료·고객사 정보·내부 문서</strong>를
+이 저장소의 문서·스크린샷·이슈·PR에 올리는 것</li>
+<li><strong>리포트·로그를 공개 장소에 그대로 올리는
+것</strong>(리포트에는 PC 이름이 들어 있습니다)</li>
+</ul>
 <p><strong>1) 이 키트(코드/문서)의 라이선스</strong></p>
 <ul>
 <li><strong>Apache License 2.0</strong> — Copyright © 2026 <strong>SoDam
-AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>.</li>
+AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>(공식 원문
+그대로), 저작권·제3자 안내: <a href="./NOTICE">NOTICE</a>.
+<code>.bat</code> 파일 맨 위에도 같은 저작권·라이선스 머리말이 있어,
+<strong>파일 하나만 배포해도 라이선스 표시가 따라갑니다.</strong></li>
 <li>허용: <strong>자유로운 사용·수정·배포, 상업적 사용</strong>.</li>
 <li>조건: 배포 시 <strong>라이선스 사본 포함</strong>, <strong>변경 사실
 고지</strong>, 저작권 표시 유지.</li>
@@ -1395,8 +1479,9 @@ AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>.</li>
 </tr>
 <tr>
 <td>Ruby · PHP</td>
-<td>각자의 고유 라이선스(Ruby License / PHP License)</td>
-<td></td>
+<td>Ruby: Ruby License 또는 BSD-2-Clause 계열 / PHP: <strong>버전에
+따라</strong> PHP License 또는 BSD-3-Clause</td>
+<td><strong>버전별로 확인 필요</strong></td>
 </tr>
 <tr>
 <td>Ollama</td>
@@ -1416,6 +1501,16 @@ AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>.</li>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>확인 상태(2026-11-14):</strong> GitHub 공식 저장소 정보로
+<strong>확인한 것</strong> — pnpm · VS Code(소스) · Windows Terminal ·
+PowerShell · GitHub CLI · Ollama · Go · Flutter · Dart · scrcpy · Stripe
+CLI · uv · Vercel CLI(및 Rust·Temurin 빌드 스크립트의 Apache-2.0 표기).
+<strong>자동으로 확인하지 못해 일반적으로 알려진 정보를 적은 것</strong>
+— Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android 관련
+도구 · Claude Code. 이 항목은 <strong>설치·배포 전에 공식 문서로 직접
+확인</strong>하세요.</p>
+</blockquote>
 <p><strong>3) 상표·제휴 관계</strong></p>
 <ul>
 <li>Android · Google · Flutter · Git · Python · Node.js · Visual Studio
@@ -1449,6 +1544,46 @@ Code 배포판)을 확인하세요.</li>
 두었습니다. 키트가 사용자 데이터를 외부로 전송하지 않습니다.</li>
 <li>최종 설치·사용에 대한 책임은 <strong>사용자 본인</strong>에게
 있습니다.</li>
+</ul>
+<p><strong>6) AI 보조 작성 고지</strong></p>
+<ul>
+<li>이 저장소의 코드와 문서에는 <strong>AI 도구(Anthropic Claude)의
+도움으로 작성·수정된 부분</strong>이 있습니다(공동 작성 표시가 있는
+커밋이 다수).</li>
+<li>AI가 만든 결과물의 <strong>저작권 귀속·보호 범위, 기존 저작물과
+비슷할 가능성</strong>은 나라와 사례마다 해석이 달라질 수 있어
+<strong>법무/전문가 검토 필요</strong>입니다.</li>
+<li>이 키트로 AI 코딩을 해서 만든 <strong>내 결과물</strong>도 같습니다.
+<strong>공개·판매·납품 전에 저작권, 출처, 상업적 이용 가능 여부, 비슷한
+저작물 침해 가능성을 직접 확인</strong>하세요.</li>
+</ul>
+<p><strong>7) 이 저장소의 외부 자료·샘플 데이터</strong></p>
+<ul>
+<li>이 저장소에는 <strong>이미지·아이콘·폰트·음원·영상·샘플 계정·고객
+데이터가 들어 있지 않습니다</strong>(2026-11-14 점검, 의존성 파일 없음).
+문서의 이메일은 <code>your@email.com</code>처럼 <strong>가상
+예시</strong>입니다.</li>
+<li>문서를 고칠 때 <strong>타인의 저작물, 스크린샷(PC
+이름·사용자명·경로가 보이는 것), 개인정보, 비공개 자료</strong>를 넣지
+마세요.</li>
+<li><code>PRD/</code> 폴더는 <strong>초기 기획 문서</strong>로, AI
+도구로 생성되었고 현재 구현과 다를 수 있습니다. 저장소의 다른 파일과
+같은 라이선스(Apache 2.0)가 적용됩니다.</li>
+</ul>
+<p><strong>8) 수정·제안을 보낼 때</strong></p>
+<ul>
+<li>이 저장소에 보내는 수정·제안은 <strong>별도 합의가 없으면 Apache 2.0
+조건으로 제공된 것으로 봅니다</strong>(Apache 2.0 §5).</li>
+</ul>
+<p><strong>9) 법무/전문가 검토 필요 항목</strong></p>
+<ul>
+<li>이 키트를 <strong>계약이 걸린 납품·유료 서비스</strong>에 포함할
+때의 책임 범위와 보증 문구</li>
+<li><strong>AI 보조 산출물</strong>의 저작권 귀속과 보호 범위</li>
+<li>설치 도구의 <strong>상업적 사용 조건</strong>(특히 Android SDK,
+Claude Code, VS Code 배포판, Ollama 모델)</li>
+<li><strong>개인정보</strong>를 다루는 앱·서비스(국내: 개인정보 보호법),
+<strong>해외 배포</strong> 시 각국 법령</li>
 </ul>
 <hr />
 <p><sub>제작: SoDam AI Studio · 라이선스: Apache License 2.0 · Windows
