@@ -252,6 +252,9 @@ href="#19-법률--저작권--라이선스--상업적-용도">§19</a></p>
 <li><strong>스마트폰(안드로이드) 앱을 만들 환경</strong>도 메뉴
 <strong>[M]</strong> 하나로 설치합니다(Flutter · Android Studio ·
 adb).</li>
+<li><strong>웹 · 데스크톱 · 데이터/AI/서버 개발 환경</strong>과
+<strong>마크다운 뷰어</strong>도 메뉴 <strong>[D]</strong> 에서 골라
+설치합니다.</li>
 </ul>
 <blockquote>
 <p>⚠️ <strong>Windows 전용</strong>입니다. macOS·Linux에서는 작동하지
@@ -502,6 +505,124 @@ href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메�
 <li><strong>iOS 앱 빌드는 Windows에서 할 수 없습니다</strong>(Mac 필요).
 이 키트는 안드로이드 앱 개발 환경까지 준비합니다.</li>
 </ul>
+<p><strong>분야별 개발 환경 — 메인 메뉴 [D]</strong></p>
+<p>레벨 [1]~[4]·[M]과 <strong>섞이지 않는 별도 메뉴</strong>입니다(기존
+동작은 그대로). 분야를 고른 뒤 <strong>[기본] / [전부]</strong> 두
+가지만 고릅니다. 선택 화면은 <strong>위/아래 화살표 + Enter</strong>
+또는 <strong>번호</strong>로 고릅니다.</p>
+<table>
+<thead>
+<tr>
+<th>분야</th>
+<th>[기본]</th>
+<th>[전부]에서 추가</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>웹 개발</td>
+<td>Git · Node.js · VS Code · pnpm</td>
+<td>GitHub CLI · Bun · Vercel CLI · Supabase CLI</td>
+<td>npm 도구(Vercel·Supabase)는 Node.js를 방금 설치했어도 이 창에서 바로
+설치를 시도합니다</td>
+</tr>
+<tr>
+<td>데스크톱 앱 개발</td>
+<td>Git · Node.js · VS Code · <strong>Rust</strong> · <strong>C++ 빌드
+도구</strong></td>
+<td>GitHub CLI · pnpm</td>
+<td><strong>관리자 계정 필요</strong>, 디스크 약 10GB(예상)</td>
+</tr>
+<tr>
+<td>모바일 앱 개발</td>
+<td>메인 메뉴 <strong>[M]</strong> 으로 연결</td>
+<td></td>
+<td>위 [M] 설명 참고</td>
+</tr>
+<tr>
+<td>데이터 / AI / 서버</td>
+<td>Python 3 · uv · VS Code · Ollama</td>
+<td><strong>Docker Desktop</strong> · <strong>PostgreSQL</strong></td>
+<td>Docker·PostgreSQL은 <strong>관리자 계정 필요</strong>, 설치 전
+경고·동의 화면</td>
+</tr>
+<tr>
+<td>마크다운 뷰어</td>
+<td>아래 표</td>
+<td></td>
+<td>한 번에 하나씩 선택</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>왜 C++ 빌드 도구가 데스크톱 [기본]에 들어가나요?</strong>
+Rust로 Windows 프로그램을 만들려면 Microsoft C++ 빌드 도구(링커)가 꼭
+필요합니다. 없으면 Rust가 설치돼 있어도 <code>cargo build</code>가
+실패합니다. winget 기본 설치만으로는 C++ 도구가 빠지므로, 키트가
+<strong>"C++를 사용한 데스크톱 개발"</strong> 구성 요소를 직접 지정해
+설치합니다(수 GB, 10~20분).</li>
+<li><strong>관리자 권한</strong>: C++ 빌드 도구 · Docker Desktop ·
+PostgreSQL은 <strong>관리자 계정</strong>이 필요합니다. 계정이 관리자
+그룹이 아니면 이 도구들만 건너뛰고 이유를 화면에 알려 줍니다(나머지는
+계속 설치). 설치 중 Windows의 <strong>권한 확인 창이 뜨면 [예]</strong>
+를 누르세요.</li>
+<li><strong>Docker Desktop</strong>: 설치 전에 안내(PC 재시작 가능성 ·
+WSL2/가상화 · 개인·학습 무료, 큰 회사 업무용은 유료일 수 있음)를 읽고
+<strong>1=동의 / 2=빼고 진행</strong>을 고릅니다.</li>
+<li><strong>PostgreSQL</strong>: 관리자(<code>postgres</code>)의
+<strong>비밀번호를 설치 중 화면에서 직접 입력</strong>합니다(입력해도
+글자가 보이지 않음 · 영문 대소문자와 숫자 8자 이상 · 두 번 확인). 설치
+후 <strong>주의점과 문제 해결</strong>(접속 확인 · 비밀번호 분실 ·
+서비스 끄는 법)을 화면에 보여 줍니다. 비밀번호는 키트의 로그·리포트에
+저장하지 않습니다(<a href="#13-보안--데이터-흐름">§13</a> 참고).</li>
+<li><strong>Rust 안내</strong>: 고급 · 올인원 · [5]의 14번으로 Rust만
+설치했는데 C++ 빌드 도구가 없으면, 설치 끝에 <strong>"[D] 데스크톱 앱
+개발에서 설치하세요"</strong> 안내가 나옵니다(이미 있으면 나오지 않음).
+기존 설치 목록은 바뀌지 않았습니다.</li>
+</ul>
+<p><strong>마크다운 뷰어 — [D]의 마지막 항목</strong></p>
+<p><code>.md</code>(마크다운) 문서를 보기 좋게 열어 주는 프로그램을
+<strong>한 번에 하나씩</strong> 골라 설치합니다. 고르기 전에 각
+프로그램의 특징이 화면에 설명됩니다.</p>
+<table>
+<thead>
+<tr>
+<th>뷰어</th>
+<th>방식</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Obsidian</td>
+<td>winget</td>
+<td>가장 인기 있는 노트 앱. 폴더째 열어 문서를 모아 볼 수 있음. 처음엔
+기능이 많아 복잡해 보일 수 있음</td>
+</tr>
+<tr>
+<td>MarkText</td>
+<td>winget</td>
+<td>가장 단순한 편. 무료 오픈소스(MIT)</td>
+</tr>
+<tr>
+<td>Zettlr</td>
+<td>winget</td>
+<td>논문·긴 글 작성에 좋음. 무료 오픈소스(GPL-3.0)</td>
+</tr>
+<tr>
+<td>Typora</td>
+<td><strong>공식 페이지만 열기</strong></td>
+<td>유료라서 자동 설치하지 않습니다(winget에도 없음)</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>설치 없음</td>
+<td>이미 설치한 편집기로 <code>Ctrl+Shift+V</code> 미리보기 방법만
+안내</td>
+</tr>
+</tbody>
+</table>
 <p><strong>설치 후 자동으로 되는 것 (Post-install)</strong></p>
 <ul>
 <li>Git 줄바꿈 설정(<code>core.autocrlf true</code>) 자동</li>
@@ -535,9 +656,11 @@ href="#14-환경-변수">§14</a>. <strong>모바일 앱 개발 — 메인 메�
 우클릭 → 메모장으로 열면 맨 위 주석에 <code>DEV-KIT.bat v숫자</code>가
 있습니다. 이 문서의 <strong>[M] 모바일 메뉴</strong>는 <strong>v1.7.0
 이상</strong>, <strong>숫자(1/2) 선택 · 번호 검증 · Enter 반복
-방지</strong>는 <strong>v1.7.1 이상</strong>에 들어 있습니다.
-Releases에서 받은 파일의 버전이 이보다 낮으면, <strong>방법
-B(ZIP)</strong> 로 <code>main</code> 브랜치의 파일을 받으세요.</p>
+방지</strong>는 <strong>v1.7.1 이상</strong>, <strong>[D] 분야별 개발
+환경 · 마크다운 뷰어 · 화살표 선택</strong>은 <strong>v1.8.0
+이상</strong>에 들어 있습니다. Releases에서 받은 파일의 버전이 이보다
+낮으면, <strong>방법 B(ZIP)</strong> 로 <code>main</code> 브랜치의
+파일을 받으세요.</p>
 </blockquote>
 <hr />
 <h2 id="5-빠른-시작-3분-요약">5. 빠른 시작 (3분 요약)</h2>
@@ -591,7 +714,8 @@ B(ZIP)</strong> 로 <code>main</code> 브랜치의 파일을 받으세요.</p>
 [A] 가장 쉬운 추천 설치   처음이면 이거! (기본 5종 + AI 안내)
 [V] 버전 선택 설치        특정 안정버전 (Python/Java/Ruby)
 [S] scoop 설치          개발용 패키지 매니저 (winget 외)
-[M] 모바일 앱 개발      Flutter + Android Studio + adb (안드로이드)</code></pre>
+[M] 모바일 앱 개발      Flutter + Android Studio + adb (안드로이드)
+[D] 분야별 개발 환경    웹 / 데스크톱 / 서버 / 마크다운 뷰어</code></pre>
 <table>
 <thead>
 <tr>
@@ -633,6 +757,13 @@ Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자�
 내용은 <a href="#3-필요-프로그램설치되는-도구-목록">§3</a></td>
 </tr>
 <tr>
+<td><strong>[D]</strong></td>
+<td><strong>분야별 개발 환경</strong>: 웹 / 데스크톱 앱 / 모바일(→[M]) /
+데이터·AI·서버 / 마크다운 뷰어. 분야를 고른 뒤 <strong>[기본] /
+[전부]</strong>. 자세한 내용은 <a
+href="#3-필요-프로그램설치되는-도구-목록">§3</a></td>
+</tr>
+<tr>
 <td><strong>[6]</strong></td>
 <td>이 키트가 설치한 도구만 <strong>안정(LTS) 버전으로</strong>
 업데이트</td>
@@ -657,6 +788,11 @@ Studio·adb·scrcpy) 설치와 <strong>설치 후 할 일 안내</strong>. 자�
 <code>y</code>/<code>n</code>도 됩니다. 아무것도 입력하지 않고 Enter만
 누르면 <strong>실행하지 않고</strong> 돌아갑니다. [5]·[M]에서 번호가
 잘못되면 안내 후 다시 묻습니다.</p>
+<p><strong>[D] 안의 선택 화면</strong>은 <strong>위/아래 화살표로
+움직이고 Enter</strong>를 누르거나, <strong>번호를 눌러</strong>
+고릅니다(<code>0</code> 또는 <code>Esc</code> = 뒤로). 화살표 화면을 쓸
+수 없는 환경이면 <strong>번호 입력으로 자동 전환</strong>됩니다. 기존
+메뉴([1]~[9], [M] 등)는 번호 입력 그대로입니다.</p>
 <hr />
 <h2 id="8-작동-방법--명령어">8. 작동 방법 &amp; 명령어</h2>
 <p>이 키트는 <strong>메뉴 번호만 입력</strong>하면 되므로 외울 명령어가
@@ -683,7 +819,45 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details>
-<summary><b>v1.7.1 (2026-11-14) — 최신</b></summary>
+<summary><b>v1.8.0 (2026-11-15) — 최신</b></summary>
+
+<ul>
+<li><strong>Added</strong>: 메인 메뉴 <strong>[D] 분야별 개발
+환경</strong> — 웹 / 데스크톱 앱 / 모바일(→[M]) / 데이터·AI·서버 /
+마크다운 뷰어. 분야마다 <code>[기본]</code> <code>[전부]</code> 두
+가지만 고릅니다.</li>
+<li><strong>Added</strong>: <strong>마크다운 뷰어</strong> — Obsidian ·
+MarkText · Zettlr을 <strong>한 번에 하나씩</strong> 골라 설치합니다.
+Typora는 유료라 공식 페이지만 열고, VS Code는 미리보기 방법만
+안내합니다.</li>
+<li><strong>Added</strong>: <strong>위/아래 화살표 + Enter(또는
+번호)</strong> 선택 화면(새 메뉴에만 적용). 화살표를 쓸 수 없으면 번호
+입력으로 자동 전환되고, 환경 변수 <code>KIT_NO_ARROW=1</code>로 번호
+입력만 쓰게 할 수도 있습니다.</li>
+<li><strong>Added</strong>: 데스크톱 앱 [기본]에 <strong>C++ 빌드
+도구</strong>(Visual Studio Build Tools, C++ 구성 요소 지정). Rust로
+프로그램을 만들려면 꼭 필요합니다.</li>
+<li><strong>Added</strong>: <strong>Docker Desktop ·
+PostgreSQL</strong>(데이터/AI/서버 [전부]) — 설치 전 경고·동의 화면.
+PostgreSQL 비밀번호는 화면에서 숨겨 입력받고 키트 로그·리포트에 저장하지
+않으며, 설치 후 주의점과 문제 해결을 안내합니다.</li>
+<li><strong>Added</strong>: 관리자 그룹이 아닌 계정은 관리자 권한이
+필요한 도구(C++ 빌드 도구 · Docker · PostgreSQL)만 건너뛰고 이유를 알려
+줍니다.</li>
+<li><strong>Added</strong>: [9] 설치 확인에 C++ 빌드 도구 · Docker ·
+PostgreSQL · Obsidian · MarkText · Zettlr 항목.</li>
+<li><strong>Changed</strong>: 고급 · 올인원 · [5]-14로 Rust를 설치한 뒤
+C++ 빌드 도구가 없으면 <strong>한 줄 안내</strong>를 보여 줍니다(설치
+목록은 그대로).</li>
+<li><strong>참고</strong>: 기존 레벨 [1]~[4] · [A] · [M]의 설치 목록과
+동작은 바뀌지 않았습니다. 실제 winget으로 Docker · PostgreSQL · C++ 빌드
+도구를 설치하는 시험은 하지 않았고(시스템 전체에 설치되는 도구), 설치
+호출 형태와 화면 흐름까지만 가짜 winget으로 확인했습니다.</li>
+</ul>
+</details>
+
+<details>
+<summary><b>v1.7.1 (2026-11-14)</b></summary>
 
 <ul>
 <li><strong>Fixed</strong>: 설치가 <strong>실패했는데 빨간
@@ -933,8 +1107,10 @@ href="#17-문제--오류-대처-방법">14 참고</a>).</li>
 <hr />
 <h2 id="13-보안--데이터-흐름">13. 보안 / 데이터 흐름</h2>
 <ul>
-<li><strong>관리자 권한 불필요</strong>(사용자 범위 설치). 기업/학교 PC
-대응.</li>
+<li><strong>기존 레벨 설치는 관리자 권한 없이</strong> 시도합니다(사용자
+범위 설치). 기업/학교 PC 대응. 단, <strong>[D]의 C++ 빌드 도구 · Docker
+Desktop · PostgreSQL은 관리자 계정이 필요</strong>합니다(관리자가 아니면
+그 도구만 건너뜀).</li>
 <li><strong>공식 소스만(winget)</strong>: winget 설치는 전부
 <code>--source winget</code>(Microsoft 운영 공식 저장소). winget은 설치
 파일의 <strong>해시를 저장소 정보와 대조</strong>합니다(각 설치
@@ -955,6 +1131,17 @@ HTTPS, stable)를 git으로 내려받습니다. 내려받은 Flutter 도구가
 경유</strong>라 기존 도구와 같은 방식(서명 검증)입니다. Android SDK
 <strong>라이선스 동의는 사용자가 직접</strong> 합니다(키트가 대신
 동의하지 않음).</li>
+<li><strong>[D]의 도구도 모두 winget 경유</strong>입니다(Obsidian ·
+MarkText · Zettlr · C++ 빌드 도구 · Docker Desktop · PostgreSQL). 단 C++
+빌드 도구는 <code>--override</code>로 설치 구성 요소를 지정하고,
+PostgreSQL은 비밀번호 전달용 <code>--override</code>를 씁니다.</li>
+<li><strong>PostgreSQL 비밀번호 처리</strong>: 비밀번호는 PowerShell
+입력 칸에서 <strong>화면에 보이지 않게</strong> 받아 설치 도구(winget)에
+바로 넘깁니다. <strong>배치 파일·키트 로그·리포트·화면에는 남기지
+않습니다.</strong> 다만 설치 도구가 자체 기록에 남길 수 있고, 설치되는
+순간 같은 PC의 다른 프로그램이 명령줄에서 볼 수 있으므로 <strong>다른
+곳에서 쓰는 비밀번호는 쓰지 마세요.</strong> 영문·숫자만 허용하는 이유는
+특수문자가 설치 명령을 깨뜨리기 때문입니다.</li>
 <li><strong>입력 최소화·검증</strong>: 사용자는 <strong>메뉴
 번호만</strong> 입력합니다. [5]·[M]의 번호는 숫자·쉼표·범위만 허용하고,
 그 외 입력은 거부합니다. 임의 명령 실행 통로 없음.</li>
@@ -990,6 +1177,10 @@ Flutter·Android Studio·VS Code)는 각자 <strong>사용 통계·업데이트
 <h2 id="14-환경-변수">14. 환경 변수</h2>
 <p><strong>따로 설정할 환경 변수는 없습니다.</strong> 파일을 받아 바로
 실행하면 됩니다. (<code>.env</code> 같은 설정 파일도 쓰지 않습니다.)</p>
+<p><strong>선택 사항(고급):</strong> 화살표 선택 화면이 이상하게 보이는
+PC에서는 환경 변수 <code>KIT_NO_ARROW=1</code>을 설정하면 <strong>번호
+입력 방식만</strong> 씁니다(화살표를 쓸 수 없으면 자동으로 번호 방식으로
+바뀌기도 합니다).</p>
 <p><strong>키트가 읽기만 하는 Windows 기본 변수</strong></p>
 <table>
 <thead>
@@ -1009,6 +1200,17 @@ Flutter·Android Studio·VS Code)는 각자 <strong>사용 통계·업데이트
 <td><code>%ProgramFiles%</code></td>
 <td>Git·Android Studio 설치 위치 확인(방금 설치돼 PATH에 아직 없을
 때)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles(x86)%</code></td>
+<td><strong>C++ 빌드 도구 설치 여부 확인</strong>(Visual Studio 설치
+도우미 <code>vswhere</code>)</td>
+</tr>
+<tr>
+<td><code>%ProgramFiles%\nodejs</code></td>
+<td>[D]의 npm 도구(Vercel·Supabase)용. Node.js를 방금 설치해 PATH에 아직
+없을 때 <strong>이 창에서만</strong> 임시로 PATH에 추가(저장되지
+않음)</td>
 </tr>
 <tr>
 <td><code>%SCOOP%</code></td>
@@ -1135,7 +1337,7 @@ scoop이 동작하지 않을 수 있음)</td>
 <li><code>.bat</code> 파일 맨 위 주석의 버전 번호 갱신</li>
 <li>변경사항 commit → PR → <code>main</code> 병합</li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → 태그(예:
-<code>v1.7.1</code>) 지정 → <strong>Assets에
+<code>v1.8.0</code>) 지정 → <strong>Assets에
 <code>dev-one-click-setting-kit.bat</code> 첨부</strong></li>
 <li>첨부 직전에 <strong>저장소의 파일과 바이트가
 같은지</strong>(CP949·CRLF 유지) 확인</li>
@@ -1226,6 +1428,32 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 <td><strong>[M] → [4]</strong> 안내 순서대로: Android Studio 한 번 실행
 → <code>flutter doctor --android-licenses</code> → 필요하면
 <code>flutter config --android-sdk</code></td>
+</tr>
+<tr>
+<td>[D] 화살표가 안 움직이거나 화면이 이상함</td>
+<td>콘솔 종류에 따라 화살표 화면이 맞지 않는 PC</td>
+<td><strong>번호를 누르고 Enter</strong>를 눌러도 됩니다(자동으로 번호
+방식으로 바뀌기도 함). 계속 이상하면 환경 변수
+<code>KIT_NO_ARROW=1</code> 설정</td>
+</tr>
+<tr>
+<td>C++ 빌드 도구 · Docker · PostgreSQL이 설치되지 않음</td>
+<td>관리자 계정이 아님</td>
+<td>관리자 계정으로 로그인한 뒤 [D]를 다시 실행(건너뛴 도구는 화면에
+안내됨)</td>
+</tr>
+<tr>
+<td>Rust로 <code>cargo build</code>가 실패(<code>link.exe</code>를 못
+찾음)</td>
+<td>C++ 빌드 도구가 없음</td>
+<td><strong>[D] → 데스크톱 앱 개발</strong>에서 설치(설치 후 PC 재시작이
+필요할 수 있음)</td>
+</tr>
+<tr>
+<td>PostgreSQL 비밀번호를 잊음</td>
+<td>설정 파일을 고쳐야 해서 초보자에게는 어려움</td>
+<td>연습용이면 Windows 설정 → 앱에서 PostgreSQL을 삭제한 뒤 [D]로 다시
+설치</td>
 </tr>
 <tr>
 <td><code>1부터 30 사이의 숫자만…</code> 안내가 나옴</td>
@@ -1490,6 +1718,37 @@ AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>(공식 Apache
 <td>내려받는 <strong>AI 모델은 모델별 라이선스</strong>가 따로 있음</td>
 </tr>
 <tr>
+<td><strong>Obsidian</strong></td>
+<td><strong>Obsidian 약관(독점 소프트웨어)</strong></td>
+<td>이용 조건은 공식 약관 확인</td>
+</tr>
+<tr>
+<td>MarkText</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Zettlr</td>
+<td>GPL-3.0</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Docker Desktop</strong></td>
+<td><strong>Docker 구독 서비스 약관(독점)</strong></td>
+<td>개인·학습은 무료이나 <strong>큰 회사의 업무용은 유료일 수
+있음</strong></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>PostgreSQL License</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Microsoft C++ 빌드 도구</strong></td>
+<td><strong>Microsoft(Visual Studio) 라이선스 조건</strong></td>
+<td>설치 시 해당 약관에 동의하게 됨</td>
+</tr>
+<tr>
 <td><strong>Claude Code CLI</strong></td>
 <td><strong>Anthropic의 약관(상용 소프트웨어)</strong></td>
 <td>사용 시 해당 서비스 약관·요금 적용</td>
@@ -1510,7 +1769,9 @@ CLI · uv · Vercel CLI(및 Rust·Temurin 빌드 스크립트의 Apache-2.0 표�
 <strong>자동으로 확인하지 못해 일반적으로 알려진 정보를 적은 것</strong>
 — Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android 관련
 도구 · Claude Code. 이 항목은 <strong>설치·배포 전에 공식 문서로 직접
-확인</strong>하세요.</p>
+확인</strong>하세요. (2026-11-15 추가: winget 매니페스트의 라이선스
+표기로 확인한 것 — Obsidian · MarkText · Zettlr · Docker Desktop ·
+PostgreSQL · Visual Studio Build Tools.)</p>
 </blockquote>
 <p><strong>3) 상표·제휴 관계</strong></p>
 <ul>
