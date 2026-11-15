@@ -1197,12 +1197,14 @@ set /p DO_UPD="  키트 도구를 안전하게 업데이트할까요? 1=예 / 2=아니오: "
 if "!DO_UPD!"=="1" set DO_UPD=y
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy) do (
+for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy astral-sh.uv Obsidian.Obsidian MarkText.MarkText Zettlr.Zettlr) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [업그레이드] %%p
 )
 echo  [안내] Flutter 는 winget 이 아니라 터미널에서 flutter upgrade 로 업데이트하세요.
-
+echo  [안내] Docker Desktop 은 프로그램 안에서 스스로 업데이트합니다.
+echo  [안내] PostgreSQL 은 DB 데이터 보호를 위해 키트가 자동으로 올리지 않습니다. 버전을 올릴 때는 데이터를 백업한 뒤 직접 하세요.
+echo  [안내] C++ 빌드 도구는 시작 메뉴의 Visual Studio Installer 에서 업데이트하세요.
 >> "%LOG_FILE%" echo 전체 업데이트 완료: %TIME%
 echo.
 echo  [완료] 업데이트 완료.
@@ -1239,20 +1241,23 @@ echo  [11]Java21  [12]Flutter  [13]Go  [14]Rust  [15]Ruby  [16]PHP
 echo  [17]Git LFS  [18]Stripe CLI
 echo  [19]uv
 echo  [20]Android Studio  [21]adb  [22]scrcpy
+echo  [23]Obsidian  [24]MarkText  [25]Zettlr
+echo  [26]Docker Desktop  [27]PostgreSQL  [28]C++ 빌드 도구
 echo  [0] 뒤로
 echo.
 set REM_SEL=
 set /p REM_SEL="  번호: "
 if "!REM_SEL!"=="0"  goto DO_REMOVE
 set REM_OK=
-for /L %%i in (1,1,22) do if "!REM_SEL!"=="%%i" set REM_OK=1
+for /L %%i in (1,1,28) do if "!REM_SEL!"=="%%i" set REM_OK=1
 if not defined REM_OK (
     echo.
-    echo  [안내] 목록에 있는 번호 1~22 중에서 입력하세요. 아무것도 제거하지 않았습니다.
+    echo  [안내] 목록에 있는 번호 1~28 중에서 입력하세요. 아무것도 제거하지 않았습니다.
     pause
     goto REMOVE_ONE
 )
 
+set REM_CANCEL=
 if "!REM_SEL!"=="1"  winget uninstall --id Git.Git --source winget --silent
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3 --source winget --silent
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.13 --source winget --silent >nul 2>&1
@@ -1283,9 +1288,15 @@ if "!REM_SEL!"=="20" winget uninstall --id Google.AndroidStudio --source winget 
 if "!REM_SEL!"=="20" echo  [안내] Android SDK 폴더 [%LOCALAPPDATA%\Android\Sdk] 는 지우지 않았습니다. 필요하면 직접 삭제하세요.
 if "!REM_SEL!"=="21" winget uninstall --id Google.PlatformTools --source winget --silent
 if "!REM_SEL!"=="22" winget uninstall --id Genymobile.scrcpy --source winget --silent
-
+if "!REM_SEL!"=="23" winget uninstall --id Obsidian.Obsidian --source winget --silent
+if "!REM_SEL!"=="24" winget uninstall --id MarkText.MarkText --source winget --silent
+if "!REM_SEL!"=="25" winget uninstall --id Zettlr.Zettlr --source winget --silent
+if "!REM_SEL!"=="26" winget uninstall --id Docker.DockerDesktop --source winget --silent
+if "!REM_SEL!"=="26" echo  [안내] Docker 로 받은 이미지와 컨테이너 데이터는 남아 있을 수 있습니다.
+if "!REM_SEL!"=="27" call :REMOVE_PG
+if "!REM_SEL!"=="28" call :REMOVE_BUILDTOOLS
 echo.
-echo  [완료] 제거 완료.
+if defined REM_CANCEL (echo  [안내] 취소했습니다. 아무것도 제거하지 않았습니다.) else echo  [완료] 제거 완료.
 pause
 goto MAIN_MENU
 
@@ -1299,6 +1310,10 @@ if /i "!REM_ALL_CONFIRM!" NEQ "y" goto DO_REMOVE
 
 echo  제거 중... (시간이 걸릴 수 있습니다)
 for %%i in (
+    Obsidian.Obsidian
+    MarkText.MarkText
+    Zettlr.Zettlr
+    Docker.DockerDesktop
     Genymobile.scrcpy
     Google.PlatformTools
     Google.AndroidStudio
@@ -1333,6 +1348,8 @@ for %%i in (
 )
 call :REMOVE_FLUTTER
 echo  [안내] Android SDK 폴더 [%LOCALAPPDATA%\Android\Sdk] 는 지우지 않았습니다. 필요하면 직접 삭제하세요.
+echo  [안내] PostgreSQL 과 C++ 빌드 도구는 데이터와 다른 프로그램에 영향이 있어 전체 제거에 넣지 않았습니다.
+echo         필요하면 개별 제거의 27번 28번을 쓰세요.
 echo.
 echo  [npm] npm 패키지 제거 중...
 for %%p in (vercel supabase stripe resend @railway/cli @clerk/clerk-sdk-node prisma uploadthing) do (
@@ -1393,7 +1410,15 @@ echo    [25] Android Studio    https://developer.android.com/studio
 echo    [26] Platform-Tools    https://developer.android.com/tools/releases/platform-tools
 echo    [27] scrcpy            https://github.com/Genymobile/scrcpy
 echo.
-echo   --- 개발 확장 CLI ---
+echo   --- 분야별 개발 환경 [D] ---
+echo    [28] Obsidian          https://obsidian.md/download
+echo    [29] MarkText          https://github.com/marktext/marktext/releases
+echo    [30] Zettlr            https://www.zettlr.com/download
+echo    [31] Typora [유료]     https://typora.io/
+echo    [32] Docker Desktop    https://www.docker.com/products/docker-desktop/
+echo    [33] PostgreSQL        https://www.postgresql.org/download/windows/
+echo    [34] C++ 빌드 도구     https://visualstudio.microsoft.com/visual-cpp-build-tools/
+echo.echo   --- 개발 확장 CLI ---
 echo    [20] GitHub LFS        https://git-lfs.com/
 echo    [21] Stripe CLI        https://docs.stripe.com/stripe-cli
 echo.
@@ -1430,7 +1455,13 @@ if "!MAN_CHOICE!"=="24" start "" "https://www.warp.dev/"  & set _OPENED=1
 if "!MAN_CHOICE!"=="25" start "" "https://developer.android.com/studio"  & set _OPENED=1
 if "!MAN_CHOICE!"=="26" start "" "https://developer.android.com/tools/releases/platform-tools"  & set _OPENED=1
 if "!MAN_CHOICE!"=="27" start "" "https://github.com/Genymobile/scrcpy"  & set _OPENED=1
-
+if "!MAN_CHOICE!"=="28" start "" "https://obsidian.md/download"  & set _OPENED=1
+if "!MAN_CHOICE!"=="29" start "" "https://github.com/marktext/marktext/releases"  & set _OPENED=1
+if "!MAN_CHOICE!"=="30" start "" "https://www.zettlr.com/download"  & set _OPENED=1
+if "!MAN_CHOICE!"=="31" start "" "https://typora.io/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="32" start "" "https://www.docker.com/products/docker-desktop/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="33" start "" "https://www.postgresql.org/download/windows/"  & set _OPENED=1
+if "!MAN_CHOICE!"=="34" start "" "https://visualstudio.microsoft.com/visual-cpp-build-tools/"  & set _OPENED=1
 if "!MAN_CHOICE!"=="20" start "" "https://git-lfs.com/"                                          & set _OPENED=1
 if "!MAN_CHOICE!"=="21" start "" "https://docs.stripe.com/stripe-cli"                            & set _OPENED=1
 
@@ -2104,18 +2135,18 @@ echo  [!DEV_NAME! 설치] !TOTAL!개 도구를 설치합니다.
 echo.
 >> "%LOG_FILE%" echo === 분야별 설치 시작 [!DEV_NAME!]: %TIME% ===
 :: 의존성 순서: Git, Node.js, Python 계열, 편집기, 빌드 도구, Rust, Docker, DB, npm 도구
-if defined DEV_GIT call :INSTALL "Git" "Git.Git"
-if defined DEV_NODE call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
-if defined DEV_PY call :INSTALL "Python 3" "Python.Python.3"
-if defined DEV_UV call :INSTALL "uv" "astral-sh.uv"
-if defined DEV_VSCODE call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
-if defined DEV_PNPM call :INSTALL "pnpm" "pnpm.pnpm"
-if defined DEV_GH call :INSTALL "GitHub CLI" "GitHub.cli"
-if defined DEV_BUN call :INSTALL "Bun" "Oven-sh.Bun"
-if defined DEV_OLLAMA call :INSTALL "Ollama" "Ollama.Ollama"
+if defined DEV_GIT call :INSTALL_V "Git" "Git.Git" ""
+if defined DEV_NODE call :INSTALL_V "Node.js LTS" "OpenJS.NodeJS.LTS" ""
+if defined DEV_PY call :INSTALL_V "Python 3" "Python.Python.3" ""
+if defined DEV_UV call :INSTALL_V "uv" "astral-sh.uv" ""
+if defined DEV_VSCODE call :INSTALL_V "VS Code" "Microsoft.VisualStudioCode" ""
+if defined DEV_PNPM call :INSTALL_V "pnpm" "pnpm.pnpm" ""
+if defined DEV_GH call :INSTALL_V "GitHub CLI" "GitHub.cli" ""
+if defined DEV_BUN call :INSTALL_V "Bun" "Oven-sh.Bun" ""
+if defined DEV_OLLAMA call :INSTALL_V "Ollama" "Ollama.Ollama" ""
 if defined DEV_BUILD call :INSTALL_BUILDTOOLS
-if defined DEV_RUST call :INSTALL "Rust" "Rustlang.Rustup"
-if defined DEV_DOCKER call :INSTALL "Docker Desktop" "Docker.DockerDesktop"
+if defined DEV_RUST call :INSTALL_V "Rust" "Rustlang.Rustup" "FILE:%USERPROFILE%\.cargo\bin\rustc.exe"
+if defined DEV_DOCKER call :INSTALL_V "Docker Desktop" "Docker.DockerDesktop" "FILE:%ProgramFiles%\Docker\Docker\Docker Desktop.exe"
 if defined DEV_PG call :INSTALL_PG
 if defined DEV_VERCEL call :DEV_NPM "Vercel CLI" "vercel"
 if defined DEV_SUPA call :DEV_NPM "Supabase CLI" "supabase"
@@ -2211,6 +2242,7 @@ if !PG_RC! EQU 0 (
     >> "%LOG_FILE%" echo   결과: 성공
     set /a INSTALL_COUNT+=1
     >> "%REPORT_FILE%.tmp" echo   [성공] PostgreSQL
+    call :VERIFY "PostgreSQL" "PostgreSQL.PostgreSQL.17" "SVC:postgresql-x64-17"
     goto :eof
 )
 if !PG_RC! EQU 98 (
@@ -2378,7 +2410,7 @@ echo.
 echo  [!MD_NAME! 설치]
 echo.
 >> "%LOG_FILE%" echo === 마크다운 뷰어 설치 시작 [!MD_NAME!]: %TIME% ===
-call :INSTALL "!MD_NAME!" "!MD_ID!"
+call :INSTALL_V "!MD_NAME!" "!MD_ID!" ""
 call :MAKE_REPORTS
 echo.
 echo  ---------------------------------------------------
@@ -2480,6 +2512,8 @@ goto :eof
 ::PG:$ErrorActionPreference = 'Stop'
 ::PG:try {
 ::PG:  $pw = $env:KIT_TEST_PGPW
+::PG:  if ($pw -and $pw -notmatch '^[A-Za-z0-9]{8,64}$') { $pw = $null }
+::PG:  if (-not $pw -and [Console]::IsInputRedirected) { exit 98 }
 ::PG:  for ($t = 0; $t -lt 3 -and -not $pw; $t++) {
 ::PG:    $a = Read-Host 'Password' -AsSecureString
 ::PG:    $b = Read-Host 'Password again' -AsSecureString
@@ -2510,6 +2544,119 @@ if defined HAS_VC (
 ) else (
     echo    [X] C++ 빌드 도구
 )
+goto :eof
+
+:: ============================================================
+:: 설치 성공 실제 확인 [분야별 설치 / 마크다운 뷰어 전용]
+:: winget 이 성공이라고 해도 실제로 설치됐는지 한 번 더 본다. 확인하지 못하면 성공으로 세지 않는다.
+:: ============================================================
+:: %~1 = 표시 이름, %~2 = winget ID, %~3 = 확인 방법 [빈 값=winget 목록 / FILE:파일경로 / SVC:서비스이름]
+:INSTALL_V
+set V_BEFORE=!INSTALL_COUNT!
+call :INSTALL %1 %2
+if !INSTALL_COUNT! GTR !V_BEFORE! call :VERIFY %1 %2 %3
+goto :eof
+
+:VERIFY
+set V_OK=
+set "VK=%~3"
+if "!VK!"=="" (
+    winget list --id %~2 --source winget >nul 2>&1
+    if not errorlevel 1 set V_OK=1
+) else if "!VK:~0,5!"=="FILE:" (
+    set "VP=!VK:~5!"
+    if exist "!VP!" set V_OK=1
+) else if "!VK:~0,4!"=="SVC:" (
+    sc query "!VK:~4!" >nul 2>&1
+    if not errorlevel 1 set V_OK=1
+)
+if defined V_OK (
+    echo         [확인] %~1 설치된 것을 확인했습니다
+    >> "%LOG_FILE%" echo   확인: %~1 OK
+    goto :eof
+)
+echo         [주의] %~1 : 설치는 끝났다고 나왔지만 실제로 확인하지 못했습니다.
+echo                새 터미널을 열고 메인 메뉴 [9] 설치 확인으로 다시 확인해 보세요.
+>> "%LOG_FILE%" echo   확인 실패: %~1
+set /a INSTALL_COUNT-=1
+set /a FAIL_COUNT+=1
+>> "%REPORT_FILE%.tmp" echo   [확인실패] %~1 : 설치 프로그램은 성공이라고 했지만 실제로 확인하지 못함
+goto :eof
+
+:: ============================================================
+:: 제거: PostgreSQL [데이터를 남길지 지울지 직접 고름]
+:: ============================================================
+:REMOVE_PG
+set "PG_DATA=%ProgramFiles%\PostgreSQL\17\data"
+if defined KIT_PG_DATA_DIR set "PG_DATA=!KIT_PG_DATA_DIR!"
+cls
+echo.
+echo  ---------------------------------------------------
+echo  [PostgreSQL 제거 - 꼭 읽어 주세요]
+echo  ---------------------------------------------------
+echo   - PostgreSQL 프로그램을 제거합니다. 내가 만든 DB 내용[데이터]은 아래 폴더에 들어 있습니다.
+echo       !PG_DATA!
+echo   - [프로그램만 제거]를 고르면 데이터 폴더는 그대로 남습니다. 나중에 다시 설치해도 그 데이터를 쓸 수 있습니다.
+echo   - [데이터까지 제거]를 고르면 DB 내용이 모두 사라지고 되돌릴 수 없습니다.
+echo.
+echo    [1] 프로그램만 제거   [데이터는 남김 / 추천]
+echo    [2] 프로그램과 데이터 모두 제거   [되돌릴 수 없음]
+echo    [0] 취소
+echo.
+set PG_RM=
+set /p PG_RM="  번호: "
+if not "!PG_RM!"=="1" if not "!PG_RM!"=="2" (
+    set REM_CANCEL=1
+    goto :eof
+)
+if "!PG_RM!"=="2" (
+    echo.
+    echo  [마지막 확인] DB 내용이 모두 사라지고 되돌릴 수 없습니다.
+    set PG_RM2=
+    set /p PG_RM2="  1=정말 데이터까지 제거 / 2=취소: "
+    if not "!PG_RM2!"=="1" (
+        set REM_CANCEL=1
+        goto :eof
+    )
+)
+winget uninstall --id PostgreSQL.PostgreSQL.17 --source winget --silent
+if "!PG_RM!"=="2" (
+    call :PG_DELETE_DATA
+) else (
+    if exist "!PG_DATA!\PG_VERSION" echo  [안내] 데이터 폴더를 남겼습니다: !PG_DATA!
+)
+goto :eof
+
+:: 안전장치: 마지막 폴더 이름이 data 이고 PG_VERSION 파일이 있는 PostgreSQL 데이터 폴더일 때만 지운다
+:PG_DELETE_DATA
+for %%d in ("!PG_DATA!") do set "PG_LAST=%%~nxd"
+if /i not "!PG_LAST!"=="data" (
+    echo  [안내] 데이터 폴더 이름이 예상과 달라 자동으로 지우지 않았습니다: !PG_DATA!
+    goto :eof
+)
+if not exist "!PG_DATA!\PG_VERSION" (
+    echo  [안내] 지울 PostgreSQL 데이터 폴더를 찾지 못했습니다: !PG_DATA!
+    goto :eof
+)
+rmdir /s /q "!PG_DATA!"
+if exist "!PG_DATA!" (
+    echo  [주의] 데이터 폴더를 완전히 지우지 못했습니다. 직접 삭제하세요: !PG_DATA!
+) else (
+    echo  [완료] 데이터 폴더를 삭제했습니다.
+)
+goto :eof
+
+:: 제거: C++ 빌드 도구 [다른 개발 도구도 쓸 수 있어서 한 번 더 확인]
+:REMOVE_BUILDTOOLS
+echo.
+echo  [안내] C++ 빌드 도구는 Rust 말고 다른 개발 도구 [Visual Studio 등] 도 쓸 수 있습니다.
+set BT_RM=
+set /p BT_RM="  1=제거 / 2=취소: "
+if not "!BT_RM!"=="1" (
+    set REM_CANCEL=1
+    goto :eof
+)
+winget uninstall --id Microsoft.VisualStudio.2022.BuildTools --source winget --silent
 goto :eof
 
 :: ============================================================

@@ -580,6 +580,31 @@ WSL2/가상화 · 개인·학습 무료, 큰 회사 업무용은 유료일 수 �
 설치했는데 C++ 빌드 도구가 없으면, 설치 끝에 <strong>"[D] 데스크톱 앱
 개발에서 설치하세요"</strong> 안내가 나옵니다(이미 있으면 나오지 않음).
 기존 설치 목록은 바뀌지 않았습니다.</li>
+<li><strong>설치 성공 확인</strong>: [D]와 마크다운 뷰어는 설치
+프로그램(winget)이 "성공"이라고 해도 <strong>실제로 설치됐는지 한 번 더
+확인</strong>합니다(프로그램 목록 · Rust와 Docker는 실행 파일 ·
+PostgreSQL은 서비스 · C++ 빌드 도구는 구성 요소). 확인하지 못하면
+<strong>성공으로 세지 않고 <code>[확인실패]</code>로 알려
+줍니다.</strong> 설치 직후라 아직 안 보이는 경우일 수도 있으니
+<strong>새 터미널에서 [9] 설치 확인</strong>으로 다시 보세요. 기존 레벨
+[1]~[4]의 설치 방식은 바뀌지 않았습니다.</li>
+<li><strong>제거 · 업데이트 · 직접 다운로드</strong>: 새 도구도 [6] ·
+[7] · [8]에 들어 있습니다. [7] 개별 제거는 <strong>23 Obsidian · 24
+MarkText · 25 Zettlr · 26 Docker Desktop · 27 PostgreSQL · 28 C++ 빌드
+도구</strong>입니다.
+<ul>
+<li><strong>PostgreSQL을 제거할 때는 "프로그램만"(데이터 남김, 추천)
+또는 "데이터까지"(되돌릴 수 없음, 한 번 더 확인)를 직접
+고릅니다.</strong> 데이터 폴더가 기본 위치가 아니면 환경 변수로 알려 줄
+수 있습니다(<a href="#14-환경-변수">§14</a>).</li>
+<li><strong>전체 제거에는 PostgreSQL과 C++ 빌드 도구를 넣지
+않았습니다</strong>(DB 데이터와 다른 개발 도구에 영향). 필요하면 개별
+제거의 27번 · 28번을 쓰세요.</li>
+<li>[6] 업데이트는 Obsidian · MarkText · Zettlr · uv를 올립니다. Docker
+Desktop은 프로그램이 스스로 업데이트하고, PostgreSQL은 데이터 보호를
+위해 <strong>직접 백업한 뒤</strong> 올리도록 안내하며, C++ 빌드 도구는
+Visual Studio Installer에서 업데이트합니다.</li>
+</ul></li>
 </ul>
 <p><strong>마크다운 뷰어 — [D]의 마지막 항목</strong></p>
 <p><code>.md</code>(마크다운) 문서를 보기 좋게 열어 주는 프로그램을
@@ -846,6 +871,14 @@ PostgreSQL 비밀번호는 화면에서 숨겨 입력받고 키트 로그·리�
 줍니다.</li>
 <li><strong>Added</strong>: [9] 설치 확인에 C++ 빌드 도구 · Docker ·
 PostgreSQL · Obsidian · MarkText · Zettlr 항목.</li>
+<li><strong>Added</strong>: <strong>설치 성공 실제 확인</strong>([D] ·
+마크다운 뷰어): winget이 성공이라고 해도 실제로 설치됐는지 한 번 더
+확인하고, 못 하면 성공으로 세지 않고 <code>[확인실패]</code>로
+표시합니다.</li>
+<li><strong>Added</strong>: [6] 업데이트 · [7] 제거 · [8] 직접
+다운로드에 Obsidian · MarkText · Zettlr · Docker Desktop · PostgreSQL ·
+C++ 빌드 도구를 반영했습니다. PostgreSQL 제거는 <strong>데이터를 남길지
+지울지 직접 선택</strong>하고, 지우는 쪽은 한 번 더 확인합니다.</li>
 <li><strong>Changed</strong>: 고급 · 올인원 · [5]-14로 Rust를 설치한 뒤
 C++ 빌드 도구가 없으면 <strong>한 줄 안내</strong>를 보여 줍니다(설치
 목록은 그대로).</li>
@@ -1181,6 +1214,12 @@ Flutter·Android Studio·VS Code)는 각자 <strong>사용 통계·업데이트
 PC에서는 환경 변수 <code>KIT_NO_ARROW=1</code>을 설정하면 <strong>번호
 입력 방식만</strong> 씁니다(화살표를 쓸 수 없으면 자동으로 번호 방식으로
 바뀌기도 합니다).</p>
+<p><strong>선택 사항(고급):</strong> PostgreSQL 데이터 폴더가 기본
+위치(<code>%ProgramFiles%\PostgreSQL\17\data</code>)가 아니라면 환경
+변수 <code>KIT_PG_DATA_DIR</code>에 그 폴더를 적어 두세요. 제거할 때 이
+폴더를 기준으로 안내·삭제합니다. 안전장치로 <strong>폴더 이름이
+<code>data</code>이고 안에 <code>PG_VERSION</code> 파일이 있을
+때만</strong> 지웁니다.</p>
 <p><strong>키트가 읽기만 하는 Windows 기본 변수</strong></p>
 <table>
 <thead>
@@ -1448,6 +1487,14 @@ href="https://aka.ms/getwinget">https://aka.ms/getwinget</a></td>
 <td>C++ 빌드 도구가 없음</td>
 <td><strong>[D] → 데스크톱 앱 개발</strong>에서 설치(설치 후 PC 재시작이
 필요할 수 있음)</td>
+</tr>
+<tr>
+<td>설치 뒤 <code>[확인실패]</code> 또는 "실제로 확인하지 못했습니다"가
+나옴</td>
+<td>설치 직후라 목록에 아직 안 보이거나, 실제로 설치되지 않음</td>
+<td><strong>새 터미널</strong>을 열고 메인 메뉴 [9] 설치 확인으로 다시
+확인. 계속 X이면 <code>install-log-날짜.txt</code>를 확인하고 [8] 직접
+다운로드</td>
 </tr>
 <tr>
 <td>PostgreSQL 비밀번호를 잊음</td>

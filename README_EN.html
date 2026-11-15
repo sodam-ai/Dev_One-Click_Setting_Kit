@@ -598,6 +598,34 @@ All-in-one · [5] item 14) and the C++ build tools are missing, a note at
 the end says <strong>"install them from [D] → Desktop apps"</strong>
 (not shown if already present). The existing install lists are
 unchanged.</li>
+<li><strong>Install verification</strong>: for [D] and the Markdown
+viewers, even when the installer (winget) reports success the kit
+<strong>checks once more that it is really installed</strong> (program
+list · executable for Rust and Docker · service for PostgreSQL ·
+component for the C++ build tools). If it cannot confirm, it
+<strong>does not count it as a success and shows <code>[확인실패]</code>
+(verification failed)</strong>. It may just not be visible right after
+installing, so <strong>recheck with [9] Check install in a new
+terminal</strong>. The install method of levels [1]–[4] is
+unchanged.</li>
+<li><strong>Remove · update · direct download</strong>: the new tools
+are also in [6] · [7] · [8]. [7] single remove has <strong>23 Obsidian ·
+24 MarkText · 25 Zettlr · 26 Docker Desktop · 27 PostgreSQL · 28 C++
+build tools</strong>.
+<ul>
+<li><strong>When removing PostgreSQL you choose "program only" (keep the
+data, recommended) or "data too" (cannot be undone, asks once
+more).</strong> If your data folder is not at the default location you
+can tell the kit with an environment variable (<a
+href="#14-environment-variables">§14</a>).</li>
+<li><strong>Remove-all does not include PostgreSQL or the C++ build
+tools</strong> (they affect database data and other development tools).
+Use items 27 and 28 of single remove if needed.</li>
+<li>[6] Update upgrades Obsidian · MarkText · Zettlr · uv. Docker
+Desktop updates itself, PostgreSQL is left for you to upgrade
+<strong>after backing up</strong> to protect your data, and the C++
+build tools are updated in the Visual Studio Installer.</li>
+</ul></li>
 </ul>
 <p><strong>Markdown viewer — last item of [D]</strong></p>
 <p>Installs a program that opens <code>.md</code> (Markdown) documents
@@ -874,6 +902,16 @@ group skip only the tools that need admin rights (C++ build tools ·
 Docker · PostgreSQL), with the reason shown.</li>
 <li><strong>Added</strong>: [9] Check install now lists C++ build tools
 · Docker · PostgreSQL · Obsidian · MarkText · Zettlr.</li>
+<li><strong>Added</strong>: <strong>real install verification</strong>
+([D] and Markdown viewers): even when winget reports success, the kit
+checks once more that the tool is really installed, and shows
+<code>[확인실패]</code> (verification failed) instead of counting a
+success if it cannot.</li>
+<li><strong>Added</strong>: [6] Update · [7] Remove · [8] Direct
+download now include Obsidian · MarkText · Zettlr · Docker Desktop ·
+PostgreSQL · C++ build tools. Removing PostgreSQL lets you
+<strong>choose whether to keep or delete the data</strong>, and the
+deleting option asks once more.</li>
 <li><strong>Changed</strong>: after installing Rust via Advanced ·
 All-in-one · [5] item 14, a <strong>one-line note</strong> appears if
 the C++ build tools are missing (install lists unchanged).</li>
@@ -1236,6 +1274,13 @@ selection screen looks wrong, set the environment variable
 <code>KIT_NO_ARROW=1</code> to use <strong>number input only</strong>
 (if arrows cannot be used it also switches to number input by
 itself).</p>
+<p><strong>Optional (advanced):</strong> if your PostgreSQL data folder
+is not at the default location
+(<code>%ProgramFiles%\PostgreSQL\17\data</code>), set the environment
+variable <code>KIT_PG_DATA_DIR</code> to that folder. Removal then uses
+it for the notice and deletion. As a safety check the kit <strong>only
+deletes a folder named <code>data</code> that contains a
+<code>PG_VERSION</code> file</strong>.</p>
 <p><strong>Standard Windows variables the kit only reads</strong></p>
 <table>
 <thead>
@@ -1545,6 +1590,15 @@ found)</td>
 <td>C++ build tools are missing</td>
 <td>Install them from <strong>[D] → Desktop apps</strong> (a PC restart
 may be needed afterwards)</td>
+</tr>
+<tr>
+<td>After installing, <code>[확인실패]</code> (verification failed) or
+"could not confirm" appears</td>
+<td>It is not visible yet right after installing, or it was not really
+installed</td>
+<td>Open a <strong>new terminal</strong> and recheck with main menu [9]
+Check install. If it still shows X, read
+<code>install-log-date.txt</code> and use [8] Direct download</td>
 </tr>
 <tr>
 <td>Forgot the PostgreSQL password</td>

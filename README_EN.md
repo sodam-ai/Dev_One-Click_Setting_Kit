@@ -146,6 +146,11 @@ A **separate menu** that does not mix with levels [1]–[4] or [M] (existing beh
 - **Docker Desktop**: before installing you read a notice (a restart may be needed · WSL2/virtualization · free for personal/learning use, possibly paid for business use at larger companies) and choose **1 = agree / 2 = continue without it**.
 - **PostgreSQL**: you **type the administrator (`postgres`) password on screen during install** (nothing is shown as you type · letters and digits, 8+ characters · typed twice). Afterwards the kit shows **cautions and troubleshooting** (checking the connection · forgotten password · how to stop the service). The password is not stored in the kit's log or report (see [§13](#13-security--data-flow)).
 - **Rust note**: if you install only Rust (Advanced · All-in-one · [5] item 14) and the C++ build tools are missing, a note at the end says **"install them from [D] → Desktop apps"** (not shown if already present). The existing install lists are unchanged.
+- **Install verification**: for [D] and the Markdown viewers, even when the installer (winget) reports success the kit **checks once more that it is really installed** (program list · executable for Rust and Docker · service for PostgreSQL · component for the C++ build tools). If it cannot confirm, it **does not count it as a success and shows `[확인실패]` (verification failed)**. It may just not be visible right after installing, so **recheck with [9] Check install in a new terminal**. The install method of levels [1]–[4] is unchanged.
+- **Remove · update · direct download**: the new tools are also in [6] · [7] · [8]. [7] single remove has **23 Obsidian · 24 MarkText · 25 Zettlr · 26 Docker Desktop · 27 PostgreSQL · 28 C++ build tools**.
+  - **When removing PostgreSQL you choose "program only" (keep the data, recommended) or "data too" (cannot be undone, asks once more).** If your data folder is not at the default location you can tell the kit with an environment variable ([§14](#14-environment-variables)).
+  - **Remove-all does not include PostgreSQL or the C++ build tools** (they affect database data and other development tools). Use items 27 and 28 of single remove if needed.
+  - [6] Update upgrades Obsidian · MarkText · Zettlr · uv. Docker Desktop updates itself, PostgreSQL is left for you to upgrade **after backing up** to protect your data, and the C++ build tools are updated in the Visual Studio Installer.
 
 **Markdown viewer — last item of [D]**
 
@@ -294,6 +299,8 @@ git config --global user.email "your@email.com"
 - **Added**: **Docker Desktop · PostgreSQL** (Data/AI/Server [Everything]) — warning/consent screens first. The PostgreSQL password is entered hidden and is not stored in the kit's log or report; cautions and troubleshooting are shown afterwards.
 - **Added**: accounts that are not in the Administrators group skip only the tools that need admin rights (C++ build tools · Docker · PostgreSQL), with the reason shown.
 - **Added**: [9] Check install now lists C++ build tools · Docker · PostgreSQL · Obsidian · MarkText · Zettlr.
+- **Added**: **real install verification** ([D] and Markdown viewers): even when winget reports success, the kit checks once more that the tool is really installed, and shows `[확인실패]` (verification failed) instead of counting a success if it cannot.
+- **Added**: [6] Update · [7] Remove · [8] Direct download now include Obsidian · MarkText · Zettlr · Docker Desktop · PostgreSQL · C++ build tools. Removing PostgreSQL lets you **choose whether to keep or delete the data**, and the deleting option asks once more.
 - **Changed**: after installing Rust via Advanced · All-in-one · [5] item 14, a **one-line note** appears if the C++ build tools are missing (install lists unchanged).
 - **Note**: install lists and behavior of levels [1]–[4] · [A] · [M] are unchanged. Installing Docker · PostgreSQL · C++ build tools with the real winget was not tested (system-wide tools); only the install-call shape and screen flow were checked with a fake winget.
 </details>
@@ -469,6 +476,8 @@ M → 1 Mobile basic / 2 Basic+scrcpy / 3 Pick items / 4 Guide only
 
 **Optional (advanced):** on a PC where the arrow selection screen looks wrong, set the environment variable `KIT_NO_ARROW=1` to use **number input only** (if arrows cannot be used it also switches to number input by itself).
 
+**Optional (advanced):** if your PostgreSQL data folder is not at the default location (`%ProgramFiles%\PostgreSQL\17\data`), set the environment variable `KIT_PG_DATA_DIR` to that folder. Removal then uses it for the notice and deletion. As a safety check the kit **only deletes a folder named `data` that contains a `PG_VERSION` file**.
+
 **Standard Windows variables the kit only reads**
 
 | Variable | What it is used for |
@@ -571,6 +580,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 | [D] arrows do not move or the screen looks odd | The arrow screen does not suit some consoles | You can **type a number and press Enter** instead (it may switch to number input by itself). If it stays odd, set the environment variable `KIT_NO_ARROW=1` |
 | C++ build tools · Docker · PostgreSQL were not installed | Not an administrator account | Sign in with an administrator account and run [D] again (skipped tools are named on screen) |
 | `cargo build` fails with Rust (`link.exe` not found) | C++ build tools are missing | Install them from **[D] → Desktop apps** (a PC restart may be needed afterwards) |
+| After installing, `[확인실패]` (verification failed) or "could not confirm" appears | It is not visible yet right after installing, or it was not really installed | Open a **new terminal** and recheck with main menu [9] Check install. If it still shows X, read `install-log-date.txt` and use [8] Direct download |
 | Forgot the PostgreSQL password | Recovering it means editing a config file, hard for beginners | For practice use, uninstall PostgreSQL in Windows Settings → Apps and reinstall it from [D] |
 | Low-disk warning | Not enough free space | Free up space and rerun (levels need 3/4/6/7 GB, mobile [M] about 10 GB) |
 
