@@ -690,6 +690,7 @@ M → 1 모바일 기본 / 2 기본+scrcpy / 3 골라서 / 4 안내만
 | **Obsidian** | **Obsidian 약관(독점 소프트웨어)** | 이용 조건은 공식 약관 확인 |
 | MarkText | MIT | |
 | Zettlr | GPL-3.0 | |
+| Typora | **유료 독점 소프트웨어**(Typora 약관) | 키트는 **설치하지 않고 공식 페이지만 엽니다.** 이용 조건은 공식 약관 확인(일반 정보, 자동 확인 못 함) |
 | **Docker Desktop** | **Docker 구독 서비스 약관(독점)** | 개인·학습은 무료이나 **큰 회사의 업무용은 유료일 수 있음** |
 | PostgreSQL | PostgreSQL License | |
 | **Microsoft C++ 빌드 도구** | **Microsoft(Visual Studio) 라이선스 조건** | 설치 시 해당 약관에 동의하게 됨 |
@@ -700,7 +701,7 @@ M → 1 모바일 기본 / 2 기본+scrcpy / 3 골라서 / 4 안내만
 
 **3) 상표·제휴 관계**
 
-- Android · Google · Flutter · Git · Python · Node.js · Visual Studio Code 등의 **이름과 로고는 각 소유자의 상표**입니다. 이 키트는 해당 회사·프로젝트와 **제휴·후원·보증 관계가 없는 독립 도구**입니다.
+- Android · Google · Flutter · Git · Python · Node.js · Visual Studio Code · Microsoft · Visual Studio · Docker · PostgreSQL · Obsidian · Typora · Rust · Claude(Anthropic) 등의 **이름과 로고는 각 소유자의 상표**입니다. 이 키트는 해당 회사·프로젝트와 **제휴·후원·보증 관계가 없는 독립 도구**입니다.
 - “SoDam AI Studio” 이름·로고는 Apache 2.0으로 사용이 허락되지 않습니다(상표권 미부여).
 
 **4) 상업적 사용 시 체크리스트**

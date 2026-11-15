@@ -687,6 +687,7 @@ The table below is a **reference summary** (based on public information; **terms
 | **Obsidian** | **Obsidian terms (proprietary software)** | Check the official terms for usage conditions |
 | MarkText | MIT | |
 | Zettlr | GPL-3.0 | |
+| Typora | **Paid proprietary software** (Typora terms) | The kit **does not install it; it only opens the official page.** Check the official terms (general information, not auto-verified) |
 | **Docker Desktop** | **Docker subscription service agreement (proprietary)** | Free for personal/learning use, but **business use at larger companies may be paid** |
 | PostgreSQL | PostgreSQL License | |
 | **Microsoft C++ build tools** | **Microsoft (Visual Studio) license terms** | You accept those terms during installation |
@@ -697,7 +698,7 @@ The table below is a **reference summary** (based on public information; **terms
 
 **3) Trademarks and affiliation**
 
-- Names and logos such as Android, Google, Flutter, Git, Python, Node.js and Visual Studio Code are **trademarks of their respective owners.** This kit is an **independent tool with no affiliation, sponsorship or endorsement** from those companies or projects.
+- Names and logos such as Android, Google, Flutter, Git, Python, Node.js, Visual Studio Code, Microsoft, Visual Studio, Docker, PostgreSQL, Obsidian, Typora, Rust and Claude (Anthropic) are **trademarks of their respective owners.** This kit is an **independent tool with no affiliation, sponsorship or endorsement** from those companies or projects.
 - The “SoDam AI Studio” name/logo is not licensed for use under Apache 2.0 (no trademark rights granted).
 
 **4) Checklist for commercial use**
