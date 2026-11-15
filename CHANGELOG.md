@@ -17,6 +17,10 @@ All notable changes to this project will be documented in this file.
 - **Docker Desktop · PostgreSQL**(데이터/AI/서버 [전부]): 설치 전 **경고·동의 화면**. PostgreSQL 비밀번호는 PowerShell 입력 칸에서 **숨겨서** 받아 winget에 직접 전달하며(영문·숫자 8자 이상, 두 번 확인), 배치 파일·키트 로그·리포트·화면에 남기지 않습니다. 설치 후 **주의점과 문제 해결** 안내를 보여 줍니다.
 - **관리자 점검**: 관리자 그룹이 아닌 계정은 관리자 권한이 필요한 도구(C++ 빌드 도구 · Docker · PostgreSQL)만 건너뛰고 이유를 알려 줍니다.
 - **[9] 설치 확인**에 C++ 빌드 도구 · Docker · PostgreSQL · Obsidian · MarkText · Zettlr 항목.
+- **설치 성공 실제 확인**([D] · 마크다운 뷰어): winget이 성공이라고 해도 실제로 설치됐는지 한 번 더 확인합니다(프로그램 목록 · Rust/Docker는 실행 파일 · PostgreSQL은 서비스). 확인하지 못하면 성공으로 세지 않고 `[확인실패]`로 표시하며 리포트에도 남깁니다.
+- **[6] 업데이트 · [7] 제거 · [8] 직접 다운로드에 새 도구 반영**: [7] 개별 제거 23~28번(Obsidian · MarkText · Zettlr · Docker Desktop · PostgreSQL · C++ 빌드 도구), [8] 28~34번(공식 주소 응답 200 확인), [6]에는 uv · Obsidian · MarkText · Zettlr 추가.
+- **PostgreSQL 제거**: "프로그램만"(데이터 남김, 기본 추천) / "데이터까지"(되돌릴 수 없음, 한 번 더 확인)를 직접 선택. 데이터 삭제는 폴더 이름이 `data`이고 `PG_VERSION` 파일이 있을 때만 하며, 기본 위치가 아니면 환경 변수 `KIT_PG_DATA_DIR`로 알려 줍니다.
+- **전체 제거에서 제외**: PostgreSQL과 C++ 빌드 도구는 DB 데이터·다른 개발 도구에 영향이 있어 전체 제거에 넣지 않고 안내만 합니다. [6] 업데이트도 Docker(프로그램이 스스로) · PostgreSQL(백업 뒤 직접) · C++ 빌드 도구(Visual Studio Installer)는 자동으로 올리지 않고 이유를 안내합니다.
 
 ### Changed
 
@@ -31,6 +35,7 @@ All notable changes to this project will be documented in this file.
 
 - 화살표 선택: 키 입력 흉내 11/11 · **실제 콘솔에 키 입력을 넣은 시험 9/9** · 번호 입력 자동 전환 8/8.
 - 흐름 시험 16/16(가짜 winget·npm 사용): 웹·데스크톱·데이터 [기본]/[전부] 설치 호출, Docker·PostgreSQL 동의·거절·되돌아가기, 뷰어 3종 · Typora · VS Code 안내, [5]-14 Rust 안내, 메인 [D] 진입. PostgreSQL 비밀번호가 화면·키트 로그·리포트에 남지 않음을 확인.
+- **제거 · 업데이트 · 다운로드 · 설치 확인 보강 시험 29/29**(가짜 winget · sc · npm): 설치 확인 성공/실패(목록 · 실행 파일 · 서비스), [6] 대상과 제외, [7] 23~28번과 잘못된 번호 · 취소, PostgreSQL 데이터 남김/삭제/취소 및 안전장치(폴더 이름 · PG_VERSION), 전체 제거 대상, [8] 28~34번.
 - **미검증**: 실제 winget으로 **Docker Desktop · PostgreSQL · C++ 빌드 도구를 설치해 본 시험은 하지 않았습니다**(시스템 전체에 설치되는 도구). 설치 호출 형태와 화면 흐름까지만 확인했고, PostgreSQL의 `--superpassword`는 EDB 설치 프로그램 규격 기준이며 실제 설치로는 확인하지 못했습니다. 화살표 화면의 색·줄 갱신 모양은 사람 눈으로 확인이 필요합니다.
 
 ---
