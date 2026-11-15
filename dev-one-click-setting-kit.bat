@@ -2512,6 +2512,8 @@ goto :eof
 ::PG:$ErrorActionPreference = 'Stop'
 ::PG:try {
 ::PG:  $pw = $env:KIT_TEST_PGPW
+::PG:  if ($pw -and $pw -notmatch '^[A-Za-z0-9]{8,64}$') { $pw = $null }
+::PG:  if (-not $pw -and [Console]::IsInputRedirected) { exit 98 }
 ::PG:  for ($t = 0; $t -lt 3 -and -not $pw; $t++) {
 ::PG:    $a = Read-Host 'Password' -AsSecureString
 ::PG:    $b = Read-Host 'Password again' -AsSecureString
