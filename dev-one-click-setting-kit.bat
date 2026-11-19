@@ -390,7 +390,7 @@ echo.
 :: 의존성 1순위: Git
 call :INSTALL "Git" "Git.Git"
 :: 의존성 2순위: Python + Node.js
-call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Python 3" "Python.Python.3.13"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 :: 순위무관
 call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
@@ -415,7 +415,7 @@ echo.
 
 call :INSTALL "Git" "Git.Git"
 call :INSTALL "Git LFS" "GitHub.GitLFS"
-call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Python 3" "Python.Python.3.13"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "GitHub CLI" "GitHub.cli"
 call :INSTALL "PowerShell 7" "Microsoft.PowerShell"
@@ -446,7 +446,7 @@ echo.
 
 call :INSTALL "Git" "Git.Git"
 call :INSTALL "Git LFS" "GitHub.GitLFS"
-call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Python 3" "Python.Python.3.13"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "GitHub CLI" "GitHub.cli"
 call :INSTALL "PowerShell 7" "Microsoft.PowerShell"
@@ -485,7 +485,7 @@ echo.
 
 call :INSTALL "Git" "Git.Git"
 call :INSTALL "Git LFS" "GitHub.GitLFS"
-call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Python 3" "Python.Python.3.13"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "GitHub CLI" "GitHub.cli"
 call :INSTALL "PowerShell 7" "Microsoft.PowerShell"
@@ -500,7 +500,7 @@ call :INSTALL "Rust" "Rustlang.Rustup"
 call :INSTALL_FLUTTER
 call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
 call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
-call :INSTALL "PHP" "PHP.PHP"
+call :INSTALL "PHP" "PHP.PHP.8.4"
 
 call :INSTALL_SCOOP
 call :POST_BEGINNER
@@ -894,7 +894,7 @@ echo  [추천 설치] 핵심 5종을 설치합니다.
 echo.
 >> "%LOG_FILE%" echo === 추천 설치 시작: %TIME% ===
 call :INSTALL "Git" "Git.Git"
-call :INSTALL "Python 3" "Python.Python.3"
+call :INSTALL "Python 3" "Python.Python.3.13"
 call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
 call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
 call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
@@ -1054,7 +1054,7 @@ set MOB_SHOW=
 set RUST_SHOW=
 for %%n in (%SEL:,= %) do (
     if "%%n"=="1"  call :INSTALL "Git" "Git.Git"
-    if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3"
+    if "%%n"=="2"  call :INSTALL "Python 3" "Python.Python.3.13"
     if "%%n"=="3"  call :INSTALL "Node.js LTS" "OpenJS.NodeJS.LTS"
     if "%%n"=="4"  call :INSTALL "VS Code" "Microsoft.VisualStudioCode"
     if "%%n"=="5"  call :INSTALL "Windows Terminal" "Microsoft.WindowsTerminal"
@@ -1068,7 +1068,7 @@ for %%n in (%SEL:,= %) do (
     if "%%n"=="13" call :INSTALL "Go" "GoLang.Go"
     if "%%n"=="14" call :INSTALL "Rust" "Rustlang.Rustup"
     if "%%n"=="15" call :INSTALL "Ruby" "RubyInstallerTeam.RubyWithDevKit.3.3"
-    if "%%n"=="16" call :INSTALL "PHP" "PHP.PHP"
+    if "%%n"=="16" call :INSTALL "PHP" "PHP.PHP.8.4"
     if "%%n"=="17" call :INSTALL "Git LFS" "GitHub.GitLFS"
     if "%%n"=="18" call :INSTALL "Stripe CLI" "Stripe.StripeCLI"
     if "%%n"=="19" call :NPM_INSTALL "Vercel CLI" "vercel"
@@ -1125,7 +1125,7 @@ echo    [1] 3.13    [2] 3.12    [3] 3.11
 set PV=
 set /p PV="  선택 (기본=최신 권장): "
 set VER_NAME=Python
-set VER_ID=Python.Python.3
+set VER_ID=Python.Python.3.13
 if "!PV!"=="1" set VER_ID=Python.Python.3.13
 if "!PV!"=="2" set VER_ID=Python.Python.3.12
 if "!PV!"=="3" set VER_ID=Python.Python.3.11
@@ -1197,7 +1197,7 @@ set /p DO_UPD="  키트 도구를 안전하게 업데이트할까요? 1=예 / 2=아니오: "
 if "!DO_UPD!"=="1" set DO_UPD=y
 if /i "!DO_UPD!" NEQ "y" goto MAIN_MENU
 echo.
-for %%p in (Git.Git GitHub.GitLFS Python.Python.3 OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy astral-sh.uv Obsidian.Obsidian MarkText.MarkText Zettlr.Zettlr) do (
+for %%p in (Git.Git GitHub.GitLFS OpenJS.NodeJS.LTS GitHub.cli Microsoft.PowerShell pnpm.pnpm Oven-sh.Bun Ollama.Ollama Microsoft.VisualStudioCode Microsoft.WindowsTerminal EclipseAdoptium.Temurin.21.JDK GoLang.Go Rustlang.Rustup Stripe.StripeCLI RubyInstallerTeam.RubyWithDevKit.3.3 PHP.PHP.8.4 EclipseAdoptium.Temurin.17.JDK EclipseAdoptium.Temurin.11.JDK EclipseAdoptium.Temurin.8.JDK Python.Python.3.13 Python.Python.3.12 Python.Python.3.11 RubyInstallerTeam.RubyWithDevKit.3.2 Google.AndroidStudio Google.PlatformTools Genymobile.scrcpy astral-sh.uv Obsidian.Obsidian MarkText.MarkText Zettlr.Zettlr) do (
     winget upgrade --id %%p --source winget --accept-source-agreements --accept-package-agreements --silent >nul 2>&1
     if not errorlevel 1 echo  [업그레이드] %%p
 )
@@ -1259,8 +1259,7 @@ if not defined REM_OK (
 
 set REM_CANCEL=
 if "!REM_SEL!"=="1"  winget uninstall --id Git.Git --source winget --silent
-if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3 --source winget --silent
-if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.13 --source winget --silent >nul 2>&1
+if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.13 --source winget --silent
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.12 --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="2"  winget uninstall --id Python.Python.3.11 --source winget --silent >nul 2>&1
 if "!REM_SEL!"=="3"  winget uninstall --id OpenJS.NodeJS.LTS --source winget --silent
@@ -1280,7 +1279,7 @@ if "!REM_SEL!"=="13" winget uninstall --id GoLang.Go --source winget --silent
 if "!REM_SEL!"=="14" winget uninstall --id Rustlang.Rustup --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.3 --source winget --silent
 if "!REM_SEL!"=="15" winget uninstall --id RubyInstallerTeam.RubyWithDevKit.3.2 --source winget --silent >nul 2>&1
-if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP --source winget --silent
+if "!REM_SEL!"=="16" winget uninstall --id PHP.PHP.8.4 --source winget --silent
 if "!REM_SEL!"=="17" winget uninstall --id GitHub.GitLFS --source winget --silent
 if "!REM_SEL!"=="18" winget uninstall --id Stripe.StripeCLI --source winget --silent
 if "!REM_SEL!"=="19" winget uninstall --id astral-sh.uv --source winget --silent
@@ -1320,7 +1319,7 @@ for %%i in (
     astral-sh.uv
     GitHub.GitLFS
     Stripe.StripeCLI
-    PHP.PHP
+    PHP.PHP.8.4
     RubyInstallerTeam.RubyWithDevKit.3.3
     RubyInstallerTeam.RubyWithDevKit.3.2
     Rustlang.Rustup
@@ -1337,7 +1336,6 @@ for %%i in (
     Microsoft.WindowsTerminal
     Microsoft.VisualStudioCode
     OpenJS.NodeJS.LTS
-    Python.Python.3
     Python.Python.3.13
     Python.Python.3.12
     Python.Python.3.11
@@ -2137,7 +2135,7 @@ echo.
 :: 의존성 순서: Git, Node.js, Python 계열, 편집기, 빌드 도구, Rust, Docker, DB, npm 도구
 if defined DEV_GIT call :INSTALL_V "Git" "Git.Git" ""
 if defined DEV_NODE call :INSTALL_V "Node.js LTS" "OpenJS.NodeJS.LTS" ""
-if defined DEV_PY call :INSTALL_V "Python 3" "Python.Python.3" ""
+if defined DEV_PY call :INSTALL_V "Python 3" "Python.Python.3.13" ""
 if defined DEV_UV call :INSTALL_V "uv" "astral-sh.uv" ""
 if defined DEV_VSCODE call :INSTALL_V "VS Code" "Microsoft.VisualStudioCode" ""
 if defined DEV_PNPM call :INSTALL_V "pnpm" "pnpm.pnpm" ""
