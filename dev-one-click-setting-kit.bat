@@ -760,8 +760,8 @@ goto :eof
 :MAKE_REPORTS
 set END_TIME=%TIME%
 :: Elapsed time (octal-safe)
-for /f "tokens=1-3 delims=:." %%a in ("%START_TIME: =0%") do set /a _SS=10#%%a*3600+10#%%b*60+10#%%c
-for /f "tokens=1-3 delims=:." %%a in ("%END_TIME: =0%") do set /a _ES=10#%%a*3600+10#%%b*60+10#%%c
+for /f "tokens=1-3 delims=:.," %%a in ("%START_TIME: =0%") do set /a _SS=(1%%a %% 100)*3600+(1%%b %% 100)*60+(1%%c %% 100)
+for /f "tokens=1-3 delims=:.," %%a in ("%END_TIME: =0%") do set /a _ES=(1%%a %% 100)*3600+(1%%b %% 100)*60+(1%%c %% 100)
 set /a _EL=_ES-_SS
 if !_EL! LSS 0 set /a _EL+=86400
 set /a _EM=_EL/60
