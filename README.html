@@ -211,6 +211,13 @@ HTML(README_EN.html)</a></p>
 <p><strong>라이선스:</strong> Apache License 2.0 · 저작권 © 2026 SoDam
 AI Studio · <strong>상업적 사용 가능(조건 있음)</strong> → 자세히는 <a
 href="#19-법률--저작권--라이선스--상업적-용도">§19</a></p>
+<p><strong>문서 기준일:</strong> 2026-11-20 · 이 설명서는
+<code>main</code> 브랜치의
+<code>dev-one-click-setting-kit.bat</code>(파일 머리말 표기
+<strong>v1.8.0</strong>) 기준입니다. 최신 Release(v1.8.0) 이후
+<code>main</code>에 반영된 수정은 <a
+href="#9-업데이트-내용-요약">§9</a>의 <strong>“다음 릴리스
+예정”</strong> 에 따로 적었습니다.</p>
 <hr />
 <h2 id="목차">목차</h2>
 <ol type="1">
@@ -406,6 +413,18 @@ scoop</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>설치되는 버전:</strong> 레벨 [1]~[4]·[A]·[5]의 2번에서
+<strong>Python은 3.13</strong>, [5]의 16번과 올인원에서 <strong>PHP는
+8.4</strong>가 설치됩니다. winget 저장소에 버전 번호 없는
+이름(<code>Python.Python.3</code>, <code>PHP.PHP</code>)이 더 이상
+없어서, 현재 안정 버전으로 정해 두었습니다. 다른 Python 버전은
+<strong>[V]</strong> 에서 3.11 / 3.12 / 3.13 중에서 고릅니다. PHP 8.4는
+압축 파일(zip) 형태로 설치되는데, 설치 후 <code>php -v</code>가 되는지는
+<strong>이 PC에서 실제 설치로 확인하지 못했습니다</strong> — 새
+터미널에서 확인하고, 안 되면 <a
+href="#17-문제--오류-대처-방법">§17</a>을 보세요.</p>
+</blockquote>
 <p><strong>추가로 고를 수 있는 것 ([5] 선택 설치)</strong></p>
 <ul>
 <li>winget 도구: <strong>uv</strong>(Python 패키지 관리)</li>
@@ -668,12 +687,22 @@ Visual Studio Installer에서 업데이트합니다.</li>
 </blockquote>
 <hr />
 <h2 id="4-다운로드-방법">4. 다운로드 방법</h2>
-<p><strong>방법 A — Releases(권장)</strong> 저장소 페이지 오른쪽
-<strong>Releases</strong> → 최신 버전 → <strong>Assets</strong>의
-<code>dev-one-click-setting-kit.bat</code> 클릭해 저장.</p>
-<p><strong>방법 B — ZIP</strong> <code>&lt; &gt; Code</code> 버튼 →
-<strong>Download ZIP</strong> → 압축 해제 → 폴더 안의
-<code>dev-one-click-setting-kit.bat</code> 사용.</p>
+<p><strong>방법 A — ZIP으로 받기 (권장: 항상 최신 코드)</strong> 저장소
+페이지의 초록색 <code>&lt; &gt; Code</code> 버튼 → <strong>Download
+ZIP</strong> → 내려받은 파일을 <strong>우클릭 → 압축 풀기</strong> →
+압축을 푼 폴더 안의 <code>dev-one-click-setting-kit.bat</code> 사용.</p>
+<p><strong>방법 B — Releases에서 받기 (파일이 첨부된 버전만)</strong>
+저장소 페이지 오른쪽 <strong>Releases</strong> → 원하는 버전 →
+<strong>Assets</strong> 목록에
+<code>dev-one-click-setting-kit.bat</code>이 <strong>있을 때만</strong>
+클릭해 저장.</p>
+<blockquote>
+<p>⚠️ <strong>확인 결과(2026-11-20):</strong> 최신 Release
+<strong>v1.8.0에는 <code>.bat</code> 파일이 첨부되어 있지
+않습니다</strong>(v1.7.1 · v1.6.2 · v1.6.1에는 있음). 그래서 최신 기능을
+쓰려면 <strong>방법 A</strong>를 쓰세요. 방법 B로 받은 v1.7.1 파일에는
+[D] 메뉴가 없습니다.</p>
+</blockquote>
 <blockquote>
 <p>파일 하나(<code>.bat</code>)만 있으면 됩니다. 다른 파일은 설명서·개발
 기록입니다.</p>
@@ -683,14 +712,16 @@ Visual Studio Installer에서 업데이트합니다.</li>
 이상</strong>, <strong>숫자(1/2) 선택 · 번호 검증 · Enter 반복
 방지</strong>는 <strong>v1.7.1 이상</strong>, <strong>[D] 분야별 개발
 환경 · 마크다운 뷰어 · 화살표 선택</strong>은 <strong>v1.8.0
-이상</strong>에 들어 있습니다. Releases에서 받은 파일의 버전이 이보다
-낮으면, <strong>방법 B(ZIP)</strong> 로 <code>main</code> 브랜치의
-파일을 받으세요.</p>
+이상</strong>에 들어 있습니다. 받은 파일의 버전이 이보다 낮으면
+<strong>방법 A(ZIP)</strong> 로 <code>main</code> 브랜치의 파일을
+받으세요.</p>
 </blockquote>
 <hr />
 <h2 id="5-빠른-시작-3분-요약">5. 빠른 시작 (3분 요약)</h2>
 <ol type="1">
-<li><code>dev-one-click-setting-kit.bat</code>를
+<li>ZIP으로 받았다면 <strong>먼저 압축을 풀고</strong>(설치 결과 파일이
+그 폴더에 만들어집니다), 폴더 안의
+<code>dev-one-click-setting-kit.bat</code>를
 <strong>더블클릭</strong>.</li>
 <li>파란 경고창(SmartScreen)이 뜨면 <strong>[추가 정보] →
 [실행]</strong>.</li>
@@ -843,8 +874,40 @@ adb version</code></pre>
 git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
+<details open>
+<summary><b>다음 릴리스 예정 (2026-11-20 기준)</b></summary>
+
+<ul>
+<li><strong>Fixed(중요)</strong>: 없는 winget 이름 2개를 바꿨습니다 —
+<code>Python.Python.3</code> → <code>Python.Python.3.13</code>,
+<code>PHP.PHP</code> → <code>PHP.PHP.8.4</code>. 두 이름이 winget
+저장소에 더 이상 없어서(2026-11-20 조회) <strong>Python 3(레벨 [1]~[4] ·
+[A] · [5]의 2번 · [V]의 기본값 · [D] 데이터/AI)과 PHP([5]의 16번 ·
+올인원)가 <code>[실패]</code>로 끝나던 문제</strong>입니다.
+제거·업데이트 목록도 같이 고쳤습니다. <strong>v1.8.0 이하 파일에서는 이
+항목이 실패할 수 있습니다</strong>(<a href="#4-다운로드-방법">§4</a>의
+방법 A로 받으세요).</li>
+<li><strong>Added</strong>: <code>tools/check-winget-ids.ps1</code> —
+설치 없이 <code>.bat</code>에 쓰인 모든 winget 이름·다운로드 주소·npm
+패키지가 <strong>지금도 있는지 조회만</strong> 하는 점검
+도구입니다(유지보수자용 · <a
+href="#15-빌드--테스트--배포-방법">§15</a>).</li>
+<li><strong>알려진 문제(수정본 준비됨)</strong>: 설치가 끝나면 화면에
+<code>연산자 빠짐</code>이 2줄 보이고 소요 시간이 항상
+<code>0분 0초</code>로 나옵니다. 설치 결과와는 상관없는 표시 오류이며(<a
+href="#17-문제--오류-대처-방법">§17</a>), 고친 파일이 준비되어 다음
+릴리스에 들어갈 예정입니다.</li>
+<li><strong>알려진 문제(아직 고치지 않음)</strong>: 설치 결과 리포트 맨
+위의 <code>실패 N개</code> 숫자에는 <strong>npm으로 설치하는
+도구(Railway CLI 등)의 실패가 들어가지 않습니다.</strong> 실패한 도구는
+리포트 아래 목록에 <code>[실패]</code>로 정확히 표시되므로
+<strong>목록을 기준으로 확인</strong>하세요(<a
+href="#17-문제--오류-대처-방법">§17</a>).</li>
+</ul>
+</details>
+
 <details>
-<summary><b>v1.8.0 (2026-11-15) — 최신</b></summary>
+<summary><b>v1.8.0 (2026-11-15) — 최신 Release</b></summary>
 
 <ul>
 <li><strong>Added</strong>: 메인 메뉴 <strong>[D] 분야별 개발
@@ -1083,7 +1146,8 @@ README_EN.md / README_EN.html    ← 영어 설명서 (내용 동일)
 CHANGELOG.md                     ← 버전별 변경 이력
 LICENSE                          ← 라이선스 (Apache License 2.0)
 NOTICE                           ← 저작권·제3자(설치 도구) 안내
-PRD/                            ← 초기 기획 문서 (참고용 · 현재 구현과 다를 수 있음)</code></pre>
+tools/check-winget-ids.ps1       ← 유지보수자용 점검 도구 (설치 없이 조회만 · 일반 사용자는 필요 없음)
+PRD/                            ← 초기 기획 문서 (참고용 · 현재 구현과 다를 수 있음 — 예: 옛 winget 이름이 남아 있음)</code></pre>
 <blockquote>
 <p>실행 후 자동 생성: <code>install-report-날짜.txt</code>(요약),
 <code>install-log-날짜.txt</code>(상세) — <code>.gitignore</code>로
@@ -1131,6 +1195,10 @@ PRD/                            ← 초기 기획 문서 (참고용 · 현재 �
 <strong>Enter만 누르면 이전 선택이 반복되지 않고</strong>,
 [5]·[M]-3·[7]의 번호는 <strong>검증 후</strong> 사용합니다(특수문자·범위
 밖 번호 거부).</li>
+<li><strong>PowerShell 조각</strong>: <code>.bat</code> 안에 PowerShell
+코드가 들어 있습니다(<code>::PS:</code> 줄 = [D]의 화살표 선택 화면,
+<code>::PG:</code> 줄 = PostgreSQL 비밀번호 입력·설치). 실행할 때 그
+줄만 읽어 PowerShell로 돌리며, 별도 파일은 만들지 않습니다.</li>
 <li><strong>이식성</strong>: <code>%~dp0</code> 기반이라 파일
 위치·이름을 바꿔도 작동.</li>
 <li><strong>인코딩</strong>: CP949(한국어 Windows 기준). 영어
@@ -1175,6 +1243,11 @@ PostgreSQL은 비밀번호 전달용 <code>--override</code>를 씁니다.</li>
 순간 같은 PC의 다른 프로그램이 명령줄에서 볼 수 있으므로 <strong>다른
 곳에서 쓰는 비밀번호는 쓰지 마세요.</strong> 영문·숫자만 허용하는 이유는
 특수문자가 설치 명령을 깨뜨리기 때문입니다.</li>
+<li><strong>시험용 숨은 변수 주의</strong>: 환경 변수
+<code>KIT_TEST_PGPW</code>가 설정돼 있으면 키트는 비밀번호 입력 화면
+없이 그 값을 씁니다(키트 개발자의 자동 시험용). <strong>일반 사용에서는
+설정돼 있지 않아야 정상</strong>이며, 실제 비밀번호를 여기에 넣어 두지
+마세요. 자세한 내용과 확인 방법은 <a href="#14-환경-변수">§14</a>.</li>
 <li><strong>입력 최소화·검증</strong>: 사용자는 <strong>메뉴
 번호만</strong> 입력합니다. [5]·[M]의 번호는 숫자·쉼표·범위만 허용하고,
 그 외 입력은 거부합니다. 임의 명령 실행 통로 없음.</li>
@@ -1220,6 +1293,37 @@ PC에서는 환경 변수 <code>KIT_NO_ARROW=1</code>을 설정하면 <strong>�
 폴더를 기준으로 안내·삭제합니다. 안전장치로 <strong>폴더 이름이
 <code>data</code>이고 안에 <code>PG_VERSION</code> 파일이 있을
 때만</strong> 지웁니다.</p>
+<p><strong>시험 전용 변수 (일반 사용 금지)</strong> — 키트 개발자가 자동
+시험을 할 때 쓰는 숨은 훅입니다. <strong>설정돼 있지 않은 것이
+정상</strong>입니다.</p>
+<table>
+<thead>
+<tr>
+<th>변수</th>
+<th>하는 일</th>
+<th>주의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KIT_PICK_KEYS</code></td>
+<td>[D]의 화살표 선택 화면을 <strong>미리 정한 키 입력</strong>(쉼표로
+구분)으로 대신합니다</td>
+<td>설정돼 있으면 화면에서 직접 고를 수 없습니다</td>
+</tr>
+<tr>
+<td><code>KIT_TEST_PGPW</code></td>
+<td>PostgreSQL <strong>비밀번호 입력 화면을 건너뛰고</strong> 그 값을
+씁니다(영문·숫자 8~64자만 인정, 아니면 무시하고 화면에서 물어봄)</td>
+<td>같은 계정의 다른 프로그램이 환경 변수를 읽을 수 있으니 <strong>실제
+비밀번호를 넣지 마세요</strong></td>
+</tr>
+</tbody>
+</table>
+<p>확인하는 법: 명령 프롬프트에서 <code>set KIT_</code> 를 입력했을 때
+<strong>아무것도 나오지 않으면 정상</strong>입니다. 값이 보이면 직접
+설정한 적이 없는지 확인하고, 필요 없으면 환경 변수 편집 창에서
+지우세요.</p>
 <p><strong>키트가 읽기만 하는 Windows 기본 변수</strong></p>
 <table>
 <thead>
@@ -1350,7 +1454,16 @@ scoop이 동작하지 않을 수 있음)</td>
 (개발자용)</h3>
 <p>배치 파일은 문법 오류가 <strong>실행 중에만</strong> 드러납니다. 고친
 부분은 반드시 실제로 실행해 보세요.</p>
-<ol type="1">
+<ol start="0" type="1">
+<li><strong>설치 없이 먼저 점검(권장):</strong> <code>tools</code>
+폴더의 <code>check-winget-ids.ps1</code>은 <code>.bat</code>에 쓰인 모든
+winget 이름·다운로드 주소·npm 패키지가 <strong>지금도 있는지
+조회만</strong> 하는 점검 도구입니다. 아무것도 설치·변경하지 않으며,
+사용법은 그 파일 맨 위 설명에 적혀 있습니다. 결과 마지막 줄이
+<code>RESULT: PASS</code>여야 하고, 한 곳이라도
+<code>[MISSING]</code>이면 <code>FAIL</code>입니다.
+<code>[warn]</code>은 대소문자만 다른 경우로 설치에는 문제가
+없습니다.</li>
 <li>수정한 블록만 별도 <code>.bat</code>로 떼어내 <code>cmd</code>에서
 실행 → 분기·출력 확인</li>
 <li>전체 실행 → 메뉴 번호를 하나씩 입력해 오류 문구가 없는지 확인</li>
@@ -1372,14 +1485,21 @@ scoop이 동작하지 않을 수 있음)</td>
 </blockquote>
 <h3 id="배포--유지보수자용">배포 — 유지보수자용</h3>
 <ol type="1">
+<li><code>tools\check-winget-ids.ps1</code>을 실행해
+<strong><code>RESULT: PASS</code></strong> 확인(없어진 winget 이름이
+있으면 릴리스 전에 고침)</li>
 <li><code>CHANGELOG.md</code>에 변경 내용 추가</li>
 <li><code>.bat</code> 파일 맨 위 주석의 버전 번호 갱신</li>
 <li>변경사항 commit → PR → <code>main</code> 병합</li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → 태그(예:
-<code>v1.8.0</code>) 지정 → <strong>Assets에
-<code>dev-one-click-setting-kit.bat</code> 첨부</strong></li>
+<code>v1.8.1</code>) 지정 → <strong>Assets에
+<code>dev-one-click-setting-kit.bat</code>
+첨부</strong>(<strong>빠뜨리지 마세요</strong> — v1.8.0은 첨부가 빠져
+있습니다)</li>
 <li>첨부 직전에 <strong>저장소의 파일과 바이트가
-같은지</strong>(CP949·CRLF 유지) 확인</li>
+같은지</strong>(CP949·CRLF 유지) 확인. 이미 공개한 태그를 다른 커밋으로
+<strong>다시 옮기지 마세요</strong>(먼저 받은 사람의 파일과 어긋납니다)
+— 고칠 것이 있으면 새 버전을 냅니다.</li>
 </ol>
 <blockquote>
 <p>⚠️ <strong><code>.gitattributes</code>의 <code>*.bat -text</code>
@@ -1436,6 +1556,40 @@ SDK(수백 MB)를 내려받느라 몇 분 걸립니다.</li>
 <td>파란 경고창(SmartScreen)</td>
 <td>Windows 보호 기능</td>
 <td><strong>[추가 정보] → [실행]</strong> (정상)</td>
+</tr>
+<tr>
+<td>Python 3 또는 PHP만 <code>[실패]</code>로 나옴</td>
+<td>오래된 파일(v1.8.0 이하)이 쓰는 이름(<code>Python.Python.3</code>,
+<code>PHP.PHP</code>)이 winget 저장소에 더 이상 없음</td>
+<td><a href="#4-다운로드-방법">§4</a>의 <strong>방법 A(ZIP)</strong> 로
+최신 파일을 받아 다시 실행. 급하면 <strong>[V]</strong> 에서 Python은
+<code>1</code>(3.13)을 <strong>직접 골라</strong> 설치하고, PHP는
+<strong>[8] 직접 다운로드</strong>를 이용</td>
+</tr>
+<tr>
+<td>설치가 끝난 뒤 <code>연산자 빠짐</code>이 2줄 보이고 소요 시간이
+<code>0분 0초</code>로 나옴</td>
+<td>소요 시간을 계산하는 식의 오류</td>
+<td><strong>무시해도 됩니다.</strong> 설치 성공·실패 판정에는 영향이
+없고 로그·리포트의 소요 시간 값만 틀립니다. 고친 파일이 준비되어 다음
+릴리스에 들어갈 예정입니다(<a href="#9-업데이트-내용-요약">§9</a>)</td>
+</tr>
+<tr>
+<td>리포트 맨 위는 <code>실패: 0개</code>인데 아래 목록에
+<code>[실패]</code> 줄이 있음</td>
+<td>npm으로 설치하는 도구(Railway CLI 등)의 실패는 맨 위 숫자에 들어가지
+않는 알려진 문제</td>
+<td><strong>아래 목록의 <code>[실패]</code> 줄이 정확</strong>합니다.
+인터넷을 확인한 뒤 키트를 다시 실행하세요(이미 성공한 도구는
+건너뜀)</td>
+</tr>
+<tr>
+<td>PHP 설치는 끝났는데 새 터미널에서 <code>php -v</code>가 안 됨</td>
+<td>PHP 8.4는 압축 파일(zip) 형태로 설치되어 명령 등록이 늦거나 안 될 수
+있음(이 PC에서 실제 설치로 확인하지 못함)</td>
+<td>새 터미널을 다시 열어 확인 → 안 되면 <strong>[9] 설치
+확인</strong>으로 상태를 보고, 그래도 안 되면 <strong>[8] 직접
+다운로드</strong>로 설치</td>
 </tr>
 <tr>
 <td><code>winget을 찾을 수 없습니다</code></td>
@@ -1574,6 +1728,31 @@ Studio의 <strong>가상 폰(에뮬레이터)</strong> 으로 시험할 수 있�
 도구를 내려받습니다.</p>
 <p><strong>Q. macOS/Linux에서 되나요?</strong> 아니요. <strong>Windows
 전용</strong>입니다.</p>
+<p><strong>Q. 파일은 어디서 받나요? Releases에 파일이 없어요.</strong>
+최신 Release(v1.8.0)에는 <code>.bat</code> 파일이 첨부되어 있지
+않습니다. <a href="#4-다운로드-방법">§4</a>의 <strong>방법
+A(ZIP)</strong> 로 받으세요.</p>
+<p><strong>Q. Python과 PHP는 어떤 버전이 설치되나요?</strong> Python은
+<strong>3.13</strong>, PHP는 <strong>8.4</strong>입니다. 다른 Python
+버전(3.11/3.12)은 <strong>[V]</strong> 에서 고릅니다. 자세한 내용은 <a
+href="#3-필요-프로그램설치되는-도구-목록">§3</a>입니다.</p>
+<p><strong>Q. 설치가 끝났는데 <code>연산자 빠짐</code>이라는 글자가
+나와요. 실패인가요?</strong> 아니요. 소요 시간을 계산하는 부분의 표시
+오류라서 설치 결과와는 상관없습니다. <a
+href="#17-문제--오류-대처-방법">§17</a>을 보세요.</p>
+<p><strong>Q. 이 파일을 믿고 실행해도 되나요?</strong>
+<code>.bat</code>은 <strong>메모장으로 열어 읽을 수 있는 글자
+파일</strong>입니다(우클릭 → 메모장). 도구는 공식 출처(winget 등)에서만
+받고, 키트가 개인 정보를 서버로 보내지 않습니다(자세히는 <a
+href="#13-보안--데이터-흐름">§13</a>). 다만 이 키트는
+<strong>무보증(AS-IS)</strong> 이므로 회사·학교 PC라면 보안 담당자에게
+먼저 확인하세요.</p>
+<p><strong>Q. 회사나 수업에서 써도 되나요? 돈을 내야 하나요?</strong> 이
+키트 자체는 <strong>무료</strong>이고 Apache 2.0이라 상업적 사용도 조건
+안에서 가능합니다. 다만 <strong>설치되는 도구는 각자 약관</strong>이
+있고, 일부(예: Docker Desktop의 큰 회사 업무용, Typora)는 조건이나
+비용이 있을 수 있습니다. <a
+href="#19-법률--저작권--라이선스--상업적-용도">§19</a>를 확인하세요.</p>
 <hr />
 <h2 id="19-법률--저작권--라이선스--상업적-용도">19. 법률 / 저작권 /
 라이선스 / 상업적 용도</h2>
@@ -1688,143 +1867,319 @@ AI Studio</strong>. 전문: <a href="./LICENSE">LICENSE</a>(공식 Apache
 <li><strong>상업적 사용·재배포 시</strong>에는 <strong>각 도구의
 라이선스를 개별적으로 확인·준수</strong>해야 합니다.</li>
 </ul>
-<p>아래는 <strong>참고용 요약</strong>입니다(공개 정보 기준,
-<strong>조건은 바뀔 수 있으므로 반드시 각 공식 라이선스 문서를
-확인</strong>하세요).</p>
+<p>아래는 <strong>참고용</strong>입니다. 값은 <strong>2026-11-20에
+winget 매니페스트(<code>winget show</code>)와
+npm(<code>npm view</code>)에서 조회한 표기</strong>를 그대로 옮긴
+것이며, 조회 당시 버전을 함께 적었습니다. <strong>조건은 바뀔 수
+있으므로 반드시 각 공식 라이선스 문서를 확인</strong>하세요.</p>
 <table>
 <thead>
 <tr>
 <th>도구</th>
-<th>라이선스(요약)</th>
-<th>비고</th>
+<th>설치 방식</th>
+<th style="text-align: center;">조회된 버전</th>
+<th>라이선스 표기(조회값)</th>
+<th>쉬운 설명 · 주의</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Git</td>
+<td>winget</td>
+<td style="text-align: center;">2.56.0.4</td>
 <td>GPL-2.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Python</td>
-<td>PSF License</td>
+<td>Git LFS</td>
+<td>winget</td>
+<td style="text-align: center;">3.8.0</td>
+<td>MIT License</td>
 <td></td>
 </tr>
 <tr>
-<td>Node.js · pnpm</td>
+<td>Python 3.13 / 3.12 / 3.11</td>
+<td>winget</td>
+<td style="text-align: center;">3.13.17 / 3.12.10 / 3.11.9</td>
+<td>PSF-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Node.js LTS</td>
+<td>winget</td>
+<td style="text-align: center;">26.13.1</td>
 <td>MIT</td>
 <td></td>
 </tr>
 <tr>
 <td>VS Code</td>
-<td>소스는 MIT, <strong>배포판은 Microsoft 소프트웨어 라이선스
-조건</strong></td>
-<td>배포판 약관 별도 확인</td>
+<td>winget</td>
+<td style="text-align: center;">1.146.0</td>
+<td>Microsoft Software License</td>
+<td>소스는 공개 저장소(MIT)이지만 <strong>설치되는 배포판은 Microsoft
+조건</strong>입니다. 배포판 약관을 확인하세요</td>
+</tr>
+<tr>
+<td>Windows Terminal</td>
+<td>winget</td>
+<td style="text-align: center;">1.25.3131.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>GitHub CLI</td>
+<td>winget</td>
+<td style="text-align: center;">2.105.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>PowerShell 7</td>
+<td>winget</td>
+<td style="text-align: center;">7.7.0.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>pnpm</td>
+<td>winget</td>
+<td style="text-align: center;">12.18.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Bun</td>
+<td>winget</td>
+<td style="text-align: center;">1.4.5</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>winget</td>
+<td style="text-align: center;">0.40.16</td>
+<td>MIT</td>
+<td>내려받는 <strong>AI 모델은 모델마다 라이선스가 따로</strong>
+있습니다</td>
+</tr>
+<tr>
+<td>Java (Eclipse Temurin 21 / 17 / 11 / 8)</td>
+<td>winget</td>
+<td style="text-align: center;">21.0.13.9 / 17.0.21.9 / 11.0.33.10 /
+8.0.512.9</td>
+<td>GPL-2.0 with Classpath Exception</td>
+<td></td>
 </tr>
 <tr>
 <td>Go</td>
+<td>winget</td>
+<td style="text-align: center;">1.27.4</td>
 <td>BSD-3-Clause</td>
 <td></td>
 </tr>
 <tr>
-<td>Rust</td>
-<td>MIT 또는 Apache-2.0</td>
+<td>Rust (rustup)</td>
+<td>winget</td>
+<td style="text-align: center;">1.29.3</td>
+<td>Apache-2.0 or MIT</td>
 <td></td>
 </tr>
 <tr>
-<td>Java (Eclipse Temurin)</td>
-<td>GPL-2.0 + Classpath Exception</td>
-<td></td>
-</tr>
-<tr>
-<td>Flutter · Dart</td>
-<td>BSD-3-Clause</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Android Studio · Android SDK · 플랫폼
-도구(adb)</strong></td>
-<td><strong>Google의 약관</strong>(Android SDK 라이선스 계약 등)</td>
-<td><strong>SDK 라이선스 동의는 사용자가
-직접</strong>(<code>flutter doctor --android-licenses</code>)</td>
-</tr>
-<tr>
-<td>scrcpy</td>
+<td>Stripe CLI</td>
+<td>winget</td>
+<td style="text-align: center;">1.55.13</td>
 <td>Apache-2.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Ruby · PHP</td>
-<td>Ruby: Ruby License 또는 BSD-2-Clause 계열 / PHP: <strong>버전에
-따라</strong> PHP License 또는 BSD-3-Clause</td>
-<td><strong>버전별로 확인 필요</strong></td>
+<td>Ruby (RubyInstaller + DevKit 3.3 / 3.2)</td>
+<td>winget</td>
+<td style="text-align: center;">3.3.13-1 / 3.2.11-1</td>
+<td>BSD-3-Clause</td>
+<td>표기는 <strong>설치 프로그램(RubyInstaller)</strong> 기준입니다.
+Ruby 본체의 라이선스는 별도로 확인하세요</td>
 </tr>
 <tr>
-<td>Ollama</td>
-<td>MIT</td>
-<td>내려받는 <strong>AI 모델은 모델별 라이선스</strong>가 따로 있음</td>
+<td>PHP 8.4</td>
+<td>winget</td>
+<td style="text-align: center;">8.4.27</td>
+<td>PHP License v3.01</td>
+<td></td>
 </tr>
 <tr>
-<td><strong>Obsidian</strong></td>
-<td><strong>Obsidian 약관(독점 소프트웨어)</strong></td>
-<td>이용 조건은 공식 약관 확인</td>
+<td>uv</td>
+<td>winget</td>
+<td style="text-align: center;">0.13.9</td>
+<td>Apache-2.0 or MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Android Studio</td>
+<td>winget</td>
+<td style="text-align: center;">2026.2.2.9</td>
+<td>Android Software Development Kit License Agreement</td>
+<td><strong>SDK 라이선스 동의는 사용자가 직접</strong>
+합니다(<code>flutter doctor --android-licenses</code>)</td>
+</tr>
+<tr>
+<td>adb (Android Platform-Tools)</td>
+<td>winget</td>
+<td style="text-align: center;">37.0.3</td>
+<td>Apache-2.0</td>
+<td>winget 표기는 이렇지만 <strong>Android SDK 약관도 함께
+확인</strong>하세요</td>
+</tr>
+<tr>
+<td>scrcpy</td>
+<td>winget</td>
+<td style="text-align: center;">5.0.1</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Obsidian</td>
+<td>winget</td>
+<td style="text-align: center;">1.15.1</td>
+<td>Proprietary</td>
+<td><strong>독점 소프트웨어</strong>입니다. 이용 조건은 공식 약관을
+확인하세요</td>
 </tr>
 <tr>
 <td>MarkText</td>
+<td>winget</td>
+<td style="text-align: center;">0.23.0</td>
 <td>MIT</td>
 <td></td>
 </tr>
 <tr>
 <td>Zettlr</td>
+<td>winget</td>
+<td style="text-align: center;">4.10.0</td>
 <td>GPL-3.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Typora</td>
-<td><strong>유료 독점 소프트웨어</strong>(Typora 약관)</td>
-<td>키트는 <strong>설치하지 않고 공식 페이지만 엽니다.</strong> 이용
-조건은 공식 약관 확인(일반 정보, 자동 확인 못 함)</td>
+<td>Docker Desktop</td>
+<td>winget</td>
+<td style="text-align: center;">4.99.0</td>
+<td>Proprietary</td>
+<td><strong>독점(Docker 구독 서비스 약관)</strong>. 개인·학습은
+무료이지만 <strong>큰 회사의 업무용은 유료일 수 있습니다</strong></td>
 </tr>
 <tr>
-<td><strong>Docker Desktop</strong></td>
-<td><strong>Docker 구독 서비스 약관(독점)</strong></td>
-<td>개인·학습은 무료이나 <strong>큰 회사의 업무용은 유료일 수
-있음</strong></td>
-</tr>
-<tr>
+<td>PostgreSQL 17</td>
+<td>winget</td>
+<td style="text-align: center;">17.12-2</td>
 <td>PostgreSQL</td>
-<td>PostgreSQL License</td>
 <td></td>
 </tr>
 <tr>
-<td><strong>Microsoft C++ 빌드 도구</strong></td>
-<td><strong>Microsoft(Visual Studio) 라이선스 조건</strong></td>
-<td>설치 시 해당 약관에 동의하게 됨</td>
+<td>Microsoft C++ 빌드 도구 (Visual Studio Build Tools)</td>
+<td>winget</td>
+<td style="text-align: center;">17.14.45</td>
+<td>Proprietary</td>
+<td>설치할 때 <strong>Microsoft 약관에 동의</strong>하게 됩니다</td>
 </tr>
 <tr>
-<td><strong>Claude Code CLI</strong></td>
-<td><strong>Anthropic의 약관(상용 소프트웨어)</strong></td>
-<td>사용 시 해당 서비스 약관·요금 적용</td>
+<td>Flutter · Dart</td>
+<td>공식 저장소(git)</td>
+<td style="text-align: center;">stable</td>
+<td>BSD-3-Clause</td>
+<td>2026-11-14에 GitHub 공식 저장소로 확인한 값입니다(이번 조회 대상
+아님)</td>
 </tr>
 <tr>
-<td>그 밖의 도구(GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI
-등)</td>
-<td>각 공식 저장소의 라이선스</td>
-<td>설치 전 확인</td>
+<td>scoop</td>
+<td>공식 스크립트(get.scoop.sh)</td>
+<td style="text-align: center;">-</td>
+<td><strong>확인하지 못함</strong></td>
+<td>공식 저장소에서 직접 확인하세요</td>
+</tr>
+<tr>
+<td>Typora</td>
+<td>설치 안 함(공식 페이지만 열기)</td>
+<td style="text-align: center;">-</td>
+<td>유료 독점</td>
+<td><strong>유료 독점 소프트웨어</strong>입니다. 이용 조건은 공식 약관을
+확인하세요(자동 확인 못 함)</td>
+</tr>
+<tr>
+<td>Claude Code CLI</td>
+<td>npm (<code>@anthropic-ai/claude-code</code>)</td>
+<td style="text-align: center;">-</td>
+<td>SEE LICENSE IN README.md</td>
+<td><strong>Anthropic의 상용 약관</strong>이 적용됩니다. 사용 시 서비스
+약관·요금을 확인하세요</td>
+</tr>
+<tr>
+<td>Vercel CLI</td>
+<td>npm (<code>vercel</code>)</td>
+<td style="text-align: center;">-</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Supabase CLI</td>
+<td>npm (<code>supabase</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Stripe SDK</td>
+<td>npm (<code>stripe</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Resend SDK</td>
+<td>npm (<code>resend</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Railway CLI</td>
+<td>npm (<code>@railway/cli</code>)</td>
+<td style="text-align: center;">-</td>
+<td>ISC</td>
+<td></td>
+</tr>
+<tr>
+<td>Clerk</td>
+<td>npm (<code>@clerk/clerk-sdk-node</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Prisma</td>
+<td>npm (<code>prisma</code>)</td>
+<td style="text-align: center;">-</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Uploadthing</td>
+<td>npm (<code>uploadthing</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>확인 상태(2026-11-14):</strong> GitHub 공식 저장소 정보로
-<strong>확인한 것</strong> — pnpm · VS Code(소스) · Windows Terminal ·
-PowerShell · GitHub CLI · Ollama · Go · Flutter · Dart · scrcpy · Stripe
-CLI · uv · Vercel CLI(및 Rust·Temurin 빌드 스크립트의 Apache-2.0 표기).
-<strong>자동으로 확인하지 못해 일반적으로 알려진 정보를 적은 것</strong>
-— Git · Python · Node.js · Bun · Git LFS · Ruby · scoop · Android 관련
-도구 · Claude Code. 이 항목은 <strong>설치·배포 전에 공식 문서로 직접
-확인</strong>하세요. (2026-11-15 추가: winget 매니페스트의 라이선스
-표기로 확인한 것 — Obsidian · MarkText · Zettlr · Docker Desktop ·
-PostgreSQL · Visual Studio Build Tools.)</p>
+<p><strong>확인 상태(2026-11-20):</strong> 표의 <code>winget</code> 줄은
+<strong>winget 매니페스트의 라이선스 표기</strong>, <code>npm</code>
+줄은 <strong><code>npm view &lt;패키지&gt; license</code>
+결과</strong>입니다. 이 표기는 <strong>패키지 게시자가 적은
+값</strong>이라 실제 약관 전체를 대신하지 않으며, <strong>버전이 바뀌면
+달라질 수 있습니다.</strong> <strong>조회하지 못한 것</strong> — scoop,
+Flutter·Dart(2026-11-14에 GitHub 공식 저장소로 확인한 표기를 유지),
+Typora(설치하지 않음), Claude Code CLI(npm 표기가 “SEE LICENSE IN
+README.md”이므로 Anthropic 약관을 직접 확인). 설치·배포 전에 <strong>각
+공식 문서로 직접 확인</strong>하세요.</p>
 </blockquote>
 <p><strong>3) 상표·제휴 관계</strong></p>
 <ul>
