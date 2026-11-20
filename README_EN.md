@@ -7,7 +7,7 @@
 
 **License:** Apache License 2.0 · Copyright © 2026 SoDam AI Studio · **commercial use allowed (with conditions)** → details in [§19](#19-legal--copyright--license--commercial-use)
 
-**Document date:** 2026-11-20 · This guide matches the `dev-one-click-setting-kit.bat` on the `main` branch (the file header says **v1.8.0**). Fixes added to `main` after the latest Release (v1.8.0) are listed separately under **"Next release"** in [§9](#9-changelog-summary).
+**Document date:** 2026-11-20 · This guide matches the `dev-one-click-setting-kit.bat` on the `main` branch (the file header says **v1.8.1**), and the latest Release is also **v1.8.1**. Differences from earlier versions are listed in [§9](#9-changelog-summary).
 
 ---
 
@@ -189,11 +189,11 @@ On the repo page, click the green `< > Code` button → **Download ZIP** → **r
 **Option B — Download from Releases (only for versions that have the file attached)**
 Repo page → **Releases** → pick a version → click `dev-one-click-setting-kit.bat` and save it **only if it is listed** under **Assets**.
 
-> ⚠️ **What we found (2026-11-20):** the latest Release, **v1.8.0, has no `.bat` file attached** (v1.7.1 · v1.6.2 · v1.6.1 do). So to get the newest features, use **Option A**. The v1.7.1 file from Option B has no [D] menu.
+> ⚠️ **What we found (2026-11-20):** the **v1.8.0 Release has no `.bat` file attached.** The latest **v1.8.1 attaches it again** (v1.7.1 · v1.6.2 · v1.6.1 also have it). The code of v1.8.0 still has a problem where installing Python 3 and PHP fails, so get **v1.8.1 or later**. A v1.7.1 or older file from Option B has no [D] menu.
 
 > You only need the single `.bat` file. Other files are docs / dev history.
 >
-> **How to check that your file is current:** right-click the `.bat` → open with Notepad; the first comment line shows `DEV-KIT.bat v<number>`. The **[M] mobile menu** is in **v1.7.0 or later**; **number (1/2) answers, number validation and the Enter-repeat fix** are in **v1.7.1 or later**, and **[D] development environments, Markdown viewers and arrow-key selection** are in **v1.8.0 or later**. If your file has a lower version, use **Option A (ZIP)** to get the file from the `main` branch.
+> **How to check that your file is current:** right-click the `.bat` → open with Notepad; the first comment line shows `DEV-KIT.bat v<number>`. The **[M] mobile menu** is in **v1.7.0 or later**; **number (1/2) answers, number validation and the Enter-repeat fix** are in **v1.7.1 or later**, and **[D] development environments, Markdown viewers and arrow-key selection** are in **v1.8.0 or later**, and the **Python 3 / PHP install fix and the elapsed-time display fix** are in **v1.8.1 or later**. If your file has a lower version, use **Option A (ZIP)** to get the file from the `main` branch.
 
 ---
 
@@ -296,16 +296,18 @@ git config --global user.email "your@email.com"
 ## 9. Changelog summary
 
 <details open>
-<summary><b>Next release (as of 2026-11-20)</b></summary>
+<summary><b>v1.8.1 (2026-11-20) — latest Release</b></summary>
 
 - **Fixed (important)**: replaced 2 winget names that no longer exist — `Python.Python.3` → `Python.Python.3.13`, `PHP.PHP` → `PHP.PHP.8.4`. Both names are gone from the winget repository (looked up 2026-11-20), so **Python 3 (levels [1]–[4] · [A] · item 2 of [5] · the default in [V] · [D] Data/AI) and PHP (item 16 of [5] · All-in-one) ended as `[실패]` (failed)**. The remove and update lists were fixed too. **With a v1.8.0 or older file these items may fail** (get the file with Option A in [§4](#4-how-to-download)).
 - **Added**: `tools/check-winget-ids.ps1` — a check tool that installs nothing and only **looks up whether** every winget name, download address and npm package used in the `.bat` **still exists** (for maintainers · [§15](#15-build--test--release)).
-- **Known issue (fix is ready)**: after an install finishes, the screen shows 2 lines saying `연산자 빠짐` ("operator missing") and the elapsed time always shows `0분 0초` (0 min 0 sec). This is a display error unrelated to the install result ([§17](#17-troubleshooting)); a fixed file is ready and will be in the next release.
+- **Fixed**: after an install finished, the screen showed 2 lines saying `연산자 빠짐` ("operator missing") and the elapsed time always showed `0분 0초` (0 min 0 sec). This display error (unrelated to the install result) is fixed by correcting the elapsed-time formula. **Files from v1.8.0 or older still show it** ([§17](#17-troubleshooting)).
+- **Documentation**: the English and Korean READMEs were checked against the code and real lookups — corrected download instructions, a per-tool license table (as looked up), notes on hidden test-only variables, and a cleaned-up list of known issues.
+- **Not confirmed**: a **full real install on a new PC** (especially `php -v` for PHP 8.4, and Docker · PostgreSQL · C++ build tools · Android Studio) has not been confirmed. The install call shapes and screen flow were tested on 12 paths with a fake winget.
 - **Known issue (not fixed yet)**: the `Failed N` number at the top of the install report **does not include failures of tools installed with npm (Railway CLI, etc.).** A failed tool is shown correctly as `[실패]` (failed) in the list below it, so **use the list as the source of truth** ([§17](#17-troubleshooting)).
 </details>
 
 <details>
-<summary><b>v1.8.0 (2026-11-15) — latest Release</b></summary>
+<summary><b>v1.8.0 (2026-11-15)</b></summary>
 
 - **Added**: main menu **[D] Development environments by field** — Web / Desktop apps / Mobile (→[M]) / Data·AI·Server / Markdown viewer. Pick a field, then only `[Basic]` or `[Everything]`.
 - **Added**: **Markdown viewers** — install Obsidian · MarkText · Zettlr **one at a time**. Typora is paid, so only its official page opens; for VS Code only the preview steps are shown.
@@ -568,7 +570,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 2. Add the changes to `CHANGELOG.md`
 3. Update the version number in the comment at the top of the `.bat`
 4. Commit the changes → PR → merge into `main`
-5. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.8.1`) → **attach `dev-one-click-setting-kit.bat` under Assets** (**do not forget this** — v1.8.0 was released without the attachment)
+5. GitHub **Releases → Draft a new release** → set a tag (e.g. `v1.8.2`) → **attach `dev-one-click-setting-kit.bat` under Assets** (**do not forget this** — v1.8.0 was released without the attachment)
 6. Just before attaching, confirm the file is **byte-identical to the one in the repository** (CP949 and CRLF preserved). Do **not move an already published tag to a different commit** (it would no longer match the file people downloaded earlier) — if something needs fixing, publish a new version.
 
 > ⚠️ **Never delete the `*.bat -text` line in `.gitattributes`.**
@@ -598,7 +600,7 @@ Batch files only reveal syntax errors **at run time**, so always actually run wh
 |---------|-------------|-----|
 | Blue SmartScreen window | Windows protection | **[More info] → [Run anyway]** (normal) |
 | Only Python 3 or PHP shows `[실패]` (failed) | An old file (v1.8.0 or older) uses names (`Python.Python.3`, `PHP.PHP`) that no longer exist in the winget repository | Get the latest file with **Option A (ZIP)** in [§4](#4-how-to-download) and run it again. If you are in a hurry, **pick** `1` (3.13) for Python in **[V]**, and use **[8] Direct download** for PHP |
-| After the install finishes, 2 lines saying `연산자 빠짐` ("operator missing") appear and the elapsed time shows `0분 0초` (0 min 0 sec) | An error in the formula that calculates the elapsed time | **You can ignore it.** It does not affect whether installs are judged a success or failure; only the elapsed-time value in the log and report is wrong. A fixed file is ready and will be in the next release ([§9](#9-changelog-summary)) |
+| After the install finishes, 2 lines saying `연산자 빠짐` ("operator missing") appear and the elapsed time shows `0분 0초` (0 min 0 sec) | An error in the formula that calculates the elapsed time | **You can ignore it.** It does not affect whether installs are judged a success or failure; only the elapsed-time value in the log and report is wrong. **It is fixed from v1.8.1**, so if you see it your file is old — get the latest file from [§4](#4-how-to-download) ([§9](#9-changelog-summary)) |
 | The top of the report says `Failed: 0` but the list below has a `[실패]` line | Failures of tools installed with npm (Railway CLI, etc.) are not counted in the top number (a known issue) | **The `[실패]` line in the list is the accurate one.** Check your internet, then run the kit again (tools that already succeeded are skipped) |
 | PHP installed, but `php -v` does not work in a new terminal | PHP 8.4 is installed as a zip package, so registering the command may be late or may not happen (not confirmed with a real install on this PC) | Open a new terminal and check again → if it still fails, look at the state with **[9] Check install**, and if that does not help, install it with **[8] Direct download** |
 | `winget not found` | App Installer missing | Install **“App Installer”** from Microsoft Store, or https://aka.ms/getwinget |
@@ -660,13 +662,13 @@ Yes. winget downloads the tools from the internet.
 No. **Windows only.**
 
 **Q. Where do I get the file? There is no file in Releases.**
-The latest Release (v1.8.0) has no `.bat` file attached. Use **Option A (ZIP)** in [§4](#4-how-to-download).
+The v1.8.0 Release had no `.bat` file attached. The latest **v1.8.1 Release has it.** Use **Option A (ZIP)** in [§4](#4-how-to-download) or the file from the v1.8.1 (or later) Release.
 
 **Q. Which versions of Python and PHP get installed?**
 Python **3.13** and PHP **8.4**. Other Python versions (3.11/3.12) can be picked in **[V]**. Details are in [§3](#3-programs-installed-tool-list).
 
 **Q. The install finished but I see the text `연산자 빠짐` ("operator missing"). Did it fail?**
-No. It is a display error in the part that calculates the elapsed time and has nothing to do with the install result. See [§17](#17-troubleshooting).
+No. It is a display error in the part that calculates the elapsed time and has nothing to do with the install result. **It is fixed from v1.8.1**, so if you see it your file is old. See [§17](#17-troubleshooting).
 
 **Q. Is it OK to trust and run this file?**
 The `.bat` is a **plain text file you can open and read with Notepad** (right-click → Notepad). The kit downloads tools only from official sources (winget, etc.) and does not send personal information to any server (details in [§13](#13-security--data-flow)). Still, this kit comes **AS-IS, with no warranty**, so on a work or school PC, ask your security administrator first.

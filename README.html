@@ -214,10 +214,9 @@ href="#19-법률--저작권--라이선스--상업적-용도">§19</a></p>
 <p><strong>문서 기준일:</strong> 2026-11-20 · 이 설명서는
 <code>main</code> 브랜치의
 <code>dev-one-click-setting-kit.bat</code>(파일 머리말 표기
-<strong>v1.8.0</strong>) 기준입니다. 최신 Release(v1.8.0) 이후
-<code>main</code>에 반영된 수정은 <a
-href="#9-업데이트-내용-요약">§9</a>의 <strong>“다음 릴리스
-예정”</strong> 에 따로 적었습니다.</p>
+<strong>v1.8.1</strong>) 기준이며, 최신 Release도
+<strong>v1.8.1</strong>입니다. 이전 버전과의 차이는 <a
+href="#9-업데이트-내용-요약">§9</a>에 적었습니다.</p>
 <hr />
 <h2 id="목차">목차</h2>
 <ol type="1">
@@ -697,11 +696,12 @@ ZIP</strong> → 내려받은 파일을 <strong>우클릭 → 압축 풀기</str
 <code>dev-one-click-setting-kit.bat</code>이 <strong>있을 때만</strong>
 클릭해 저장.</p>
 <blockquote>
-<p>⚠️ <strong>확인 결과(2026-11-20):</strong> 최신 Release
-<strong>v1.8.0에는 <code>.bat</code> 파일이 첨부되어 있지
-않습니다</strong>(v1.7.1 · v1.6.2 · v1.6.1에는 있음). 그래서 최신 기능을
-쓰려면 <strong>방법 A</strong>를 쓰세요. 방법 B로 받은 v1.7.1 파일에는
-[D] 메뉴가 없습니다.</p>
+<p>⚠️ <strong>확인 결과(2026-11-20):</strong> <strong>v1.8.0 Release에는
+<code>.bat</code> 파일이 첨부되어 있지 않습니다.</strong> 최신
+<strong>v1.8.1부터</strong> 다시 첨부됩니다(v1.7.1 · v1.6.2 · v1.6.1에도
+있음). v1.8.0 시점의 코드에는 Python 3·PHP 설치가 실패하는 문제가 남아
+있으니 <strong>v1.8.1 이상</strong>을 받으세요. 방법 B로 v1.7.1 이하를
+받으면 [D] 메뉴가 없습니다.</p>
 </blockquote>
 <blockquote>
 <p>파일 하나(<code>.bat</code>)만 있으면 됩니다. 다른 파일은 설명서·개발
@@ -712,9 +712,10 @@ ZIP</strong> → 내려받은 파일을 <strong>우클릭 → 압축 풀기</str
 이상</strong>, <strong>숫자(1/2) 선택 · 번호 검증 · Enter 반복
 방지</strong>는 <strong>v1.7.1 이상</strong>, <strong>[D] 분야별 개발
 환경 · 마크다운 뷰어 · 화살표 선택</strong>은 <strong>v1.8.0
-이상</strong>에 들어 있습니다. 받은 파일의 버전이 이보다 낮으면
-<strong>방법 A(ZIP)</strong> 로 <code>main</code> 브랜치의 파일을
-받으세요.</p>
+이상</strong>, <strong>Python 3·PHP 설치 수정과 소요 시간 표시
+수정</strong>은 <strong>v1.8.1 이상</strong>에 들어 있습니다. 받은
+파일의 버전이 이보다 낮으면 <strong>방법 A(ZIP)</strong> 로
+<code>main</code> 브랜치의 파일을 받으세요.</p>
 </blockquote>
 <hr />
 <h2 id="5-빠른-시작-3분-요약">5. 빠른 시작 (3분 요약)</h2>
@@ -875,7 +876,7 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-업데이트-내용-요약">9. 업데이트 내용 요약</h2>
 <details open>
-<summary><b>다음 릴리스 예정 (2026-11-20 기준)</b></summary>
+<summary><b>v1.8.1 (2026-11-20) — 최신 Release</b></summary>
 
 <ul>
 <li><strong>Fixed(중요)</strong>: 없는 winget 이름 2개를 바꿨습니다 —
@@ -892,11 +893,19 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 패키지가 <strong>지금도 있는지 조회만</strong> 하는 점검
 도구입니다(유지보수자용 · <a
 href="#15-빌드--테스트--배포-방법">§15</a>).</li>
-<li><strong>알려진 문제(수정본 준비됨)</strong>: 설치가 끝나면 화면에
+<li><strong>Fixed</strong>: 설치가 끝나면 화면에
 <code>연산자 빠짐</code>이 2줄 보이고 소요 시간이 항상
-<code>0분 0초</code>로 나옵니다. 설치 결과와는 상관없는 표시 오류이며(<a
-href="#17-문제--오류-대처-방법">§17</a>), 고친 파일이 준비되어 다음
-릴리스에 들어갈 예정입니다.</li>
+<code>0분 0초</code>로 나오던 표시 오류를 고쳤습니다(소요 시간 계산식
+수정). 설치 결과와는 상관없던 오류이며, <strong>v1.8.0 이하 파일에서는
+그대로 나옵니다</strong>(<a
+href="#17-문제--오류-대처-방법">§17</a>).</li>
+<li><strong>문서</strong>: README 한/영을 코드·실제 조회 결과에 맞춰
+전면 점검했습니다 — 다운로드 안내 정정, 도구별 라이선스 표(조회값 기준),
+숨은 시험용 변수 안내, 알려진 문제 정리.</li>
+<li><strong>미확인</strong>: 새 PC에서의 <strong>실제 설치
+완주</strong>(특히 PHP 8.4의 <code>php -v</code>, Docker · PostgreSQL ·
+C++ 빌드 도구 · Android Studio)는 확인하지 못했습니다. 설치 호출 형태와
+화면 흐름은 가짜 winget으로 12개 경로를 시험했습니다.</li>
 <li><strong>알려진 문제(아직 고치지 않음)</strong>: 설치 결과 리포트 맨
 위의 <code>실패 N개</code> 숫자에는 <strong>npm으로 설치하는
 도구(Railway CLI 등)의 실패가 들어가지 않습니다.</strong> 실패한 도구는
@@ -907,7 +916,7 @@ href="#17-문제--오류-대처-방법">§17</a>).</li>
 </details>
 
 <details>
-<summary><b>v1.8.0 (2026-11-15) — 최신 Release</b></summary>
+<summary><b>v1.8.0 (2026-11-15)</b></summary>
 
 <ul>
 <li><strong>Added</strong>: 메인 메뉴 <strong>[D] 분야별 개발
@@ -1492,7 +1501,7 @@ winget 이름·다운로드 주소·npm 패키지가 <strong>지금도 있는지
 <li><code>.bat</code> 파일 맨 위 주석의 버전 번호 갱신</li>
 <li>변경사항 commit → PR → <code>main</code> 병합</li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → 태그(예:
-<code>v1.8.1</code>) 지정 → <strong>Assets에
+<code>v1.8.2</code>) 지정 → <strong>Assets에
 <code>dev-one-click-setting-kit.bat</code>
 첨부</strong>(<strong>빠뜨리지 마세요</strong> — v1.8.0은 첨부가 빠져
 있습니다)</li>
@@ -1571,8 +1580,10 @@ SDK(수백 MB)를 내려받느라 몇 분 걸립니다.</li>
 <code>0분 0초</code>로 나옴</td>
 <td>소요 시간을 계산하는 식의 오류</td>
 <td><strong>무시해도 됩니다.</strong> 설치 성공·실패 판정에는 영향이
-없고 로그·리포트의 소요 시간 값만 틀립니다. 고친 파일이 준비되어 다음
-릴리스에 들어갈 예정입니다(<a href="#9-업데이트-내용-요약">§9</a>)</td>
+없고 로그·리포트의 소요 시간 값만 틀립니다. <strong>v1.8.1부터
+고쳐졌으니</strong> 이 증상이 보이면 오래된 파일이라는 뜻입니다 — <a
+href="#4-다운로드-방법">§4</a>로 최신 파일을 받으세요(<a
+href="#9-업데이트-내용-요약">§9</a>)</td>
 </tr>
 <tr>
 <td>리포트 맨 위는 <code>실패: 0개</code>인데 아래 목록에
@@ -1729,16 +1740,18 @@ Studio의 <strong>가상 폰(에뮬레이터)</strong> 으로 시험할 수 있�
 <p><strong>Q. macOS/Linux에서 되나요?</strong> 아니요. <strong>Windows
 전용</strong>입니다.</p>
 <p><strong>Q. 파일은 어디서 받나요? Releases에 파일이 없어요.</strong>
-최신 Release(v1.8.0)에는 <code>.bat</code> 파일이 첨부되어 있지
-않습니다. <a href="#4-다운로드-방법">§4</a>의 <strong>방법
-A(ZIP)</strong> 로 받으세요.</p>
+v1.8.0 Release에는 <code>.bat</code> 파일이 첨부되어 있지 않았습니다.
+최신 <strong>v1.8.1 Release에는 첨부되어 있습니다.</strong> <a
+href="#4-다운로드-방법">§4</a>의 방법 A(ZIP) 또는 v1.8.1 이상 Release의
+파일을 받으세요.</p>
 <p><strong>Q. Python과 PHP는 어떤 버전이 설치되나요?</strong> Python은
 <strong>3.13</strong>, PHP는 <strong>8.4</strong>입니다. 다른 Python
 버전(3.11/3.12)은 <strong>[V]</strong> 에서 고릅니다. 자세한 내용은 <a
 href="#3-필요-프로그램설치되는-도구-목록">§3</a>입니다.</p>
 <p><strong>Q. 설치가 끝났는데 <code>연산자 빠짐</code>이라는 글자가
 나와요. 실패인가요?</strong> 아니요. 소요 시간을 계산하는 부분의 표시
-오류라서 설치 결과와는 상관없습니다. <a
+오류라서 설치 결과와는 상관없습니다. <strong>v1.8.1부터
+고쳐졌으니</strong>, 보인다면 오래된 파일입니다. <a
 href="#17-문제--오류-대처-방법">§17</a>을 보세요.</p>
 <p><strong>Q. 이 파일을 믿고 실행해도 되나요?</strong>
 <code>.bat</code>은 <strong>메모장으로 열어 읽을 수 있는 글자
