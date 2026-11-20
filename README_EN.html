@@ -214,10 +214,9 @@ details in <a
 href="#19-legal--copyright--license--commercial-use">§19</a></p>
 <p><strong>Document date:</strong> 2026-11-20 · This guide matches the
 <code>dev-one-click-setting-kit.bat</code> on the <code>main</code>
-branch (the file header says <strong>v1.8.0</strong>). Fixes added to
-<code>main</code> after the latest Release (v1.8.0) are listed
-separately under <strong>"Next release"</strong> in <a
-href="#9-changelog-summary">§9</a>.</p>
+branch (the file header says <strong>v1.8.1</strong>), and the latest
+Release is also <strong>v1.8.1</strong>. Differences from earlier
+versions are listed in <a href="#9-changelog-summary">§9</a>.</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol type="1">
@@ -721,10 +720,12 @@ pick a version → click <code>dev-one-click-setting-kit.bat</code> and
 save it <strong>only if it is listed</strong> under
 <strong>Assets</strong>.</p>
 <blockquote>
-<p>⚠️ <strong>What we found (2026-11-20):</strong> the latest Release,
-<strong>v1.8.0, has no <code>.bat</code> file attached</strong> (v1.7.1
-· v1.6.2 · v1.6.1 do). So to get the newest features, use <strong>Option
-A</strong>. The v1.7.1 file from Option B has no [D] menu.</p>
+<p>⚠️ <strong>What we found (2026-11-20):</strong> the <strong>v1.8.0
+Release has no <code>.bat</code> file attached.</strong> The latest
+<strong>v1.8.1 attaches it again</strong> (v1.7.1 · v1.6.2 · v1.6.1 also
+have it). The code of v1.8.0 still has a problem where installing Python
+3 and PHP fails, so get <strong>v1.8.1 or later</strong>. A v1.7.1 or
+older file from Option B has no [D] menu.</p>
 </blockquote>
 <blockquote>
 <p>You only need the single <code>.bat</code> file. Other files are docs
@@ -736,9 +737,10 @@ menu</strong> is in <strong>v1.7.0 or later</strong>; <strong>number
 (1/2) answers, number validation and the Enter-repeat fix</strong> are
 in <strong>v1.7.1 or later</strong>, and <strong>[D] development
 environments, Markdown viewers and arrow-key selection</strong> are in
-<strong>v1.8.0 or later</strong>. If your file has a lower version, use
-<strong>Option A (ZIP)</strong> to get the file from the
-<code>main</code> branch.</p>
+<strong>v1.8.0 or later</strong>, and the <strong>Python 3 / PHP install
+fix and the elapsed-time display fix</strong> are in <strong>v1.8.1 or
+later</strong>. If your file has a lower version, use <strong>Option A
+(ZIP)</strong> to get the file from the <code>main</code> branch.</p>
 </blockquote>
 <hr />
 <h2 id="5-quick-start-3-minute-summary">5. Quick start (3-minute
@@ -905,7 +907,7 @@ git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
 <details open>
-<summary><b>Next release (as of 2026-11-20)</b></summary>
+<summary><b>v1.8.1 (2026-11-20) — latest Release</b></summary>
 
 <ul>
 <li><strong>Fixed (important)</strong>: replaced 2 winget names that no
@@ -923,12 +925,21 @@ check tool that installs nothing and only <strong>looks up
 whether</strong> every winget name, download address and npm package
 used in the <code>.bat</code> <strong>still exists</strong> (for
 maintainers · <a href="#15-build--test--release">§15</a>).</li>
-<li><strong>Known issue (fix is ready)</strong>: after an install
-finishes, the screen shows 2 lines saying <code>연산자 빠짐</code>
-("operator missing") and the elapsed time always shows
-<code>0분 0초</code> (0 min 0 sec). This is a display error unrelated to
-the install result (<a href="#17-troubleshooting">§17</a>); a fixed file
-is ready and will be in the next release.</li>
+<li><strong>Fixed</strong>: after an install finished, the screen showed
+2 lines saying <code>연산자 빠짐</code> ("operator missing") and the
+elapsed time always showed <code>0분 0초</code> (0 min 0 sec). This
+display error (unrelated to the install result) is fixed by correcting
+the elapsed-time formula. <strong>Files from v1.8.0 or older still show
+it</strong> (<a href="#17-troubleshooting">§17</a>).</li>
+<li><strong>Documentation</strong>: the English and Korean READMEs were
+checked against the code and real lookups — corrected download
+instructions, a per-tool license table (as looked up), notes on hidden
+test-only variables, and a cleaned-up list of known issues.</li>
+<li><strong>Not confirmed</strong>: a <strong>full real install on a new
+PC</strong> (especially <code>php -v</code> for PHP 8.4, and Docker ·
+PostgreSQL · C++ build tools · Android Studio) has not been confirmed.
+The install call shapes and screen flow were tested on 12 paths with a
+fake winget.</li>
 <li><strong>Known issue (not fixed yet)</strong>: the
 <code>Failed N</code> number at the top of the install report
 <strong>does not include failures of tools installed with npm (Railway
@@ -940,7 +951,7 @@ href="#17-troubleshooting">§17</a>).</li>
 </details>
 
 <details>
-<summary><b>v1.8.0 (2026-11-15) — latest Release</b></summary>
+<summary><b>v1.8.0 (2026-11-15)</b></summary>
 
 <ul>
 <li><strong>Added</strong>: main menu <strong>[D] Development
@@ -1569,7 +1580,7 @@ exists, fix it before releasing)</li>
 <code>.bat</code></li>
 <li>Commit the changes → PR → merge into <code>main</code></li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → set a tag
-(e.g. <code>v1.8.1</code>) → <strong>attach
+(e.g. <code>v1.8.2</code>) → <strong>attach
 <code>dev-one-click-setting-kit.bat</code> under Assets</strong>
 (<strong>do not forget this</strong> — v1.8.0 was released without the
 attachment)</li>
@@ -1658,8 +1669,10 @@ PHP</td>
 <td>An error in the formula that calculates the elapsed time</td>
 <td><strong>You can ignore it.</strong> It does not affect whether
 installs are judged a success or failure; only the elapsed-time value in
-the log and report is wrong. A fixed file is ready and will be in the
-next release (<a href="#9-changelog-summary">§9</a>)</td>
+the log and report is wrong. <strong>It is fixed from v1.8.1</strong>,
+so if you see it your file is old — get the latest file from <a
+href="#4-how-to-download">§4</a> (<a
+href="#9-changelog-summary">§9</a>)</td>
 </tr>
 <tr>
 <td>The top of the report says <code>Failed: 0</code> but the list below
@@ -1827,9 +1840,10 @@ tools from the internet.</p>
 <p><strong>Q. Does it work on macOS/Linux?</strong> No. <strong>Windows
 only.</strong></p>
 <p><strong>Q. Where do I get the file? There is no file in
-Releases.</strong> The latest Release (v1.8.0) has no <code>.bat</code>
-file attached. Use <strong>Option A (ZIP)</strong> in <a
-href="#4-how-to-download">§4</a>.</p>
+Releases.</strong> The v1.8.0 Release had no <code>.bat</code> file
+attached. The latest <strong>v1.8.1 Release has it.</strong> Use
+<strong>Option A (ZIP)</strong> in <a href="#4-how-to-download">§4</a>
+or the file from the v1.8.1 (or later) Release.</p>
 <p><strong>Q. Which versions of Python and PHP get installed?</strong>
 Python <strong>3.13</strong> and PHP <strong>8.4</strong>. Other Python
 versions (3.11/3.12) can be picked in <strong>[V]</strong>. Details are
@@ -1837,7 +1851,8 @@ in <a href="#3-programs-installed-tool-list">§3</a>.</p>
 <p><strong>Q. The install finished but I see the text
 <code>연산자 빠짐</code> ("operator missing"). Did it fail?</strong> No.
 It is a display error in the part that calculates the elapsed time and
-has nothing to do with the install result. See <a
+has nothing to do with the install result. <strong>It is fixed from
+v1.8.1</strong>, so if you see it your file is old. See <a
 href="#17-troubleshooting">§17</a>.</p>
 <p><strong>Q. Is it OK to trust and run this file?</strong> The
 <code>.bat</code> is a <strong>plain text file you can open and read
