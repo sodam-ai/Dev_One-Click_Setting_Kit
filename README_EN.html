@@ -212,6 +212,12 @@ href="./README_EN.html">English HTML (README_EN.html)</a></p>
 AI Studio · <strong>commercial use allowed (with conditions)</strong> →
 details in <a
 href="#19-legal--copyright--license--commercial-use">§19</a></p>
+<p><strong>Document date:</strong> 2026-11-20 · This guide matches the
+<code>dev-one-click-setting-kit.bat</code> on the <code>main</code>
+branch (the file header says <strong>v1.8.0</strong>). Fixes added to
+<code>main</code> after the latest Release (v1.8.0) are listed
+separately under <strong>"Next release"</strong> in <a
+href="#9-changelog-summary">§9</a>.</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol type="1">
@@ -414,6 +420,18 @@ scoop</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Versions that get installed:</strong> In levels [1]–[4], [A]
+and item 2 of [5], <strong>Python is version 3.13</strong>. In item 16
+of [5] and in All-in-one, <strong>PHP is version 8.4</strong>. The
+winget repository no longer has the names without a version number
+(<code>Python.Python.3</code>, <code>PHP.PHP</code>), so the kit uses
+the current stable version. For another Python version, pick 3.11 / 3.12
+/ 3.13 in <strong>[V]</strong>. PHP 8.4 is installed as a zip package.
+<strong>We could not confirm on this PC, with a real install, that
+<code>php -v</code> works afterwards</strong> — check in a new terminal,
+and if it does not work, see <a href="#17-troubleshooting">§17</a>.</p>
+</blockquote>
 <p><strong>Extra choices ([5] Custom install)</strong></p>
 <ul>
 <li>winget tool: <strong>uv</strong> (Python package manager)</li>
@@ -691,12 +709,23 @@ opens their official pages instead.</p>
 </blockquote>
 <hr />
 <h2 id="4-how-to-download">4. How to download</h2>
-<p><strong>Option A — Releases (recommended)</strong> Repo page →
-<strong>Releases</strong> → latest → under <strong>Assets</strong> click
-<code>dev-one-click-setting-kit.bat</code> and save.</p>
-<p><strong>Option B — ZIP</strong> <code>&lt; &gt; Code</code> →
-<strong>Download ZIP</strong> → unzip → use
-<code>dev-one-click-setting-kit.bat</code> inside.</p>
+<p><strong>Option A — Download the ZIP (recommended: always the latest
+code)</strong> On the repo page, click the green
+<code>&lt; &gt; Code</code> button → <strong>Download ZIP</strong> →
+<strong>right-click the downloaded file → Extract</strong> → use
+<code>dev-one-click-setting-kit.bat</code> inside the extracted
+folder.</p>
+<p><strong>Option B — Download from Releases (only for versions that
+have the file attached)</strong> Repo page → <strong>Releases</strong> →
+pick a version → click <code>dev-one-click-setting-kit.bat</code> and
+save it <strong>only if it is listed</strong> under
+<strong>Assets</strong>.</p>
+<blockquote>
+<p>⚠️ <strong>What we found (2026-11-20):</strong> the latest Release,
+<strong>v1.8.0, has no <code>.bat</code> file attached</strong> (v1.7.1
+· v1.6.2 · v1.6.1 do). So to get the newest features, use <strong>Option
+A</strong>. The v1.7.1 file from Option B has no [D] menu.</p>
+</blockquote>
 <blockquote>
 <p>You only need the single <code>.bat</code> file. Other files are docs
 / dev history.</p>
@@ -707,16 +736,18 @@ menu</strong> is in <strong>v1.7.0 or later</strong>; <strong>number
 (1/2) answers, number validation and the Enter-repeat fix</strong> are
 in <strong>v1.7.1 or later</strong>, and <strong>[D] development
 environments, Markdown viewers and arrow-key selection</strong> are in
-<strong>v1.8.0 or later</strong>. If the file from Releases has a lower
-version, use <strong>Option B (ZIP)</strong> to get the file from the
+<strong>v1.8.0 or later</strong>. If your file has a lower version, use
+<strong>Option A (ZIP)</strong> to get the file from the
 <code>main</code> branch.</p>
 </blockquote>
 <hr />
 <h2 id="5-quick-start-3-minute-summary">5. Quick start (3-minute
 summary)</h2>
 <ol type="1">
-<li><strong>Double-click</strong>
-<code>dev-one-click-setting-kit.bat</code>.</li>
+<li>If you downloaded the ZIP, <strong>unzip it first</strong> (the
+result files are created in that folder), then
+<strong>double-click</strong> <code>dev-one-click-setting-kit.bat</code>
+inside the folder.</li>
 <li>If a blue SmartScreen warning appears: <strong>[More info] → [Run
 anyway]</strong>.</li>
 <li>At the menu, first-timers press <strong><code>A</code></strong>
@@ -873,8 +904,43 @@ visible.</li>
 git config --global user.email &quot;your@email.com&quot;</code></pre>
 <hr />
 <h2 id="9-changelog-summary">9. Changelog summary</h2>
+<details open>
+<summary><b>Next release (as of 2026-11-20)</b></summary>
+
+<ul>
+<li><strong>Fixed (important)</strong>: replaced 2 winget names that no
+longer exist — <code>Python.Python.3</code> →
+<code>Python.Python.3.13</code>, <code>PHP.PHP</code> →
+<code>PHP.PHP.8.4</code>. Both names are gone from the winget repository
+(looked up 2026-11-20), so <strong>Python 3 (levels [1]–[4] · [A] · item
+2 of [5] · the default in [V] · [D] Data/AI) and PHP (item 16 of [5] ·
+All-in-one) ended as <code>[실패]</code> (failed)</strong>. The remove
+and update lists were fixed too. <strong>With a v1.8.0 or older file
+these items may fail</strong> (get the file with Option A in <a
+href="#4-how-to-download">§4</a>).</li>
+<li><strong>Added</strong>: <code>tools/check-winget-ids.ps1</code> — a
+check tool that installs nothing and only <strong>looks up
+whether</strong> every winget name, download address and npm package
+used in the <code>.bat</code> <strong>still exists</strong> (for
+maintainers · <a href="#15-build--test--release">§15</a>).</li>
+<li><strong>Known issue (fix is ready)</strong>: after an install
+finishes, the screen shows 2 lines saying <code>연산자 빠짐</code>
+("operator missing") and the elapsed time always shows
+<code>0분 0초</code> (0 min 0 sec). This is a display error unrelated to
+the install result (<a href="#17-troubleshooting">§17</a>); a fixed file
+is ready and will be in the next release.</li>
+<li><strong>Known issue (not fixed yet)</strong>: the
+<code>Failed N</code> number at the top of the install report
+<strong>does not include failures of tools installed with npm (Railway
+CLI, etc.).</strong> A failed tool is shown correctly as
+<code>[실패]</code> (failed) in the list below it, so <strong>use the
+list as the source of truth</strong> (<a
+href="#17-troubleshooting">§17</a>).</li>
+</ul>
+</details>
+
 <details>
-<summary><b>v1.8.0 (2026-11-15) — latest</b></summary>
+<summary><b>v1.8.0 (2026-11-15) — latest Release</b></summary>
 
 <ul>
 <li><strong>Added</strong>: main menu <strong>[D] Development
@@ -1131,7 +1197,8 @@ README_EN.md / README_EN.html    ← English guide (identical content)
 CHANGELOG.md                     ← version history
 LICENSE                          ← license (Apache License 2.0)
 NOTICE                           ← copyright and third-party (installed tools) notice
-PRD/                            ← early planning docs (reference · may differ from the current implementation)</code></pre>
+tools/check-winget-ids.ps1       ← maintainer check tool (only looks things up, installs nothing · not needed by regular users)
+PRD/                            ← early planning docs (reference · may differ from the current implementation — e.g. old winget names remain)</code></pre>
 <blockquote>
 <p>Auto-created on run: <code>install-report-DATE.txt</code> (summary),
 <code>install-log-DATE.txt</code> (detail) — excluded from the repo by
@@ -1182,6 +1249,11 @@ first, so <strong>pressing just Enter never repeats the previous
 choice</strong>; numbers in [5], [M]-3 and [7] are
 <strong>validated</strong> before use (special characters and
 out-of-range numbers are rejected).</li>
+<li><strong>PowerShell fragments</strong>: the <code>.bat</code>
+contains PowerShell code (<code>::PS:</code> lines = the arrow-key
+selection screen in [D]; <code>::PG:</code> lines = PostgreSQL password
+entry and install). At run time it reads only those lines and runs them
+with PowerShell; no separate file is created.</li>
 <li><strong>Portability</strong>: <code>%~dp0</code>-based, so it works
 even if you rename/move the file.</li>
 <li><strong>Encoding</strong>: CP949 (for Korean Windows). On English
@@ -1231,6 +1303,12 @@ record it in its own logs, and other programs on the same PC can see it
 on the command line while installing, so <strong>do not reuse a password
 you use elsewhere.</strong> Only letters and digits are allowed because
 special characters break the install command.</li>
+<li><strong>Hidden test variable — be aware</strong>: if the environment
+variable <code>KIT_TEST_PGPW</code> is set, the kit uses its value and
+skips the password prompt (meant for the kit developer's automated
+tests). <strong>In normal use it should not be set</strong>, and do not
+put a real password in it. Details and how to check: <a
+href="#14-environment-variables">§14</a>.</li>
 <li><strong>Minimal, validated input</strong>: you type <strong>only
 menu numbers</strong>. Numbers in [5] and [M] accept digits, commas and
 the valid range only; anything else is rejected. No path for running
@@ -1281,6 +1359,38 @@ variable <code>KIT_PG_DATA_DIR</code> to that folder. Removal then uses
 it for the notice and deletion. As a safety check the kit <strong>only
 deletes a folder named <code>data</code> that contains a
 <code>PG_VERSION</code> file</strong>.</p>
+<p><strong>Test-only variables (do not use in normal use)</strong> —
+hidden hooks the kit developer uses for automated tests. <strong>Not
+being set is the normal state.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>What it does</th>
+<th>Caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KIT_PICK_KEYS</code></td>
+<td>Replaces the arrow-key selection screens in [D] with <strong>pre-set
+key presses</strong> (separated by commas)</td>
+<td>While set, you cannot choose on screen yourself</td>
+</tr>
+<tr>
+<td><code>KIT_TEST_PGPW</code></td>
+<td><strong>Skips the PostgreSQL password prompt</strong> and uses this
+value (only 8–64 letters/digits are accepted; otherwise it is ignored
+and the screen asks)</td>
+<td>Other programs on the same account can read environment variables,
+so <strong>do not put a real password here</strong></td>
+</tr>
+</tbody>
+</table>
+<p>How to check: in Command Prompt, type <code>set KIT_</code>. If
+<strong>nothing is shown, that is normal</strong>. If a value shows up,
+check that you did not set it yourself, and delete it in the environment
+variable editor if you do not need it.</p>
 <p><strong>Standard Windows variables the kit only reads</strong></p>
 <table>
 <thead>
@@ -1417,7 +1527,16 @@ version</li>
 changing the code (for developers)</h3>
 <p>Batch files only reveal syntax errors <strong>at run time</strong>,
 so always actually run what you changed.</p>
-<ol type="1">
+<ol start="0" type="1">
+<li><strong>Check first without installing (recommended):</strong>
+<code>check-winget-ids.ps1</code> in the <code>tools</code> folder only
+looks up whether every winget name, download address and npm package
+used in the <code>.bat</code> <strong>still exists</strong>. It installs
+and changes nothing, and its usage is described at the top of that file.
+The last line of the result must be <code>RESULT: PASS</code>; if even
+one item shows <code>[MISSING]</code>, the result is <code>FAIL</code>.
+<code>[warn]</code> means only the letter case differs, which does not
+affect installing.</li>
 <li>Copy the modified block into a separate <code>.bat</code> and run it
 in <code>cmd</code> → verify both branches and the output</li>
 <li>Run the whole kit → enter each menu number and confirm there are no
@@ -1442,15 +1561,23 @@ prompt does not reliably accept bulk line input).</p>
 </blockquote>
 <h3 id="release--for-maintainers">Release — for maintainers</h3>
 <ol type="1">
+<li>Run <code>tools\check-winget-ids.ps1</code> and confirm
+<strong><code>RESULT: PASS</code></strong> (if a winget name no longer
+exists, fix it before releasing)</li>
 <li>Add the changes to <code>CHANGELOG.md</code></li>
 <li>Update the version number in the comment at the top of the
 <code>.bat</code></li>
 <li>Commit the changes → PR → merge into <code>main</code></li>
 <li>GitHub <strong>Releases → Draft a new release</strong> → set a tag
-(e.g. <code>v1.8.0</code>) → <strong>attach
-<code>dev-one-click-setting-kit.bat</code> under Assets</strong></li>
+(e.g. <code>v1.8.1</code>) → <strong>attach
+<code>dev-one-click-setting-kit.bat</code> under Assets</strong>
+(<strong>do not forget this</strong> — v1.8.0 was released without the
+attachment)</li>
 <li>Just before attaching, confirm the file is <strong>byte-identical to
-the one in the repository</strong> (CP949 and CRLF preserved)</li>
+the one in the repository</strong> (CP949 and CRLF preserved). Do
+<strong>not move an already published tag to a different commit</strong>
+(it would no longer match the file people downloaded earlier) — if
+something needs fixing, publish a new version.</li>
 </ol>
 <blockquote>
 <p>⚠️ <strong>Never delete the <code>*.bat -text</code> line in
@@ -1512,6 +1639,46 @@ appear garbled (known limitation).</li>
 <td>Blue SmartScreen window</td>
 <td>Windows protection</td>
 <td><strong>[More info] → [Run anyway]</strong> (normal)</td>
+</tr>
+<tr>
+<td>Only Python 3 or PHP shows <code>[실패]</code> (failed)</td>
+<td>An old file (v1.8.0 or older) uses names
+(<code>Python.Python.3</code>, <code>PHP.PHP</code>) that no longer
+exist in the winget repository</td>
+<td>Get the latest file with <strong>Option A (ZIP)</strong> in <a
+href="#4-how-to-download">§4</a> and run it again. If you are in a
+hurry, <strong>pick</strong> <code>1</code> (3.13) for Python in
+<strong>[V]</strong>, and use <strong>[8] Direct download</strong> for
+PHP</td>
+</tr>
+<tr>
+<td>After the install finishes, 2 lines saying <code>연산자 빠짐</code>
+("operator missing") appear and the elapsed time shows
+<code>0분 0초</code> (0 min 0 sec)</td>
+<td>An error in the formula that calculates the elapsed time</td>
+<td><strong>You can ignore it.</strong> It does not affect whether
+installs are judged a success or failure; only the elapsed-time value in
+the log and report is wrong. A fixed file is ready and will be in the
+next release (<a href="#9-changelog-summary">§9</a>)</td>
+</tr>
+<tr>
+<td>The top of the report says <code>Failed: 0</code> but the list below
+has a <code>[실패]</code> line</td>
+<td>Failures of tools installed with npm (Railway CLI, etc.) are not
+counted in the top number (a known issue)</td>
+<td><strong>The <code>[실패]</code> line in the list is the accurate
+one.</strong> Check your internet, then run the kit again (tools that
+already succeeded are skipped)</td>
+</tr>
+<tr>
+<td>PHP installed, but <code>php -v</code> does not work in a new
+terminal</td>
+<td>PHP 8.4 is installed as a zip package, so registering the command
+may be late or may not happen (not confirmed with a real install on this
+PC)</td>
+<td>Open a new terminal and check again → if it still fails, look at the
+state with <strong>[9] Check install</strong>, and if that does not
+help, install it with <strong>[8] Direct download</strong></td>
 </tr>
 <tr>
 <td><code>winget not found</code></td>
@@ -1631,6 +1798,11 @@ guides you to admin only when a tool fails.</p>
 <p><strong>Q. Can I install a specific version (e.g., Python
 3.11)?</strong> Yes — via <strong>[V] Version-select install</strong>,
 stable versions only.</p>
+<p><strong>Q. Can I also build mobile (Android) apps?</strong> Yes. In
+the main menu <strong>[M] Mobile app development</strong>, install
+Flutter, Android Studio and adb in one go, then follow the
+<strong>after-install steps</strong> shown on screen. iOS apps cannot be
+built on Windows (a Mac is required).</p>
 <p><strong>Q. How do I answer yes/no questions?</strong> Type
 <code>1</code> (yes) or <code>2</code> (no); the old
 <code>y</code>/<code>n</code> still works. <strong>Pressing just Enter
@@ -1654,6 +1826,34 @@ Remove</strong> → single or all.</p>
 tools from the internet.</p>
 <p><strong>Q. Does it work on macOS/Linux?</strong> No. <strong>Windows
 only.</strong></p>
+<p><strong>Q. Where do I get the file? There is no file in
+Releases.</strong> The latest Release (v1.8.0) has no <code>.bat</code>
+file attached. Use <strong>Option A (ZIP)</strong> in <a
+href="#4-how-to-download">§4</a>.</p>
+<p><strong>Q. Which versions of Python and PHP get installed?</strong>
+Python <strong>3.13</strong> and PHP <strong>8.4</strong>. Other Python
+versions (3.11/3.12) can be picked in <strong>[V]</strong>. Details are
+in <a href="#3-programs-installed-tool-list">§3</a>.</p>
+<p><strong>Q. The install finished but I see the text
+<code>연산자 빠짐</code> ("operator missing"). Did it fail?</strong> No.
+It is a display error in the part that calculates the elapsed time and
+has nothing to do with the install result. See <a
+href="#17-troubleshooting">§17</a>.</p>
+<p><strong>Q. Is it OK to trust and run this file?</strong> The
+<code>.bat</code> is a <strong>plain text file you can open and read
+with Notepad</strong> (right-click → Notepad). The kit downloads tools
+only from official sources (winget, etc.) and does not send personal
+information to any server (details in <a
+href="#13-security--data-flow">§13</a>). Still, this kit comes
+<strong>AS-IS, with no warranty</strong>, so on a work or school PC, ask
+your security administrator first.</p>
+<p><strong>Q. Can I use it at work or in class? Do I have to
+pay?</strong> The kit itself is <strong>free</strong>, and because it is
+Apache 2.0, commercial use is allowed within the conditions. However,
+<strong>the tools it installs have their own terms</strong>, and some
+(for example Docker Desktop for business use at larger companies, and
+Typora) may have conditions or costs. See <a
+href="#19-legal--copyright--license--commercial-use">§19</a>.</p>
 <hr />
 <h2 id="19-legal--copyright--license--commercial-use">19. Legal /
 copyright / license / commercial use</h2>
@@ -1781,148 +1981,323 @@ installed tools.</strong></li>
 <li><strong>For commercial use / redistribution, you must review and
 comply with each tool’s license separately.</strong></li>
 </ul>
-<p>The table below is a <strong>reference summary</strong> (based on
-public information; <strong>terms can change, so always check each
-official license document</strong>).</p>
+<p>The table below is for <strong>reference only</strong>. The values
+are copied as-is from what was <strong>looked up on 2026-11-20 from the
+winget manifests (<code>winget show</code>) and from npm
+(<code>npm view</code>)</strong>, together with the version at lookup
+time. <strong>Terms can change, so always check each tool's official
+license document.</strong></p>
 <table>
 <thead>
 <tr>
 <th>Tool</th>
-<th>License (summary)</th>
-<th>Note</th>
+<th>Installed via</th>
+<th style="text-align: center;">Version at lookup</th>
+<th>License label (as looked up)</th>
+<th>Plain-language note</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Git</td>
+<td>winget</td>
+<td style="text-align: center;">2.56.0.4</td>
 <td>GPL-2.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Python</td>
-<td>PSF License</td>
+<td>Git LFS</td>
+<td>winget</td>
+<td style="text-align: center;">3.8.0</td>
+<td>MIT License</td>
 <td></td>
 </tr>
 <tr>
-<td>Node.js · pnpm</td>
+<td>Python 3.13 / 3.12 / 3.11</td>
+<td>winget</td>
+<td style="text-align: center;">3.13.17 / 3.12.10 / 3.11.9</td>
+<td>PSF-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Node.js LTS</td>
+<td>winget</td>
+<td style="text-align: center;">26.13.1</td>
 <td>MIT</td>
 <td></td>
 </tr>
 <tr>
 <td>VS Code</td>
-<td>Source is MIT; the <strong>distributed build is under Microsoft’s
-software license terms</strong></td>
-<td>Check the build’s terms separately</td>
+<td>winget</td>
+<td style="text-align: center;">1.146.0</td>
+<td>Microsoft Software License</td>
+<td>The source is MIT, but the <strong>installed build is under
+Microsoft's terms</strong>. Check those terms</td>
+</tr>
+<tr>
+<td>Windows Terminal</td>
+<td>winget</td>
+<td style="text-align: center;">1.25.3131.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>GitHub CLI</td>
+<td>winget</td>
+<td style="text-align: center;">2.105.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>PowerShell 7</td>
+<td>winget</td>
+<td style="text-align: center;">7.7.0.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>pnpm</td>
+<td>winget</td>
+<td style="text-align: center;">12.18.0</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Bun</td>
+<td>winget</td>
+<td style="text-align: center;">1.4.5</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>winget</td>
+<td style="text-align: center;">0.40.16</td>
+<td>MIT</td>
+<td><strong>AI models you download have their own licenses</strong></td>
+</tr>
+<tr>
+<td>Java (Eclipse Temurin 21 / 17 / 11 / 8)</td>
+<td>winget</td>
+<td style="text-align: center;">21.0.13.9 / 17.0.21.9 / 11.0.33.10 /
+8.0.512.9</td>
+<td>GPL-2.0 with Classpath Exception</td>
+<td></td>
 </tr>
 <tr>
 <td>Go</td>
+<td>winget</td>
+<td style="text-align: center;">1.27.4</td>
 <td>BSD-3-Clause</td>
 <td></td>
 </tr>
 <tr>
-<td>Rust</td>
-<td>MIT or Apache-2.0</td>
+<td>Rust (rustup)</td>
+<td>winget</td>
+<td style="text-align: center;">1.29.3</td>
+<td>Apache-2.0 or MIT</td>
 <td></td>
 </tr>
 <tr>
-<td>Java (Eclipse Temurin)</td>
-<td>GPL-2.0 + Classpath Exception</td>
-<td></td>
-</tr>
-<tr>
-<td>Flutter · Dart</td>
-<td>BSD-3-Clause</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Android Studio · Android SDK · platform-tools
-(adb)</strong></td>
-<td><strong>Google’s terms</strong> (Android SDK License Agreement,
-etc.)</td>
-<td><strong>You accept the SDK licenses yourself</strong>
-(<code>flutter doctor --android-licenses</code>)</td>
-</tr>
-<tr>
-<td>scrcpy</td>
+<td>Stripe CLI</td>
+<td>winget</td>
+<td style="text-align: center;">1.55.13</td>
 <td>Apache-2.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Ruby · PHP</td>
-<td>Ruby: Ruby License or BSD-2-Clause family / PHP: PHP License or
-BSD-3-Clause <strong>depending on the version</strong></td>
-<td><strong>Check per version</strong></td>
+<td>Ruby (RubyInstaller + DevKit 3.3 / 3.2)</td>
+<td>winget</td>
+<td style="text-align: center;">3.3.13-1 / 3.2.11-1</td>
+<td>BSD-3-Clause</td>
+<td>This is the <strong>installer's</strong> (RubyInstaller) label.
+Check Ruby's own license separately</td>
 </tr>
 <tr>
-<td>Ollama</td>
-<td>MIT</td>
-<td><strong>AI models you download have their own per-model
-licenses</strong></td>
+<td>PHP 8.4</td>
+<td>winget</td>
+<td style="text-align: center;">8.4.27</td>
+<td>PHP License v3.01</td>
+<td></td>
 </tr>
 <tr>
-<td><strong>Obsidian</strong></td>
-<td><strong>Obsidian terms (proprietary software)</strong></td>
-<td>Check the official terms for usage conditions</td>
+<td>uv</td>
+<td>winget</td>
+<td style="text-align: center;">0.13.9</td>
+<td>Apache-2.0 or MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Android Studio</td>
+<td>winget</td>
+<td style="text-align: center;">2026.2.2.9</td>
+<td>Android Software Development Kit License Agreement</td>
+<td><strong>You accept the SDK license yourself</strong>
+(<code>flutter doctor --android-licenses</code>)</td>
+</tr>
+<tr>
+<td>adb (Android Platform-Tools)</td>
+<td>winget</td>
+<td style="text-align: center;">37.0.3</td>
+<td>Apache-2.0</td>
+<td>That is the winget label; <strong>also check the Android SDK
+terms</strong></td>
+</tr>
+<tr>
+<td>scrcpy</td>
+<td>winget</td>
+<td style="text-align: center;">5.0.1</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Obsidian</td>
+<td>winget</td>
+<td style="text-align: center;">1.15.1</td>
+<td>Proprietary</td>
+<td><strong>Proprietary software</strong>. Check the official terms of
+use</td>
 </tr>
 <tr>
 <td>MarkText</td>
+<td>winget</td>
+<td style="text-align: center;">0.23.0</td>
 <td>MIT</td>
 <td></td>
 </tr>
 <tr>
 <td>Zettlr</td>
+<td>winget</td>
+<td style="text-align: center;">4.10.0</td>
 <td>GPL-3.0</td>
 <td></td>
 </tr>
 <tr>
-<td>Typora</td>
-<td><strong>Paid proprietary software</strong> (Typora terms)</td>
-<td>The kit <strong>does not install it; it only opens the official
-page.</strong> Check the official terms (general information, not
-auto-verified)</td>
+<td>Docker Desktop</td>
+<td>winget</td>
+<td style="text-align: center;">4.99.0</td>
+<td>Proprietary</td>
+<td><strong>Proprietary (Docker subscription terms)</strong>. Free for
+personal/learning use, but <strong>business use at larger companies may
+require a paid plan</strong></td>
 </tr>
 <tr>
-<td><strong>Docker Desktop</strong></td>
-<td><strong>Docker subscription service agreement
-(proprietary)</strong></td>
-<td>Free for personal/learning use, but <strong>business use at larger
-companies may be paid</strong></td>
-</tr>
-<tr>
+<td>PostgreSQL 17</td>
+<td>winget</td>
+<td style="text-align: center;">17.12-2</td>
 <td>PostgreSQL</td>
-<td>PostgreSQL License</td>
 <td></td>
 </tr>
 <tr>
-<td><strong>Microsoft C++ build tools</strong></td>
-<td><strong>Microsoft (Visual Studio) license terms</strong></td>
-<td>You accept those terms during installation</td>
+<td>Microsoft C++ Build Tools (Visual Studio Build Tools)</td>
+<td>winget</td>
+<td style="text-align: center;">17.14.45</td>
+<td>Proprietary</td>
+<td>You <strong>accept Microsoft's terms</strong> during
+installation</td>
 </tr>
 <tr>
-<td><strong>Claude Code CLI</strong></td>
-<td><strong>Anthropic’s terms (commercial software)</strong></td>
-<td>The service’s terms and pricing apply</td>
+<td>Flutter · Dart</td>
+<td>official repository (git)</td>
+<td style="text-align: center;">stable</td>
+<td>BSD-3-Clause</td>
+<td>Value checked on the official GitHub repository on 2026-11-14 (not
+part of this lookup)</td>
 </tr>
 <tr>
-<td>Others (GitHub CLI · Bun · Stripe CLI · uv · Vercel CLI, etc.)</td>
-<td>Each official repository’s license</td>
-<td>Check before installing</td>
+<td>scoop</td>
+<td>official script (get.scoop.sh)</td>
+<td style="text-align: center;">-</td>
+<td><strong>Not verified</strong></td>
+<td><strong>Not verified</strong> - check its official repository</td>
+</tr>
+<tr>
+<td>Typora</td>
+<td>not installed (opens the official page only)</td>
+<td style="text-align: center;">-</td>
+<td>Paid proprietary</td>
+<td><strong>Paid proprietary software</strong>. Check its official terms
+(not verified automatically)</td>
+</tr>
+<tr>
+<td>Claude Code CLI</td>
+<td>npm (<code>@anthropic-ai/claude-code</code>)</td>
+<td style="text-align: center;">-</td>
+<td>SEE LICENSE IN README.md</td>
+<td><strong>Anthropic's commercial terms</strong> apply. Check the
+service terms and pricing</td>
+</tr>
+<tr>
+<td>Vercel CLI</td>
+<td>npm (<code>vercel</code>)</td>
+<td style="text-align: center;">-</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Supabase CLI</td>
+<td>npm (<code>supabase</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Stripe SDK</td>
+<td>npm (<code>stripe</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Resend SDK</td>
+<td>npm (<code>resend</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Railway CLI</td>
+<td>npm (<code>@railway/cli</code>)</td>
+<td style="text-align: center;">-</td>
+<td>ISC</td>
+<td></td>
+</tr>
+<tr>
+<td>Clerk</td>
+<td>npm (<code>@clerk/clerk-sdk-node</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
+</tr>
+<tr>
+<td>Prisma</td>
+<td>npm (<code>prisma</code>)</td>
+<td style="text-align: center;">-</td>
+<td>Apache-2.0</td>
+<td></td>
+</tr>
+<tr>
+<td>Uploadthing</td>
+<td>npm (<code>uploadthing</code>)</td>
+<td style="text-align: center;">-</td>
+<td>MIT</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>Verification status (2026-11-14):</strong>
-<strong>Confirmed</strong> from official GitHub repository information —
-pnpm · VS Code (source) · Windows Terminal · PowerShell · GitHub CLI ·
-Ollama · Go · Flutter · Dart · scrcpy · Stripe CLI · uv · Vercel CLI
-(and the Apache-2.0 marking of Rust and the Temurin build scripts).
-<strong>Could not be confirmed automatically; the generally known
-information is listed</strong> — Git · Python · Node.js · Bun · Git LFS
-· Ruby · scoop · Android-related tools · Claude Code. <strong>Check
-these against the official documents before installing or
-distributing.</strong> (Added 2026-11-15: confirmed from the license
-field of the winget manifests — Obsidian · MarkText · Zettlr · Docker
-Desktop · PostgreSQL · Visual Studio Build Tools.)</p>
+<p><strong>Verification status (2026-11-20):</strong> The
+<code>winget</code> rows show the <strong>license label in the winget
+manifest</strong>; the <code>npm</code> rows show the result of
+<strong><code>npm view &lt;package&gt; license</code></strong>. These
+labels are <strong>what the package publisher wrote</strong>, they do
+not replace the full terms, and <strong>they can change when the version
+changes.</strong> <strong>Not looked up:</strong> scoop; Flutter and
+Dart (the label checked on the official GitHub repository on 2026-11-14
+is kept); Typora (not installed); the Claude Code CLI (its npm label is
+"SEE LICENSE IN README.md", so read Anthropic's terms yourself).
+<strong>Check each official document yourself before installing or
+redistributing.</strong></p>
 </blockquote>
 <p><strong>3) Trademarks and affiliation</strong></p>
 <ul>
